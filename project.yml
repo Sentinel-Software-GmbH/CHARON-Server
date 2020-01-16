@@ -50,7 +50,10 @@
   :enforce_strict_ordering: TRUE
   :plugins:
     - :ignore
+    - :ignore_arg
+    - :array
     - :callback
+    - :return_thru_ptr
   :treat_as:
     uint8:    HEX8
     uint16:   HEX16

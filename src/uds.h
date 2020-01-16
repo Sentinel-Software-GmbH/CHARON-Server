@@ -8,6 +8,6 @@
 #ifndef UDS_H_
 #define UDS_H_
 
-
+void uds_task (void);
 
 #endif /* UDS_H_ */
