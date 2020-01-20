@@ -5,11 +5,11 @@
  *      Author: Florian Kaup
  */
 
+#include "uds_UploadDownloadFunctionalUnit.h"
 
-
-void uds_UploadDownloadFunctionalUnit_RequestDownload (void)
+uint32_t uds_UploadDownloadFunctionalUnit_RequestDownload (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
 {
-    return;
+    return 0;
 }
 
 

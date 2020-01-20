@@ -10,10 +10,3 @@
 #include "uds_UploadDownloadFunctionalUnit.h"
 
 
-
-void test_uds_UploadDownloadFunctionalUnit_RequestDownload_returnsOk (void)
-{
-    uds_UploadDownloadFunctionalUnit_RequestDownload();
-}
-
-
