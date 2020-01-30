@@ -153,14 +153,21 @@ uint32_t uds_UploadDownloadFunctionalUnit_TransferData (uint8_t * receiveBuffer,
     {
         if (s_transferDirection == transfer_download)
         {
-            uds_NvmDriver_write(s_currentMemoryAddress, &(receiveBuffer[2]), receiveBufferSize - 2);
-            s_currentMemoryAddress += receiveBufferSize - 2;
-            s_remainingMemoryLength -= receiveBufferSize - 2;
-            s_nextSequenceCounter++;
+            uds_responseCode_t result = uds_NvmDriver_write(s_currentMemoryAddress, &(receiveBuffer[2]), receiveBufferSize - 2);
+            if (result == uds_responseCode_PositiveResponse)
+            {
+                s_currentMemoryAddress += receiveBufferSize - 2;
+                s_remainingMemoryLength -= receiveBufferSize - 2;
+                s_nextSequenceCounter++;
 
-            transmitBuffer[0] = receiveBuffer[0] | uds_sid_PositiveResponseMask;
-            transmitBuffer[1] = receiveBuffer[1];
-            transmitLength = 2;
+                transmitBuffer[0] = receiveBuffer[0] | uds_sid_PositiveResponseMask;
+                transmitBuffer[1] = receiveBuffer[1];
+                transmitLength = 2;
+            }
+            else
+            {
+                transmitLength = generateNegativeResponse(result, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+            }
         }
         else
         {

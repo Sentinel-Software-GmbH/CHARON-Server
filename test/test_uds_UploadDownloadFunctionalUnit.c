@@ -321,7 +321,7 @@ void test_uds_UploadDownloadFunctionalUnit_transferData_DownloadOk_returnsOk (vo
     uint8_t outputData[100];
     uint8_t expectedOutputData[] = {0x76, 0x01};
 
-    uds_NvmDriver_write_Expect(0x1d000000, inputData + 2, sizeof(inputData) - 2);
+    uds_NvmDriver_write_ExpectAndReturn(0x1d000000, inputData + 2, sizeof(inputData) - 2, uds_responseCode_PositiveResponse);
 
     uint32_t transmitSize = uds_UploadDownloadFunctionalUnit_TransferData(inputData, sizeof(inputData), outputData, sizeof(outputData));
 
@@ -330,6 +330,25 @@ void test_uds_UploadDownloadFunctionalUnit_transferData_DownloadOk_returnsOk (vo
     TEST_ASSERT_EQUAL(2, uds_UploadDownloadFunctionalUnit_getNextSequenceCounter());
     TEST_ASSERT_EQUAL(0x1d000000 + sizeof(inputData) - 2, uds_UploadDownloadFunctionalUnit_getCurrentMemoryAddress());
     TEST_ASSERT_EQUAL(0x10000 - sizeof(inputData) + 2, uds_UploadDownloadFunctionalUnit_getRemainingMemoryLength());
+}
+
+void test_uds_UploadDownloadFunctionalUnit_transferData_DownloadOkInterfaceError_returnsCorrespondingError (void)
+{
+    uds_UploadDownloadFunctionalUnit_setTransferDirection(1);
+    uds_UploadDownloadFunctionalUnit_setCurrentMemoryAddress(0x1d000000);
+    uds_UploadDownloadFunctionalUnit_setRemainingMemoryLength(0x10000);
+    uds_UploadDownloadFunctionalUnit_setNextSequenceCounter(1);
+
+    uint8_t inputData[4095] = {0x36, 0x01};
+    uint8_t outputData[100];
+    uint8_t expectedOutputData[] = {0x7F, 0x36, 0x93};
+
+    uds_NvmDriver_write_ExpectAndReturn(0x1d000000, inputData + 2, sizeof(inputData) - 2, uds_responseCode_VoltageTooLow);
+
+    uint32_t transmitSize = uds_UploadDownloadFunctionalUnit_TransferData(inputData, sizeof(inputData), outputData, sizeof(outputData));
+
+    TEST_ASSERT_EQUAL(sizeof(expectedOutputData), transmitSize);
+    TEST_ASSERT_EQUAL_MEMORY(expectedOutputData, outputData, sizeof(expectedOutputData));
 }
 
 void test_uds_UploadDownloadFunctionalUnit_transferData_UploadOk_returnsOk (void)

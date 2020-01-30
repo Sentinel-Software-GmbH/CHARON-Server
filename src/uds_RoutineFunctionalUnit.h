@@ -8,6 +8,8 @@
 #ifndef UDS_ROUTINEFUNCTIONALUNIT_H_
 #define UDS_ROUTINEFUNCTIONALUNIT_H_
 
+#include <stdint.h>
+
 uint32_t uds_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize);
 
 #endif /* UDS_ROUTINEFUNCTIONALUNIT_H_ */
