@@ -6,22 +6,9 @@
  */
 
 #include "uds_RoutineFunctionalUnit.h"
+#include "uds_negativeResponse.h"
 #include "uds_types.h"
 #include "uds_interface_NvmDriver.h"
-
-static uint32_t generateNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
-{
-    uint32_t transmitLength = 0;
-    if (transmitBufferSize >= 3)
-    {
-        transmitBuffer[0] = uds_sid_NegativeResponse;
-        transmitBuffer[1] = RequestedSid;
-        transmitBuffer[2] = ResponseCode;
-        transmitLength = 3;
-    }
-    return transmitLength;
-}
-
 
 
 uint32_t uds_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
@@ -29,11 +16,11 @@ uint32_t uds_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, uint
     uint32_t transmitLength = 0;
     if (receiveBufferSize < 4)
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer);
     }
     else if (receiveBuffer[1] == 0 || receiveBuffer[1] > 3)
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_SubfunctionNotSupported, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_SubfunctionNotSupported, receiveBuffer[0], transmitBuffer);
     }
     else
     {
@@ -44,7 +31,7 @@ uint32_t uds_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, uint
         }
         else
         {
-            transmitLength = generateNegativeResponse(uds_responseCode_RequestOutOfRange, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+            transmitLength = uds_generateNegativeResponse(uds_responseCode_RequestOutOfRange, receiveBuffer[0], transmitBuffer);
         }
     }
 

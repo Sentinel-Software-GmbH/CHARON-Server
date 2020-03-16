@@ -7,6 +7,7 @@
 
 
 #include "uds.h"
+#include "uds_negativeResponse.h"
 #include "uds_types.h"
 #include "uds_interfaces.h"
 
@@ -23,13 +24,6 @@ static uint8_t s_receiveBuffer[4096];
 static uint8_t s_transmitBuffer[4096];
 
 
-uint32_t uds_SidNotSupported (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
-{
-    transmitBuffer[0] = uds_sid_NegativeResponse;
-    transmitBuffer[1] = s_receiveBuffer[0];
-    transmitBuffer[2] = uds_responseCode_ServiceNotSupported;
-    return 3;
-}
 
 void uds_task (void)
 {
@@ -119,7 +113,7 @@ void uds_task (void)
             transmitByteCount = uds_DiagnosticAndCommunicationManagementFunctionalUnit_LinkControl(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
         default:
-            transmitByteCount = uds_SidNotSupported(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
+            transmitByteCount = uds_generateNegativeResponse(uds_responseCode_ServiceNotSupported, s_receiveBuffer[0], s_transmitBuffer);
             break;
         }
 

@@ -8,6 +8,7 @@
 
 #include <unity.h>
 #include "uds.h"
+#include "uds_negativeResponse.h"
 
 #include "mock_uds_interfaces.h"
 

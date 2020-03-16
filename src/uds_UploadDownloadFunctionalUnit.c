@@ -6,6 +6,7 @@
  */
 
 #include "uds_UploadDownloadFunctionalUnit.h"
+#include "uds_negativeResponse.h"
 #include "uds_types.h"
 #include "uds_interface_NvmDriver.h"
 
@@ -22,19 +23,6 @@ static uint32_t s_remainingMemoryLength = 0;
 static uint8_t s_nextSequenceCounter = 0;
 
 
-static uint32_t generateNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
-{
-    uint32_t transmitLength = 0;
-    if (transmitBufferSize >= 3)
-    {
-        transmitBuffer[0] = uds_sid_NegativeResponse;
-        transmitBuffer[1] = RequestedSid;
-        transmitBuffer[2] = ResponseCode;
-        transmitLength = 3;
-    }
-    return transmitLength;
-}
-
 static uint32_t requestTransfer(transferDirection_t direction, uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
 {
     uint32_t transmitLength = 0;
@@ -49,12 +37,12 @@ static uint32_t requestTransfer(transferDirection_t direction, uint8_t * receive
             (receiveBuffer[1] != 0x00)
         )
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_RequestOutOfRange, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_RequestOutOfRange, receivedMessage->sid, transmitBuffer);
     }
 
     else if ( lengthOfMemoryAddress + lengthOfMemoryLength + 3 != receiveBufferSize )
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receivedMessage->sid, transmitBuffer);
     }
 
     else
@@ -94,11 +82,11 @@ static uint32_t requestTransfer(transferDirection_t direction, uint8_t * receive
 
         if ( false == uds_NvmDriver_checkAddressRange(memoryAddress, memoryLength) )
         {
-            transmitLength = generateNegativeResponse(uds_responseCode_RequestOutOfRange, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+            transmitLength = uds_generateNegativeResponse(uds_responseCode_RequestOutOfRange, receivedMessage->sid, transmitBuffer);
         }
         else if (s_transferDirection != transfer_idle)
         {
-            transmitLength = generateNegativeResponse(uds_responseCode_ConditionsNotCorrect, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+            transmitLength = uds_generateNegativeResponse(uds_responseCode_ConditionsNotCorrect, receivedMessage->sid, transmitBuffer);
         }
         else
         {
@@ -135,19 +123,19 @@ uint32_t uds_UploadDownloadFunctionalUnit_TransferData (uint8_t * receiveBuffer,
     uint32_t transmitLength = 0;
     if (receiveBufferSize > UDS_MAX_INPUT_FRAME_SIZE)
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receivedMessage->sid, transmitBuffer);
     }
     else if (s_transferDirection == transfer_idle)
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_RequestSequenceError, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_RequestSequenceError, receivedMessage->sid, transmitBuffer);
     }
     else if (s_remainingMemoryLength < (receiveBufferSize - 2) )
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_TransferDataSuspended, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_TransferDataSuspended, receivedMessage->sid, transmitBuffer);
     }
     else if (receiveBuffer[1] != s_nextSequenceCounter)
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_WrongBlockSequenceCounter, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_WrongBlockSequenceCounter, receivedMessage->sid, transmitBuffer);
     }
     else
     {
@@ -166,7 +154,7 @@ uint32_t uds_UploadDownloadFunctionalUnit_TransferData (uint8_t * receiveBuffer,
             }
             else
             {
-                transmitLength = generateNegativeResponse(result, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+                transmitLength = uds_generateNegativeResponse(result, receivedMessage->sid, transmitBuffer);
             }
         }
         else
@@ -193,15 +181,15 @@ uint32_t uds_UploadDownloadFunctionalUnit_RequestTransferExit (uint8_t * receive
     uint32_t transmitLength = 0;
     if (receiveBufferSize > 1)
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer);
     }
     else if (s_remainingMemoryLength != 0)
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_RequestSequenceError, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_RequestSequenceError, receiveBuffer[0], transmitBuffer);
     }
     else if (s_transferDirection == transfer_idle)
     {
-        transmitLength = generateNegativeResponse(uds_responseCode_RequestSequenceError, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+        transmitLength = uds_generateNegativeResponse(uds_responseCode_RequestSequenceError, receiveBuffer[0], transmitBuffer);
     }
     else
     {
@@ -219,7 +207,7 @@ uint32_t uds_UploadDownloadFunctionalUnit_RequestTransferExit (uint8_t * receive
 
 uint32_t uds_UploadDownloadFunctionalUnit_RequestFileTransfer (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
 {
-    return generateNegativeResponse(uds_responseCode_ServiceNotSupported, receiveBuffer[0], transmitBuffer, transmitBufferSize);
+    return uds_generateNegativeResponse(uds_responseCode_ServiceNotSupported, receiveBuffer[0], transmitBuffer);
 }
 
 

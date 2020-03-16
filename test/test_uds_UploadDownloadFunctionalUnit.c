@@ -8,6 +8,7 @@
 
 #include <unity.h>
 #include "uds_UploadDownloadFunctionalUnit.h"
+#include "uds_negativeResponse.h"
 
 #include "mock_uds_interface_NvmDriver.h"
 
