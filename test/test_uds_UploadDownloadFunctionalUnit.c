@@ -109,7 +109,7 @@ void test_uds_UploadDownloadFunctionalUnit_requestDownload_ok_returnsBufferSizeI
     uds_UploadDownloadFunctionalUnit_setRemainingMemoryLength(0);
     uds_UploadDownloadFunctionalUnit_setTransferDirection(0);
 
-    uint8_t inputData[] = {0x34, 0x00, 0x44, 0x1d, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
+    uint8_t inputData[] = {0x34, 0x00, 0x34, 0x1d, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
     uint8_t outputData[100];
     uint8_t expectedOutputData[] = {0x74, 0x20, 0x0F, 0xFF};
 
@@ -225,7 +225,7 @@ void test_uds_UploadDownloadFunctionalUnit_requestUpload_ok_returnsBufferSizeInf
     uds_UploadDownloadFunctionalUnit_setRemainingMemoryLength(0);
     uds_UploadDownloadFunctionalUnit_setTransferDirection(0);
 
-    uint8_t inputData[] = {0x35, 0x00, 0x44, 0x1d, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
+    uint8_t inputData[] = {0x35, 0x00, 0x34, 0x1d, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
     uint8_t outputData[100];
     uint8_t expectedOutputData[] = {0x75, 0x20, 0x0F, 0xFF};
 

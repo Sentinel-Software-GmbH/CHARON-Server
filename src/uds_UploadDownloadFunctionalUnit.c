@@ -25,16 +25,23 @@ static uint8_t s_nextSequenceCounter = 0;
 
 static uint32_t requestTransfer(transferDirection_t direction, uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
 {
+    struct __attribute__((packed)) {
+        uint8_t sid;
+        uint8_t dataFormatIdentifier;
+        uint8_t addressAndLengthFormatIdentifier;
+        uint8_t AddressInformation[];
+    } * receivedMessage = (void*)receiveBuffer;
+
     uint32_t transmitLength = 0;
 
-    uint8_t lengthOfMemoryAddress = receiveBuffer[2] >> 4;
-    uint8_t lengthOfMemoryLength = receiveBuffer[2] & 0xF;
+    uint8_t lengthOfMemoryLength = receivedMessage->addressAndLengthFormatIdentifier >> 4;
+    uint8_t lengthOfMemoryAddress = receivedMessage->addressAndLengthFormatIdentifier & 0xF;
     if (
             (lengthOfMemoryAddress == 0) ||
             (lengthOfMemoryLength == 0) ||
             (lengthOfMemoryAddress > 4) ||
             (lengthOfMemoryLength > 4) ||
-            (receiveBuffer[1] != 0x00)
+            (receivedMessage->dataFormatIdentifier != 0x00)
         )
     {
         transmitLength = uds_generateNegativeResponse(uds_responseCode_RequestOutOfRange, receivedMessage->sid, transmitBuffer);
@@ -52,31 +59,31 @@ static uint32_t requestTransfer(transferDirection_t direction, uint8_t * receive
         switch (lengthOfMemoryAddress)
         {
         case 4:
-            memoryAddress |= receiveBuffer[3 + lengthOfMemoryAddress - 4] << 24;
+            memoryAddress |= receivedMessage->AddressInformation[lengthOfMemoryAddress - 4] << 24;
             /* no break */
         case 3:
-            memoryAddress |= receiveBuffer[3 + lengthOfMemoryAddress - 3] << 16;
+            memoryAddress |= receivedMessage->AddressInformation[lengthOfMemoryAddress - 3] << 16;
             /* no break */
         case 2:
-            memoryAddress |= receiveBuffer[3 + lengthOfMemoryAddress - 2] << 8;
+            memoryAddress |= receivedMessage->AddressInformation[lengthOfMemoryAddress - 2] << 8;
             /* no break */
         case 1:
-            memoryAddress |= receiveBuffer[3 + lengthOfMemoryAddress - 1];
+            memoryAddress |= receivedMessage->AddressInformation[lengthOfMemoryAddress - 1];
             /* no break */
         }
         switch (lengthOfMemoryLength)
         {
         case 4:
-            memoryLength |= receiveBuffer[3 + lengthOfMemoryAddress + lengthOfMemoryLength - 4] << 24;
+            memoryLength |= receivedMessage->AddressInformation[lengthOfMemoryAddress + lengthOfMemoryLength - 4] << 24;
             /* no break */
         case 3:
-            memoryLength |= receiveBuffer[3 + lengthOfMemoryAddress + lengthOfMemoryLength - 3] << 16;
+            memoryLength |= receivedMessage->AddressInformation[lengthOfMemoryAddress + lengthOfMemoryLength - 3] << 16;
             /* no break */
         case 2:
-            memoryLength |= receiveBuffer[3 + lengthOfMemoryAddress + lengthOfMemoryLength - 2] << 8;
+            memoryLength |= receivedMessage->AddressInformation[lengthOfMemoryAddress + lengthOfMemoryLength - 2] << 8;
             /* no break */
         case 1:
-            memoryLength |= receiveBuffer[3 + lengthOfMemoryAddress + lengthOfMemoryLength - 1];
+            memoryLength |= receivedMessage->AddressInformation[lengthOfMemoryAddress + lengthOfMemoryLength - 1];
             /* no break */
         }
 
@@ -94,7 +101,7 @@ static uint32_t requestTransfer(transferDirection_t direction, uint8_t * receive
             s_remainingMemoryLength = memoryLength;
             s_transferDirection = direction;
             s_nextSequenceCounter = 1;
-            transmitBuffer[0] = receiveBuffer[0] | uds_sid_PositiveResponseMask;
+            transmitBuffer[0] = receivedMessage->sid | uds_sid_PositiveResponseMask;
             transmitBuffer[1] = 0x20;
             transmitBuffer[2] = (UDS_MAX_INPUT_FRAME_SIZE >> 8) & 0xFF;
             transmitBuffer[3] = (UDS_MAX_INPUT_FRAME_SIZE >> 0) & 0xFF;
@@ -120,6 +127,12 @@ uint32_t uds_UploadDownloadFunctionalUnit_RequestUpload (uint8_t * receiveBuffer
 
 uint32_t uds_UploadDownloadFunctionalUnit_TransferData (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
 {
+    struct __attribute__((packed)) {
+        uint8_t sid;
+        uint8_t blockSequenceCounter;
+        uint8_t data[];
+    } * receivedMessage = (void*)receiveBuffer;
+
     uint32_t transmitLength = 0;
     if (receiveBufferSize > UDS_MAX_INPUT_FRAME_SIZE)
     {
@@ -133,7 +146,7 @@ uint32_t uds_UploadDownloadFunctionalUnit_TransferData (uint8_t * receiveBuffer,
     {
         transmitLength = uds_generateNegativeResponse(uds_responseCode_TransferDataSuspended, receivedMessage->sid, transmitBuffer);
     }
-    else if (receiveBuffer[1] != s_nextSequenceCounter)
+    else if (receivedMessage->blockSequenceCounter != s_nextSequenceCounter)
     {
         transmitLength = uds_generateNegativeResponse(uds_responseCode_WrongBlockSequenceCounter, receivedMessage->sid, transmitBuffer);
     }
@@ -141,15 +154,15 @@ uint32_t uds_UploadDownloadFunctionalUnit_TransferData (uint8_t * receiveBuffer,
     {
         if (s_transferDirection == transfer_download)
         {
-            uds_responseCode_t result = uds_NvmDriver_write(s_currentMemoryAddress, &(receiveBuffer[2]), receiveBufferSize - 2);
+            uds_responseCode_t result = uds_NvmDriver_write(s_currentMemoryAddress, receivedMessage->data, receiveBufferSize - 2);
             if (result == uds_responseCode_PositiveResponse)
             {
                 s_currentMemoryAddress += receiveBufferSize - 2;
                 s_remainingMemoryLength -= receiveBufferSize - 2;
                 s_nextSequenceCounter++;
 
-                transmitBuffer[0] = receiveBuffer[0] | uds_sid_PositiveResponseMask;
-                transmitBuffer[1] = receiveBuffer[1];
+                transmitBuffer[0] = receivedMessage->sid | uds_sid_PositiveResponseMask;
+                transmitBuffer[1] = receivedMessage->blockSequenceCounter;
                 transmitLength = 2;
             }
             else
@@ -168,8 +181,8 @@ uint32_t uds_UploadDownloadFunctionalUnit_TransferData (uint8_t * receiveBuffer,
             s_remainingMemoryLength -= transmitBufferSize - 2;
             s_nextSequenceCounter++;
 
-            transmitBuffer[0] = receiveBuffer[0] | uds_sid_PositiveResponseMask;
-            transmitBuffer[1] = receiveBuffer[1];
+            transmitBuffer[0] = receivedMessage->sid | uds_sid_PositiveResponseMask;
+            transmitBuffer[1] = receivedMessage->blockSequenceCounter;
             transmitLength = transmitBufferSize;
         }
     }
