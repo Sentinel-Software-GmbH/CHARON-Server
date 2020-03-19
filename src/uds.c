@@ -28,10 +28,10 @@ static uint8_t s_transmitBuffer[4096];
 void uds_task (void)
 {
     uint32_t recevieByteCount = uds_isotp_receive(s_receiveBuffer, sizeof(s_receiveBuffer));
-    uint32_t transmitByteCount = 0;
 
     if (recevieByteCount != 0)
     {
+        uint32_t transmitByteCount = 0;
         switch (s_receiveBuffer[0])
         {
         case uds_sid_DiagnosticSessionControl:
