@@ -9,7 +9,7 @@
 #include "charon_uds.h"
 #include "Common/charon_negativeResponse.h"
 #include "Common/charon_types.h"
-#include "Protocol/charon_interfaces.h"
+#include "HSDI/charon_interface_canisotp.h"
 
 #include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "BusinessLogic/charon_DataTransmissionFunctionalUnit.h"

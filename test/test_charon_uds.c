@@ -10,8 +10,9 @@
 #include "charon_uds.h"
 #include "Common/charon_negativeResponse.h"
 
-#include "mock_charon_interfaces.h"
+#include "HSDI/charon_interface_canisotp.h"
 
+#include "mock_charon_interface_canisotp.h"
 #include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "mock_charon_DataTransmissionFunctionalUnit.h"
 #include "mock_charon_StoredDataTransmissionFunctionalUnit.h"
