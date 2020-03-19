@@ -36,13 +36,31 @@
 
 /* Includes ******************************************************************/
 
+#include <stdint.h>
+
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
 
 /* Types *********************************************************************/
 
+typedef enum charon_sessionTypes_t_public
+{
+	charon_sscType_default,
+	charon_sscType_programming,
+	charon_sscType_extended,
+	charon_sscType_secured,
+
+	charon_sscType_amount
+}charon_sessionTypes_t;
+
 /* Interfaces ****************************************************************/
+
+int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length);
+
+int32_t charon_sscSetSession(charon_sessionTypes_t sessionType, uint32_t timeout);
+
+int32_t charon_sscTxProcessMessage (uint8_t * const pBuffer, uint32_t length);
 
 #endif /* CHARON_SERVICEANDSESSIONCONTROL_H_ */
 
