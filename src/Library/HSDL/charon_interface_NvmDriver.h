@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "uds_types.h"
+#include "Common/charon_types.h"
 
 /**
  * Checks given memory address for validity.

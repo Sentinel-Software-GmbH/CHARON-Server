@@ -1,5 +1,5 @@
 /*
- * test_uds_RoutineFunctionalUnit.c
+ * test_charon_RoutineFunctionalUnit.c
  *
  *  Created on: 29.01.2020
  *      Author: Florian Kaup
@@ -7,10 +7,10 @@
 
 
 #include <unity.h>
-#include "uds_RoutineFunctionalUnit.h"
-#include "uds_negativeResponse.h"
+#include "BusinessLogic/charon_RoutineFunctionalUnit.h"
+#include "Common/charon_negativeResponse.h"
 
-#include "mock_uds_interface_NvmDriver.h"
+#include "mock_charon_interface_NvmDriver.h"
 
 
 void test_uds_RoutineFunctionalUnit_RoutineControl_invalidSubfunction_returnsSubfunctionNotSupported (void)

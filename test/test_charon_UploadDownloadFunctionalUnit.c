@@ -7,10 +7,10 @@
 
 
 #include <unity.h>
-#include "uds_UploadDownloadFunctionalUnit.h"
-#include "uds_negativeResponse.h"
+#include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
+#include "Common/charon_negativeResponse.h"
 
-#include "mock_uds_interface_NvmDriver.h"
+#include "mock_charon_interface_NvmDriver.h"
 
 
 void test_uds_UploadDownloadFunctionalUnit_requestDownload_wrongSize_returnsIncorrectMessageLength (void)

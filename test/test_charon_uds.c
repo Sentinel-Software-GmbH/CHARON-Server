@@ -7,17 +7,17 @@
 
 
 #include <unity.h>
-#include "uds.h"
-#include "uds_negativeResponse.h"
+#include "charon_uds.h"
+#include "Common/charon_negativeResponse.h"
 
-#include "mock_uds_interfaces.h"
+#include "mock_charon_interfaces.h"
 
-#include "mock_uds_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_uds_DataTransmissionFunctionalUnit.h"
-#include "mock_uds_StoredDataTransmissionFunctionalUnit.h"
-#include "mock_uds_InputOutputControlFunctionalUnit.h"
-#include "mock_uds_RoutineFunctionalUnit.h"
-#include "mock_uds_UploadDownloadFunctionalUnit.h"
+#include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
+#include "mock_charon_DataTransmissionFunctionalUnit.h"
+#include "mock_charon_StoredDataTransmissionFunctionalUnit.h"
+#include "mock_charon_InputOutputControlFunctionalUnit.h"
+#include "mock_charon_RoutineFunctionalUnit.h"
+#include "mock_charon_UploadDownloadFunctionalUnit.h"
 
 void test_uds_task_nothingToDo (void)
 {

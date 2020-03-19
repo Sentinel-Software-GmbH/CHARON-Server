@@ -5,7 +5,7 @@
  *      Author: Florian Kaup
  */
 
-#include "uds_negativeResponse.h"
+#include "charon_negativeResponse.h"
 
 uint32_t uds_generateNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid, uint8_t * transmitBuffer)
 {

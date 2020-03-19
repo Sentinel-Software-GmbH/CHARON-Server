@@ -5,10 +5,10 @@
  *      Author: Florian Kaup
  */
 
-#include "uds_RoutineFunctionalUnit.h"
-#include "uds_negativeResponse.h"
-#include "uds_types.h"
-#include "uds_interface_NvmDriver.h"
+#include "charon_RoutineFunctionalUnit.h"
+#include "Common/charon_negativeResponse.h"
+#include "Common/charon_types.h"
+#include "HSDL/charon_interface_NvmDriver.h"
 
 
 uint32_t uds_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)

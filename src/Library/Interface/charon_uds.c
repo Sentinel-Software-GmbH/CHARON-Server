@@ -6,17 +6,17 @@
  */
 
 
-#include "uds.h"
-#include "uds_negativeResponse.h"
-#include "uds_types.h"
-#include "uds_interfaces.h"
+#include "charon_uds.h"
+#include "Common/charon_negativeResponse.h"
+#include "Common/charon_types.h"
+#include "Protocol/charon_interfaces.h"
 
-#include "uds_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "uds_DataTransmissionFunctionalUnit.h"
-#include "uds_StoredDataTransmissionFunctionalUnit.h"
-#include "uds_InputOutputControlFunctionalUnit.h"
-#include "uds_RoutineFunctionalUnit.h"
-#include "uds_UploadDownloadFunctionalUnit.h"
+#include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
+#include "BusinessLogic/charon_DataTransmissionFunctionalUnit.h"
+#include "BusinessLogic/charon_StoredDataTransmissionFunctionalUnit.h"
+#include "BusinessLogic/charon_InputOutputControlFunctionalUnit.h"
+#include "BusinessLogic/charon_RoutineFunctionalUnit.h"
+#include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
 
 #include <stdint.h>
 

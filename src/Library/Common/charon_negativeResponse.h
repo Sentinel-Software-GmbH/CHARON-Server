@@ -8,7 +8,7 @@
 #ifndef SRC_UDS_NEGATIVERESPONSE_H_
 #define SRC_UDS_NEGATIVERESPONSE_H_
 
-#include "uds_types.h"
+#include "charon_types.h"
 #include <stdint.h>
 
 uint32_t uds_generateNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid, uint8_t * transmitBuffer);
