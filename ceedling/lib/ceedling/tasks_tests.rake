@@ -1,14 +1,14 @@
 require 'ceedling/constants'
 
 task :test => [:directories] do
-  @ceedling[:test_invoker].setup_and_invoke(COLLECTION_ALL_TESTS)
+  Rake.application['test:all'].invoke
 end
 
 namespace TEST_SYM do
 
   desc "Run all unit tests (also just 'test' works)."
   task :all => [:directories] do
-    @ceedling[:test_invoker].setup_and_invoke(COLLECTION_ALL_TESTS)
+    @ceedling[:test_invoker].setup_and_invoke(COLLECTION_ALL_TESTS, TEST_SYM, {:force_run => false})
   end
 
   desc "Run single test ([*] real test or source file name, no path)."
@@ -23,6 +23,11 @@ namespace TEST_SYM do
   desc "Run tests for changed files."
   task :delta => [:directories] do
     @ceedling[:test_invoker].setup_and_invoke(COLLECTION_ALL_TESTS, TEST_SYM, {:force_run => false})
+  end
+
+  desc "Just build tests without running."
+  task :build_only => [:directories] do
+    @ceedling[:test_invoker].setup_and_invoke(COLLECTION_ALL_TESTS, TEST_SYM, {:build_only => true})
   end
 
   desc "Run tests by matching regular expression pattern."

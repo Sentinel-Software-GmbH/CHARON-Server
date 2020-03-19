@@ -45,16 +45,25 @@ task(:clobber => [:clean]) do
   @ceedling[:streaminator].stdout_puts("\nClobbering all generated files...\n(For large projects, this task may take a long time to complete)\n\n")
   begin
     CLOBBER.each { |fn| REMOVE_FILE_PROC.call(fn) }
+    @ceedling[:rake_wrapper][:directories].invoke
+    @ceedling[:dependinator].touch_force_rebuild_files
   rescue
   end
 end
 
-
+# create a directory task for each of the paths, so we know how to build them
 PROJECT_BUILD_PATHS.each { |path| directory(path) }
 
-# create directories that hold build output and generated files & touching rebuild dependency sources
-task(:directories => PROJECT_BUILD_PATHS) { @ceedling[:dependinator].touch_force_rebuild_files }
+# create a single directory task which verifies all the others get built
+task :directories => PROJECT_BUILD_PATHS
 
+# when the force file doesn't exist, it probably means we clobbered or are on a fresh
+# install. In either case, stuff was deleted, so assume we want to rebuild it all
+file @ceedling[:configurator].project_test_force_rebuild_filepath do
+  unless File.exists?(@ceedling[:configurator].project_test_force_rebuild_filepath)
+    @ceedling[:dependinator].touch_force_rebuild_files
+  end
+end
 
 # list paths discovered at load time
 namespace :paths do
@@ -81,7 +90,10 @@ namespace :files do
     ['source', COLLECTION_ALL_SOURCE],
     ['header', COLLECTION_ALL_HEADERS]
     ]
-  categories << ['assembly', COLLECTION_ALL_ASSEMBLY] if (RELEASE_BUILD_USE_ASSEMBLY)
+
+  using_assembly = (defined?(TEST_BUILD_USE_ASSEMBLY) && TEST_BUILD_USE_ASSEMBLY) ||
+                   (defined?(RELEASE_BUILD_USE_ASSEMBLY) && RELEASE_BUILD_USE_ASSEMBLY)
+  categories << ['assembly', COLLECTION_ALL_ASSEMBLY] if using_assembly
 
   categories.each do |category|
     name       = category[0]

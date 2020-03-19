@@ -7,7 +7,7 @@ class GeneratorTestResults
   constructor :configurator, :generator_test_results_sanity_checker, :yaml_wrapper
 
   def process_and_write_results(unity_shell_result, results_file, test_file)
-    output_file   = results_file
+    output_file = results_file
 
     results = get_results_structure
 
@@ -17,10 +17,10 @@ class GeneratorTestResults
 
     # process test statistics
     if (unity_shell_result[:output] =~ TEST_STDOUT_STATISTICS_PATTERN)
-      results[:counts][:total]   = $1.to_i
-      results[:counts][:failed]  = $2.to_i
+      results[:counts][:total] = $1.to_i
+      results[:counts][:failed] = $2.to_i
       results[:counts][:ignored] = $3.to_i
-      results[:counts][:passed]  = (results[:counts][:total] - results[:counts][:failed] - results[:counts][:ignored])
+      results[:counts][:passed] = (results[:counts][:total] - results[:counts][:failed] - results[:counts][:ignored])
     end
 
     # remove test statistics lines
@@ -31,16 +31,20 @@ class GeneratorTestResults
       case line
       when /(:IGNORE)/
         elements = extract_line_elements(line, results[:source][:file])
-        results[:ignores]   << elements[0]
-        results[:stdout]    << elements[1] if (!elements[1].nil?)
+        results[:ignores] << elements[0]
+        results[:stdout] << elements[1] if (!elements[1].nil?)
       when /(:PASS$)/
         elements = extract_line_elements(line, results[:source][:file])
         results[:successes] << elements[0]
-        results[:stdout]    << elements[1] if (!elements[1].nil?)
+        results[:stdout] << elements[1] if (!elements[1].nil?)
+      when /(:PASS \(.* ms\)$)/
+        elements = extract_line_elements(line, results[:source][:file])
+        results[:successes] << elements[0]
+        results[:stdout] << elements[1] if (!elements[1].nil?)
       when /(:FAIL)/
         elements = extract_line_elements(line, results[:source][:file])
-        results[:failures]  << elements[0]
-        results[:stdout]    << elements[1] if (!elements[1].nil?)
+        results[:failures] << elements[0]
+        results[:stdout] << elements[1] if (!elements[1].nil?)
       else # collect up all other
         results[:stdout] << line.chomp
       end
@@ -73,6 +77,7 @@ class GeneratorTestResults
     # handle anything preceding filename in line as extra output to be collected
     stdout = nil
     stdout_regex = /(.+)#{Regexp.escape(filename)}.+/i
+    unity_test_time = 0 
 
     if (line =~ stdout_regex)
       stdout = $1.clone
@@ -82,8 +87,14 @@ class GeneratorTestResults
     # collect up test results minus and extra output
     elements = (line.strip.split(':'))[1..-1]
 
-    return {:test => elements[1], :line => elements[0].to_i, :message => (elements[3..-1].join(':')).strip}, stdout if elements.size >= 3
-    return {:test => '???', :line => -1, :message => nil} #fallback safe option. TODO better handling
+    # find timestamp if available
+    if (elements[2] =~  / \((.*) ms\)/)
+      unity_test_time = $1.to_f / 1000
+      elements[2].sub!(/ \((.*) ms\)/, '') 
+    end
+
+    return {:test => elements[1], :line => elements[0].to_i, :message => (elements[3..-1].join(':')).strip, :unity_test_time => unity_test_time}, stdout if elements.size >= 3
+    return {:test => '???', :line => -1, :message => nil, :unity_test_time => unity_test_time} #fallback safe option. TODO better handling
   end
 
 end

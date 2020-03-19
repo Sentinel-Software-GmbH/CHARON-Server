@@ -22,12 +22,14 @@ class CMockConfig
     :fail_on_unexpected_calls    => true,
     :unity_helper_path           => false,
     :treat_as                    => {},
+    :treat_as_array              => {},
     :treat_as_void               => [],
     :memcmp_if_unknown           => true,
     :when_no_prototypes          => :warn,           #the options being :ignore, :warn, or :error
     :when_ptr                    => :compare_data,   #the options being :compare_ptr, :compare_data, or :smart
     :verbosity                   => 2,               #the options being 0 errors only, 1 warnings and errors, 2 normal info, 3 verbose
     :treat_externs               => :exclude,        #the options being :include or :exclude
+    :treat_inlines               => :exclude,        #the options being :include or :exclude
     :callback_include_count      => true,
     :callback_after_arg_check    => false,
     :includes                    => nil,
@@ -36,6 +38,8 @@ class CMockConfig
     :includes_c_pre_header       => nil,
     :includes_c_post_header      => nil,
     :orig_header_include_fmt     => "#include \"%s\"",
+    :array_size_type             => [],
+    :array_size_name             => 'size|len',
   }
 
   def initialize(options=nil)
@@ -61,6 +65,16 @@ class CMockConfig
     end
     options[:unity_helper_path] ||= options[:unity_helper]
     options[:unity_helper_path] = [options[:unity_helper_path]] if options[:unity_helper_path].is_a? String
+
+    if options[:unity_helper_path]
+      require 'pathname'
+      includes1 = options[:includes_c_post_header] || []
+      includes2 = options[:unity_helper_path].map do |path|
+        Pathname(path).relative_path_from(Pathname(options[:mock_path])).to_s
+      end
+      options[:includes_c_post_header] = (includes1 + includes2).uniq
+    end
+
     options[:plugins].compact!
     options[:plugins].map! {|p| p.to_sym}
     @options = options
@@ -69,7 +83,11 @@ class CMockConfig
     treat_as_map.merge!(@options[:treat_as])
     @options[:treat_as] = treat_as_map
 
-    @options.each_key { |key| eval("def #{key.to_s}() return @options[:#{key.to_s}] end") }
+    @options.each_key do |key|
+      unless methods.include?(key)
+        eval("def #{key.to_s}() return @options[:#{key.to_s}] end")
+      end
+    end
   end
 
   def load_config_file_from_yaml yaml_filename

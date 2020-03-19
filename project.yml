@@ -63,12 +63,10 @@
 
 :gcov:
   :html_report: false
-  :html_report_type: basic
   :xml_report: true
   :gcovr:
     :xml_pretty: true
     :cobertura_pretty: true
-
 
 #:tools:
 # Ceedling defaults to using gcc for compiling, linking, etc.
