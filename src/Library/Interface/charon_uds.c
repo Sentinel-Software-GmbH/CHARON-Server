@@ -29,7 +29,7 @@ void uds_task (void)
 {
     uint32_t recevieByteCount = uds_isotp_receive(s_receiveBuffer, sizeof(s_receiveBuffer));
 
-    if (recevieByteCount != 0)
+    if (recevieByteCount != 0u)
     {
         uint32_t transmitByteCount = 0;
         switch (s_receiveBuffer[0])
@@ -117,9 +117,9 @@ void uds_task (void)
             break;
         }
 
-        if (transmitByteCount > 0)
+        if (transmitByteCount > 0u)
         {
-            uds_isotp_transmit(s_transmitBuffer,transmitByteCount);
+            (void)uds_isotp_transmit(s_transmitBuffer,transmitByteCount);
         }
     }
 

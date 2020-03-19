@@ -76,9 +76,17 @@
 			<target name="cppcheck" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
 				<buildCommand>C:/Program</buildCommand>
 				<buildArguments>Files\Cppcheck\cppcheck.exe</buildArguments>
-				<buildTarget>-j4 --enable=all -I./src/ ./src --template=gcc</buildTarget>
+				<buildTarget>-j4 --addon=misra --enable=all -I./src/ ./src --template=gcc</buildTarget>
 				<stopOnError>true</stopOnError>
 				<useDefaultCommand>false</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="test:all" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>ceedling.cmd</buildCommand>
+				<buildArguments/>
+				<buildTarget>test:all</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
 				<runAllBuilders>true</runAllBuilders>
 			</target>
 		</buildTargets>

@@ -30,8 +30,8 @@ pipeline {
                 }
                 stage('CppCheck') {
                     steps {
-                        bat '"C:/Program Files/Cppcheck/cppcheck.exe" -j4 --enable=all -I./src/ --xml --xml-version=2 ./src 2> cppcheck.xml'
-                        publishCppcheck pattern:'cppcheck.xml', failureThreshold:'2'
+                        bat '"C:/Program Files/Cppcheck/cppcheck.exe" -j4 --addon=misra --enable=all -I./src/ --xml --xml-version=2 ./src 2> cppcheck.xml'
+                        publishCppcheck pattern:'cppcheck.xml'
                     }
                 }
             }
