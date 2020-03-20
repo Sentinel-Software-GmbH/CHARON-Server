@@ -1,12 +1,12 @@
 /*
- * uds_interface_NvmDriver.h
+ * charon_interface_NvmDriver.h
  *
  *  Created on: 27.01.2020
  *      Author: Florian Kaup
  */
 
-#ifndef SRC_UDS_INTERFACE_NVMDRIVER_H_
-#define SRC_UDS_INTERFACE_NVMDRIVER_H_
+#ifndef CHARON_INTERFACE_NVMDRIVER_H_
+#define CHARON_INTERFACE_NVMDRIVER_H_
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -21,7 +21,7 @@
  * @retval  true    Memory range is valid
  * @retval  false   Memory range is not valid
  */
-bool uds_NvmDriver_checkAddressRange (uint32_t address, uint32_t length);
+bool charon_NvmDriver_checkAddressRange (uint32_t address, uint32_t length);
 
 /**
  * Writes data to non volatile memory.
@@ -29,12 +29,12 @@ bool uds_NvmDriver_checkAddressRange (uint32_t address, uint32_t length);
  * @param address   The start address of write operation
  * @param data      The data to write
  * @param size      The amount of bytes to write
- * @retval  uds_responseCode_PositiveResponse   Memory is written successfully
- * @retval  uds_responseCode_GeneralProgrammingFailure  Error while programming
- * @retval  uds_responseCode_VoltageTooHigh     Voltage is too high for programming
- * @retval  uds_responseCode_VoltageTooLow      Voltage is too low for programming
+ * @retval  charon_responseCode_PositiveResponse   Memory is written successfully
+ * @retval  charon_responseCode_GeneralProgrammingFailure  Error while programming
+ * @retval  charon_responseCode_VoltageTooHigh     Voltage is too high for programming
+ * @retval  charon_responseCode_VoltageTooLow      Voltage is too low for programming
  */
-uds_responseCode_t uds_NvmDriver_write (uint32_t address, uint8_t* data, uint32_t size);
+charon_responseCode_t charon_NvmDriver_write (uint32_t address, uint8_t* data, uint32_t size);
 
 /**
  * Reads data from non volatile memory.
@@ -43,11 +43,11 @@ uds_responseCode_t uds_NvmDriver_write (uint32_t address, uint8_t* data, uint32_
  * @param data      The buffer to fill with data
  * @param size      The number of bytes to read
  */
-void uds_NvmDriver_read (uint32_t address, uint8_t* data, uint32_t size);
+void charon_NvmDriver_read (uint32_t address, uint8_t* data, uint32_t size);
 
 /**
  * Erases non volatile memory.
  */
-void uds_NvmDriver_erase (void);
+void charon_NvmDriver_erase (void);
 
-#endif /* SRC_UDS_INTERFACE_FLASHDRIVER_H_ */
+#endif /* CHARON_INTERFACE_FLASHDRIVER_H_ */

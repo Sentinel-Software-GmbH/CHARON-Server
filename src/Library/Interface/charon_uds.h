@@ -5,9 +5,9 @@
  *      Author: Florian Kaup
  */
 
-#ifndef UDS_H_
-#define UDS_H_
+#ifndef CHARON_H_
+#define CHARON_H_
 
-void uds_task (void);
+void charon_task (void);
 
-#endif /* UDS_H_ */
+#endif /* CHARON_H_ */
