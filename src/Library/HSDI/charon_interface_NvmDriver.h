@@ -34,7 +34,7 @@ bool charon_NvmDriver_checkAddressRange (uint32_t address, uint32_t length);
  * @retval  charon_responseCode_VoltageTooHigh     Voltage is too high for programming
  * @retval  charon_responseCode_VoltageTooLow      Voltage is too low for programming
  */
-charon_responseCode_t charon_NvmDriver_write (uint32_t address, uint8_t* data, uint32_t size);
+uds_responseCode_t charon_NvmDriver_write (uint32_t address, uint8_t* data, uint32_t size);
 
 /**
  * Reads data from non volatile memory.

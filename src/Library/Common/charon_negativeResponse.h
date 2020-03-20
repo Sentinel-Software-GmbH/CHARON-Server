@@ -11,7 +11,7 @@
 #include "charon_types.h"
 #include <stdint.h>
 
-uint32_t charon_generateNegativeResponse (charon_responseCode_t ResponseCode, charon_sid_t RequestedSid, uint8_t * transmitBuffer);
+uint32_t charon_generateNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid, uint8_t * transmitBuffer);
 
 
 #endif /* CHARON_NEGATIVERESPONSE_H_ */

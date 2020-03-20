@@ -322,7 +322,7 @@ void test_charon_UploadDownloadFunctionalUnit_transferData_DownloadOk_returnsOk 
     uint8_t outputData[100];
     uint8_t expectedOutputData[] = {0x76, 0x01};
 
-    charon_NvmDriver_write_ExpectAndReturn(0x1d000000, inputData + 2, sizeof(inputData) - 2, charon_responseCode_PositiveResponse);
+    charon_NvmDriver_write_ExpectAndReturn(0x1d000000, inputData + 2, sizeof(inputData) - 2, uds_responseCode_PositiveResponse);
 
     uint32_t transmitSize = charon_UploadDownloadFunctionalUnit_TransferData(inputData, sizeof(inputData), outputData, sizeof(outputData));
 
@@ -344,7 +344,7 @@ void test_charon_UploadDownloadFunctionalUnit_transferData_DownloadOkInterfaceEr
     uint8_t outputData[100];
     uint8_t expectedOutputData[] = {0x7F, 0x36, 0x93};
 
-    charon_NvmDriver_write_ExpectAndReturn(0x1d000000, inputData + 2, sizeof(inputData) - 2, charon_responseCode_VoltageTooLow);
+    charon_NvmDriver_write_ExpectAndReturn(0x1d000000, inputData + 2, sizeof(inputData) - 2, uds_responseCode_VoltageTooLow);
 
     uint32_t transmitSize = charon_UploadDownloadFunctionalUnit_TransferData(inputData, sizeof(inputData), outputData, sizeof(outputData));
 

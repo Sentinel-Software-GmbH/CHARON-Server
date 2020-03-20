@@ -29,7 +29,7 @@ uint32_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSes
     uint32_t transmitLength = 0;
     if (receiveBufferSize != 2u)
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer);
     }
     else
     {
@@ -39,7 +39,7 @@ uint32_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSes
             uint16_t timing;
             uint16_t enhancedTiming;
         } * transmitMessage = (void*)transmitBuffer;
-        transmitMessage->sid = receivedMessage->sid | (uint8_t)charon_sid_PositiveResponseMask;
+        transmitMessage->sid = receivedMessage->sid | (uint8_t)uds_sid_PositiveResponseMask;
         transmitMessage->diagnosticSessionType = receivedMessage->diagnosticSessionType;
         transmitMessage->timing = __builtin_bswap16(50);
         transmitMessage->enhancedTiming = __builtin_bswap16(500);

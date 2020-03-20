@@ -34,86 +34,86 @@ void charon_task (void)
         uint32_t transmitByteCount = 0;
         switch (s_receiveBuffer[0])
         {
-        case charon_sid_DiagnosticSessionControl:
+        case uds_sid_DiagnosticSessionControl:
             transmitByteCount = charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_EcuReset:
+        case uds_sid_EcuReset:
             transmitByteCount = charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_ClearDiagnosticInformation:
+        case uds_sid_ClearDiagnosticInformation:
             transmitByteCount = charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_ReadDtcInformation:
+        case uds_sid_ReadDtcInformation:
             transmitByteCount = charon_StoredDataTransmissionFunctionalUnit_ReadDtcInformation(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_ReadDataByIdentifier:
+        case uds_sid_ReadDataByIdentifier:
             transmitByteCount = charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_ReadMemoryByAddress:
+        case uds_sid_ReadMemoryByAddress:
             transmitByteCount = charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_ReadScalingDataByIdentifier:
+        case uds_sid_ReadScalingDataByIdentifier:
             transmitByteCount = charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdentifier(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_SecurityAccess:
+        case uds_sid_SecurityAccess:
             transmitByteCount = charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecurityAccess(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_CommunicationControl:
+        case uds_sid_CommunicationControl:
             transmitByteCount = charon_DiagnosticAndCommunicationManagementFunctionalUnit_CommunicationControl(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_ReadDataByPeriodicIdentifier:
+        case uds_sid_ReadDataByPeriodicIdentifier:
             transmitByteCount = charon_DataTransmissionFunctionalUnit_ReadDataByPeriodicIdentifier(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_DynamicallyDefineDataIdentifier:
+        case uds_sid_DynamicallyDefineDataIdentifier:
             transmitByteCount = charon_DataTransmissionFunctionalUnit_DynamicallyDefineDataIdentifier(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_WriteDataByIdentifier:
+        case uds_sid_WriteDataByIdentifier:
             transmitByteCount = charon_DataTransmissionFunctionalUnit_WriteDataByIdentifier(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_InputOutputControlByIdentifier:
+        case uds_sid_InputOutputControlByIdentifier:
             transmitByteCount = charon_InputOutputControlFunctionalUnit_InputOutputControlByIdentifier(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_RoutineControl:
+        case uds_sid_RoutineControl:
             transmitByteCount = charon_RoutineFunctionalUnit_RoutineControl(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_RequestDownload:
+        case uds_sid_RequestDownload:
             transmitByteCount = charon_UploadDownloadFunctionalUnit_RequestDownload(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_RequestUpload:
+        case uds_sid_RequestUpload:
             transmitByteCount = charon_UploadDownloadFunctionalUnit_RequestUpload(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_TransferData:
+        case uds_sid_TransferData:
             transmitByteCount = charon_UploadDownloadFunctionalUnit_TransferData(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_RequestTransferExit:
+        case uds_sid_RequestTransferExit:
             transmitByteCount = charon_UploadDownloadFunctionalUnit_RequestTransferExit(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_RequestFileTransfer:
+        case uds_sid_RequestFileTransfer:
             transmitByteCount = charon_UploadDownloadFunctionalUnit_RequestFileTransfer(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_WriteMemoryByAddress:
+        case uds_sid_WriteMemoryByAddress:
             transmitByteCount = charon_DataTransmissionFunctionalUnit_WriteMemoryByAddress(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_TesterPresent:
+        case uds_sid_TesterPresent:
             transmitByteCount = charon_DiagnosticAndCommunicationManagementFunctionalUnit_TesterPresent(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_AccessTimingParameter:
+        case uds_sid_AccessTimingParameter:
             transmitByteCount = charon_DiagnosticAndCommunicationManagementFunctionalUnit_AccessTimingParameter(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_SecuredDataTransmission:
+        case uds_sid_SecuredDataTransmission:
             transmitByteCount = charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecuredDataTransmission(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_ControlDtcSetting:
+        case uds_sid_ControlDtcSetting:
             transmitByteCount = charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_ResponseOnEvent:
+        case uds_sid_ResponseOnEvent:
             transmitByteCount = charon_DiagnosticAndCommunicationManagementFunctionalUnit_ResponseOnEvent(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
-        case charon_sid_LinkControl:
+        case uds_sid_LinkControl:
             transmitByteCount = charon_DiagnosticAndCommunicationManagementFunctionalUnit_LinkControl(s_receiveBuffer, recevieByteCount, s_transmitBuffer, sizeof(s_transmitBuffer));
             break;
         default:
-            transmitByteCount = charon_generateNegativeResponse(charon_responseCode_ServiceNotSupported, s_receiveBuffer[0], s_transmitBuffer);
+            transmitByteCount = charon_generateNegativeResponse(uds_responseCode_ServiceNotSupported, s_receiveBuffer[0], s_transmitBuffer);
             break;
         }
 

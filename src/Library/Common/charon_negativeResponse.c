@@ -7,9 +7,9 @@
 
 #include "charon_negativeResponse.h"
 
-uint32_t charon_generateNegativeResponse (charon_responseCode_t ResponseCode, charon_sid_t RequestedSid, uint8_t * transmitBuffer)
+uint32_t charon_generateNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid, uint8_t * transmitBuffer)
 {
-    transmitBuffer[0] = charon_sid_NegativeResponse;
+    transmitBuffer[0] = uds_sid_NegativeResponse;
     transmitBuffer[1] = RequestedSid;
     transmitBuffer[2] = ResponseCode;
     return 3;

@@ -16,11 +16,11 @@ uint32_t charon_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, u
     uint32_t transmitLength = 0;
     if (receiveBufferSize < 4u)
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer);
     }
     else if ( (receiveBuffer[1] == 0u) || (receiveBuffer[1] > 3u) )
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_SubfunctionNotSupported, receiveBuffer[0], transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_SubfunctionNotSupported, receiveBuffer[0], transmitBuffer);
     }
     else
     {
@@ -31,7 +31,7 @@ uint32_t charon_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, u
         }
         else
         {
-            transmitLength = charon_generateNegativeResponse(charon_responseCode_RequestOutOfRange, receiveBuffer[0], transmitBuffer);
+            transmitLength = charon_generateNegativeResponse(uds_responseCode_RequestOutOfRange, receiveBuffer[0], transmitBuffer);
         }
     }
 

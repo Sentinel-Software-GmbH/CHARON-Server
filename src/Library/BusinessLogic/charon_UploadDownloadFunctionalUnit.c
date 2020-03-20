@@ -44,12 +44,12 @@ static uint32_t requestTransfer(transferDirection_t direction, uint8_t * receive
             (receivedMessage->dataFormatIdentifier != 0x00u)
         )
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_RequestOutOfRange, receivedMessage->sid, transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_RequestOutOfRange, receivedMessage->sid, transmitBuffer);
     }
 
     else if ( ((lengthOfMemoryAddress + lengthOfMemoryLength) + 3u) != receiveBufferSize )
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_IncorrectMessageLengthOrInvalidFormat, receivedMessage->sid, transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receivedMessage->sid, transmitBuffer);
     }
 
     else
@@ -68,11 +68,11 @@ static uint32_t requestTransfer(transferDirection_t direction, uint8_t * receive
 
         if ( false == charon_NvmDriver_checkAddressRange(memoryAddress, memoryLength) )
         {
-            transmitLength = charon_generateNegativeResponse(charon_responseCode_RequestOutOfRange, receivedMessage->sid, transmitBuffer);
+            transmitLength = charon_generateNegativeResponse(uds_responseCode_RequestOutOfRange, receivedMessage->sid, transmitBuffer);
         }
         else if (s_transferDirection != transfer_idle)
         {
-            transmitLength = charon_generateNegativeResponse(charon_responseCode_ConditionsNotCorrect, receivedMessage->sid, transmitBuffer);
+            transmitLength = charon_generateNegativeResponse(uds_responseCode_ConditionsNotCorrect, receivedMessage->sid, transmitBuffer);
         }
         else
         {
@@ -80,7 +80,7 @@ static uint32_t requestTransfer(transferDirection_t direction, uint8_t * receive
             s_remainingMemoryLength = memoryLength;
             s_transferDirection = direction;
             s_nextSequenceCounter = 1;
-            transmitBuffer[0] = receivedMessage->sid | (uint8_t)charon_sid_PositiveResponseMask;
+            transmitBuffer[0] = receivedMessage->sid | (uint8_t)uds_sid_PositiveResponseMask;
             transmitBuffer[1] = 0x20;
             transmitBuffer[2] = (UDS_MAX_INPUT_FRAME_SIZE >> 8u) & 0xFFu;
             transmitBuffer[3] = (UDS_MAX_INPUT_FRAME_SIZE >> 0u) & 0xFFu;
@@ -115,32 +115,32 @@ uint32_t charon_UploadDownloadFunctionalUnit_TransferData (uint8_t * receiveBuff
     uint32_t transmitLength = 0;
     if (receiveBufferSize > UDS_MAX_INPUT_FRAME_SIZE)
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_IncorrectMessageLengthOrInvalidFormat, receivedMessage->sid, transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receivedMessage->sid, transmitBuffer);
     }
     else if (s_transferDirection == transfer_idle)
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_RequestSequenceError, receivedMessage->sid, transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_RequestSequenceError, receivedMessage->sid, transmitBuffer);
     }
     else if (s_remainingMemoryLength < (receiveBufferSize - 2u) )
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_TransferDataSuspended, receivedMessage->sid, transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_TransferDataSuspended, receivedMessage->sid, transmitBuffer);
     }
     else if (receivedMessage->blockSequenceCounter != s_nextSequenceCounter)
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_WrongBlockSequenceCounter, receivedMessage->sid, transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_WrongBlockSequenceCounter, receivedMessage->sid, transmitBuffer);
     }
     else
     {
         if (s_transferDirection == transfer_download)
         {
-            charon_responseCode_t result = charon_NvmDriver_write(s_currentMemoryAddress, receivedMessage->data, receiveBufferSize - 2u);
-            if (result == charon_responseCode_PositiveResponse)
+            uds_responseCode_t result = charon_NvmDriver_write(s_currentMemoryAddress, receivedMessage->data, receiveBufferSize - 2u);
+            if (result == uds_responseCode_PositiveResponse)
             {
                 s_currentMemoryAddress += receiveBufferSize - 2u;
                 s_remainingMemoryLength -= receiveBufferSize - 2u;
                 s_nextSequenceCounter++;
 
-                transmitBuffer[0] = receivedMessage->sid | (uint8_t)charon_sid_PositiveResponseMask;
+                transmitBuffer[0] = receivedMessage->sid | (uint8_t)uds_sid_PositiveResponseMask;
                 transmitBuffer[1] = receivedMessage->blockSequenceCounter;
                 transmitLength = 2;
             }
@@ -160,7 +160,7 @@ uint32_t charon_UploadDownloadFunctionalUnit_TransferData (uint8_t * receiveBuff
             s_remainingMemoryLength -= transmitBufferSize - 2u;
             s_nextSequenceCounter++;
 
-            transmitBuffer[0] = receivedMessage->sid | (uint8_t)charon_sid_PositiveResponseMask;
+            transmitBuffer[0] = receivedMessage->sid | (uint8_t)uds_sid_PositiveResponseMask;
             transmitBuffer[1] = receivedMessage->blockSequenceCounter;
             transmitLength = transmitBufferSize;
         }
@@ -173,15 +173,15 @@ uint32_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (uint8_t * rece
     uint32_t transmitLength = 0;
     if (receiveBufferSize > 1u)
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer);
     }
     else if (s_remainingMemoryLength != 0u)
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_RequestSequenceError, receiveBuffer[0], transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_RequestSequenceError, receiveBuffer[0], transmitBuffer);
     }
     else if (s_transferDirection == transfer_idle)
     {
-        transmitLength = charon_generateNegativeResponse(charon_responseCode_RequestSequenceError, receiveBuffer[0], transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_RequestSequenceError, receiveBuffer[0], transmitBuffer);
     }
     else
     {
@@ -190,7 +190,7 @@ uint32_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (uint8_t * rece
         s_nextSequenceCounter = 0;
         s_transferDirection = transfer_idle;
 
-        transmitBuffer[0] = receiveBuffer[0] | (uint8_t)charon_sid_PositiveResponseMask;
+        transmitBuffer[0] = receiveBuffer[0] | (uint8_t)uds_sid_PositiveResponseMask;
         transmitLength = 1;
     }
     return transmitLength;
@@ -199,7 +199,7 @@ uint32_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (uint8_t * rece
 
 uint32_t charon_UploadDownloadFunctionalUnit_RequestFileTransfer (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
 {
-    return charon_generateNegativeResponse(charon_responseCode_ServiceNotSupported, receiveBuffer[0], transmitBuffer);
+    return charon_generateNegativeResponse(uds_responseCode_ServiceNotSupported, receiveBuffer[0], transmitBuffer);
 }
 
 
