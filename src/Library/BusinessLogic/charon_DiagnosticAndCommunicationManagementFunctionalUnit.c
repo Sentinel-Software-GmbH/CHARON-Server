@@ -1,5 +1,5 @@
 /*
- * uds_DiagnosticAndCommunicationManagementFunctionalUnit.c
+ * charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
  *
  *  Created on: 30.01.2020
  *      Author: Florian Kaup
@@ -19,7 +19,7 @@ typedef enum {
 };
 
 
-uint32_t uds_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
+uint32_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize)
 {
     struct __attribute__((packed)) {
         uint8_t sid;
@@ -29,7 +29,7 @@ uint32_t uds_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessio
     uint32_t transmitLength = 0;
     if (receiveBufferSize != 2u)
     {
-        transmitLength = uds_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer);
+        transmitLength = charon_generateNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0], transmitBuffer);
     }
     else
     {

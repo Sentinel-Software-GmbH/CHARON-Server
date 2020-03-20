@@ -1,24 +1,24 @@
 /*
- * uds_types.h
+ * charon_types.h
  *
  *  Created on: 16.01.2020
  *      Author: Florian Kaup
  */
 
-#ifndef UDS_TYPES_H_
-#define UDS_TYPES_H_
+#ifndef CHARON_TYPES_H_
+#define CHARON_TYPES_H_
 
 typedef enum
 {
-    uds_messageType_Diagnostics,
-    uds_messageType_RemoteDiagnostics,
-} uds_messageType_t;
+    charon_messageType_Diagnostics,
+    charon_messageType_RemoteDiagnostics,
+} charon_messageType_t;
 
 typedef enum
 {
-    uds_targetAddressType_Physical,
-    uds_targetAddressType_Functional,
-} uds_targetAddressType_t;
+    charon_targetAddressType_Physical,
+    charon_targetAddressType_Functional,
+} charon_targetAddressType_t;
 
 typedef enum
 {
@@ -100,4 +100,4 @@ typedef enum
 
 
 
-#endif /* UDS_TYPES_H_ */
+#endif /* CHARON_TYPES_H_ */
