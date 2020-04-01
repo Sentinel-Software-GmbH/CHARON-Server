@@ -61,7 +61,7 @@ typedef enum charon_sessionTypes_t_public
 /**
  * UDS Service Function Signature
  */
-typedef int32_t (*charonUdsFunctionSignature)(uint8_t *const pData, uint32_t length);
+typedef uds_responseCode_t (*charonUdsFunctionSignature)(uint8_t *const pData, uint32_t length);
 
 /**
  * Service Object Type.
