@@ -13,6 +13,7 @@
 #include "ComLogic/charon_ServiceLookupTable.h"
 
 #include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
+#include "mock_charon_interface_clock.h"
 
 
 void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Success (void)
@@ -29,7 +30,7 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Success
     charon_sscSetSession(charon_sscType_default, 0u);
 
     /* Setup Expected Function Calls */
-    charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ExpectAndReturn(clientMsg, sizeof(clientMsg), 0);
+    charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ExpectAndReturn(clientMsg, sizeof(clientMsg), uds_responseCode_PositiveResponse);
 
     /* Run Function Test */
     retVal = charon_sscRcvProcessMessage(clientMsg, sizeof(clientMsg));
@@ -54,7 +55,7 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Fail(vo
     charon_sscSetSession(charon_sscType_default, 0u);
 
     /* Setup Expected Function Calls */
-
+    //NA
 
     /* Run Function Test */
     retVal = charon_sscRcvProcessMessage(clientMsg, sizeof(clientMsg));
@@ -64,27 +65,27 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Fail(vo
     //CHECK ANSWER FRAME ?
 }
 
-void test_charon_SessionAndServiceControl_executeService_(void)
+void test_charon_SessionAndServiceControl_executeService_WithSuppressedAnswer(void)
 {
     /* Setup Variables */
     uint32_t retVal;
     uint8_t clientMsg[] =
     {
-            /* Client Request to Download of 4k to address 0x00000000 */
-            0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00
+            /* Client Request to Reset without Answer */
+            (0x11u | 0x80u), 0x00, 0x02
     };
 
     /* Setup Environment */
     charon_sscSetSession(charon_sscType_default, 0u);
 
     /* Setup Expected Function Calls */
-
+    charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset_ExpectAndReturn(clientMsg, sizeof(clientMsg), uds_responseCode_PositiveResponse);
 
     /* Run Function Test */
     retVal = charon_sscRcvProcessMessage(clientMsg, sizeof(clientMsg));
 
     /* Check Results */
-    TEST_ASSERT_EQUAL(-1, retVal);
+    TEST_ASSERT_EQUAL(0, retVal);
     //CHECK ANSWER FRAME ?
 }
 
