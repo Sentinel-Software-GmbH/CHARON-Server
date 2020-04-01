@@ -32,30 +32,122 @@
 
 /* Includes ******************************************************************/
 
+#include <stdbool.h>
+#include <stddef.h>
+#include "ComLogic/charon_SessionAndSerivceControl.h"
+#include "Common/charon_negativeResponse.h"
+
 /* Imports *******************************************************************/
 
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
 
+/** Size in Bytes an uint8_t array needs to be */
+#define NRC_ARRAY_SIZE      ((uint32_t) 3u)
+
 /* Types *********************************************************************/
 
 /* Variables *****************************************************************/
 
+/** Stores the Currently Active Diagnostic Session */
+static charon_sessionTypes_t s_currentDiagnosticSession = charon_sscType_default;
+
 /* Private Function Definitions **********************************************/
+
+/**
+ *
+ * @param currentSession
+ *      Currently Active Diagnose Session
+ * @param pService
+ *      Pointer to Service Object
+ *
+ * @return Service is allowed or disallowed in Session
+ */
+bool isServiceInSession (charon_sessionTypes_t currentSession, charon_serviceObject_t * pService);
 
 /* Interfaces  ***************************************************************/
 
 int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length)
 {
+    /**
+     * FEATURE
+     * Here needs to be evaluated if an encryption is active and the message needs translation.
+     */
 
+    uint8_t sid = pBuffer[0];       /* Get SID from Message */
+    int32_t retVal = 0;
+    charon_serviceObject_t * pServiceObj = charon_ServiceLookupTable_getServiceObject(sid);   /* Get Service Object */
+
+    /* Check if Service is supported */
+    if(NULL != pServiceObj)
+    {
+        /* Check if Service is Supported in Current Session */
+        if(isServiceInSession(s_currentDiagnosticSession, pServiceObj))
+        {
+            /* Execute Service */
+            retVal = pServiceObj->serviceRunable(pBuffer, length);
+        }
+        else
+        {
+            uint8_t nrcMsg[NRC_ARRAY_SIZE];
+            charon_generateNegativeResponse(uds_responseCode_SubfunctionNotSupportedInActiveSession, sid, nrcMsg);
+            charon_sscTxProcessMessage(nrcMsg, sizeof(nrcMsg));
+            retVal = -1;
+        }
+    }
+    else
+    {
+        uint8_t nrcMsg[NRC_ARRAY_SIZE];
+        charon_generateNegativeResponse(uds_responseCode_ServiceNotSupported, sid, nrcMsg);
+        charon_sscTxProcessMessage(nrcMsg, sizeof(nrcMsg));
+        retVal = -1;
+    }
+
+
+    return retVal;
+}
+
+int32_t charon_sscTxProcessMessage (uint8_t * const pBuffer, uint32_t length)
+{
+
+}
+
+int32_t charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeout)
+{
+    /**
+     * FEATURE
+     * Align timeouts and check them
+     * Momentary check for unused/set unused (MISRA)
+     */
+    uint32_t unusedTimeout = timeout;
+    (void *)unusedTimeout;
+
+    s_currentDiagnosticSession = sessionType;
 
     return 0;
 }
 
+charon_sessionTypes_t charon_sscGetSession (void)
+{
+    return s_currentDiagnosticSession;
+}
+
 /* Private Function **********************************************************/
 
+bool isServiceInSession (charon_sessionTypes_t currentSession, charon_serviceObject_t * pService)
+{
+    uint32_t result = 0u;
+    bool retval = false;
 
+    result = (pService->sessionMask & ((uint8_t)(1u << currentSession)));
+    if(result > 0u)
+    {
+        retval = true;
+    }
+
+    return retval;
+}
 
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

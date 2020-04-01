@@ -93,7 +93,7 @@ charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject (uint8_t sid)
     uint32_t iterationSize = TableSize / 2u;
 
     charon_serviceObject_t * result = NULL;
-    uint8_t castedSidEnumeration = 0u;      // TODO(Check for Misra at this point)
+    uint8_t castedSidEnumeration;      // TODO(Check for Misra at this point)
 
     uint32_t TableIndex = iterationSize;
 
