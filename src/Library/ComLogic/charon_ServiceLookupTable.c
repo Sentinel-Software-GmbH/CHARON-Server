@@ -39,10 +39,10 @@
 
 /* Macros ********************************************************************/
 
-#define SESSION_DEFAULT			((uint32_t) 1u << charon_sscType_default)
-#define SESSION_PROGRAMMING  	((uint32_t) 1u << charon_sscType_programming)
-#define SESSION_EXTENDED		((uint32_t) 1u << charon_sscType_extended)
-#define SESSION_SECURED			((uint32_t) 1u << charon_sscType_secured)
+#define SESSION_DEFAULT			((uint32_t) 1u << (uint8_t)charon_sscType_default)
+#define SESSION_PROGRAMMING  	((uint32_t) 1u << (uint8_t)charon_sscType_programming)
+#define SESSION_EXTENDED		((uint32_t) 1u << (uint8_t)charon_sscType_extended)
+#define SESSION_SECURED			((uint32_t) 1u << (uint8_t)charon_sscType_secured)
 
 /* Constants *****************************************************************/
 
@@ -55,25 +55,25 @@ static charon_serviceObject_t serviceLookupTable[] =
         {uds_sid_ReadDataByIdentifier,                      (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
         {uds_sid_ReadMemoryByAddress,                       (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
         {uds_sid_ReadScalingDataByIdentifier,               (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_SecurityAccess,                            (0               | 0                   | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_CommunicationControl,                      (0               | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_ReadDataByPeriodicIdentifier,              (0               | 0                   | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_SecurityAccess,                            (0u              | 0u                  | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_CommunicationControl,                      (0u              | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_ReadDataByPeriodicIdentifier,              (0u              | 0u                  | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
         {uds_sid_DynamicallyDefineDataIdentifier,           (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
         {uds_sid_WriteDataByIdentifier,                     (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_InputOutputControlByIdentifier,            (0               | 0                   | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_InputOutputControlByIdentifier,            (0u              | 0u                  | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
         {uds_sid_RoutineControl,                            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_RequestDownload,                           (0               | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_RequestUpload,                             (0               | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_TransferData,                              (0               | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_RequestTransferExit,                       (0               | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_RequestFileTransfer,                       (0               | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_WriteMemoryByAddress,                      (0               | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_RequestDownload,                           (0u              | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_RequestUpload,                             (0u              | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_TransferData,                              (0u              | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_RequestTransferExit,                       (0u              | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_RequestFileTransfer,                       (0u              | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_WriteMemoryByAddress,                      (0u              | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
         {uds_sid_TesterPresent,                             (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_AccessTimingParameter,                     (0               | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_SecuredDataTransmission,                   (0               | 0                   | 0                | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_ControlDtcSetting,                         (0               | 0                   | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_AccessTimingParameter,                     (0u              | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_SecuredDataTransmission,                   (0u              | 0u                  | 0u               | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_ControlDtcSetting,                         (0u              | 0u                  | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
         {uds_sid_ResponseOnEvent,                           (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
-        {uds_sid_LinkControl,                               (0               | 0                   | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_LinkControl,                               (0u              | 0u                  | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
 };
 
 /* Types *********************************************************************/
@@ -88,15 +88,15 @@ charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject( uds_sid_t si
 {
     const uint32_t TableSize = (sizeof(serviceLookupTable) / sizeof(serviceLookupTable[0]));
     uint32_t numIterations = 32 - __builtin_clz(TableSize);
-    uint8_t iterationSize = TableSize / 2;
+    uint32_t iterationSize = TableSize / 2u;
 
     charon_serviceObject_t * result = NULL;
 
-    uint8_t TableIndex = iterationSize;
+    uint32_t TableIndex = iterationSize;
 
-    for (;numIterations > 0;numIterations--)
+    for (;numIterations > 0u;numIterations--)
     {
-        iterationSize = (iterationSize+1) / 2;
+        iterationSize = (iterationSize+1u) / 2u;
         if (serviceLookupTable[TableIndex].sid == sid)
         {
             result = &serviceLookupTable[TableIndex];
