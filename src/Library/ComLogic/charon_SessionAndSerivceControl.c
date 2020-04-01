@@ -44,9 +44,6 @@
 
 /* Macros ********************************************************************/
 
-/** Size in Bytes an uint8_t array needs to be */
-#define NRC_ARRAY_SIZE      ((uint32_t) 3u)
-
 /* Types *********************************************************************/
 
 typedef enum ComStatus_t_private

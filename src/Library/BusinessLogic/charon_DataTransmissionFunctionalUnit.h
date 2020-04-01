@@ -8,6 +8,9 @@
 #ifndef CHARON_DATATRANSMISSIONFUNCTIONALUNIT_H_
 #define CHARON_DATATRANSMISSIONFUNCTIONALUNIT_H_
 
+#include <stdint.h>
+#include "Common/charon_types.h"
+
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (uint8_t * receiveBuffer, uint32_t receiveBufferSize);

@@ -46,19 +46,6 @@
 /* Types *********************************************************************/
 
 /**
- * UDS Session Types
- */
-typedef enum charon_sessionTypes_t_public
-{
-    charon_sscType_default,         /**< charon_sscType_default */
-    charon_sscType_programming,     /**< charon_sscType_programming */
-    charon_sscType_extended,        /**< charon_sscType_extended */
-    charon_sscType_secured,         /**< charon_sscType_secured */
-
-    charon_sscType_amount /**< charon_sscType_amount */
-} charon_sessionTypes_t;
-
-/**
  * UDS Service Function Signature
  */
 typedef uds_responseCode_t (*charonUdsFunctionSignature)(uint8_t *const pData, uint32_t length);
