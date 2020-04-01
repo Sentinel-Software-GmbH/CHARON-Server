@@ -90,9 +90,7 @@ int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length)
         }
         else
         {
-            uint8_t nrcMsg[NRC_ARRAY_SIZE];
-            charon_generateNegativeResponse(uds_responseCode_SubfunctionNotSupportedInActiveSession, sid, nrcMsg);
-            charon_sscTxProcessMessage(nrcMsg, sizeof(nrcMsg));
+            charon_sendNegativeResponse(uds_responseCode_SubfunctionNotSupportedInActiveSession, sid);
             retVal = -1;
         }
     }
@@ -108,7 +106,7 @@ int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length)
     return retVal;
 }
 
-int32_t charon_sscTxProcessMessage (uint8_t * const pBuffer, uint32_t length)
+void charon_sscTxProcessMessage (uint8_t * const pBuffer, uint32_t length)
 {
 
 }

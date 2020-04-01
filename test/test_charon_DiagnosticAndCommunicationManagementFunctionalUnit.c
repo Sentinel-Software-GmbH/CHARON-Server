@@ -8,7 +8,7 @@
 
 #include <unity.h>
 #include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "Common/charon_negativeResponse.h"
+#include "mock_charon_negativeResponse.h"
 
 
 
