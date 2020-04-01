@@ -8,18 +8,19 @@
 #include <HSDI/charon_interface_NvmDriver.h>
 #include "charon_RoutineFunctionalUnit.h"
 #include "Common/charon_negativeResponse.h"
-#include "Common/charon_types.h"
 
 
-int32_t charon_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
+    uds_responseCode_t result = uds_responseCode_PositiveResponse;
+
     if (receiveBufferSize < 4u)
     {
-        charon_sendNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, receiveBuffer[0]);
+        result = uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
     }
     else if ( (receiveBuffer[1] == 0u) || (receiveBuffer[1] > 3u) )
     {
-        charon_sendNegativeResponse(uds_responseCode_SubfunctionNotSupported, receiveBuffer[0]);
+        result = uds_responseCode_SubfunctionNotSupported;
     }
     else
     {
@@ -30,10 +31,14 @@ int32_t charon_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, ui
         }
         else
         {
-            charon_sendNegativeResponse(uds_responseCode_RequestOutOfRange, receiveBuffer[0]);
+            result = uds_responseCode_RequestOutOfRange;
         }
     }
 
-    return 0;
+    if (result != uds_responseCode_PositiveResponse)
+    {
+        charon_sendNegativeResponse(result, receiveBuffer[0]);
+    }
+    return result;
 }
 
