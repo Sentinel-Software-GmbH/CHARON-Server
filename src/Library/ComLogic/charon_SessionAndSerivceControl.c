@@ -96,9 +96,7 @@ int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length)
     }
     else
     {
-        uint8_t nrcMsg[NRC_ARRAY_SIZE];
-        charon_generateNegativeResponse(uds_responseCode_ServiceNotSupported, sid, nrcMsg);
-        charon_sscTxProcessMessage(nrcMsg, sizeof(nrcMsg));
+        charon_sendNegativeResponse(uds_responseCode_ServiceNotSupported, sid);
         retVal = -1;
     }
 

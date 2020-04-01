@@ -91,17 +91,14 @@ charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject (uint8_t sid)
     const uint32_t TableSize = (sizeof(serviceLookupTable) / sizeof(serviceLookupTable[0]));
     uint32_t numIterations = 32 - __builtin_clz(TableSize);
     uint32_t iterationSize = TableSize / 2u;
-
-    charon_serviceObject_t * result = NULL;
-    uint8_t castedSidEnumeration;      // TODO(Check for Misra at this point)
-
     uint32_t TableIndex = iterationSize;
+    charon_serviceObject_t * result = NULL;
 
     for (;numIterations > 0u;numIterations--)
     {
         iterationSize = (iterationSize+1u) / 2u;
 
-        castedSidEnumeration = (uint8_t)serviceLookupTable[TableIndex].sid;// TODO(Check for Misra at this point)
+        uint8_t castedSidEnumeration = (uint8_t)serviceLookupTable[TableIndex].sid;// TODO(Check for Misra at this point)
         if (castedSidEnumeration == sid)
         {
             result = &serviceLookupTable[TableIndex];
