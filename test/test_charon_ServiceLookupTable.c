@@ -53,7 +53,7 @@ void test_charon_ServiceLookupTable_getServiceObject_ComunicationControl(void)
     charon_DiagnosticAndCommunicationManagementFunctionalUnit_CommunicationControl_IgnoreAndReturn(0);
 
     serviceObject = charon_ServiceLookupTable_getServiceObject(uds_sid_CommunicationControl);
-    TEST_ASSERT_EQUAL(uds_sid_SecurityAccess, serviceObject->sid);
+    TEST_ASSERT_EQUAL(uds_sid_CommunicationControl, serviceObject->sid);
     serviceObject->serviceRunable(0, 0);
 }
 
