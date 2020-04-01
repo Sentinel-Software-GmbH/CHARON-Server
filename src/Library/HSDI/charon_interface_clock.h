@@ -18,11 +18,14 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup ComLogic
+ * @addtogroup Interfaces
  * @{
- * @file charon_SessionAndSerivceControl.h
- * This Module handles the Receive and Transfer of the charon uds stack data.
- * It Controls encryption and checks for all demanded Timeouts.
+ * @file charon_interface_clock.h
+ * This Interface Describes the Functions needed by CHARON UDS for
+ * its timing and Clock Requirements.
+ * It is strongly recommended to setup a timebase on 1ms/digit frame.
+ * Otherwise the timing default parameters and dcm heartbeat parameters
+ * need to be adjusted accordingly.
  *
  * $Id:  $
  * $URL:  $
@@ -31,8 +34,8 @@
  */
 /*****************************************************************************/
 
-#ifndef CHARON_SERVICEANDSESSIONCONTROL_H_
-#define CHARON_SERVICEANDSESSIONCONTROL_H_
+#ifndef CHARON_INTERFACE_CLOCK_H_
+#define CHARON_INTERFACE_CLOCK_H_
 
 /* Includes ******************************************************************/
 
@@ -44,29 +47,26 @@
 
 /* Types *********************************************************************/
 
-/**
- * UDS Session Types
- */
-typedef enum charon_sessionTypes_t_public
-{
-    charon_sscType_default,         /**< charon_sscType_default */
-    charon_sscType_programming,     /**< charon_sscType_programming */
-    charon_sscType_extended,        /**< charon_sscType_extended */
-    charon_sscType_secured,         /**< charon_sscType_secured */
-
-    charon_sscType_amount /**< charon_sscType_amount */
-} charon_sessionTypes_t;
-
 /* Interfaces ****************************************************************/
 
-int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length);
+/**
+ * Get Current System Time (preferable as Timestamp in ms)
+ *
+ * @return System Time
+ */
+uint32_t charon_interface_clock_getTime(void);
 
-void charon_sscTxProcessMessage (uint8_t * const pBuffer, uint32_t length);
+/**
+ * Get time difference from given System time to moment of
+ * call.
+ *
+ * @param timestamp
+ *      Value given by charon_interface_clock_getTime
+ *
+ * @return time elapsed to given timestamp (preferable in ms)
+ */
+uint32_t charon_interface_clock_getTimeElapsed(uint32_t timestamp);
 
-int32_t charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeout);
-
-charon_sessionTypes_t charon_sscGetSession (void);
-
-#endif /* CHARON_SERVICEANDSESSIONCONTROL_H_ */
+#endif /* CHARON_INTERFACE_CLOCK_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

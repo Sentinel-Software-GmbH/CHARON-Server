@@ -6,12 +6,11 @@
  */
 
 #include "charon_negativeResponse.h"
+#include "ComLogic/charon_SessionAndSerivceControl.h"
 
-uint32_t charon_generateNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid, uint8_t * transmitBuffer)
+void charon_sendNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid)
 {
-    transmitBuffer[0] = uds_sid_NegativeResponse;
-    transmitBuffer[1] = RequestedSid;
-    transmitBuffer[2] = ResponseCode;
-    return 3;
+    uint8_t transmitBuffer[3] = {uds_sid_NegativeResponse, RequestedSid, ResponseCode};
+    charon_sscTxProcessMessage(transmitBuffer, sizeof(transmitBuffer));
 }
 

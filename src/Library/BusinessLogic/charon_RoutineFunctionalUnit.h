@@ -9,7 +9,8 @@
 #define CHARON_ROUTINEFUNCTIONALUNIT_H_
 
 #include <stdint.h>
+#include "Common/charon_types.h"
 
-uint32_t charon_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize);
+uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 #endif /* CHARON_ROUTINEFUNCTIONALUNIT_H_ */

@@ -20,9 +20,9 @@
  * @{
  * @defgroup ComLogic
  * @{
- * @file charon_SessionAndSerivceControl.h
- * This Module handles the Receive and Transfer of the charon uds stack data.
- * It Controls encryption and checks for all demanded Timeouts.
+ * @file charon_ServiceLookupTable
+ * This Module holds the lookup Table to connect all relevant data of
+ * allowance and target FU for every service.
  *
  * $Id:  $
  * $URL:  $
@@ -31,12 +31,13 @@
  */
 /*****************************************************************************/
 
-#ifndef CHARON_SERVICEANDSESSIONCONTROL_H_
-#define CHARON_SERVICEANDSESSIONCONTROL_H_
+#ifndef CHARON_SERVICELOOKUPTABLE_H_
+#define CHARON_SERVICELOOKUPTABLE_H_
 
 /* Includes ******************************************************************/
 
 #include <stdint.h>
+#include <Common/charon_types.h>
 
 /* Constants *****************************************************************/
 
@@ -45,28 +46,29 @@
 /* Types *********************************************************************/
 
 /**
- * UDS Session Types
+ * UDS Service Function Signature
  */
-typedef enum charon_sessionTypes_t_public
-{
-    charon_sscType_default,         /**< charon_sscType_default */
-    charon_sscType_programming,     /**< charon_sscType_programming */
-    charon_sscType_extended,        /**< charon_sscType_extended */
-    charon_sscType_secured,         /**< charon_sscType_secured */
+typedef uds_responseCode_t (*charonUdsFunctionSignature)(uint8_t *const pData, uint32_t length);
 
-    charon_sscType_amount /**< charon_sscType_amount */
-} charon_sessionTypes_t;
+/**
+ * Service Object Type.
+ * This describes all Attributes needed to check execution rights of
+ * a UDS Service
+ */
+typedef struct charon_serviceObject_t_public
+{
+    uds_sid_t                   sid;
+    uint32_t                    sessionMask;
+    charonUdsFunctionSignature  serviceRunable;
+    uint32_t                    emcryptionMask;
+} charon_serviceObject_t;
 
 /* Interfaces ****************************************************************/
 
-int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length);
+charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject (uint8_t sid);
 
-void charon_sscTxProcessMessage (uint8_t * const pBuffer, uint32_t length);
 
-int32_t charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeout);
 
-charon_sessionTypes_t charon_sscGetSession (void);
-
-#endif /* CHARON_SERVICEANDSESSIONCONTROL_H_ */
+#endif /* CHARON_SERVICELOOKUPTABLE_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

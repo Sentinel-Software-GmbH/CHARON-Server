@@ -20,7 +20,7 @@ typedef enum
     charon_targetAddressType_Functional,
 } charon_targetAddressType_t;
 
-typedef enum
+typedef enum uds_sid_t_public
 {
     uds_sid_DiagnosticSessionControl = 0x10,
     uds_sid_EcuReset = 0x11,
