@@ -41,10 +41,10 @@
 
 /* Macros ********************************************************************/
 
-#define SESSION_DEFAULT			((uint32_t) 1u << charon_sscType_default)
-#define SESSION_PROGRAMMING  	((uint32_t) 1u << charon_sscType_programming)
-#define SESSION_EXTENDED		((uint32_t) 1u << charon_sscType_extended)
-#define SESSION_SECURED			((uint32_t) 1u << charon_sscType_secured)
+#define SESSION_DEFAULT			((uint32_t) 1u << (uint8_t)charon_sscType_default)
+#define SESSION_PROGRAMMING  	((uint32_t) 1u << (uint8_t)charon_sscType_programming)
+#define SESSION_EXTENDED		((uint32_t) 1u << (uint8_t)charon_sscType_extended)
+#define SESSION_SECURED			((uint32_t) 1u << (uint8_t)charon_sscType_secured)
 
 /* Constants *****************************************************************/
 
@@ -90,13 +90,15 @@ charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject( uds_sid_t si
 {
     const uint32_t TableSize = (sizeof(serviceLookupTable) / sizeof(serviceLookupTable[0]));
     uint32_t numIterations = 32 - __builtin_clz(TableSize);
-    uint8_t iterationSize = TableSize / 2;
+    uint32_t iterationSize = TableSize / 2u;
+
     charon_serviceObject_t * result = NULL;
-    uint8_t TableIndex = iterationSize;
+
+    uint32_t TableIndex = iterationSize;
 
     for (;numIterations > 0;numIterations--)
     {
-        iterationSize = (iterationSize+1) / 2;
+        iterationSize = (iterationSize+1u) / 2u;
         if (serviceLookupTable[TableIndex].sid == sid)
         {
             result = &serviceLookupTable[TableIndex];
