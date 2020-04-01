@@ -44,16 +44,6 @@
 
 /* Types *********************************************************************/
 
-typedef enum charon_sessionTypes_t_public
-{
-	charon_sscType_default,
-	charon_sscType_programming,
-	charon_sscType_extended,
-	charon_sscType_secured,
-
-	charon_sscType_amount
-}charon_sessionTypes_t;
-
 /* Interfaces ****************************************************************/
 
 int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length);
