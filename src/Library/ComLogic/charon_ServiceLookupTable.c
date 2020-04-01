@@ -33,6 +33,7 @@
 /* Includes ******************************************************************/
 
 #include "ComLogic/charon_ServiceLookupTable.h"
+#include <stddef.h>
 
 /* Imports *******************************************************************/
 
@@ -72,6 +73,23 @@ static const charon_serviceObject_t serviceLookupTable[] =
 /* Private Function Definitions **********************************************/
 
 /* Interfaces  ***************************************************************/
+
+charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject( uds_sid_t sid)
+{
+    const uint8_t TableSize = (sizeof(serviceLookupTable) / sizeof(serviceLookupTable[0]));
+    charon_serviceObject_t result = NULL;
+    uint8_t TableIndex;
+    for (TableIndex = 0; TableIndex < TableSize; TableIndex++)
+    {
+        if (serviceLookupTable[TableIndex].sid == sid)
+        {
+            result = &serviceLookupTable[TableIndex];
+            break;
+        }
+    }
+
+    return result;
+}
 
 /* Private Function **********************************************************/
 
