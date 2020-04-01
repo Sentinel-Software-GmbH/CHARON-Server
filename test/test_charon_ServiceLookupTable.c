@@ -8,6 +8,7 @@
 
 #include <unity.h>
 #include "ComLogic/charon_ServiceLookupTable.h"
+#include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 
 
 
@@ -18,26 +19,41 @@ void test_charon_ServiceLookupTable_getServiceObject_noEntryFound_returnsNull (v
 
 void test_charon_ServiceLookupTable_getServiceObject_EcuReset(void)
 {
-    TEST_ASSERT_EQUAL(uds_sid_EcuReset, charon_ServiceLookupTable_getServiceObject(uds_sid_EcuReset)->sid);
+    charon_serviceObject_t* serviceObject;
+    charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset_IgnoreAndReturn(0);
+
+    serviceObject = charon_ServiceLookupTable_getServiceObject(uds_sid_EcuReset);
+    TEST_ASSERT_EQUAL(uds_sid_EcuReset, serviceObject->sid);
+    serviceObject->serviceRunable(0, 0);
 }
 
 void test_charon_ServiceLookupTable_getServiceObject_AccessTimingParameter(void)
 {
-    TEST_ASSERT_EQUAL(uds_sid_AccessTimingParameter, charon_ServiceLookupTable_getServiceObject(uds_sid_AccessTimingParameter)->sid);
+    charon_serviceObject_t* serviceObject;
+    charon_DiagnosticAndCommunicationManagementFunctionalUnit_AccessTimingParameter_IgnoreAndReturn(0);
+
+    serviceObject = charon_ServiceLookupTable_getServiceObject(uds_sid_AccessTimingParameter);
+    TEST_ASSERT_EQUAL(uds_sid_AccessTimingParameter, serviceObject->sid);
+    serviceObject->serviceRunable(0, 0);
 }
 
 void test_charon_ServiceLookupTable_getServiceObject_SecurityAccess(void)
 {
-    TEST_ASSERT_EQUAL(uds_sid_SecurityAccess, charon_ServiceLookupTable_getServiceObject(uds_sid_SecurityAccess)->sid);
+    charon_serviceObject_t* serviceObject;
+    charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecurityAccess_IgnoreAndReturn(0);
+
+    serviceObject = charon_ServiceLookupTable_getServiceObject(uds_sid_SecurityAccess);
+    TEST_ASSERT_EQUAL(uds_sid_SecurityAccess, serviceObject->sid);
+    serviceObject->serviceRunable(0, 0);
 }
 
-void test_charon_ServiceLookupTable_getServiceObject_RequestDownload(void)
+void test_charon_ServiceLookupTable_getServiceObject_ComunicationControl(void)
 {
-    TEST_ASSERT_EQUAL(uds_sid_RequestDownload, charon_ServiceLookupTable_getServiceObject(uds_sid_RequestDownload)->sid);
-}
+    charon_serviceObject_t* serviceObject;
+    charon_DiagnosticAndCommunicationManagementFunctionalUnit_CommunicationControl_IgnoreAndReturn(0);
 
-void test_charon_ServiceLookupTable_getServiceObject_ReadMemoryByAddress(void)
-{
-    TEST_ASSERT_EQUAL(uds_sid_ReadMemoryByAddress, charon_ServiceLookupTable_getServiceObject(uds_sid_ReadMemoryByAddress)->sid);
+    serviceObject = charon_ServiceLookupTable_getServiceObject(uds_sid_CommunicationControl);
+    TEST_ASSERT_EQUAL(uds_sid_SecurityAccess, serviceObject->sid);
+    serviceObject->serviceRunable(0, 0);
 }
 
