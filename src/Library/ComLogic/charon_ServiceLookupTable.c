@@ -96,7 +96,7 @@ charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject( uds_sid_t si
 
     uint32_t TableIndex = iterationSize;
 
-    for (;numIterations > 0;numIterations--)
+    for (;numIterations > 0u;numIterations--)
     {
         iterationSize = (iterationSize+1u) / 2u;
         if (serviceLookupTable[TableIndex].sid == sid)
