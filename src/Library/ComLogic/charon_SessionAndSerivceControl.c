@@ -46,6 +46,13 @@
 
 /* Interfaces  ***************************************************************/
 
+int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length)
+{
+
+
+    return 0;
+}
+
 /* Private Function **********************************************************/
 
 

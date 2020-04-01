@@ -48,7 +48,9 @@
 
 int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length);
 
-int32_t charon_sscSetSession(charon_sessionTypes_t sessionType, uint32_t timeout);
+int32_t charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeout);
+
+charon_sessionTypes_t charon_sscGetSession (void);
 
 int32_t charon_sscTxProcessMessage (uint8_t * const pBuffer, uint32_t length);
 

@@ -78,7 +78,7 @@ typedef struct charon_serviceObject_t_public
 
 /* Interfaces ****************************************************************/
 
-charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject(uds_sid_t sid);
+charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject (uint8_t sid);
 
 
 
