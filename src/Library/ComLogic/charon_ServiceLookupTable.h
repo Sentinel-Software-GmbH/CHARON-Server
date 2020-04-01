@@ -68,22 +68,17 @@ typedef int32_t (*charonUdsFunctionSignature)(uint8_t *const pData, uint32_t len
  * This describes all Attributes needed to check execution rights of
  * a UDS Service
  */
-typedef struct charon_serviceAttributes_t_public
+typedef struct charon_serviceObject_t_public
 {
     uds_sid_t                   sid;
     uint32_t                    sessionMask;
     charonUdsFunctionSignature  serviceRunable;
-} charon_serviceAttributes_t;
-
-typedef struct charon_serviceObject_t_public
-{
-    charon_serviceAttributes_t const * const    attributes;
-    uint32_t                                    emcryptionMask;
-}charon_serviceObject_t;
+    uint32_t                    emcryptionMask;
+} charon_serviceObject_t;
 
 /* Interfaces ****************************************************************/
 
-charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject( uds_sid_t sid);
+charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject(uds_sid_t sid);
 
 
 

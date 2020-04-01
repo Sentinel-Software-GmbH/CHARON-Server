@@ -46,25 +46,37 @@
 
 /* Constants *****************************************************************/
 
-static const charon_serviceObject_t serviceLookupTable[] =
-{ uds_sid_DiagnosticSessionControl = 0x10, uds_sid_EcuReset = 0x11,
-        uds_sid_ClearDiagnosticInformation = 0x14, uds_sid_ReadDtcInformation =
-                0x19, uds_sid_ReadDataByIdentifier = 0x22,
-        uds_sid_ReadMemoryByAddress = 0x23,
-        uds_sid_ReadScalingDataByIdentifier = 0x24, uds_sid_SecurityAccess =
-                0x27, uds_sid_CommunicationControl = 0x28,
-        uds_sid_ReadDataByPeriodicIdentifier = 0x2A,
+static charon_serviceObject_t serviceLookupTable[] =
+        /* SID */                                           /* Allowed Sessions */                                                          /* Service Function */                  /* Encryption */
+{       {uds_sid_DiagnosticSessionControl,                  (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_EcuReset,                                  (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_ClearDiagnosticInformation,                (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_ReadDtcInformation,                        (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_ReadDataByIdentifier,                      (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_ReadMemoryByAddress,                       (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_ReadScalingDataByIdentifier,               (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_SecurityAccess,                            (0               | 0                   | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_CommunicationControl,                      (0               | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_ReadDataByPeriodicIdentifier,              (0               | 0                   | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
+        {uds_sid_DynamicallyDefineDataIdentifier,           (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                   0u},
         uds_sid_DynamicallyDefineDataIdentifier = 0x2C,
         uds_sid_WriteDataByIdentifier = 0x2E,
-        uds_sid_InputOutputControlByIdentifier = 0x2F, uds_sid_RoutineControl =
-                0x31, uds_sid_RequestDownload = 0x34, uds_sid_RequestUpload =
-                0x35, uds_sid_TransferData = 0x36, uds_sid_RequestTransferExit =
-                0x37, uds_sid_RequestFileTransfer = 0x38,
-        uds_sid_WriteMemoryByAddress = 0x3D, uds_sid_TesterPresent = 0x3E,
-        uds_sid_PositiveResponseMask = 0x40, uds_sid_NegativeResponse = 0x7F,
-        uds_sid_AccessTimingParameter = 0x83, uds_sid_SecuredDataTransmission =
-                0x84, uds_sid_ControlDtcSetting = 0x85,
-        uds_sid_ResponseOnEvent = 0x86, uds_sid_LinkControl = 0x87, };
+        uds_sid_InputOutputControlByIdentifier = 0x2F,
+        uds_sid_RoutineControl = 0x31,
+        uds_sid_RequestDownload = 0x34,
+        uds_sid_RequestUpload = 0x35, uds_sid_TransferData = 0x36,
+        uds_sid_RequestTransferExit = 0x37,
+        uds_sid_RequestFileTransfer = 0x38,
+        uds_sid_WriteMemoryByAddress = 0x3D,
+        uds_sid_TesterPresent = 0x3E,
+        uds_sid_PositiveResponseMask = 0x40,
+        uds_sid_NegativeResponse = 0x7F,
+        uds_sid_AccessTimingParameter = 0x83,
+        uds_sid_SecuredDataTransmission = 0x84,
+        uds_sid_ControlDtcSetting = 0x85,
+        uds_sid_ResponseOnEvent = 0x86,
+        uds_sid_LinkControl = 0x87,
+};
 
 /* Types *********************************************************************/
 
