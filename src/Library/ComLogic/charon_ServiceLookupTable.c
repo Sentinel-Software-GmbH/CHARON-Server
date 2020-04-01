@@ -86,18 +86,31 @@ static charon_serviceObject_t serviceLookupTable[] =
 
 charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject( uds_sid_t sid)
 {
-    const uint8_t TableSize = (sizeof(serviceLookupTable) / sizeof(serviceLookupTable[0]));
-    charon_serviceObject_t result = NULL;
-    uint8_t TableIndex;
-    for (TableIndex = 0; TableIndex < TableSize; TableIndex++)
+    const uint32_t TableSize = (sizeof(serviceLookupTable) / sizeof(serviceLookupTable[0]));
+    uint32_t numIterations = 32 - __builtin_clz(TableSize);
+    uint8_t iterationSize = TableSize / 2;
+
+    charon_serviceObject_t * result = NULL;
+
+    uint8_t TableIndex = iterationSize;
+
+    for (;numIterations > 0;numIterations--)
     {
+        iterationSize = (iterationSize+1) / 2;
         if (serviceLookupTable[TableIndex].sid == sid)
         {
             result = &serviceLookupTable[TableIndex];
             break;
         }
+        else if (serviceLookupTable[TableIndex].sid > sid)
+        {
+            TableIndex -= iterationSize;
+        }
+        else
+        {
+            TableIndex += iterationSize;
+        }
     }
-
     return result;
 }
 
