@@ -75,7 +75,7 @@ int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length)
      * Here needs to be evaluated if an encryption is active and the message needs translation.
      */
 
-    uint8_t sid = pBuffer[0];       /* Get SID from Message */
+    uint8_t sid = (uint8_t)(((uint8_t)pBuffer[0]) & 0x7Fu);       /* Get SID from Message */
     int32_t retVal = 0;
     charon_serviceObject_t * pServiceObj = charon_ServiceLookupTable_getServiceObject(sid);   /* Get Service Object */
 
@@ -119,7 +119,7 @@ int32_t charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeou
      * Momentary check for unused/set unused (MISRA)
      */
     uint32_t unusedTimeout = timeout;
-    (void *)unusedTimeout;
+    (void)unusedTimeout;
 
     s_currentDiagnosticSession = sessionType;
 

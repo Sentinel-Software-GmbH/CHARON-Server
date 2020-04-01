@@ -22,7 +22,7 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Success
     uint8_t clientMsg[] =
     {
             /* Client Request to Change to Programming Session */
-            0x10u, 0x00, 0x01
+            0x10u, 0x00, 0x02
     };
 
     /* Setup Environment */
@@ -37,6 +37,7 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Success
     /* Check Results */
     TEST_ASSERT_EQUAL(0, retVal);
     //TEST_ASSERT_EQUAL(charon_sscType_programming, charon_sscGetSession()); ENABLE THIS UPON SESSION CONTROL IN DCM
+    //CHECK ANSWER FRAME ?
 }
 
 void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Fail(void)
@@ -45,8 +46,8 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Fail(vo
     uint32_t retVal;
     uint8_t clientMsg[] =
     {
-            /* Client Request to Request Download of 4k to address 0x00000000 */
-            0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00
+            /* Client Request to Download of 4k to address 0x00000000 */
+            0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00
     };
 
     /* Setup Environment */
@@ -60,6 +61,30 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Fail(vo
 
     /* Check Results */
     TEST_ASSERT_EQUAL(-1, retVal);
-    //CHECK ANSWER FRAME
+    //CHECK ANSWER FRAME ?
+}
+
+void test_charon_SessionAndServiceControl_executeService_(void)
+{
+    /* Setup Variables */
+    uint32_t retVal;
+    uint8_t clientMsg[] =
+    {
+            /* Client Request to Download of 4k to address 0x00000000 */
+            0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00
+    };
+
+    /* Setup Environment */
+    charon_sscSetSession(charon_sscType_default, 0u);
+
+    /* Setup Expected Function Calls */
+
+
+    /* Run Function Test */
+    retVal = charon_sscRcvProcessMessage(clientMsg, sizeof(clientMsg));
+
+    /* Check Results */
+    TEST_ASSERT_EQUAL(-1, retVal);
+    //CHECK ANSWER FRAME ?
 }
 
