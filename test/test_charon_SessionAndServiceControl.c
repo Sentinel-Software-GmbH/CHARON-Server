@@ -13,6 +13,8 @@
 #include "ComLogic/charon_ServiceLookupTable.h"
 
 #include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
+#include "mock_charon_RoutineFunctionalUnit.h"
+#include "mock_charon_UploadDownloadFunctionalUnit.h"
 #include "mock_charon_interface_clock.h"
 
 
