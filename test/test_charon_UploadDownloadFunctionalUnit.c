@@ -66,12 +66,28 @@ void test_charon_UploadDownloadFunctionalUnit_requestDownload_invalidSizeIdentif
     charon_UploadDownloadFunctionalUnit_setRemainingMemoryLength(0);
     charon_UploadDownloadFunctionalUnit_setTransferDirection(0);
 
-    uint8_t inputData[] = {0x34, 0x00, 0x66, 0x00, 0x00, 0x1d, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
+    uint8_t inputData1[] = {0x34, 0x00, 0x01, 0x00, 0x00, 0x1d, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
 
     charon_sendNegativeResponse_Expect(0x31, 0x34);
-    TEST_ASSERT_EQUAL(uds_responseCode_RequestOutOfRange, charon_UploadDownloadFunctionalUnit_RequestDownload(inputData, sizeof(inputData)));
+    TEST_ASSERT_EQUAL(uds_responseCode_RequestOutOfRange, charon_UploadDownloadFunctionalUnit_RequestDownload(inputData1, sizeof(inputData1)));
 
     TEST_ASSERT_EQUAL(0, charon_UploadDownloadFunctionalUnit_getTransferDirection());
+
+    uint8_t inputData2[] = {0x34, 0x00, 0x10, 0x00, 0x00, 0x1d, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
+
+    charon_sendNegativeResponse_Expect(0x31, 0x34);
+    TEST_ASSERT_EQUAL(uds_responseCode_RequestOutOfRange, charon_UploadDownloadFunctionalUnit_RequestDownload(inputData2, sizeof(inputData2)));
+
+    uint8_t inputData3[] = {0x34, 0x00, 0x61, 0x00, 0x00, 0x1d, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
+
+    charon_sendNegativeResponse_Expect(0x31, 0x34);
+    TEST_ASSERT_EQUAL(uds_responseCode_RequestOutOfRange, charon_UploadDownloadFunctionalUnit_RequestDownload(inputData3, sizeof(inputData3)));
+
+    uint8_t inputData4[] = {0x34, 0x00, 0x16, 0x00, 0x00, 0x1d, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
+
+    charon_sendNegativeResponse_Expect(0x31, 0x34);
+    TEST_ASSERT_EQUAL(uds_responseCode_RequestOutOfRange, charon_UploadDownloadFunctionalUnit_RequestDownload(inputData4, sizeof(inputData4)));
+
 }
 
 void test_charon_UploadDownloadFunctionalUnit_requestDownload_memoryAddressOutOfRange_returnsRequestOutOfRange (void)
@@ -305,25 +321,46 @@ void test_charon_UploadDownloadFunctionalUnit_transferData_UploadOk_returnsOk (v
 {
     charon_UploadDownloadFunctionalUnit_setTransferDirection(2);
     charon_UploadDownloadFunctionalUnit_setCurrentMemoryAddress(0x1d000000);
-    charon_UploadDownloadFunctionalUnit_setRemainingMemoryLength(0x10000);
+    charon_UploadDownloadFunctionalUnit_setRemainingMemoryLength(0x1800);
     charon_UploadDownloadFunctionalUnit_setNextSequenceCounter(1);
 
-    uint8_t inputData[] = {0x36, 0x01};
-    uint8_t expectedOutputData[] = {0x76, 0x01};
+    uint8_t inputData1[] = {0x36, 0x01};
+    uint8_t expectedOutputData1[] = {0x76, 0x01};
 
     charon_NvmDriver_read_Expect(0x1d000000, 0, 4093);
     charon_NvmDriver_read_IgnoreArg_data();
 
-    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), 4095);
-    TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse, charon_UploadDownloadFunctionalUnit_TransferData(inputData, sizeof(inputData)));
+    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData1, sizeof(expectedOutputData1), 4095);
+    TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse, charon_UploadDownloadFunctionalUnit_TransferData(inputData1, sizeof(inputData1)));
 
     TEST_ASSERT_EQUAL(2, charon_UploadDownloadFunctionalUnit_getNextSequenceCounter());
-    TEST_ASSERT_EQUAL(2, charon_UploadDownloadFunctionalUnit_getNextSequenceCounter());
     TEST_ASSERT_EQUAL(0x1d000000 + 4093, charon_UploadDownloadFunctionalUnit_getCurrentMemoryAddress());
-    TEST_ASSERT_EQUAL(0x10000 - 4093, charon_UploadDownloadFunctionalUnit_getRemainingMemoryLength());
+    TEST_ASSERT_EQUAL(0x1800 - 4093, charon_UploadDownloadFunctionalUnit_getRemainingMemoryLength());
+
+    uint8_t inputData2[] = {0x36, 0x02};
+    uint8_t expectedOutputData2[] = {0x76, 0x02};
+
+    charon_NvmDriver_read_Expect(0x1d000000 + 4093, 0, 0x803);
+    charon_NvmDriver_read_IgnoreArg_data();
+
+    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData2, sizeof(expectedOutputData2), 0x805);
+    TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse, charon_UploadDownloadFunctionalUnit_TransferData(inputData2, sizeof(inputData2)));
+
+    TEST_ASSERT_EQUAL(3, charon_UploadDownloadFunctionalUnit_getNextSequenceCounter());
+    TEST_ASSERT_EQUAL(0x1d001800, charon_UploadDownloadFunctionalUnit_getCurrentMemoryAddress());
+    TEST_ASSERT_EQUAL(0, charon_UploadDownloadFunctionalUnit_getRemainingMemoryLength());
+
 }
 
 
+
+void test_charon_UploadDownloadFunctionalUnit_requestTransferExit_incorrectMessageLength_returnsIncorrectMessageLength (void)
+{
+    uint8_t inputData[] = {0x37, 0x00};
+
+    charon_sendNegativeResponse_Expect(0x13, 0x37);
+    TEST_ASSERT_EQUAL(uds_responseCode_IncorrectMessageLengthOrInvalidFormat, charon_UploadDownloadFunctionalUnit_RequestTransferExit(inputData, sizeof(inputData)));
+}
 
 void test_charon_UploadDownloadFunctionalUnit_requestTransferExit_serviceNotActive_returnsRequestSequenceError (void)
 {

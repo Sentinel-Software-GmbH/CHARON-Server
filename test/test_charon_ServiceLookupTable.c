@@ -15,6 +15,7 @@
 void test_charon_ServiceLookupTable_getServiceObject_noEntryFound_returnsNull (void)
 {
     TEST_ASSERT_EQUAL(NULL, charon_ServiceLookupTable_getServiceObject(0xff));
+    TEST_ASSERT_EQUAL(NULL, charon_ServiceLookupTable_getServiceObject(0x00));
 }
 
 void test_charon_ServiceLookupTable_getServiceObject_EcuReset(void)
@@ -64,6 +65,16 @@ void test_charon_ServiceLookupTable_getServiceObject_LinkControl(void)
 
     serviceObject = charon_ServiceLookupTable_getServiceObject(uds_sid_LinkControl);
     TEST_ASSERT_EQUAL(uds_sid_LinkControl, serviceObject->sid);
+    serviceObject->serviceRunable(0, 0);
+}
+
+void test_charon_ServiceLookupTable_getServiceObject_DiagnosticSessionControl(void)
+{
+    charon_serviceObject_t* serviceObject;
+    charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ExpectAndReturn(0,0,0);
+
+    serviceObject = charon_ServiceLookupTable_getServiceObject(uds_sid_DiagnosticSessionControl);
+    TEST_ASSERT_EQUAL(uds_sid_DiagnosticSessionControl, serviceObject->sid);
     serviceObject->serviceRunable(0, 0);
 }
 
