@@ -59,13 +59,17 @@ typedef enum
 
 /* Interfaces ****************************************************************/
 
-int32_t charon_sscRcvProcessMessage (uint8_t * const pBuffer, uint32_t length);
+void charon_sscCyclic(void);
 
-void charon_sscTxProcessMessage (uint8_t * const pBuffer, uint32_t length);
+int32_t charon_sscRcvMessage (void);
 
-int32_t charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeout);
+void charon_sscTxMessage (uint8_t * const pBuffer, uint32_t length);
+
+int32_t charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeoutP2, uint32_t timeoutP2extended);
 
 charon_sessionTypes_t charon_sscGetSession (void);
+
+void charon_sscTesterPresentHeartbeat(void);
 
 #endif /* CHARON_SERVICEANDSESSIONCONTROL_H_ */
 

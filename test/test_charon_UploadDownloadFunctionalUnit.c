@@ -37,7 +37,7 @@ void test_charon_UploadDownloadFunctionalUnit_requestDownload_alreadyExpectingDo
     uint8_t inputData[] = {0x34, 0x00, 0x44, 0x1d, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
 
     charon_NvmDriver_checkAddressRange_IgnoreAndReturn(true);
-    charon_sscTxProcessMessage_Ignore();
+    charon_sscTxMessage_Ignore();
     charon_UploadDownloadFunctionalUnit_RequestDownload(inputData, sizeof(inputData));
 
     charon_sendNegativeResponse_Expect(0x22, 0x34);
@@ -116,7 +116,7 @@ void test_charon_UploadDownloadFunctionalUnit_requestDownload_ok_returnsBufferSi
     uint8_t expectedOutputData[] = {0x74, 0x20, 0x0F, 0xFF};
 
     charon_NvmDriver_checkAddressRange_ExpectAndReturn(0x1d000000, 0x10000, true);
-    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
+    charon_sscTxMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
     TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse, charon_UploadDownloadFunctionalUnit_RequestDownload(inputData, sizeof(inputData)));
 
     TEST_ASSERT_EQUAL(0x1d000000, charon_UploadDownloadFunctionalUnit_getCurrentMemoryAddress());
@@ -152,7 +152,7 @@ void test_charon_UploadDownloadFunctionalUnit_requestUpload_alreadyExpectingUplo
     uint8_t inputData[] = {0x35, 0x00, 0x44, 0x1d, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00};
 
     charon_NvmDriver_checkAddressRange_IgnoreAndReturn(true);
-    charon_sscTxProcessMessage_Ignore();
+    charon_sscTxMessage_Ignore();
     charon_UploadDownloadFunctionalUnit_RequestUpload(inputData, sizeof(inputData));
 
     charon_sendNegativeResponse_Expect(0x22, 0x35);
@@ -216,7 +216,7 @@ void test_charon_UploadDownloadFunctionalUnit_requestUpload_ok_returnsBufferSize
 
     charon_NvmDriver_checkAddressRange_ExpectAndReturn(0x1d000000, 0x10000, true);
 
-    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
+    charon_sscTxMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
     TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse, charon_UploadDownloadFunctionalUnit_RequestUpload(inputData, sizeof(inputData)));
 
     TEST_ASSERT_EQUAL(0x1d000000, charon_UploadDownloadFunctionalUnit_getCurrentMemoryAddress());
@@ -292,7 +292,7 @@ void test_charon_UploadDownloadFunctionalUnit_transferData_DownloadOk_returnsOk 
 
     charon_NvmDriver_write_ExpectAndReturn(0x1d000000, inputData + 2, sizeof(inputData) - 2, uds_responseCode_PositiveResponse);
 
-    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
+    charon_sscTxMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
     TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse, charon_UploadDownloadFunctionalUnit_TransferData(inputData, sizeof(inputData)));
 
     TEST_ASSERT_EQUAL(2, charon_UploadDownloadFunctionalUnit_getNextSequenceCounter());
@@ -328,7 +328,7 @@ void test_charon_UploadDownloadFunctionalUnit_transferData_UploadOk_returnsOk (v
     charon_NvmDriver_read_Expect(0x1d000000, 0, 4093);
     charon_NvmDriver_read_IgnoreArg_data();
 
-    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData1, sizeof(expectedOutputData1), 4095);
+    charon_sscTxMessage_ExpectWithArray(expectedOutputData1, sizeof(expectedOutputData1), 4095);
     TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse, charon_UploadDownloadFunctionalUnit_TransferData(inputData1, sizeof(inputData1)));
 
     TEST_ASSERT_EQUAL(2, charon_UploadDownloadFunctionalUnit_getNextSequenceCounter());
@@ -341,7 +341,7 @@ void test_charon_UploadDownloadFunctionalUnit_transferData_UploadOk_returnsOk (v
     charon_NvmDriver_read_Expect(0x1d000000 + 4093, 0, 0x803);
     charon_NvmDriver_read_IgnoreArg_data();
 
-    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData2, sizeof(expectedOutputData2), 0x805);
+    charon_sscTxMessage_ExpectWithArray(expectedOutputData2, sizeof(expectedOutputData2), 0x805);
     TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse, charon_UploadDownloadFunctionalUnit_TransferData(inputData2, sizeof(inputData2)));
 
     TEST_ASSERT_EQUAL(3, charon_UploadDownloadFunctionalUnit_getNextSequenceCounter());
@@ -396,7 +396,7 @@ void test_charon_UploadDownloadFunctionalUnit_requestTransferExit_correctSequenc
     uint8_t inputData[] = {0x37};
     uint8_t expectedOutputData[] = {0x77};
 
-    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
+    charon_sscTxMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
     TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse, charon_UploadDownloadFunctionalUnit_RequestTransferExit(inputData, sizeof(inputData)));
 }
 

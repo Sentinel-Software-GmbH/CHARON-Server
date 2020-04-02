@@ -16,6 +16,7 @@
 #include "mock_charon_RoutineFunctionalUnit.h"
 #include "mock_charon_UploadDownloadFunctionalUnit.h"
 #include "mock_charon_interface_clock.h"
+#include "mock_charon_interface_canisotp.h"
 
 
 void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Success (void)
@@ -32,10 +33,14 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Success
     charon_sscSetSession(charon_sscType_default, 0u);
 
     /* Setup Expected Function Calls */
+    charon_isotp_receive_ExpectAndReturn(0, 0, 3u);
+    charon_isotp_receive_IgnoreArg_data();
+    charon_isotp_receive_IgnoreArg_maxSize();
+    charon_isotp_receive_ReturnArrayThruPtr_data(clientMsg, 3u);
     charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ExpectAndReturn(clientMsg, sizeof(clientMsg), uds_responseCode_PositiveResponse);
 
     /* Run Function Test */
-    retVal = charon_sscRcvProcessMessage(clientMsg, sizeof(clientMsg));
+    retVal = charon_sscRcvMessage();
 
     /* Check Results */
     TEST_ASSERT_EQUAL(0, retVal);
@@ -57,10 +62,13 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Fail(vo
     charon_sscSetSession(charon_sscType_default, 0u);
 
     /* Setup Expected Function Calls */
-    //NA
+    charon_isotp_receive_ExpectAndReturn(0, 0, 3u);
+    charon_isotp_receive_IgnoreArg_data();
+    charon_isotp_receive_IgnoreArg_maxSize();
+    charon_isotp_receive_ReturnArrayThruPtr_data(clientMsg, 3u);
 
     /* Run Function Test */
-    retVal = charon_sscRcvProcessMessage(clientMsg, sizeof(clientMsg));
+    retVal = charon_sscRcvMessage();
 
     /* Check Results */
     TEST_ASSERT_EQUAL(-1, retVal);
@@ -81,10 +89,14 @@ void test_charon_SessionAndServiceControl_executeService_WithSuppressedAnswer(vo
     charon_sscSetSession(charon_sscType_default, 0u);
 
     /* Setup Expected Function Calls */
+    charon_isotp_receive_ExpectAndReturn(0, 0, 3u);
+    charon_isotp_receive_IgnoreArg_data();
+    charon_isotp_receive_IgnoreArg_maxSize();
+    charon_isotp_receive_ReturnArrayThruPtr_data(clientMsg, 3u);
     charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset_ExpectAndReturn(clientMsg, sizeof(clientMsg), uds_responseCode_PositiveResponse);
 
     /* Run Function Test */
-    retVal = charon_sscRcvProcessMessage(clientMsg, sizeof(clientMsg));
+    retVal = charon_sscRcvMessage();
 
     /* Check Results */
     TEST_ASSERT_EQUAL(0, retVal);

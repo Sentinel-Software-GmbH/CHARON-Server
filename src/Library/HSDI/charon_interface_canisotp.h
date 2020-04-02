@@ -18,7 +18,7 @@
  * @param   maxSize The maximum number of bytes to receive.
  * @return  The actual number of received bytes.
  */
-uint16_t charon_isotp_receive (uint8_t* data, uint32_t maxSize);
+uint16_t charon_interface_isotp_receive (uint8_t* data, uint32_t maxSize);
 
 /**
  * User implementation of IsoTp transmit.
@@ -28,6 +28,6 @@ uint16_t charon_isotp_receive (uint8_t* data, uint32_t maxSize);
  * @param   size    Number of bytes to transmit.
  * @return  The number of bytes successfully transmitted.
  */
-uint16_t charon_isotp_transmit (uint8_t* data, uint32_t size);
+uint16_t charon_interface_isotp_transmit (uint8_t* data, uint32_t size);
 
 #endif /* CHARON_INTERFACES_H_ */

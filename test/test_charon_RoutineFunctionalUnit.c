@@ -53,7 +53,7 @@ void test_charon_RoutineFunctionalUnit_RoutineControl_RoutineEraseFlash_returnsO
 
     charon_NvmDriver_erase_Expect();
 
-    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
+    charon_sscTxMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
     charon_RoutineFunctionalUnit_RoutineControl(inputData, sizeof(inputData));
 }
 

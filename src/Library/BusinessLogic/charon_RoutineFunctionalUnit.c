@@ -48,7 +48,7 @@ uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (const uint8_t * 
                 receiveBuffer[2],
                 receiveBuffer[3]
         };
-        charon_sscTxProcessMessage(transmitBuffer, sizeof(transmitBuffer));
+        charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
     }
     return result;
 }
