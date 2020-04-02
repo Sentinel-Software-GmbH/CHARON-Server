@@ -32,9 +32,9 @@
 
 /* Includes ******************************************************************/
 
-#include "ComLogic/charon_ServiceLookupTable.h"
 #include <stddef.h>
 #include "ComLogic/charon_ServiceLookupTable.h"
+#include "ComLogic/charon_SessionAndSerivceControl.h"
 #include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "BusinessLogic/charon_RoutineFunctionalUnit.h"
 #include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"

@@ -11,18 +11,15 @@
 
 #include "mock_charon_interface_NvmDriver.h"
 #include "mock_charon_negativeResponse.h"
+#include "mock_charon_SessionAndSerivceControl.h"
 
 
 void test_charon_RoutineFunctionalUnit_RoutineControl_invalidSubfunctionEquals0_returnsSubfunctionNotSupported (void)
 {
     uint8_t inputData[] = {0x31, 0x00, 0xff, 0x00};
-    uint8_t outputData[100];
-    uint8_t expectedOutputData[] = {0x7f, 0x31, 0x12};
 
-    uint32_t transmitSize = charon_RoutineFunctionalUnit_RoutineControl(inputData, sizeof(inputData), outputData, sizeof(outputData));
-
-    TEST_ASSERT_EQUAL(sizeof(expectedOutputData), transmitSize);
-    TEST_ASSERT_EQUAL_MEMORY(expectedOutputData, outputData, sizeof(expectedOutputData));
+    charon_sendNegativeResponse_Expect(0x12, 0x31);
+    charon_RoutineFunctionalUnit_RoutineControl(inputData, sizeof(inputData));
 }
 
 void test_charon_RoutineFunctionalUnit_RoutineControl_invalidSubfunctionGreater3_returnsSubfunctionNotSupported (void)
@@ -57,9 +54,7 @@ void test_charon_RoutineFunctionalUnit_RoutineControl_RoutineEraseFlash_returnsO
 
     charon_NvmDriver_erase_Expect();
 
-    uint32_t transmitSize = charon_RoutineFunctionalUnit_RoutineControl(inputData, sizeof(inputData), outputData, sizeof(outputData));
-
-    TEST_ASSERT_EQUAL(sizeof(expectedOutputData), transmitSize);
-    TEST_ASSERT_EQUAL_MEMORY(expectedOutputData, outputData, sizeof(expectedOutputData));
+    charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));
+    charon_RoutineFunctionalUnit_RoutineControl(inputData, sizeof(inputData));
 }
 
