@@ -62,7 +62,8 @@
     bool:     UINT8
 
 :gcov:
-  :html_report: false
+  :html_report: true
+  :html_report_type: detailed
   :xml_report: true
   :gcovr:
     :xml_pretty: true
