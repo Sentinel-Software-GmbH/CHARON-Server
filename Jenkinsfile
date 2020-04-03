@@ -38,7 +38,7 @@ pipeline {
                 {
                     steps {
                         bat 'cd toolchain/pclint & "C:/Program Files (x86)/PC-lint 9.0/lint-nt.exe" jenkins.lnt & exit 0'
-                        recordIssues qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]], tools: [pcLint(pattern: 'toolchain/pclint/lintResults.txt')]
+                        recordIssues qualityGates: [[threshold: 50, type: 'TOTAL', unstable: true]], tools: [pcLint(pattern: 'toolchain/pclint/lintResults.txt')]
                     }
                 }
             }
