@@ -42,7 +42,7 @@ void test_charon_SessionAndServiceControl_SetSessionAndTimeouts (void)
 void test_charon_SessionAndServiceControl_noUdsPackageReceived (void)
 {
     /* Setup Variables */
-    uint32_t retVal;
+    //NA
 
     /* Setup Environment */
     charon_sscSetSession(charon_sscType_default, 0u, 0u);
@@ -154,39 +154,6 @@ void test_charon_SessionAndServiceControl_serviceNotSupported(void)
     //NA
 }
 
-void test_charon_SessionAndServiceControl_executeService_WithSuppressedAnswer(void)
-{
-    /* Setup Variables */
-    uint8_t clientMsg[] =
-    {
-            /* Client Request to Reset without Answer */
-            (0x11u | 0x80u), 0x00, 0x02
-    };
-    charon_serviceObject_t dummyServiceObjectForEcuReset =
-    {
-            uds_sid_EcuReset,                   /* ID */
-            0x0F,                               /* All Sessions */
-            dummyServiceRoutineSuccess,         /* Dummy Service */
-            0u                                  /* No encrypt */
-    };
-
-    /* Setup Environment */
-    charon_sscSetSession(charon_sscType_default, 0u, 0u);
-
-    /* Setup Expected Function Calls */
-    charon_interface_isotp_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
-    charon_interface_isotp_receive_IgnoreArg_data();
-    charon_interface_isotp_receive_IgnoreArg_maxSize();
-    charon_interface_isotp_receive_ReturnArrayThruPtr_data(clientMsg, sizeof(clientMsg));
-    charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_EcuReset, &dummyServiceObjectForEcuReset);
-
-    /* Run Function Test */
-    charon_sscRcvMessage();
-
-    /* Check Results */
-    //NA
-}
-
 void test_charon_SessionAndServiceControl_executeService_AnswerPending(void)
 {
     /* Setup Variables */
@@ -195,7 +162,7 @@ void test_charon_SessionAndServiceControl_executeService_AnswerPending(void)
             /* Client Request to Reset without Answer */
             0x3D, 0x00, 0x02
     };
-    charon_serviceObject_t dummyServiceObjectForEcuReset =
+    charon_serviceObject_t dummyServiceObjectForWriteMemoryByAddress =
     {
             uds_sid_WriteMemoryByAddress,       /* ID */
             0x0E,                               /* Programming upward Sessions */
@@ -204,15 +171,15 @@ void test_charon_SessionAndServiceControl_executeService_AnswerPending(void)
     };
 
     /* Setup Environment */
-    charon_interface_clock_getTime_ExpectAndReturn(0x12345678u);
-    charon_sscSetSession(charon_sscType_programming, 0u, 0u);
+    charon_interface_clock_getTime_ExpectAndReturn(0x100u);
+    charon_sscSetSession(charon_sscType_programming, 0x100u, 0x500u);
 
     /* Setup Expected Function Calls */
     charon_interface_isotp_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
     charon_interface_isotp_receive_IgnoreArg_data();
     charon_interface_isotp_receive_IgnoreArg_maxSize();
     charon_interface_isotp_receive_ReturnArrayThruPtr_data(clientMsg, sizeof(clientMsg));
-    charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_WriteMemoryByAddress, &dummyServiceObjectForEcuReset);
+    charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_WriteMemoryByAddress, &dummyServiceObjectForWriteMemoryByAddress);
     charon_interface_clock_getTime_ExpectAndReturn(0x100u);
 
     /* Run Function Test */
@@ -220,6 +187,40 @@ void test_charon_SessionAndServiceControl_executeService_AnswerPending(void)
 
     /* Check Results */
     TEST_ASSERT_EQUAL(charon_sscType_programming, charon_sscGetSession());
+}
+
+void test_charon_SessionAndServiceControl_executeService_ServicePendingDenyService(void)
+{
+    /* Setup Variables */
+    uint8_t clientMsg[] =
+    {
+            /* Client Request to Change to Programming Session */
+            0x10u, 0x00, 0x02
+    };
+    charon_serviceObject_t dummyServiceObjectForDiagnosticSessionControl =
+    {
+            uds_sid_DiagnosticSessionControl,   /* ID */
+            0x0F,                               /* All Sessions */
+            NULL,                               /* Dummy Service = NULL should not be reached */
+            0u                                  /* No encrypt */
+    };
+
+    /* Setup Environment */
+    //NA
+
+    /* Setup Expected Function Calls */
+    charon_interface_isotp_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
+    charon_interface_isotp_receive_IgnoreArg_data();
+    charon_interface_isotp_receive_IgnoreArg_maxSize();
+    charon_interface_isotp_receive_ReturnArrayThruPtr_data(clientMsg, sizeof(clientMsg));
+    charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_DiagnosticSessionControl, &dummyServiceObjectForDiagnosticSessionControl);
+    charon_sendNegativeResponse_Expect(uds_responseCode_BusyRepeatRequest, uds_sid_DiagnosticSessionControl);
+
+    /* Run Function Test */
+    charon_sscRcvMessage();
+
+    /* Check Results */
+    //NA
 }
 
 static uds_responseCode_t dummyServiceRoutineSuccess (const uint8_t * pData, uint32_t length)

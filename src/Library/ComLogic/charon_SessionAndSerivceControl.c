@@ -56,9 +56,9 @@
  * Default Timing Parameter for the UDS Server Communication and Session Control
  * @{
  * */
-#define DEFAULT_P2_SERVER            ((uint32_t) 100u)       /**< Default P2 Server Time (see ISO Requirments) */
-#define DEFAULT_P2_STAR_SERVER       ((uint32_t) 300u)       /**< Default P2* Server Time (see ISO Requirments) */
-#define DEFAULT_S3_SERVER            ((uint32_t) 5000u)      /**< Default S3 Server Time (see ISO Requirments) */
+#define DEFAULT_P2_SERVER            ((uint32_t) 100u)       /**< Default P2 Server Time (see ISO Requirements) */
+#define DEFAULT_P2_STAR_SERVER       ((uint32_t) 300u)       /**< Default P2* Server Time (see ISO Requirements) */
+#define DEFAULT_S3_SERVER            ((uint32_t) 5000u)      /**< Default S3 Server Time (see ISO Requirements) */
 /**
  * @}
  */
@@ -195,7 +195,7 @@ void charon_sscRcvMessage (void)
 
 static void processReveivedMessage (uint8_t * const pBuffer, uint32_t length)
 {
-    uint8_t sid = (uint8_t)(((uint8_t)pBuffer[0]) & 0x7Fu);       /* Get SID from Message */
+    uint8_t sid = (uint8_t)pBuffer[0];       /* Get SID from Message */
     uds_responseCode_t retVal;
     charon_serviceObject_t * pServiceObj = charon_ServiceLookupTable_getServiceObject(sid);   /* Get Service Object */
 
