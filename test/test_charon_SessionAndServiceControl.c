@@ -18,8 +18,8 @@
 #include "mock_charon_ServiceLookupTable.h"
 #include "mock_charon_negativeResponse.h"
 
-static uds_responseCode_t dummyServiceRoutineSuccess (uint8_t * const pData, uint32_t length);
-static uds_responseCode_t dummyServiceRoutinePending (uint8_t * const pData, uint32_t length);
+static uds_responseCode_t dummyServiceRoutineSuccess (const uint8_t * pData, uint32_t length);
+static uds_responseCode_t dummyServiceRoutinePending (const uint8_t * pData, uint32_t length);
 
 void test_charon_SessionAndServiceControl_SetSessionAndTimeouts (void)
 {
@@ -222,18 +222,18 @@ void test_charon_SessionAndServiceControl_executeService_AnswerPending(void)
     TEST_ASSERT_EQUAL(charon_sscType_programming, charon_sscGetSession());
 }
 
-static uds_responseCode_t dummyServiceRoutineSuccess (uint8_t * const pData, uint32_t length)
+static uds_responseCode_t dummyServiceRoutineSuccess (const uint8_t * pData, uint32_t length)
 {
-    __attribute__((unused)) uint8_t * ptr = pData;
-    __attribute__((unused)) uint32_t size = length;
+    __attribute__((unused)) const uint8_t * ptr = pData;
+    __attribute__((unused)) const uint32_t size = length;
 
     return uds_responseCode_PositiveResponse;
 }
 
-static uds_responseCode_t dummyServiceRoutinePending (uint8_t * const pData, uint32_t length)
+static uds_responseCode_t dummyServiceRoutinePending (const uint8_t * pData, uint32_t length)
 {
-    __attribute__((unused)) uint8_t * ptr = pData;
-    __attribute__((unused)) uint32_t size = length;
+    __attribute__((unused)) const uint8_t * ptr = pData;
+    __attribute__((unused)) const uint32_t size = length;
 
     return uds_responseCode_RequestCorrectlyReceived_ResponsePending;
 }
