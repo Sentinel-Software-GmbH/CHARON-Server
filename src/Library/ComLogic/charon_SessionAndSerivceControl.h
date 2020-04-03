@@ -61,11 +61,11 @@ typedef enum
 
 void charon_sscCyclic(void);
 
-int32_t charon_sscRcvMessage (void);
+void charon_sscRcvMessage (void);
 
 void charon_sscTxMessage (uint8_t * const pBuffer, uint32_t length);
 
-int32_t charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeoutP2, uint32_t timeoutP2extended);
+void charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeoutP2, uint32_t timeoutP2extended);
 
 charon_sessionTypes_t charon_sscGetSession (void);
 

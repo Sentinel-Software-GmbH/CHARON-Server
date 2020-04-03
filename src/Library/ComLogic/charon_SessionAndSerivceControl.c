@@ -122,9 +122,8 @@ static uint8_t s_sendBuffer[CHARON_TX_BUFFER_SIZE];
  *      Pointer to received Message
  * @param length
  *      Length in Bytes
- * @return
  */
-static int32_t processReveivedMessage (uint8_t * const pBuffer, uint32_t length);
+static void processReveivedMessage (uint8_t * const pBuffer, uint32_t length);
 
 /**
  * Checks if SID is allowed in session
@@ -169,12 +168,15 @@ void charon_sscCyclic(void)
         /* Reset Flag for P2 and P2* distinguish */
         s_p2PendingExceededHandled = false;
     }
+    else
+    {
+        /* Do Nothing, but MISRA is special... */
+    }
 }
 
-int32_t charon_sscRcvMessage (void)
+void charon_sscRcvMessage (void)
 {
     uint32_t length;
-    int32_t retVal = 0;
 
     /* Get Message from Underlying Transport LL */
     length = charon_interface_isotp_receive(s_receiveBuffer, sizeof(s_receiveBuffer));
@@ -185,22 +187,21 @@ int32_t charon_sscRcvMessage (void)
      */
 
     /* Process Received Message if one was gotten and de-crypted */
-    if(length > 0)
+    if(length > 0u)
     {
-        retVal = processReveivedMessage(s_receiveBuffer, length);
+        processReveivedMessage(s_receiveBuffer, length);
     }
-
-    return retVal;
 }
 
-static int32_t processReveivedMessage (uint8_t * const pBuffer, uint32_t length)
+static void processReveivedMessage (uint8_t * const pBuffer, uint32_t length)
 {
     uint8_t sid = (uint8_t)(((uint8_t)pBuffer[0]) & 0x7Fu);       /* Get SID from Message */
-    uds_responseCode_t retVal = uds_responseCode_PositiveResponse;
+    uds_responseCode_t retVal;
     charon_serviceObject_t * pServiceObj = charon_ServiceLookupTable_getServiceObject(sid);   /* Get Service Object */
 
-    /* Is a Service Pending, do not execute any other Requests */
-    if(ComStatus_ok == s_currentComStatus)
+    /* Is a Service Pending, do not execute any other Requests except for Tester Present */
+    if((ComStatus_ok == s_currentComStatus)
+            || (uds_sid_TesterPresent == sid))
     {
         /* Lock this if scope for the moment to prevent user misuse to float the receive channel */
         s_currentComStatus = ComStatus_process;
@@ -215,7 +216,7 @@ static int32_t processReveivedMessage (uint8_t * const pBuffer, uint32_t length)
                 /* Check for Pending Service */
                 if(uds_responseCode_RequestCorrectlyReceived_ResponsePending == retVal)
                 {
-                    /* Mark Status Pending and store all releveant Data to Process Asynchronous Handling */
+                    /* Mark Status Pending and store all relevant Data to Process Asynchronous Handling */
                     s_currentComStatus = ComStatus_pending;
                     s_pendingRequestStartTime = charon_interface_clock_getTime();
                     s_pendingRequestId = sid;
@@ -228,16 +229,14 @@ static int32_t processReveivedMessage (uint8_t * const pBuffer, uint32_t length)
             else
             {
                 /* Send NRC and Reset COM Status */
-                charon_sendNegativeResponse(uds_responseCode_SubfunctionNotSupportedInActiveSession, sid);
+                charon_sendNegativeResponse(uds_responseCode_ServiceNotSupportedInActiveSession, sid);
                 s_currentComStatus = ComStatus_ok;
-                retVal = -1;
             }
         }
         else
         {
             charon_sendNegativeResponse(uds_responseCode_ServiceNotSupported, sid);
             s_currentComStatus = ComStatus_ok;
-            retVal = -1;
         }
     }
     else
@@ -245,12 +244,12 @@ static int32_t processReveivedMessage (uint8_t * const pBuffer, uint32_t length)
         /* Send Busy */
         charon_sendNegativeResponse(uds_responseCode_BusyRepeatRequest, sid);
     }
-
-    return retVal;
 }
 
 void charon_sscTxMessage (uint8_t * const pBuffer, uint32_t length)
 {
+    uint32_t txLength;
+
     /**
      * FEATURE
      * Here needs to be evaluated if an encryption is active and the message needs encoding.
@@ -262,15 +261,19 @@ void charon_sscTxMessage (uint8_t * const pBuffer, uint32_t length)
     /* Transmit Message if it fits, otherwise trim */
     if(length >= CHARON_TX_BUFFER_SIZE)      //TODO Error Case?
     {
-        length = CHARON_TX_BUFFER_SIZE;
+        txLength = CHARON_TX_BUFFER_SIZE;
+    }
+    else
+    {
+        txLength = length;
     }
 
     /* Copy to Buffer and start transfer */
-    memcpy(s_sendBuffer, pBuffer, length);
-    charon_interface_isotp_transmit(s_sendBuffer, length);
+    memcpy(s_sendBuffer, pBuffer, txLength);
+    charon_interface_isotp_transmit(s_sendBuffer, txLength);
 }
 
-int32_t charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeoutP2, uint32_t timeoutP2extended)
+void charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeoutP2, uint32_t timeoutP2extended)
 {
     if(charon_sscType_default != sessionType)
     {
@@ -289,8 +292,6 @@ int32_t charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeou
 
     /* Assign new Session Type */
     s_currentDiagnosticSession = sessionType;
-
-    return 0;
 }
 
 charon_sessionTypes_t charon_sscGetSession (void)
