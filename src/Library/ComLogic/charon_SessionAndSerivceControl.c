@@ -47,7 +47,7 @@
 
 /* Types *********************************************************************/
 
-typedef enum ComStatus_t_private
+typedef enum
 {
     ComStatus_ok,
     ComStatus_pending,
@@ -80,7 +80,7 @@ static uint32_t s_pendingRequestTimestamp = 0u;
  *
  * @return Service is allowed or disallowed in Session
  */
-bool isServiceInSession (charon_sessionTypes_t currentSession, charon_serviceObject_t * pService);
+static bool isServiceInSession (charon_sessionTypes_t currentSession, charon_serviceObject_t * pService);
 
 /* Interfaces  ***************************************************************/
 
@@ -166,7 +166,7 @@ charon_sessionTypes_t charon_sscGetSession (void)
 
 /* Private Function **********************************************************/
 
-bool isServiceInSession (charon_sessionTypes_t currentSession, charon_serviceObject_t * pService)
+static bool isServiceInSession (charon_sessionTypes_t currentSession, charon_serviceObject_t * pService)
 {
     uint32_t result = 0u;
     bool retval = false;

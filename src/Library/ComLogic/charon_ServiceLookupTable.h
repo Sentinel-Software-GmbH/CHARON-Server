@@ -48,14 +48,14 @@
 /**
  * UDS Service Function Signature
  */
-typedef uds_responseCode_t (*charonUdsFunctionSignature)(uint8_t *const pData, uint32_t length);
+typedef uds_responseCode_t (*charonUdsFunctionSignature)(const uint8_t * pData, uint32_t length);
 
 /**
  * Service Object Type.
  * This describes all Attributes needed to check execution rights of
  * a UDS Service
  */
-typedef struct charon_serviceObject_t_public
+typedef struct
 {
     uds_sid_t                   sid;
     uint32_t                    sessionMask;

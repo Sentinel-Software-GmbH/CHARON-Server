@@ -5,4 +5,6 @@
 
 -wlib(1)
 
++fdi // GCC starts its #include search in the directory of the including
+     // file.
 

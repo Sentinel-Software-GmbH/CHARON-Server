@@ -3,6 +3,5 @@
 ..\..\src\Library\BusinessLogic\*.c
 ..\..\src\Library\ComLogic\*.c
 ..\..\src\Library\Common\*.c
-..\..\src\Library\HSDI\*.c
 ..\..\src\Library\Interface\*.c
 

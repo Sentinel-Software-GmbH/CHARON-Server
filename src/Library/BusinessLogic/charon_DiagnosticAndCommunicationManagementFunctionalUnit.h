@@ -11,24 +11,24 @@
 #include <stdint.h>
 #include "Common/charon_types.h"
 
-uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecurityAccess (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecurityAccess (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_CommunicationControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_CommunicationControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_TesterPresent (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_TesterPresent (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_AccessTimingParameter (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_AccessTimingParameter (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecuredDataTransmission (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecuredDataTransmission (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_ResponseOnEvent (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_ResponseOnEvent (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_LinkControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_LinkControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 #endif /* CHARON_DIAGNOSTICANDCOMMUNICATIONMANAGEMENTFUNCTIONALUNIT_H_ */
