@@ -223,6 +223,39 @@ void test_charon_SessionAndServiceControl_executeService_ServicePendingDenyServi
     //NA
 }
 
+void test_charon_SessionAndServiceControl_executeService_ServicePendingAcceptTesterPresent(void)
+{
+    /* Setup Variables */
+    uint8_t clientMsg[] =
+    {
+            /* Client sends Tester Present with suppressed answer */
+            0x3Eu, 0x80u
+    };
+    charon_serviceObject_t dummyServiceObjectTesterPresent =
+    {
+            uds_sid_TesterPresent,              /* ID */
+            0x0F,                               /* All Sessions */
+            dummyServiceRoutineSuccess,         /* Dummy Service = NULL should not be reached */
+            0u                                  /* No encrypt */
+    };
+
+    /* Setup Environment */
+    //NA
+
+    /* Setup Expected Function Calls */
+    charon_interface_isotp_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
+    charon_interface_isotp_receive_IgnoreArg_data();
+    charon_interface_isotp_receive_IgnoreArg_maxSize();
+    charon_interface_isotp_receive_ReturnArrayThruPtr_data(clientMsg, sizeof(clientMsg));
+    charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_TesterPresent, &dummyServiceObjectTesterPresent);
+
+    /* Run Function Test */
+    charon_sscRcvMessage();
+
+    /* Check Results */
+    //NA
+}
+
 static uds_responseCode_t dummyServiceRoutineSuccess (const uint8_t * pData, uint32_t length)
 {
     __attribute__((unused)) const uint8_t * ptr = pData;
