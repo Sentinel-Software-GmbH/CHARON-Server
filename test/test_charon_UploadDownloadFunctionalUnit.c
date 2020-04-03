@@ -308,8 +308,6 @@ void test_charon_UploadDownloadFunctionalUnit_transferData_DownloadOkInterfaceEr
     charon_UploadDownloadFunctionalUnit_setNextSequenceCounter(1);
 
     uint8_t inputData[4095] = {0x36, 0x01};
-    uint8_t outputData[100];
-    uint8_t expectedOutputData[] = {0x7F, 0x36, 0x93};
 
     charon_NvmDriver_write_ExpectAndReturn(0x1d000000, inputData + 2, sizeof(inputData) - 2, uds_responseCode_VoltageTooLow);
 
@@ -396,7 +394,6 @@ void test_charon_UploadDownloadFunctionalUnit_requestTransferExit_correctSequenc
     charon_UploadDownloadFunctionalUnit_setNextSequenceCounter(42);
 
     uint8_t inputData[] = {0x37};
-    uint8_t outputData[100];
     uint8_t expectedOutputData[] = {0x77};
 
     charon_sscTxProcessMessage_ExpectWithArray(expectedOutputData, sizeof(expectedOutputData), sizeof(expectedOutputData));

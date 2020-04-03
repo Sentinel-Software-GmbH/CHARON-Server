@@ -1,1 +1,0 @@
-ruby ceedling\bin\ceedling %*

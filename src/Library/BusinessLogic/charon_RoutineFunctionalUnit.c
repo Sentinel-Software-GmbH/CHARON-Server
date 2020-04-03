@@ -6,12 +6,12 @@
  */
 
 #include <HSDI/charon_interface_NvmDriver.h>
-#include "charon_RoutineFunctionalUnit.h"
+#include "BusinessLogic/charon_RoutineFunctionalUnit.h"
 #include "Common/charon_negativeResponse.h"
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 
 
-uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     uds_responseCode_t result = uds_responseCode_PositiveResponse;
 
@@ -38,7 +38,7 @@ uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (uint8_t * receiv
 
     if (result != uds_responseCode_PositiveResponse)
     {
-        charon_sendNegativeResponse(result, receiveBuffer[0]);
+        charon_sendNegativeResponse(result, uds_sid_RoutineControl);
     }
     else
     {

@@ -47,7 +47,7 @@
 /**
  * UDS Session Types
  */
-typedef enum charon_sessionTypes_t_public
+typedef enum
 {
     charon_sscType_default,         /**< charon_sscType_default */
     charon_sscType_programming,     /**< charon_sscType_programming */

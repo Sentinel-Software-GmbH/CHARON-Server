@@ -9,11 +9,11 @@
   :use_exceptions: FALSE
   :use_test_preprocessor: TRUE
   :use_auxiliary_dependencies: TRUE
-  :build_root: build
+  :build_root: ../../build
   :compile_threads: <%= ENV['NUMBER_OF_PROCESSORS'] %>
 #  :release_build: TRUE
   :test_file_prefix: test_
-  :which_ceedling: ceedling
+  :which_ceedling: ./
   :default_tasks:
     - test:all
 
@@ -28,9 +28,9 @@
 
 :paths:
   :test:
-    - test/**
+    - ../../test/**
   :source:
-    - src/**
+    - ../../src/**
 
 :defines:
   # in order to add common defines:
@@ -43,6 +43,13 @@
   :test_preprocess:
     - *common_defines
     - TEST
+
+:flags:
+  :test:
+    :compile:
+      :*:
+        - -Wall
+        - -Wpedantic
 
 :cmock:
   :mock_prefix: mock_
@@ -89,7 +96,7 @@
 
 :plugins:
   :load_paths:
-    - ceedling/plugins
+    - plugins
   :enabled:
     - stdout_pretty_tests_report
     - module_generator

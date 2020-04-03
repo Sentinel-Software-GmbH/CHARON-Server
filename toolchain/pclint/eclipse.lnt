@@ -1,0 +1,5 @@
+
+-width(0) // don't insert line breaks (unlimited output width)
+-"format=%f:%l:%n: %t %m"
+
+std.lnt
