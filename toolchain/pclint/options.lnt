@@ -10,3 +10,5 @@
 
 -e793 // do not limit identifier names to 31 characters
 -e621 // do not complain about identifier clash in first 31 characters
+-e970 // bool is allowed
+-e9059// do not complain about // in comments, which is needed for hyperlinks
