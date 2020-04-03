@@ -22,8 +22,8 @@ pipeline {
             parallel {
                 stage('UnitTest') {
                     steps {
-						bat 'cd toolchain/ceedling & ceedling.cmd gcov:all'
-                        bat 'cd toolchain/ceedling & ceedling.cmd utils:gcov'
+						bat 'ceedling.cmd gcov:all'
+                        bat 'ceedling.cmd utils:gcov'
                         xunit([Custom(customXSL: 'toolchain/ceedling/unity.xsl', deleteOutputFiles: true, failIfNotNew: true, pattern: 'build/artifacts/gcov/report.xml', skipNoTestFiles: false, stopProcessingIfError: true)])
                         cobertura coberturaReportFile: 'build/artifacts/gcov/GcovCoverageResults.xml'
                     }
