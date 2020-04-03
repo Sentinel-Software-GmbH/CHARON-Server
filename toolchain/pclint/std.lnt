@@ -7,5 +7,6 @@ options.lnt  -si4 -sp4
 -iC:\MinGW\include
 -iC:\MinGW\lib\gcc\mingw32\8.2.0\include
 -i..\..\src\Library
+-header(gccBuiltins.h)
 
 files.lnt
