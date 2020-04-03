@@ -75,7 +75,6 @@
 		<buildTargets>
 			<target name="test:all" path="toolchain/ceedling" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
 				<buildCommand>ceedling.cmd</buildCommand>
-				<buildArguments/>
 				<buildTarget>test:all</buildTarget>
 				<stopOnError>true</stopOnError>
 				<useDefaultCommand>true</useDefaultCommand>
@@ -83,7 +82,6 @@
 			</target>
 			<target name="gcov:all utils:gcov" path="toolchain/ceedling" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
 				<buildCommand>ceedling.cmd</buildCommand>
-				<buildArguments/>
 				<buildTarget>gcov:all utils:gcov</buildTarget>
 				<stopOnError>true</stopOnError>
 				<useDefaultCommand>true</useDefaultCommand>
@@ -92,7 +90,7 @@
 			<target name="cppcheck" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
 				<buildCommand>C:/Program</buildCommand>
 				<buildArguments>Files\Cppcheck\cppcheck.exe</buildArguments>
-				<buildTarget>-j4 --addon=misra --enable=all -I./src/Library ./src/Library --template=gcc</buildTarget>
+				<buildTarget>-j4 --enable=all -I./src/Library ./src/Library --template=gcc</buildTarget>
 				<stopOnError>true</stopOnError>
 				<useDefaultCommand>false</useDefaultCommand>
 				<runAllBuilders>true</runAllBuilders>
