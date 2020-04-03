@@ -6,7 +6,7 @@
  */
 
 #include <HSDI/charon_interface_NvmDriver.h>
-#include "charon_UploadDownloadFunctionalUnit.h"
+#include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 #include "Common/charon_negativeResponse.h"
 
@@ -93,7 +93,7 @@ static uds_responseCode_t requestTransfer(transferDirection_t direction, uint8_t
     }
     if (result != uds_responseCode_PositiveResponse)
     {
-        charon_sendNegativeResponse(result, receivedMessage->sid);
+        charon_sendNegativeResponse(result, (uds_sid_t)receivedMessage->sid);
     }
     return result;
 }
@@ -174,7 +174,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (uint8_t * r
     }
     if (result != uds_responseCode_PositiveResponse)
     {
-        charon_sendNegativeResponse(result, receivedMessage->sid);
+        charon_sendNegativeResponse(result, (uds_sid_t)receivedMessage->sid);
     }
     return result;
 }
@@ -207,7 +207,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (uint
     }
     if (result != uds_responseCode_PositiveResponse)
     {
-        charon_sendNegativeResponse(result, receiveBuffer[0]);
+        charon_sendNegativeResponse(result, (uds_sid_t)receiveBuffer[0]);
     }
     return result;
 }
@@ -217,7 +217,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestFileTransfer (uint
 {
     (void)receiveBuffer;
     (void)receiveBufferSize;
-    charon_sendNegativeResponse(uds_responseCode_ServiceNotSupported, receiveBuffer[0]);
+    charon_sendNegativeResponse(uds_responseCode_ServiceNotSupported, (uds_sid_t)receiveBuffer[0]);
     return uds_responseCode_ServiceNotSupported;
 }
 

@@ -6,6 +6,4 @@
  */
 
 
-#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "charon_negativeResponse.h"
-#include "charon_types.h"
+

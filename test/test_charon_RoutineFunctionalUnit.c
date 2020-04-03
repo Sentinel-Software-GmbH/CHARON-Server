@@ -49,7 +49,6 @@ void test_charon_RoutineFunctionalUnit_RoutineControl_invalidRoutineIdentifier_r
 void test_charon_RoutineFunctionalUnit_RoutineControl_RoutineEraseFlash_returnsOk (void)
 {
     uint8_t inputData[] = {0x31, 0x01, 0xFF, 0x00};
-    uint8_t outputData[100];
     uint8_t expectedOutputData[] = {0x71, 0x01, 0xFF, 0x00};
 
     charon_NvmDriver_erase_Expect();
