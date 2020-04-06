@@ -1,17 +1,55 @@
-/*
- * charon_types.h
+/**
+ *  Sentinel Software GmbH
+ *  Copyright (C) 2020 Andreas Hofmann
  *
- *  Created on: 16.01.2020
- *      Author: Florian Kaup
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+/**
+ * @addtogroup CharonUDS
+ * @{
+ * @defgroup Common
+ * @{
+ * @file charon_types.h
+ * Provides all needed Types and declarations used by Charon UDS.
+ *
+ * $Id:  $
+ * $URL:  $
+ * @}
+ * @}
+ */
+/*****************************************************************************/
 
 #ifndef CHARON_TYPES_H_
 #define CHARON_TYPES_H_
 
+/* Includes ******************************************************************/
+
+/* Constants *****************************************************************/
+
+/* Macros ********************************************************************/
+
+/** Define NULL for Compatibility across libraries and Compilers */
+#ifndef NULL
+#define NULL        ((void *) 0)
+#endif
+
+/* Types *********************************************************************/
+
 typedef enum
 {
-    charon_messageType_Diagnostics,
-    charon_messageType_RemoteDiagnostics,
+    charon_messageType_Diagnostics,      //!< charon_messageType_Diagnostics
+    charon_messageType_RemoteDiagnostics,//!< charon_messageType_RemoteDiagnostics
 } charon_messageType_t;
 
 typedef enum
@@ -97,7 +135,9 @@ typedef enum
     uds_responseCode_VoltageTooLow = 0x93,
 } uds_responseCode_t;
 
-
-
+/* Interfaces ****************************************************************/
 
 #endif /* CHARON_TYPES_H_ */
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
+
