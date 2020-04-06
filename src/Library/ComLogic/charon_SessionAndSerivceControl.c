@@ -33,7 +33,6 @@
 /* Includes ******************************************************************/
 
 #include <stdbool.h>
-#include <stddef.h>
 #include <string.h>
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 #include "ComLogic/charon_ServiceLookupTable.h"
