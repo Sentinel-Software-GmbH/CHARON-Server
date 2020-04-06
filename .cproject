@@ -73,26 +73,28 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
 		<buildTargets>
-			<target name="test:all" path="toolchain/ceedling" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-				<buildCommand>ceedling.cmd</buildCommand>
-				<buildTarget>test:all</buildTarget>
-				<stopOnError>true</stopOnError>
-				<useDefaultCommand>true</useDefaultCommand>
-				<runAllBuilders>true</runAllBuilders>
-			</target>
-			<target name="gcov:all utils:gcov" path="toolchain/ceedling" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-				<buildCommand>ceedling.cmd</buildCommand>
-				<buildTarget>gcov:all utils:gcov</buildTarget>
-				<stopOnError>true</stopOnError>
-				<useDefaultCommand>true</useDefaultCommand>
-				<runAllBuilders>true</runAllBuilders>
-			</target>
 			<target name="cppcheck" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
 				<buildCommand>C:/Program</buildCommand>
 				<buildArguments>Files\Cppcheck\cppcheck.exe</buildArguments>
 				<buildTarget>-j4 --enable=all -I./src/Library ./src/Library --template=gcc</buildTarget>
 				<stopOnError>true</stopOnError>
 				<useDefaultCommand>false</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="gcov:all utils:gcov" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>ceedling.cmd</buildCommand>
+				<buildArguments/>
+				<buildTarget>gcov:all utils:gcov</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="test:all" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>ceedling.cmd</buildCommand>
+				<buildArguments/>
+				<buildTarget>test:all</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
 				<runAllBuilders>true</runAllBuilders>
 			</target>
 			<target name="PClint" path="toolchain/pclint" targetID="org.eclipse.cdt.build.MakeTargetBuilder">

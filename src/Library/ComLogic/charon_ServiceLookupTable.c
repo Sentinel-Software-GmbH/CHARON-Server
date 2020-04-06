@@ -91,7 +91,7 @@ static charon_serviceObject_t serviceLookupTable[] =
 charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject (uint8_t sid)
 {
     const uint32_t TableSize = (sizeof(serviceLookupTable) / sizeof(serviceLookupTable[0]));
-    uint32_t numIterations = 32u - __builtin_clz(TableSize);
+    uint32_t numIterations = 32u - (uint32_t)__builtin_clz(TableSize);
     uint32_t iterationSize = TableSize / 2u;
     uint32_t TableIndex = iterationSize;
     charon_serviceObject_t * result = NULL;
