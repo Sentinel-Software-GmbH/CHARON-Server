@@ -47,7 +47,7 @@
 /**
  * UDS Session Types
  */
-typedef enum
+typedef enum charon_sessionTypes_t_public
 {
     charon_sscType_default,         /**< charon_sscType_default */
     charon_sscType_programming,     /**< charon_sscType_programming */
@@ -63,7 +63,7 @@ void charon_sscCyclic(void);
 
 void charon_sscRcvMessage (void);
 
-void charon_sscTxMessage (uint8_t * const pBuffer, uint32_t length);
+void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length);
 
 void charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeoutP2, uint32_t timeoutP2extended);
 

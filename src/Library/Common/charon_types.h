@@ -88,6 +88,8 @@ typedef enum
     uds_sid_ControlDtcSetting = 0x85,
     uds_sid_ResponseOnEvent = 0x86,
     uds_sid_LinkControl = 0x87,
+
+    uds_sid_amount
 } uds_sid_t;
 
 typedef enum

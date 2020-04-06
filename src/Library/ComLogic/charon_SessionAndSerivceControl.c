@@ -122,7 +122,7 @@ static uint8_t s_sendBuffer[CHARON_TX_BUFFER_SIZE];
  * @param length
  *      Length in Bytes
  */
-static void processReveivedMessage (uint8_t * const pBuffer, uint32_t length);
+static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t length);
 
 /**
  * Checks if SID is allowed in session
@@ -146,6 +146,17 @@ static void handleDiagnosticSession (void);
  * Is called during a RCRP Communication Monitor.
  */
 static void handleResponsePending (void);
+
+/**
+ * Checks and Assigns a given SID to an enumeration
+ * for better readability and maintenance.
+ *
+ * @param byte
+ *      Raw SID Byte
+ *
+ * @return Enumeration of SID
+ */
+static uds_sid_t convertToSid (uint8_t byte);
 
 /* Interfaces  ***************************************************************/
 
@@ -192,11 +203,11 @@ void charon_sscRcvMessage (void)
     }
 }
 
-static void processReveivedMessage (uint8_t * const pBuffer, uint32_t length)
+static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t length)
 {
-    uint8_t sid = (uint8_t)pBuffer[0];       /* Get SID from Message */
+    uds_sid_t sid = convertToSid((uint8_t)pBuffer[0]);       /* Get SID from Message */
     uds_responseCode_t retVal;
-    charon_serviceObject_t * pServiceObj = charon_ServiceLookupTable_getServiceObject(sid);   /* Get Service Object */
+    charon_serviceObject_t * pServiceObj = charon_ServiceLookupTable_getServiceObject((uint8_t)pBuffer[0]);   /* Get Service Object */
 
     /* Is a Service Pending, do not execute any other Requests except for Tester Present */
     if((ComStatus_ok == s_currentComStatus)
@@ -245,7 +256,7 @@ static void processReveivedMessage (uint8_t * const pBuffer, uint32_t length)
     }
 }
 
-void charon_sscTxMessage (uint8_t * const pBuffer, uint32_t length)
+void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
 {
     uint32_t txLength;
 
@@ -305,7 +316,7 @@ void charon_sscTesterPresentHeartbeat(void)
 
 /* Private Function **********************************************************/
 
-bool isServiceInSession (charon_sessionTypes_t currentSession, charon_serviceObject_t * pService)
+static bool isServiceInSession (charon_sessionTypes_t currentSession, charon_serviceObject_t * pService)
 {
     uint32_t result = 0u;
     bool retval = false;
@@ -358,7 +369,17 @@ static void handleResponsePending (void)
         }
         //TODO as far as i remember there was a maximum amount to do this, but i couldn't find it...
     }
+}
 
+static uds_sid_t convertToSid (uint8_t byte)
+{
+    uds_sid_t retVal = uds_sid_amount;
+    /* Check at least if byte is in Range */
+    if(byte < uds_sid_amount)
+    {
+        retVal = (uds_sid_t)byte;
+    }
+    return retVal;
 }
 
 
