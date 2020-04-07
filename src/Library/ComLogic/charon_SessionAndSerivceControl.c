@@ -252,6 +252,7 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
         default:
         {
             //Do Nothing...
+            break;
         }
         }
     }
