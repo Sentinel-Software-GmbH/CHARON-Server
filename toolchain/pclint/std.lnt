@@ -2,10 +2,8 @@
 //  Standard lint options
 
 au-misra3.lnt
-
-options.lnt  -si4 -sp4
--iC:\MinGW\include
--iC:\MinGW\lib\gcc\mingw32\8.2.0\include
+co-gcc.lnt
+options.lnt
 -i..\..\src\Library
 -header(gccBuiltins.h)
 
