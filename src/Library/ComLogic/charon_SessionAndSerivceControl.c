@@ -62,6 +62,11 @@
  * @}
  */
 
+/**
+ * Answer Requests are Request + Inidication Bit
+ */
+#define UDS_RESPONSE_REQUEST_INDICATION_BIT_MASK         ((uint8_t) 0x40u)
+
 /* Types *********************************************************************/
 
 typedef enum ComStatus_t_private
@@ -210,6 +215,11 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
     {
         retVal = handleService(pServiceObj, pBuffer, length);
         /* Check Return Value of Service Execution and Act accordingly */
+        /*
+         * Note: A lint error is here suppressed since there is  a quirk where you have to check on all enums,
+         * even if you have a default case.
+         * This would just virtually decrease coverage and make no sense, so this is disabled for this line.
+         */
         switch(retVal)
         {
         case uds_responseCode_ServiceNotSupportedInActiveSession:
@@ -227,7 +237,7 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
              * since the ISO Requires to answer specifically with the SID that is not supported, even though it can be, that the SID
              * is not in the Enumeration.
              */
-            castedSid = (uds_sid_t)pBuffer[0];
+            castedSid = (uds_sid_t)pBuffer[0];  //TODO Suppress
             /* Send NRC */
             charon_sendNegativeResponse(uds_responseCode_ServiceNotSupported, castedSid);
             break;
@@ -255,14 +265,19 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
 void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
 {
     uint32_t txLength;
+    uint8_t responeRequestId;
+
+    /* Check if a Request is pending */
+    if(NULL != s_currentlyPendingService)
+    {
+        /* Copy First byte and Align to Request ID Matching to check if it was an ongoing Service that is now answered */
+        responeRequestId = (uint8_t)(((uint8_t)pBuffer[0]) & ((uint8_t)~UDS_RESPONSE_REQUEST_INDICATION_BIT_MASK));
+    }
 
     /**
      * FEATURE
      * Here needs to be evaluated if an encryption is active and the message needs encoding.
      */
-
-    /* Reset Com Status */
-    //TODO Check if answer to pending
 
     /* Transmit Message if it fits, otherwise trim */
     if(length >= CHARON_TX_BUFFER_SIZE)      //TODO Error Case?
@@ -347,7 +362,7 @@ static void handleResponsePending (void)
     tmp = charon_interface_clock_getTimeElapsed(s_pendingRequestStartTime);
 
     /* Check if P2 was exceeded */
-    if(s_p2PendingExceededHandled == false)
+    if(!(s_p2PendingExceededHandled))
     {
         if(tmp >= s_ttl.p2Server)
         {
