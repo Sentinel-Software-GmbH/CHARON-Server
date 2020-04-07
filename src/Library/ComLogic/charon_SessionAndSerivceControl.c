@@ -163,6 +163,15 @@ static void handleResponsePending (void);
  */
 static uds_responseCode_t handleService (charon_serviceObject_t * pExecutableService, uint8_t const * const pUdsMessage, uint32_t length);
 
+/**
+ * Copy UDS Message to Output Buffer
+ * @param pUdsMessage
+ *      Pointer to Message
+ * @param length
+ *      Lenght of Message in Bytes
+ */
+static void sendMessage (uint8_t const * const pUdsMessage, uint32_t length);
+
 /* Interfaces  ***************************************************************/
 
 void charon_sscCyclic (void)
@@ -215,11 +224,6 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
     {
         retVal = handleService(pServiceObj, pBuffer, length);
         /* Check Return Value of Service Execution and Act accordingly */
-        /*
-         * Note: A lint error is here suppressed since there is  a quirk where you have to check on all enums,
-         * even if you have a default case.
-         * This would just virtually decrease coverage and make no sense, so this is disabled for this line.
-         */
         switch(retVal)
         {
         case uds_responseCode_ServiceNotSupportedInActiveSession:
@@ -265,7 +269,6 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
 
 void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
 {
-    uint32_t txLength;
     uint8_t responeRequestId;
 
     /* Check if a Request is pending */
@@ -273,26 +276,18 @@ void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
     {
         /* Copy First byte and Align to Request ID Matching to check if it was an ongoing Service that is now answered */
         responeRequestId = (uint8_t)(((uint8_t)pBuffer[0]) & ((uint8_t)~UDS_RESPONSE_REQUEST_INDICATION_BIT_MASK));
-    }
-
-    /**
-     * FEATURE
-     * Here needs to be evaluated if an encryption is active and the message needs encoding.
-     */
-
-    /* Transmit Message if it fits, otherwise trim */
-    if(length >= CHARON_TX_BUFFER_SIZE)      //TODO Error Case?
-    {
-        txLength = CHARON_TX_BUFFER_SIZE;
+        if(responeRequestId == s_currentDiagnosticSession)
+        {
+            sendMessage(pBuffer, length);
+            /* Reset Pending Request */
+            s_currentlyPendingService = NULL;
+        }
     }
     else
     {
-        txLength = length;
+        /* Just send Synchronous Message */
+        sendMessage(pBuffer, length);
     }
-
-    /* Copy to Buffer and start transfer */
-    memcpy(s_sendBuffer, pBuffer, txLength);
-    charon_interface_isotp_transmit(s_sendBuffer, txLength);
 }
 
 void charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeoutP2, uint32_t timeoutP2extended)
@@ -409,6 +404,30 @@ static uds_responseCode_t handleService (charon_serviceObject_t * pExecutableSer
     }
 
     return retVal;
+}
+
+static void sendMessage (uint8_t const * const pUdsMessage, uint32_t length)
+{
+    uint32_t txLength;
+
+    /**
+     * FEATURE
+     * Here needs to be evaluated if an encryption is active and the message needs encoding.
+     */
+
+    /* Transmit Message if it fits, otherwise trim */
+    if(length >= CHARON_TX_BUFFER_SIZE)      //TODO Error Case?
+    {
+        txLength = CHARON_TX_BUFFER_SIZE;
+    }
+    else
+    {
+        txLength = length;
+    }
+
+    /* Copy to Buffer and start transfer */
+    memcpy(s_sendBuffer, pUdsMessage, txLength);
+    charon_interface_isotp_transmit(s_sendBuffer, txLength);
 }
 
 
