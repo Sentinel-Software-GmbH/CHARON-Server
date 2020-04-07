@@ -87,17 +87,14 @@ typedef struct ComTimeoutLimits_t_private
 
 /** Stores the Currently Active Diagnostic Session */
 static charon_sessionTypes_t s_currentDiagnosticSession = charon_sscType_default;
-/** Current Status of Communications (Handle Pending) */
-static ComStatus_t s_currentComStatus = ComStatus_ok;
-/** Store SID of Pending Request */
-static uds_sid_t s_pendingRequestId = uds_sid_PositiveResponseMask;
+static charon_serviceObject_t * s_currentlyPendingService = NULL;
 /** Timestamp for Pending Start */
 static uint32_t s_pendingRequestStartTime = 0u;
 /** Flag to indicate if the P2 Expired Message for Pending was already handled */
 static bool s_p2PendingExceededHandled = false;
 /** Timestamp for Diagnostic Session Timing */
 static uint32_t s_diagnoticSessionTimestamp = 0u;
-/** Adjustable timeouts, initialized witth serrver default values */
+/** Adjustable timeouts, initialized with server default values */
 static ComTimeoutLimits_t s_ttl =
 {
         DEFAULT_P2_SERVER, DEFAULT_P2_STAR_SERVER, DEFAULT_S3_SERVER
@@ -148,19 +145,22 @@ static void handleDiagnosticSession (void);
 static void handleResponsePending (void);
 
 /**
- * Checks and Assigns a given SID to an enumeration
- * for better readability and maintenance.
+ * Execute given Service
  *
- * @param byte
- *      Raw SID Byte
+ * @param pExecutableService
+ *      Dispatched Service Entry from Lookup Table
+ * @param pUdsMessage
+ *      Pointer to UDS Message Buffer
+ * @param length
+ *      Length of UDS Message in Byte
  *
- * @return Enumeration of SID
+ * @return @see @ref uds_responseCode_t
  */
-static uds_sid_t convertToSid (uint8_t byte);
+static uds_responseCode_t handleService (charon_serviceObject_t * pExecutableService, uint8_t const * const pUdsMessage, uint32_t length);
 
 /* Interfaces  ***************************************************************/
 
-void charon_sscCyclic(void)
+void charon_sscCyclic (void)
 {
     /* Check Diagnostic Session */
     if(charon_sscType_default != s_currentDiagnosticSession)
@@ -169,18 +169,14 @@ void charon_sscCyclic(void)
     }
 
     /* Handle NRC Pending */
-    if(ComStatus_pending == s_currentComStatus)
+    if(NULL != s_currentlyPendingService)
     {
         handleResponsePending();
     }
-    else if (ComStatus_ok == s_currentComStatus)
+    else
     {
         /* Reset Flag for P2 and P2* distinguish */
         s_p2PendingExceededHandled = false;
-    }
-    else
-    {
-        /* Do Nothing, but MISRA is special... */
     }
 }
 
@@ -205,54 +201,54 @@ void charon_sscRcvMessage (void)
 
 static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t length)
 {
-    uds_sid_t sid = convertToSid((uint8_t)pBuffer[0]);       /* Get SID from Message */
-    uds_responseCode_t retVal;
     charon_serviceObject_t * pServiceObj = charon_ServiceLookupTable_getServiceObject((uint8_t)pBuffer[0]);   /* Get Service Object */
+    uds_responseCode_t retVal;
 
     /* Is a Service Pending, do not execute any other Requests except for Tester Present */
-    if((ComStatus_ok == s_currentComStatus)
-            || (uds_sid_TesterPresent == sid))
+    if((NULL == s_currentlyPendingService)
+            || (pServiceObj->sid == uds_sid_TesterPresent))
     {
-        /* Lock this if scope for the moment to prevent user misuse to float the receive channel */
-        s_currentComStatus = ComStatus_process;
-        /* Check if Service is supported */
-        if(NULL != pServiceObj)
+        retVal = handleService(pServiceObj, pBuffer, length);
+        /* Check Return Value of Service Execution and Act accordingly */
+        switch(retVal)
         {
-            /* Check if Service is Supported in Current Session */
-            if(isServiceInSession(s_currentDiagnosticSession, pServiceObj))
-            {
-                /* Execute Service */
-                retVal = pServiceObj->serviceRunable(pBuffer, length);
-                /* Check for Pending Service */
-                if(uds_responseCode_RequestCorrectlyReceived_ResponsePending == retVal)
-                {
-                    /* Mark Status Pending and store all relevant Data to Process Asynchronous Handling */
-                    s_currentComStatus = ComStatus_pending;
-                    s_pendingRequestStartTime = charon_interface_clock_getTime();
-                    s_pendingRequestId = sid;
-                }
-                else
-                {
-                    s_currentComStatus = ComStatus_ok;
-                }
-            }
-            else
-            {
-                /* Send NRC and Reset COM Status */
-                charon_sendNegativeResponse(uds_responseCode_ServiceNotSupportedInActiveSession, sid);
-                s_currentComStatus = ComStatus_ok;
-            }
+        case uds_responseCode_ServiceNotSupportedInActiveSession:
+        {
+            /* Answer NRC and Send */
+            charon_sendNegativeResponse(uds_responseCode_ServiceNotSupportedInActiveSession, pServiceObj->sid);
+            break;
         }
-        else
+        case uds_responseCode_ServiceNotSupported:
         {
-            charon_sendNegativeResponse(uds_responseCode_ServiceNotSupported, sid);
-            s_currentComStatus = ComStatus_ok;
+            /* Construct Answer */
+            uds_sid_t castedSid;
+            /*
+             * At this point the SID is extracted from the first Byte of the payload and the LINT warning is deliberately suppressed
+             * since the ISO Requires to answer specifically with the SID that is not supported, even though it can be, that the SID
+             * is not in the Enumeration.
+             */
+            castedSid = (uds_sid_t)pBuffer[0];
+            /* Send NRC */
+            charon_sendNegativeResponse(uds_responseCode_ServiceNotSupported, castedSid);
+            break;
+        }
+        case uds_responseCode_RequestCorrectlyReceived_ResponsePending:
+        {
+            /* Mark Ongoing Service and Begin with Pending Management */
+            s_currentlyPendingService = pServiceObj;
+            s_pendingRequestStartTime = charon_interface_clock_getTime();
+            break;
+        }
+        default:
+        {
+            //Do Nothing...
+        }
         }
     }
     else
     {
         /* Send Busy */
-        charon_sendNegativeResponse(uds_responseCode_BusyRepeatRequest, sid);
+        charon_sendNegativeResponse(uds_responseCode_BusyRepeatRequest, pServiceObj->sid);
     }
 }
 
@@ -266,7 +262,7 @@ void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
      */
 
     /* Reset Com Status */
-    s_currentComStatus = ComStatus_ok;
+    //TODO Check if answer to pending
 
     /* Transmit Message if it fits, otherwise trim */
     if(length >= CHARON_TX_BUFFER_SIZE)      //TODO Error Case?
@@ -309,7 +305,7 @@ charon_sessionTypes_t charon_sscGetSession (void)
     return s_currentDiagnosticSession;
 }
 
-void charon_sscTesterPresentHeartbeat(void)
+void charon_sscTesterPresentHeartbeat (void)
 {
     s_diagnoticSessionTimestamp = charon_interface_clock_getTime();
 }
@@ -330,7 +326,7 @@ static bool isServiceInSession (charon_sessionTypes_t currentSession, charon_ser
     return retval;
 }
 
-static void handleDiagnosticSession(void)
+static void handleDiagnosticSession (void)
 {
     /* Copy current P3 Server Timing onto stack */
     uint32_t p3TimeoutLimit = s_ttl.s3Server;
@@ -356,7 +352,7 @@ static void handleResponsePending (void)
         if(tmp >= s_ttl.p2Server)
         {
             s_p2PendingExceededHandled = true;
-            charon_sendNegativeResponse(uds_responseCode_RequestCorrectlyReceived_ResponsePending, s_pendingRequestId);
+            charon_sendNegativeResponse(uds_responseCode_RequestCorrectlyReceived_ResponsePending, s_currentlyPendingService->sid);
             s_pendingRequestStartTime = charon_interface_clock_getTime();
         }
     }
@@ -364,21 +360,38 @@ static void handleResponsePending (void)
     {
         if(tmp >= s_ttl.p2StarServer)
         {
-            charon_sendNegativeResponse(uds_responseCode_RequestCorrectlyReceived_ResponsePending, s_pendingRequestId);
+            charon_sendNegativeResponse(uds_responseCode_RequestCorrectlyReceived_ResponsePending, s_currentlyPendingService->sid);
             s_pendingRequestStartTime = charon_interface_clock_getTime();
         }
         //TODO as far as i remember there was a maximum amount to do this, but i couldn't find it...
     }
 }
 
-static uds_sid_t convertToSid (uint8_t byte)
+static uds_responseCode_t handleService (charon_serviceObject_t * pExecutableService, uint8_t const * const pUdsMessage, uint32_t length)
 {
-    uds_sid_t retVal = uds_sid_amount;
-    /* Check at least if byte is in Range */
-    if(byte < uds_sid_amount)
+    uds_responseCode_t retVal;
+
+    /* Check if Service is supported */
+    if (NULL != pExecutableService)
     {
-        retVal = (uds_sid_t)byte;
+        /* Check if Service is Supported in Current Session */
+        if (isServiceInSession(s_currentDiagnosticSession, pExecutableService))
+        {
+            /* Execute Service */
+            retVal = pExecutableService->serviceRunable(pUdsMessage, length);
+        }
+        else
+        {
+            /* Send Diag NRC */
+            retVal = uds_responseCode_ServiceNotSupportedInActiveSession;
+        }
     }
+    else
+    {
+        /* Send not Supported NRC */
+        retVal = uds_responseCode_ServiceNotSupported;
+    }
+
     return retVal;
 }
 

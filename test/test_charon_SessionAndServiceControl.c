@@ -159,7 +159,6 @@ void test_charon_SessionAndServiceControl_executeService_AnswerPending(void)
     /* Setup Variables */
     uint8_t clientMsg[] =
     {
-            /* Client Request to Reset without Answer */
             0x3D, 0x00, 0x02
     };
     charon_serviceObject_t dummyServiceObjectForWriteMemoryByAddress =
@@ -251,6 +250,25 @@ void test_charon_SessionAndServiceControl_executeService_ServicePendingAcceptTes
 
     /* Run Function Test */
     charon_sscRcvMessage();
+
+    /* Check Results */
+    //NA
+}
+
+void test_charon_SessionAndServiceControl_monitorOngoingService_withinTimeNothingTodo(void)
+{
+    /* Setup Variables */
+    //NA
+
+    /* Setup Environment */
+    //NA
+
+    /* Setup Expected Function Calls */
+    charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 10u);
+    charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 10u);
+
+    /* Run Function Test */
+    charon_sscCyclic();
 
     /* Check Results */
     //NA
