@@ -161,8 +161,8 @@ void test_charon_SessionAndServiceControl_executeService_AnswerPending(void)
     {
             0x3D, 0x00, 0x02
     };
-    charon_serviceObject_t dummyServiceObjectForWriteMemoryByAddress =
-    {
+    static charon_serviceObject_t dummyServiceObjectForWriteMemoryByAddress =           /* This is declared static since it has to be used */
+    {                                                                                   /* for the pending ongoing test cases */
             uds_sid_WriteMemoryByAddress,       /* ID */
             0x0E,                               /* Programming upward Sessions */
             dummyServiceRoutinePending,         /* Dummy Service */
@@ -266,6 +266,83 @@ void test_charon_SessionAndServiceControl_monitorOngoingService_withinTimeNothin
     /* Setup Expected Function Calls */
     charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 10u);
     charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 10u);
+
+    /* Run Function Test */
+    charon_sscCyclic();
+
+    /* Check Results */
+    //NA
+}
+
+void test_charon_SessionAndServiceControl_monitorOngoingService_diagnosticSessionTimedOut(void)
+{
+    /* Setup Variables */
+    //NA
+
+    /* Setup Environment */
+    //NA
+
+    /* Setup Expected Function Calls */
+    charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 5001u);
+    charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 10u);
+
+    /* Run Function Test */
+    charon_sscCyclic();
+
+    /* Check Results */
+    TEST_ASSERT_EQUAL(charon_sscType_default, charon_sscGetSession());
+}
+
+void test_charon_SessionAndServiceControl_monitorOngoingService_pendingP2Service(void)
+{
+    /* Setup Variables */
+    //NA
+
+    /* Setup Environment */
+    //NA
+
+    /* Setup Expected Function Calls */
+    charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 100u);
+    charon_sendNegativeResponse_Expect(uds_responseCode_RequestCorrectlyReceived_ResponsePending, uds_sid_WriteMemoryByAddress);
+    charon_interface_clock_getTime_ExpectAndReturn(400u);
+
+    /* Run Function Test */
+    charon_sscCyclic();
+
+    /* Check Results */
+    //NA
+}
+
+void test_charon_SessionAndServiceControl_monitorOngoingService_pendingP2StarService(void)
+{
+    /* Setup Variables */
+    //NA
+
+    /* Setup Environment */
+    //NA
+
+    /* Setup Expected Function Calls */
+    charon_interface_clock_getTimeElapsed_ExpectAndReturn(400u, 100u);
+
+    /* Run Function Test */
+    charon_sscCyclic();
+
+    /* Check Results */
+    //NA
+}
+
+void test_charon_SessionAndServiceControl_monitorOngoingService_pendingP2StarService_responsePending(void)
+{
+    /* Setup Variables */
+    //NA
+
+    /* Setup Environment */
+    //NA
+
+    /* Setup Expected Function Calls */
+    charon_interface_clock_getTimeElapsed_ExpectAndReturn(400u, 350u);
+    charon_sendNegativeResponse_Expect(uds_responseCode_RequestCorrectlyReceived_ResponsePending, uds_sid_WriteMemoryByAddress);
+    charon_interface_clock_getTime_ExpectAndReturn(600u);
 
     /* Run Function Test */
     charon_sscCyclic();

@@ -69,7 +69,7 @@
 
 /* Types *********************************************************************/
 
-typedef enum ComStatus_t_private
+typedef enum
 {
     ComStatus_ok,     //!< ComStatus_ok
     ComStatus_pending,//!< ComStatus_pending
@@ -80,18 +80,19 @@ typedef enum ComStatus_t_private
 } ComStatus_t;
 
 /** Struct to store all timeing required Data */
-typedef struct ComTimeoutLimits_t_private
+typedef struct
 {
     //TODO: there are many more, but for now...
     uint32_t        p2Server;
     uint32_t        p2StarServer;
     uint32_t        s3Server;
-}ComTimeoutLimits_t;
+} ComTimeoutLimits_t;
 
 /* Variables *****************************************************************/
 
 /** Stores the Currently Active Diagnostic Session */
 static charon_sessionTypes_t s_currentDiagnosticSession = charon_sscType_default;
+/** Pointer to last service that was requested pending */
 static charon_serviceObject_t * s_currentlyPendingService = NULL;
 /** Timestamp for Pending Start */
 static uint32_t s_pendingRequestStartTime = 0u;

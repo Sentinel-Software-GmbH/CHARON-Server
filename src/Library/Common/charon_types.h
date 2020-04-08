@@ -46,19 +46,19 @@
 
 /* Types *********************************************************************/
 
-typedef enum charon_messageType_t_public
+typedef enum
 {
     charon_messageType_Diagnostics,      //!< charon_messageType_Diagnostics
     charon_messageType_RemoteDiagnostics,//!< charon_messageType_RemoteDiagnostics
 } charon_messageType_t;
 
-typedef enum charon_targetAddressType_t_public
+typedef enum
 {
     charon_targetAddressType_Physical,
     charon_targetAddressType_Functional,
 } charon_targetAddressType_t;
 
-typedef enum uds_sid_t_public
+typedef enum
 {
     uds_sid_DiagnosticSessionControl = 0x10u,
     uds_sid_EcuReset = 0x11u,
@@ -92,7 +92,7 @@ typedef enum uds_sid_t_public
     uds_sid_amount
 } uds_sid_t;
 
-typedef enum uds_responseCode_t_public
+typedef enum
 {
     uds_responseCode_PositiveResponse = 0u,
     uds_responseCode_GeneralReject = 0x10u,
