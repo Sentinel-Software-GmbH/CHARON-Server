@@ -63,7 +63,7 @@
  */
 
 /**
- * Answer Requests are Request + Inidication Bit
+ * Answer Requests are Request + Indication Bit
  */
 #define UDS_RESPONSE_REQUEST_INDICATION_BIT_MASK         ((uint8_t) 0x40u)
 
@@ -169,7 +169,7 @@ static uds_responseCode_t handleService (charon_serviceObject_t * pExecutableSer
  * @param pUdsMessage
  *      Pointer to Message
  * @param length
- *      Lenght of Message in Bytes
+ *      Length of Message in Bytes
  */
 static void sendMessage (uint8_t const * const pUdsMessage, uint32_t length);
 
