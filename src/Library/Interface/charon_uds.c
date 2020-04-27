@@ -11,8 +11,13 @@
 
 void charon_task (void)
 {
+    // TODO think about putting charon_sscRcvMessage into charon_sscCyclic
+
     /* Process Received Data */
     charon_sscRcvMessage();
+
+    /* Process SSC Layer */
+    charon_sscCyclic();
 
     return;
 }

@@ -277,7 +277,7 @@ void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
     {
         /* Copy First byte and Align to Request ID Matching to check if it was an ongoing Service that is now answered */
         responeRequestId = (uint8_t)(((uint8_t)pBuffer[0]) & ((uint8_t)~UDS_RESPONSE_REQUEST_INDICATION_BIT_MASK));
-        if(responeRequestId == s_currentDiagnosticSession)
+        if(responeRequestId == s_currentlyPendingService)
         {
             sendMessage(pBuffer, length);
             /* Reset Pending Request */
