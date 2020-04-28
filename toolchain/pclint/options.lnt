@@ -3,11 +3,16 @@
 //                See  manual (chapter LIVING WITH LINT)
 //                for further details.
 
--e793 // do not limit identifier names to 31 characters
--e621 // do not complain about identifier clash in first 31 characters
--e970 // bool is allowed
--e9059// do not complain about // in comments, which is needed for hyperlinks
--e537 // Allow multiple inclusion of headers, for example stdint.h, which is frequently used
+-e793 	// do not limit identifier names to 31 characters
+-e621 	// do not complain about identifier clash in first 31 characters
+-e970 	// bool is allowed
+-e9059	// do not complain about // in comments, which is needed for hyperlinks
+-e537 	// Allow multiple inclusion of headers, for example stdint.h, which is frequently used
+-e788 	// no need to use all enum labels in a switch case
+-e9087  // Allow pointer casting
+-e9079  // Allow pointer casting with void pointer
+-e9030  // Allow enum casting
+
 
 -esym(759, charon_task) // this is the main entry point
 -esym(765, charon_task) // this is the main entry point

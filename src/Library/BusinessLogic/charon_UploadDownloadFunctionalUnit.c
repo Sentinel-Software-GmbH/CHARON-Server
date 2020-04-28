@@ -87,7 +87,7 @@ static uds_responseCode_t requestTransfer(transferDirection_t direction, const u
                     (uint8_t)((UDS_MAX_INPUT_FRAME_SIZE >> 8u) & 0xFFu),
                     (uint8_t)(UDS_MAX_INPUT_FRAME_SIZE & 0xFFu)
             };
-            charon_sscTxProcessMessage(transmitBuffer, sizeof(transmitBuffer));
+            charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
         }
 
     }
@@ -160,7 +160,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8
                         receivedMessage->sid | (uint8_t)uds_sid_PositiveResponseMask,
                         receivedMessage->blockSequenceCounter
                 };
-                charon_sscTxProcessMessage(transmitBuffer, sizeof(transmitBuffer));
+                charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
             }
         }
         else
@@ -178,7 +178,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8
 
             transmitBuffer[0] = (uint8_t)uds_sid_TransferData | (uint8_t)uds_sid_PositiveResponseMask;
             transmitBuffer[1] = receivedMessage->blockSequenceCounter;
-            charon_sscTxProcessMessage(transmitBuffer, transmitBufferSize);
+            charon_sscTxMessage(transmitBuffer, transmitBufferSize);
         }
     }
     if (result != uds_responseCode_PositiveResponse)
@@ -213,7 +213,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (cons
         s_transferDirection = transfer_idle;
 
         uint8_t transmitBuffer[1] = {(uint8_t)uds_sid_RequestTransferExit | (uint8_t)uds_sid_PositiveResponseMask};
-        charon_sscTxProcessMessage(transmitBuffer, sizeof(transmitBuffer));
+        charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
     }
     if (result != uds_responseCode_PositiveResponse)
     {
