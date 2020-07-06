@@ -69,16 +69,6 @@
 
 /* Types *********************************************************************/
 
-typedef enum
-{
-    ComStatus_ok,     //!< ComStatus_ok
-    ComStatus_pending,//!< ComStatus_pending
-    ComStatus_process,//!< ComStatus_process
-    ComStatus_error,  //!< ComStatus_error
-
-    ComStatus_amount  //!< ComStatus_amount
-} ComStatus_t;
-
 /** Struct to store all timeing required Data */
 typedef struct
 {
@@ -137,7 +127,7 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
  *
  * @return Service is allowed or disallowed in Session
  */
-static bool isServiceInSession (charon_sessionTypes_t currentSession, charon_serviceObject_t * pService);
+static bool isServiceInSession (charon_sessionTypes_t currentSession, const charon_serviceObject_t * pService);
 
 /**
  * Timeout and Session Control for ongoing
@@ -162,7 +152,7 @@ static void handleResponsePending (void);
  *
  * @return @see @ref uds_responseCode_t
  */
-static uds_responseCode_t handleService (charon_serviceObject_t * pExecutableService, uint8_t const * const pUdsMessage, uint32_t length);
+static uds_responseCode_t handleService (const charon_serviceObject_t * pExecutableService, uint8_t const * const pUdsMessage, uint32_t length);
 
 /**
  * Copy UDS Message to Output Buffer
@@ -270,14 +260,12 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
 
 void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
 {
-    uint8_t responeRequestId;
-
     /* Check if a Request is pending */
     if(NULL != s_currentlyPendingService)
     {
         /* Copy First byte and Align to Request ID Matching to check if it was an ongoing Service that is now answered */
-        responeRequestId = (uint8_t)(((uint8_t)pBuffer[0]) & ((uint8_t)~UDS_RESPONSE_REQUEST_INDICATION_BIT_MASK));
-        if(responeRequestId == s_currentlyPendingService->sid)
+        uint8_t responeRequestId = (uint8_t)(((uint8_t)pBuffer[0]) & ((uint8_t)~UDS_RESPONSE_REQUEST_INDICATION_BIT_MASK));
+        if(responeRequestId == (uint8_t)s_currentlyPendingService->sid)
         {
             sendMessage(pBuffer, length);
             /* Reset Pending Request */
@@ -324,12 +312,11 @@ void charon_sscTesterPresentHeartbeat (void)
 
 /* Private Function **********************************************************/
 
-static bool isServiceInSession (charon_sessionTypes_t currentSession, charon_serviceObject_t * pService)
+static bool isServiceInSession (charon_sessionTypes_t currentSession, const charon_serviceObject_t * pService)
 {
-    uint32_t result = 0u;
     bool retval = false;
 
-    result = (pService->sessionMask & ((uint8_t)(1u << currentSession)));
+    uint32_t result = (pService->sessionMask & ((uint32_t)(1uL << (uint8_t)currentSession)));
     if(result > 0u)
     {
         retval = true;
@@ -379,7 +366,7 @@ static void handleResponsePending (void)
     }
 }
 
-static uds_responseCode_t handleService (charon_serviceObject_t * pExecutableService, uint8_t const * const pUdsMessage, uint32_t length)
+static uds_responseCode_t handleService (const charon_serviceObject_t * pExecutableService, uint8_t const * const pUdsMessage, uint32_t length)
 {
     uds_responseCode_t retVal;
 
@@ -428,7 +415,7 @@ static void sendMessage (uint8_t const * const pUdsMessage, uint32_t length)
 
     /* Copy to Buffer and start transfer */
     memcpy(s_sendBuffer, pUdsMessage, txLength);
-    charon_interface_isotp_transmit(s_sendBuffer, txLength);
+    (void)charon_interface_isotp_transmit(s_sendBuffer, txLength);
 }
 
 
