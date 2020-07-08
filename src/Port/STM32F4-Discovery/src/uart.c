@@ -30,20 +30,26 @@ void uart_init (void)
     GPIOA->AFR[0] |= 0x7700;
 
     // dma1 stream5(rx) stream6(tx) on trigger channel 4
-    RCC->AHB1ENR |= 0x100000;
+    RCC->AHB1ENR |= 0x200000;
     DMA1_Stream5->PAR = (uint32_t)&USART2->DR;
     DMA1_Stream5->M0AR = (uint32_t)&receivelength;
     DMA1_Stream5->NDTR = 2;
-    DMA1_Stream5->CR = 0x04C00411;
+    DMA1_Stream5->CR = 0x09800411;
 
     DMA1_Stream6->PAR = (uint32_t)&USART2->DR;
-    DMA1_Stream6->CR = 0x04C004D0;
+    DMA1_Stream6->CR = 0x098004D0;
 
     // initialize uart 2
     RCC->APB1ENR |= 0x20000;
     USART2->BRR = 0x85;         // 8Mhz source clock, 115.2 kbaud, over8 = 1
     USART2->CR3 = 0xC0;         // enable dma usage
     USART2->CR1 = 0xA00C;       // enable hardware
+
+    // enable interrupts
+    NVIC->IP[DMA1_Stream5_IRQn] = 0x30;
+    NVIC->IP[DMA1_Stream6_IRQn] = 0x30;
+    NVIC->ISER[DMA1_Stream5_IRQn/32] |= 1uL << (DMA1_Stream5_IRQn%32);
+    NVIC->ISER[DMA1_Stream6_IRQn/32] |= 1uL << (DMA1_Stream6_IRQn%32);
 }
 __attribute__((section(".init_array"))) void(*uart_init_array_entry)(void) = uart_init;
 
