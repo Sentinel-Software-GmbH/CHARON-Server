@@ -83,7 +83,6 @@
 			</target>
 			<target name="gcov:all utils:gcov" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
 				<buildCommand>ceedling.cmd</buildCommand>
-				<buildArguments/>
 				<buildTarget>gcov:all utils:gcov</buildTarget>
 				<stopOnError>true</stopOnError>
 				<useDefaultCommand>true</useDefaultCommand>
@@ -91,8 +90,15 @@
 			</target>
 			<target name="test:all" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
 				<buildCommand>ceedling.cmd</buildCommand>
-				<buildArguments/>
 				<buildTarget>test:all</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="release" path="src/Port/STM32F4-Discovery" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>ceedling.cmd</buildCommand>
+				<buildArguments/>
+				<buildTarget>release</buildTarget>
 				<stopOnError>true</stopOnError>
 				<useDefaultCommand>true</useDefaultCommand>
 				<runAllBuilders>true</runAllBuilders>
