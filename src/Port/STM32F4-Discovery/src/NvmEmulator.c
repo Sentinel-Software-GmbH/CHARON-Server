@@ -9,7 +9,7 @@
 #include <string.h>
 
 
-static uint8_t NvmEmulator_MemorySpace[128*1024];
+static uint8_t NvmEmulator_MemorySpace[64*1024];
 
 bool charon_NvmDriver_checkAddressRange (uint32_t address, uint32_t length)
 {

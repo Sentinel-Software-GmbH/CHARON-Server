@@ -41,7 +41,7 @@ void ResetHandler (void);
 
 
 InterruptVector_t InterruptVector = {
-		0x20030000,
+		0x20020000,
 		ResetHandler,
 		.Dma1Stream5 = uart_receiveInterrupt,
 		.Dma1Stream6 = uart_transmitInterrupt
