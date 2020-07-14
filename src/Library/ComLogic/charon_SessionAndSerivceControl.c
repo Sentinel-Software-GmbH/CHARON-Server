@@ -38,7 +38,7 @@
 #include "ComLogic/charon_ServiceLookupTable.h"
 #include "Common/charon_negativeResponse.h"
 #include "HSDI/charon_interface_clock.h"
-#include "HSDI/charon_interface_canisotp.h"
+#include "Interface/Socket/ISocket.h"
 
 /* Imports *******************************************************************/
 
@@ -95,6 +95,8 @@ static ComTimeoutLimits_t s_ttl =
 {
         DEFAULT_P2_SERVER, DEFAULT_P2_STAR_SERVER, DEFAULT_S3_SERVER
 };
+/** Stores the System given Communication Socket */
+static ISocket_t s_systemComSocket = {0};
 
 /* Buffers *****************************************************************/
 
@@ -165,6 +167,11 @@ static void sendMessage (uint8_t const * const pUdsMessage, uint32_t length);
 
 /* Interfaces  ***************************************************************/
 
+void charon_sscInit (ISocket_t sscComSocket)
+{
+    s_systemComSocket = sscComSocket;
+}
+
 void charon_sscCyclic (void)
 {
     /* Check Diagnostic Session */
@@ -190,7 +197,7 @@ void charon_sscRcvMessage (void)
     uint32_t length;
 
     /* Get Message from Underlying Transport LL */
-    length = charon_interface_isotp_receive(s_receiveBuffer, sizeof(s_receiveBuffer));
+    length = s_systemComSocket.receive(s_receiveBuffer, sizeof(s_receiveBuffer));
 
     /**
      * FEATURE
@@ -415,7 +422,7 @@ static void sendMessage (uint8_t const * const pUdsMessage, uint32_t length)
 
     /* Copy to Buffer and start transfer */
     memcpy(s_sendBuffer, pUdsMessage, txLength);
-    (void)charon_interface_isotp_transmit(s_sendBuffer, txLength);
+    (void)s_systemComSocket.transmit(s_sendBuffer, txLength);
 }
 
 

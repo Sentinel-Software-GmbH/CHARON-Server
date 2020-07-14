@@ -18,10 +18,12 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Interface
+ * @addtogroup HSDI
  * @{
- * @file charon_uds
- * Implementation of Application Interfaces
+ * @file ISocket.h
+ * An abstract interface to all kind of hardware interfaces, like uart, usb, spi,
+ * even tcp/ip and file access are possible. This way the upper layer software is
+ * free from all implementation details and is more versatile.
  *
  * $Id:  $
  * $URL:  $
@@ -30,12 +32,12 @@
  */
 /*****************************************************************************/
 
+#ifndef ISOCKET_H
+#define ISOCKET_H
+
 /* Includes ******************************************************************/
 
-#include "charon_uds.h"
-#include "ComLogic/charon_SessionAndSerivceControl.h"
-
-/* Imports *******************************************************************/
+#include <stdint.h>
 
 /* Constants *****************************************************************/
 
@@ -43,32 +45,15 @@
 
 /* Types *********************************************************************/
 
-/* Variables *****************************************************************/
-
-/* Private Function Definitions **********************************************/
-
-/* Interfaces  ***************************************************************/
-
-
-void charon_init (ISocket_t systemCommunicationSocket)
+typedef struct ISocket_t_public
 {
-    charon_sscInit(systemCommunicationSocket);
-}
+    uint32_t (*numAvailableBytes)(void);
+    uint32_t (*receive)(uint8_t *buf, uint32_t len);
+    uint32_t (*transmit)(const uint8_t *buf, uint32_t len);
+} ISocket_t;
 
-void charon_task (void)
-{
-    // TODO think about putting charon_sscRcvMessage into charon_sscCyclic
+/* Interfaces ****************************************************************/
 
-    /* Process Received Data */
-    charon_sscRcvMessage();
-
-    /* Process SSC Layer */
-    charon_sscCyclic();
-
-    return;
-}
-
-/* Private Function **********************************************************/
+#endif /* ISOCKET_H */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
-

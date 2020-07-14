@@ -18,10 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Interface
+ * @addtogroup HSDI
  * @{
- * @file charon_uds
- * Implementation of Application Interfaces
+ * @file DevNullSocket.c
+ * Implementation of NULL Socket.
  *
  * $Id:  $
  * $URL:  $
@@ -32,8 +32,7 @@
 
 /* Includes ******************************************************************/
 
-#include "charon_uds.h"
-#include "ComLogic/charon_SessionAndSerivceControl.h"
+#include "Interface/Socket/DevNullSocket.h"
 
 /* Imports *******************************************************************/
 
@@ -47,28 +46,35 @@
 
 /* Private Function Definitions **********************************************/
 
+static uint32_t DevNull_numOfData(void);
+static uint32_t DevNull_receive(uint8_t *buf, uint32_t len);
+static uint32_t DevNull_transmit(const uint8_t *buf, uint32_t len);
+
 /* Interfaces  ***************************************************************/
 
-
-void charon_init (ISocket_t systemCommunicationSocket)
+extern const ISocket_t DevNullSocket =
 {
-    charon_sscInit(systemCommunicationSocket);
-}
-
-void charon_task (void)
-{
-    // TODO think about putting charon_sscRcvMessage into charon_sscCyclic
-
-    /* Process Received Data */
-    charon_sscRcvMessage();
-
-    /* Process SSC Layer */
-    charon_sscCyclic();
-
-    return;
-}
+        DevNull_numOfData,
+        DevNull_receive,
+        DevNull_transmit
+};
 
 /* Private Function **********************************************************/
+
+static uint32_t DevNull_numOfData(void)
+{
+    return 0;
+}
+
+static uint32_t DevNull_receive(uint8_t *buf, uint32_t len)
+{
+    return 0;
+}
+
+static uint32_t DevNull_transmit(const uint8_t *buf, uint32_t len)
+{
+    return len;
+}
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
 
