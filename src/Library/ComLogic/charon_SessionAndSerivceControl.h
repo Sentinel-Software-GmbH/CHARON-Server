@@ -37,6 +37,7 @@
 /* Includes ******************************************************************/
 
 #include <stdint.h>
+#include "Interface/Socket/ISocket.h"
 
 /* Constants *****************************************************************/
 
@@ -58,6 +59,8 @@ typedef enum
 } charon_sessionTypes_t;
 
 /* Interfaces ****************************************************************/
+
+void charon_sscInit (ISocket_t sscComSocket);
 
 void charon_sscCyclic(void);
 

@@ -18,10 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Interface
+ * @defgroup HSDI
  * @{
- * @file charon_uds
- * Implementation of Application Interfaces
+ * @file DevNullSocket.h
+ * Socket for ignoring all data, like "dev/null" on unix systems
  *
  * $Id:  $
  * $URL:  $
@@ -30,12 +30,12 @@
  */
 /*****************************************************************************/
 
+#ifndef DEVNULLSOCKET_H
+#define DEVNULLSOCKET_H
+
 /* Includes ******************************************************************/
 
-#include "charon_uds.h"
-#include "ComLogic/charon_SessionAndSerivceControl.h"
-
-/* Imports *******************************************************************/
+#include "Interface/Socket/ISocket.h"
 
 /* Constants *****************************************************************/
 
@@ -43,32 +43,11 @@
 
 /* Types *********************************************************************/
 
-/* Variables *****************************************************************/
+/* Interfaces ****************************************************************/
 
-/* Private Function Definitions **********************************************/
+extern const ISocket_t DevNullSocket;
 
-/* Interfaces  ***************************************************************/
-
-
-void charon_init (ISocket_t systemCommunicationSocket)
-{
-    charon_sscInit(systemCommunicationSocket);
-}
-
-void charon_task (void)
-{
-    // TODO think about putting charon_sscRcvMessage into charon_sscCyclic
-
-    /* Process Received Data */
-    charon_sscRcvMessage();
-
-    /* Process SSC Layer */
-    charon_sscCyclic();
-
-    return;
-}
-
-/* Private Function **********************************************************/
+#endif /* DEVNULLSOCKET_H */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
 
