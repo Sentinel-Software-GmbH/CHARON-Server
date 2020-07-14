@@ -1,0 +1,41 @@
+---
+
+# Notes:
+# Sample project C code is not presently written to produce a release artifact.
+# As such, release build options are disabled.
+# This sample, therefore, only demonstrates running a collection of unit tests.
+
+:project:
+  :use_exceptions: FALSE
+  :use_test_preprocessor: TRUE
+  :use_auxiliary_dependencies: TRUE
+  :build_root: build
+  :compile_threads: <%= ENV['NUMBER_OF_PROCESSORS'] %>
+  :release_build: TRUE
+  :test_file_prefix: test_
+  :which_ceedling: ../../../toolchain/ceedling
+  :default_tasks:
+    - release
+
+:release_build:
+  :output: charon.exe
+  :use_assembly: FALSE
+
+:environment:
+
+:flags:
+  :release:
+    :compile:
+      :*:
+        - -g
+        - -O0
+
+:extension:
+  :executable: .exe
+
+:paths:
+  :source:
+    - src/**
+    - ../../Library/**
+
+...

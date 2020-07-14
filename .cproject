@@ -14,7 +14,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.mingw.base.624734270" name="Default" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=" parent="org.eclipse.cdt.build.core.emptycfg">
+				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.mingw.base.624734270" name="Default" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="org.eclipse.cdt.build.core.emptycfg">
 					<folderInfo id="cdt.managedbuild.toolchain.gnu.mingw.base.624734270.755267812" name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.510829277" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1663007421" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
@@ -73,6 +73,14 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
 		<buildTargets>
+			<target name="PClint" path="toolchain/pclint" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>C:/Program</buildCommand>
+				<buildArguments>Files (x86)\PC-lint 9.0\lint-nt.exe</buildArguments>
+				<buildTarget>eclipse.lnt</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>false</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
 			<target name="cppcheck" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
 				<buildCommand>C:/Program</buildCommand>
 				<buildArguments>Files\Cppcheck\cppcheck.exe</buildArguments>
@@ -97,12 +105,12 @@
 				<useDefaultCommand>true</useDefaultCommand>
 				<runAllBuilders>true</runAllBuilders>
 			</target>
-			<target name="PClint" path="toolchain/pclint" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-				<buildCommand>C:/Program</buildCommand>
-				<buildArguments>Files (x86)\PC-lint 9.0\lint-nt.exe</buildArguments>
-				<buildTarget>eclipse.lnt</buildTarget>
+			<target name="ceedling release" path="src/Port/Windows" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>ceedling.cmd</buildCommand>
+				<buildArguments/>
+				<buildTarget>release</buildTarget>
 				<stopOnError>true</stopOnError>
-				<useDefaultCommand>false</useDefaultCommand>
+				<useDefaultCommand>true</useDefaultCommand>
 				<runAllBuilders>true</runAllBuilders>
 			</target>
 		</buildTargets>

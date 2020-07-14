@@ -1,3 +1,4 @@
 /.settings/
 /architecture/*.ldb
 /build/
+/src/Port/Windows/build/
