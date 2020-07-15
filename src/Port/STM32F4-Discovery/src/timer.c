@@ -1,29 +1,31 @@
 /*
  * timer.c
  *
- *  Created on: 08.07.2020
+ *  Created on: 14.07.2020
  *      Author: Florian Kaup
  */
 
+
 #include "HSDI/charon_interface_clock.h"
+#include "timer.h"
+#include "stm32f4xx_hal_dma.h"
 
-#include "stm32f407xx.h"
+static TIM_HandleTypeDef * handle;
 
-
-void timer_init (void)
+void timer_init(TIM_HandleTypeDef * htim)
 {
-    TIM2->PSC = 7999;
-    TIM2->CR1 = 1;
+    handle = htim;
+    __HAL_TIM_ENABLE(handle);
 }
-__attribute__((section(".init_array"))) void(*timer_init_array_entry)(void) = timer_init;
 
 uint32_t charon_interface_clock_getTime(void)
 {
-    return TIM2->CNT;
+    return __HAL_TIM_GET_COUNTER(handle);
 }
 
 uint32_t charon_interface_clock_getTimeElapsed(uint32_t timestamp)
 {
-    return TIM2->CNT - timestamp;
+    return __HAL_TIM_GET_COUNTER(handle) - timestamp;
 }
+
 

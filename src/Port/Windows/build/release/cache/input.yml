@@ -1,0 +1,204 @@
+---
+:project:
+  :use_exceptions: false
+  :use_mocks: true
+  :compile_threads: 8
+  :test_threads: 1
+  :use_test_preprocessor: true
+  :use_deep_dependencies: false
+  :generate_deep_dependencies: true
+  :test_file_prefix: test_
+  :options_paths: []
+  :release_build: true
+  :use_auxiliary_dependencies: true
+  :build_root: build
+  :which_ceedling: "../../../toolchain/ceedling"
+  :default_tasks:
+  - release
+:release_build:
+  :use_assembly: false
+  :artifacts: []
+  :output: charon.exe
+:paths:
+  :test: []
+  :source:
+  - src/**
+  - "../../Library/**"
+  :support: []
+  :include: []
+  :test_toolchain_include: []
+  :release_toolchain_include: []
+:files:
+  :test: []
+  :source: []
+  :assembly: []
+  :support: []
+  :include: []
+:environment:
+- :rake_columns: '120'
+:defines:
+  :test: []
+  :test_preprocess: []
+  :release: []
+  :release_preprocess: []
+  :use_test_definition: false
+:libraries:
+  :test: []
+  :test_preprocess: []
+  :release: []
+  :release_preprocess: []
+:flags:
+  :release:
+    :compile:
+      :*:
+      - "-g"
+      - "-O0"
+:extension:
+  :header: ".h"
+  :source: ".c"
+  :assembly: ".s"
+  :object: ".o"
+  :executable: ".exe"
+  :map: ".map"
+  :list: ".lst"
+  :testpass: ".pass"
+  :testfail: ".fail"
+  :dependencies: ".d"
+:unity:
+  :vendor_path: D:/Projekte/eclipse workspace/UDS_server/toolchain/ceedling/vendor
+  :defines: []
+:cmock:
+  :vendor_path: D:/Projekte/eclipse workspace/UDS_server/toolchain/ceedling/vendor
+  :defines: []
+  :includes: []
+  :mock_prefix: Mock
+  :enforce_strict_ordering: true
+  :mock_path: build/test/mocks
+  :verbosity: 3
+  :plugins: []
+  :unity_helper: false
+:cexception:
+  :vendor_path: D:/Projekte/eclipse workspace/UDS_server/toolchain/ceedling/vendor
+  :defines: []
+:test_runner:
+  :includes: []
+  :file_suffix: _runner
+:tools:
+  :test_compiler:
+    :executable: gcc.exe
+    :name: default_test_compiler
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
+    :arguments:
+    - -I"$": COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE_VENDOR
+    - -I"$": COLLECTION_PATHS_TEST_TOOLCHAIN_INCLUDE
+    - "-D$": COLLECTION_DEFINES_TEST_AND_VENDOR
+    - "-DGNU_COMPILER"
+    - "-g"
+    - -c "${1}"
+    - -o "${2}"
+    - "-MMD"
+    - -MF "${4}"
+  :test_fixture:
+    :executable: "${1}"
+    :name: default_test_fixture
+    :stderr_redirect: :auto
+    :background_exec: :none
+    :optional: false
+    :arguments: []
+  :test_linker:
+    :executable: gcc.exe
+    :name: default_test_linker
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
+    :arguments:
+    - '"${1}"'
+    - -o "${2}"
+    - ''
+    - "${4}"
+  :test_file_preprocessor:
+    :executable: gcc.exe
+    :name: default_test_file_preprocessor
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
+    :arguments:
+    - "-E"
+    - -I"$": COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE_VENDOR
+    - -I"$": COLLECTION_PATHS_TEST_TOOLCHAIN_INCLUDE
+    - "-D$": COLLECTION_DEFINES_TEST_AND_VENDOR
+    - "-D$": DEFINES_TEST_PREPROCESS
+    - "-DGNU_COMPILER"
+    - '"${1}"'
+    - -o "${2}"
+  :test_includes_preprocessor:
+    :executable: gcc.exe
+    :name: default_test_includes_preprocessor
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
+    :arguments:
+    - "-E"
+    - "-MM"
+    - "-MG"
+    - -I"$": COLLECTION_PATHS_TEST_SUPPORT_SOURCE_INCLUDE_VENDOR
+    - -I"$": COLLECTION_PATHS_TEST_TOOLCHAIN_INCLUDE
+    - "-D$": COLLECTION_DEFINES_TEST_AND_VENDOR
+    - "-D$": DEFINES_TEST_PREPROCESS
+    - "-DGNU_COMPILER"
+    - "-w"
+    - '"${1}"'
+  :release_compiler:
+    :executable: gcc.exe
+    :name: default_release_compiler
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
+    :arguments:
+    - -I"$": COLLECTION_PATHS_SOURCE_INCLUDE_VENDOR
+    - -I"$": COLLECTION_PATHS_RELEASE_TOOLCHAIN_INCLUDE
+    - "-D$": COLLECTION_DEFINES_RELEASE_AND_VENDOR
+    - "-DGNU_COMPILER"
+    - -c "${1}"
+    - -o "${2}"
+    - "-MMD"
+    - -MF "${4}"
+  :release_linker:
+    :executable: gcc.exe
+    :name: default_release_linker
+    :stderr_redirect: :none
+    :background_exec: :none
+    :optional: false
+    :arguments:
+    - '"${1}"'
+    - -o "${2}"
+    - ''
+    - "${4}"
+:test_compiler:
+  :arguments: []
+:test_linker:
+  :arguments: []
+:test_fixture:
+  :arguments: []
+  :link_objects: []
+:test_includes_preprocessor:
+  :arguments: []
+:test_file_preprocessor:
+  :arguments: []
+:test_dependencies_generator:
+  :arguments: []
+:release_compiler:
+  :arguments: []
+:release_linker:
+  :arguments: []
+:release_assembler:
+  :arguments: []
+:release_dependencies_generator:
+  :arguments: []
+:plugins:
+  :load_paths:
+  - D:/Projekte/eclipse workspace/UDS_server/toolchain/ceedling/lib/../plugins
+  :enabled: []
+  :display_raw_test_results: true
