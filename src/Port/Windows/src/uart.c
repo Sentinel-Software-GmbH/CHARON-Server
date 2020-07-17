@@ -16,7 +16,7 @@ void pipe_init (void)
     pipeHandle = CreateNamedPipe(
             pipeName,
             PIPE_ACCESS_DUPLEX,
-            PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_NOWAIT,
+            PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_NOWAIT,
             PIPE_UNLIMITED_INSTANCES,
             4100,
             4100,
@@ -28,7 +28,9 @@ void pipe_init (void)
 uint16_t charon_interface_isotp_receive (uint8_t* data, uint32_t maxSize)
 {
     DWORD numBytes = 0;
-    ReadFile(pipeHandle, data, maxSize, &numBytes, NULL);
+    BOOL result = ReadFile(pipeHandle, data, maxSize, &numBytes, NULL);
+    DWORD error = GetLastError();
+    if (!result && error == 109) pipe_init();
     return numBytes;
 }
 
