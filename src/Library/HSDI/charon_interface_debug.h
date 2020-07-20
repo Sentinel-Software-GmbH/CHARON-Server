@@ -47,9 +47,13 @@
 
 /* Macros ********************************************************************/
 
-#define CHARON_INFO(x, ...)     printf("[Charon] Info: " x "\n", ##__VA_ARGS__)
-#define CHARON_WARNING(x, ...)  printf("[Charon] Warning: " x "\n", ##__VA_ARGS__)
-#define CHARON_ERROR(x, ...)    printf("[Charon] Error: " x "\n", ##__VA_ARGS__)
+#define CHARON_INFO(x, ...)
+#define CHARON_WARNING(x, ...)
+#define CHARON_ERROR(x, ...)
+
+//#define CHARON_INFO(x, ...)     printf("[Charon] Info: " x "\n", ##__VA_ARGS__)
+//#define CHARON_WARNING(x, ...)  printf("[Charon] Warning: " x "\n", ##__VA_ARGS__)
+//#define CHARON_ERROR(x, ...)    printf("[Charon] Error: " x "\n", ##__VA_ARGS__)
 
 
 /* Types *********************************************************************/
