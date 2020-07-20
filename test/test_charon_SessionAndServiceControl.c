@@ -9,17 +9,28 @@
 #include <unity.h>
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 #include "Common/charon_types.h"
-
+#include "mock_SocketMock.h"
 #include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "mock_charon_RoutineFunctionalUnit.h"
 #include "mock_charon_UploadDownloadFunctionalUnit.h"
 #include "mock_charon_interface_clock.h"
-#include "mock_charon_interface_canisotp.h"
 #include "mock_charon_ServiceLookupTable.h"
 #include "mock_charon_negativeResponse.h"
 
+const ISocket_t SocketMock =
+{
+        SocketMock_numOfData,
+        SocketMock_receive,
+        SocketMock_transmit
+};
+
 static uds_responseCode_t dummyServiceRoutineSuccess (const uint8_t * pData, uint32_t length);
 static uds_responseCode_t dummyServiceRoutinePending (const uint8_t * pData, uint32_t length);
+
+void setUp (void)
+{
+	charon_sscInit(SocketMock);
+}
 
 void test_charon_SessionAndServiceControl_SetSessionAndTimeouts (void)
 {
@@ -48,9 +59,9 @@ void test_charon_SessionAndServiceControl_noUdsPackageReceived (void)
     charon_sscSetSession(charon_sscType_default, 0u, 0u);
 
     /* Setup Expected Function Calls */
-    charon_interface_isotp_receive_ExpectAndReturn(0, 0, 0u);
-    charon_interface_isotp_receive_IgnoreArg_data();
-    charon_interface_isotp_receive_IgnoreArg_maxSize();
+    SocketMock_receive_ExpectAndReturn(0u, 0u, 0u);
+    SocketMock_receive_IgnoreArg_buf();
+    SocketMock_receive_IgnoreArg_len();
 
     /* Run Function Test */
     charon_sscRcvMessage();
@@ -79,10 +90,10 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Success
     charon_sscSetSession(charon_sscType_default, 0u, 0u);
 
     /* Setup Expected Function Calls */
-    charon_interface_isotp_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
-    charon_interface_isotp_receive_IgnoreArg_data();
-    charon_interface_isotp_receive_IgnoreArg_maxSize();
-    charon_interface_isotp_receive_ReturnArrayThruPtr_data(clientMsg, sizeof(clientMsg));
+    SocketMock_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
+    SocketMock_receive_IgnoreArg_buf();
+    SocketMock_receive_IgnoreArg_len();
+    SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_DiagnosticSessionControl, &dummyServiceObjectForSessionControl);
 
 
@@ -113,10 +124,10 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Fail(vo
     charon_sscSetSession(charon_sscType_default, 0u, 0u);
 
     /* Setup Expected Function Calls */
-    charon_interface_isotp_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
-    charon_interface_isotp_receive_IgnoreArg_data();
-    charon_interface_isotp_receive_IgnoreArg_maxSize();
-    charon_interface_isotp_receive_ReturnArrayThruPtr_data(clientMsg, sizeof(clientMsg));
+    SocketMock_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
+    SocketMock_receive_IgnoreArg_buf();
+    SocketMock_receive_IgnoreArg_len();
+    SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_RequestDownload, &dummyServiceObjectForDownloadRequest);
     charon_sendNegativeResponse_Expect(uds_responseCode_ServiceNotSupportedInActiveSession ,uds_sid_RequestDownload);
 
@@ -140,10 +151,10 @@ void test_charon_SessionAndServiceControl_serviceNotSupported(void)
     charon_sscSetSession(charon_sscType_default, 0u, 0u);
 
     /* Setup Expected Function Calls */
-    charon_interface_isotp_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
-    charon_interface_isotp_receive_IgnoreArg_data();
-    charon_interface_isotp_receive_IgnoreArg_maxSize();
-    charon_interface_isotp_receive_ReturnArrayThruPtr_data(clientMsg, sizeof(clientMsg));
+    SocketMock_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
+    SocketMock_receive_IgnoreArg_buf();
+    SocketMock_receive_IgnoreArg_len();
+    SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_ResponseOnEvent, NULL);
     charon_sendNegativeResponse_Expect(uds_responseCode_ServiceNotSupported, uds_sid_ResponseOnEvent);
 
@@ -174,10 +185,10 @@ void test_charon_SessionAndServiceControl_executeService_AnswerPending(void)
     charon_sscSetSession(charon_sscType_programming, 0x100u, 0x500u);
 
     /* Setup Expected Function Calls */
-    charon_interface_isotp_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
-    charon_interface_isotp_receive_IgnoreArg_data();
-    charon_interface_isotp_receive_IgnoreArg_maxSize();
-    charon_interface_isotp_receive_ReturnArrayThruPtr_data(clientMsg, sizeof(clientMsg));
+    SocketMock_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
+    SocketMock_receive_IgnoreArg_buf();
+    SocketMock_receive_IgnoreArg_len();
+    SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_WriteMemoryByAddress, &dummyServiceObjectForWriteMemoryByAddress);
     charon_interface_clock_getTime_ExpectAndReturn(0x100u);
 
@@ -208,10 +219,10 @@ void test_charon_SessionAndServiceControl_executeService_ServicePendingDenyServi
     //NA
 
     /* Setup Expected Function Calls */
-    charon_interface_isotp_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
-    charon_interface_isotp_receive_IgnoreArg_data();
-    charon_interface_isotp_receive_IgnoreArg_maxSize();
-    charon_interface_isotp_receive_ReturnArrayThruPtr_data(clientMsg, sizeof(clientMsg));
+    SocketMock_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
+    SocketMock_receive_IgnoreArg_buf();
+    SocketMock_receive_IgnoreArg_len();
+    SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_DiagnosticSessionControl, &dummyServiceObjectForDiagnosticSessionControl);
     charon_sendNegativeResponse_Expect(uds_responseCode_BusyRepeatRequest, uds_sid_DiagnosticSessionControl);
 
@@ -242,10 +253,10 @@ void test_charon_SessionAndServiceControl_executeService_ServicePendingAcceptTes
     //NA
 
     /* Setup Expected Function Calls */
-    charon_interface_isotp_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
-    charon_interface_isotp_receive_IgnoreArg_data();
-    charon_interface_isotp_receive_IgnoreArg_maxSize();
-    charon_interface_isotp_receive_ReturnArrayThruPtr_data(clientMsg, sizeof(clientMsg));
+    SocketMock_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
+    SocketMock_receive_IgnoreArg_buf();
+    SocketMock_receive_IgnoreArg_len();
+    SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_TesterPresent, &dummyServiceObjectTesterPresent);
 
     /* Run Function Test */

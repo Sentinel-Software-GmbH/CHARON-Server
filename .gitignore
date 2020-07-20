@@ -1,4 +1,5 @@
 /.settings/
 /architecture/*.ldb
 /build/
+/src/Port/STM32F4-Discovery/build/
 /src/Port/Windows/build/

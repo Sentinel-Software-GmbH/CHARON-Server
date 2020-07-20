@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Interfaces
+ * @addtogroup HSDI
  * @{
  * @file charon_interface_clock.h
  * This Interface Describes the Functions needed by CHARON UDS for
