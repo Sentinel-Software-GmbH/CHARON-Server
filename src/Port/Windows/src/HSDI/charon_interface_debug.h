@@ -41,13 +41,20 @@
 
 /* Includes ******************************************************************/
 
+#include <stdio.h>
+
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
 
-#define CHARON_INFO(x, ...)
-#define CHARON_WARNING(x, ...)
-#define CHARON_ERROR(x, ...)
+// Include order!
+// this file must be first in include order for windows build, so these macros
+// are used by gcc instead of ../../Library/HSDI/charon_interface_debug.h
+
+#define CHARON_INFO(x, ...)     printf("[Charon] Info: " x "\n", ##__VA_ARGS__)
+#define CHARON_WARNING(x, ...)  printf("[Charon] Warning: " x "\n", ##__VA_ARGS__)
+#define CHARON_ERROR(x, ...)    printf("[Charon] Error: " x "\n", ##__VA_ARGS__)
+
 
 /* Types *********************************************************************/
 
