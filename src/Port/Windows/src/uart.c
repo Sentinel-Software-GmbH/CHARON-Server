@@ -5,7 +5,7 @@
  *      Author: Florian Kaup
  */
 
-#include "HSDI/charon_interface_canisotp.h"
+#include "Interface/Socket/ISocket.h"
 #include <windows.h>
 
 HANDLE pipeHandle;
@@ -24,8 +24,12 @@ void pipe_init (void)
             NULL);
 }
 
+static uint32_t uart_numAvailableBytes (void)
+{
+    return UINT32_MAX;
+}
 
-uint16_t charon_interface_isotp_receive (uint8_t* data, uint32_t maxSize)
+static uint32_t uart_receive (uint8_t* data, uint32_t maxSize)
 {
     DWORD numBytes = 0;
     BOOL result = ReadFile(pipeHandle, data, maxSize, &numBytes, NULL);
@@ -34,12 +38,19 @@ uint16_t charon_interface_isotp_receive (uint8_t* data, uint32_t maxSize)
     return numBytes;
 }
 
-uint16_t charon_interface_isotp_transmit (uint8_t* data, uint32_t size)
+static uint32_t uart_transmit (const uint8_t* data, uint32_t size)
 {
     DWORD numBytes;
     WriteFile(pipeHandle, data, size, &numBytes, NULL);
     return numBytes;
 }
+
+
+ISocket_t uart_socket = {
+        .numAvailableBytes = uart_numAvailableBytes,
+        .receive = uart_receive,
+        .transmit = uart_transmit,
+};
 
 
 
