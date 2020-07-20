@@ -124,6 +124,239 @@ charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject (uint8_t sid)
     return result;
 }
 
+const char * charon_ServiceLookupTable_getNameForServiceSid (uint8_t sid)
+{
+    const char * result = "unknown sid";
+    switch(sid)
+    {
+    case uds_sid_DiagnosticSessionControl:
+        result = "DiagnosticSessionControl";
+        break;
+    case uds_sid_EcuReset:
+        result = "EcuReset";
+        break;
+    case uds_sid_ClearDiagnosticInformation:
+        result = "ClearDiagnosticInformation";
+        break;
+    case uds_sid_ReadDtcInformation:
+        result = "ReadDtcInformation";
+        break;
+    case uds_sid_ReadDataByIdentifier:
+        result = "ReadDataByIdentifier";
+        break;
+    case uds_sid_ReadMemoryByAddress:
+        result = "ReadMemoryByAddress";
+        break;
+    case uds_sid_ReadScalingDataByIdentifier:
+        result = "ReadScalingDataByIdentifier";
+        break;
+    case uds_sid_SecurityAccess:
+        result = "SecurityAccess";
+        break;
+    case uds_sid_CommunicationControl:
+        result = "CommunicationControl";
+        break;
+    case uds_sid_ReadDataByPeriodicIdentifier:
+        result = "ReadDataByPeriodicIdentifier";
+        break;
+    case uds_sid_DynamicallyDefineDataIdentifier:
+        result = "DynamicallyDefineDataIdentifier";
+        break;
+    case uds_sid_WriteDataByIdentifier:
+        result = "WriteDataByIdentifier";
+        break;
+    case uds_sid_InputOutputControlByIdentifier:
+        result = "InputOutputControlByIdentifier";
+        break;
+    case uds_sid_RoutineControl:
+        result = "RoutineControl";
+        break;
+    case uds_sid_RequestDownload:
+        result = "RequestDownload";
+        break;
+    case uds_sid_RequestUpload:
+        result = "RequestUpload";
+        break;
+    case uds_sid_TransferData:
+        result = "TransferData";
+        break;
+    case uds_sid_RequestTransferExit:
+        result = "RequestTransferExit";
+        break;
+    case uds_sid_RequestFileTransfer:
+        result = "RequestFileTransfer";
+        break;
+    case uds_sid_WriteMemoryByAddress:
+        result = "WriteMemoryByAddress";
+        break;
+    case uds_sid_TesterPresent:
+        result = "TesterPresent";
+        break;
+    case uds_sid_PositiveResponseMask:
+        result = "PositiveResponseMask";
+        break;
+    case uds_sid_NegativeResponse:
+        result = "NegativeResponse";
+        break;
+    case uds_sid_AccessTimingParameter:
+        result = "AccessTimingParameter";
+        break;
+    case uds_sid_SecuredDataTransmission:
+        result = "SecuredDataTransmission";
+        break;
+    case uds_sid_ControlDtcSetting:
+        result = "ControlDtcSetting";
+        break;
+    case uds_sid_ResponseOnEvent:
+        result = "ResponseOnEvent";
+        break;
+    case uds_sid_LinkControl:
+        result = "LinkControl";
+        break;
+
+    default:
+        // nothing to do
+        break;
+    }
+    return result;
+}
+
+const char * charon_ServiceLookupTable_getNameForReturnCode (uds_responseCode_t returnCode)
+{
+    const char * result = "unknown return code";
+    switch (returnCode)
+    {
+    case uds_responseCode_PositiveResponse:
+        result = "PositiveResponse";
+        break;
+    case uds_responseCode_GeneralReject:
+        result = "GeneralReject";
+        break;
+    case uds_responseCode_ServiceNotSupported:
+        result = "ServiceNotSupported";
+        break;
+    case uds_responseCode_SubfunctionNotSupported:
+        result = "SubfunctionNotSupported";
+        break;
+    case uds_responseCode_IncorrectMessageLengthOrInvalidFormat:
+        result = "IncorrectMessageLengthOrInvalidFormat";
+        break;
+    case uds_responseCode_ResponseTooLong:
+        result = "ResponseTooLong";
+        break;
+    case uds_responseCode_BusyRepeatRequest:
+        result = "BusyRepeatRequest";
+        break;
+    case uds_responseCode_ConditionsNotCorrect:
+        result = "ConditionsNotCorrect";
+        break;
+    case uds_responseCode_RequestSequenceError:
+        result = "RequestSequenceError";
+        break;
+    case uds_responseCode_NoResponseFromSubnetComponent:
+        result = "NoResponseFromSubnetComponent";
+        break;
+    case uds_responseCode_FailurePreventsExecutionOfRequestedAction:
+        result = "FailurePreventsExecutionOfRequestedAction";
+        break;
+    case uds_responseCode_RequestOutOfRange:
+        result = "RequestOutOfRange";
+        break;
+    case uds_responseCode_SecurityAccessDenied:
+        result = "SecurityAccessDenied";
+        break;
+    case uds_responseCode_InvalidKey:
+        result = "InvalidKey";
+        break;
+    case uds_responseCode_ExceededNumberOfAttempts:
+        result = "ExceededNumberOfAttempts";
+        break;
+    case uds_responseCode_RequiredTimeDelayNotExpired:
+        result = "RequiredTimeDelayNotExpired";
+        break;
+    case uds_responseCode_UploadDownloadNotAccepted:
+        result = "UploadDownloadNotAccepted";
+        break;
+    case uds_responseCode_TransferDataSuspended:
+        result = "TransferDataSuspended";
+        break;
+    case uds_responseCode_GeneralProgrammingFailure:
+        result = "GeneralProgrammingFailure";
+        break;
+    case uds_responseCode_WrongBlockSequenceCounter:
+        result = "WrongBlockSequenceCounter";
+        break;
+    case uds_responseCode_RequestCorrectlyReceived_ResponsePending:
+        result = "RequestCorrectlyReceived_ResponsePending";
+        break;
+    case uds_responseCode_SubfunctionNotSupportedInActiveSession:
+        result = "SubfunctionNotSupportedInActiveSession";
+        break;
+    case uds_responseCode_ServiceNotSupportedInActiveSession:
+        result = "ServiceNotSupportedInActiveSession";
+        break;
+    case uds_responseCode_RpmTooHigh:
+        result = "RpmTooHigh";
+        break;
+    case uds_responseCode_RpmTooLow:
+        result = "RpmTooLow";
+        break;
+    case uds_responseCode_EngineIsRunning:
+        result = "EngineIsRunning";
+        break;
+    case uds_responseCode_EngineIsNotRunning:
+        result = "EngineIsNotRunning";
+        break;
+    case uds_responseCode_EngineRunTimeTooLow:
+        result = "EngineRunTimeTooLow";
+        break;
+    case uds_responseCode_TemperatureTooHigh:
+        result = "TemperatureTooHigh";
+        break;
+    case uds_responseCode_TemperatureTooLow:
+        result = "TemperatureTooLow";
+        break;
+    case uds_responseCode_VehicleSpeedTooHigh:
+        result = "VehicleSpeedTooHigh";
+        break;
+    case uds_responseCode_VehicleSpeedTooLow:
+        result = "VehicleSpeedTooLow";
+        break;
+    case uds_responseCode_ThrottlePedalTooHigh:
+        result = "ThrottlePedalTooHigh";
+        break;
+    case uds_responseCode_ThrottlePedalTooLow:
+        result = "ThrottlePedalTooLow";
+        break;
+    case uds_responseCode_TransmissionNotInNeutral:
+        result = "TransmissionNotInNeutral";
+        break;
+    case uds_responseCode_TransmissionNotInGear:
+        result = "TransmissionNotInGear";
+        break;
+    case uds_responseCode_BrakeSwitchesNotClosed:
+        result = "BrakeSwitchesNotClosed";
+        break;
+    case uds_responseCode_ShifterLeverNotInPark:
+        result = "ShifterLeverNotInPark";
+        break;
+    case uds_responseCode_TorqueConverterClutchLocked:
+        result = "TorqueConverterClutchLocked";
+        break;
+    case uds_responseCode_VoltageTooHigh:
+        result = "VoltageTooHigh";
+        break;
+    case uds_responseCode_VoltageTooLow:
+        result = "VoltageTooLow";
+        break;
+
+    default:
+        // norhing to do
+        break;
+    }
+    return result;
+}
+
 /* Private Function **********************************************************/
 
 
