@@ -38,6 +38,7 @@
 #include "ComLogic/charon_ServiceLookupTable.h"
 #include "Common/charon_negativeResponse.h"
 #include "HSDI/charon_interface_clock.h"
+#include "HSDI/charon_interface_debug.h"
 #include "Interface/Socket/ISocket.h"
 
 /* Imports *******************************************************************/
@@ -216,6 +217,8 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
     charon_serviceObject_t * pServiceObj = charon_ServiceLookupTable_getServiceObject((uint8_t)pBuffer[0]);   /* Get Service Object */
     uds_responseCode_t retVal;
 
+    CHARON_INFO("Message received, length: %i SID: %s", length, charon_ServiceLookupTable_getNameForServiceSid((uint8_t)pBuffer[0]));
+
     /* Is a Service Pending, do not execute any other Requests except for Tester Present */
     if((NULL == s_currentlyPendingService)
             || (pServiceObj->sid == uds_sid_TesterPresent))
@@ -226,12 +229,14 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
         {
         case uds_responseCode_ServiceNotSupportedInActiveSession:
         {
+            CHARON_WARNING("Wrong session for requested service, sending error message.");
             /* Answer NRC and Send */
             charon_sendNegativeResponse(uds_responseCode_ServiceNotSupportedInActiveSession, pServiceObj->sid);
             break;
         }
         case uds_responseCode_ServiceNotSupported:
         {
+            CHARON_WARNING("Service not supported / not implemented, sending error message.");
             /* Construct Answer */
             uds_sid_t castedSid;
             /*
@@ -246,6 +251,7 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
         }
         case uds_responseCode_RequestCorrectlyReceived_ResponsePending:
         {
+            CHARON_INFO("Service is executed, response pending.");
             /* Mark Ongoing Service and Begin with Pending Management */
             s_currentlyPendingService = pServiceObj;
             s_pendingRequestStartTime = charon_interface_clock_getTime();
@@ -254,6 +260,7 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
         default:
         {
             //Do Nothing...
+            CHARON_INFO("Service returned %s.", charon_ServiceLookupTable_getNameForReturnCode(retVal));
             break;
         }
         }
@@ -261,6 +268,7 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
     else
     {
         /* Send Busy */
+        CHARON_WARNING("Server is busy, returning error code.");
         charon_sendNegativeResponse(uds_responseCode_BusyRepeatRequest, pServiceObj->sid);
     }
 }
@@ -274,14 +282,20 @@ void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
         uint8_t responeRequestId = (uint8_t)(((uint8_t)pBuffer[0]) & ((uint8_t)~UDS_RESPONSE_REQUEST_INDICATION_BIT_MASK));
         if(responeRequestId == (uint8_t)s_currentlyPendingService->sid)
         {
+            CHARON_INFO("Sending pending response, length %i", length);
             sendMessage(pBuffer, length);
             /* Reset Pending Request */
             s_currentlyPendingService = NULL;
+        }
+        else
+        {
+            CHARON_ERROR("Message SID %s (0x%x) does not match with pending SID %s (0x%x)", charon_ServiceLookupTable_getNameForServiceSid(responeRequestId), responeRequestId, charon_ServiceLookupTable_getNameForServiceSid((uint8_t)s_currentlyPendingService->sid), (uint8_t)s_currentlyPendingService->sid);
         }
     }
     else
     {
         /* Just send Synchronous Message */
+        CHARON_INFO("Sending synchronous response, length %i", length);
         sendMessage(pBuffer, length);
     }
 }

@@ -6,6 +6,7 @@
  */
 
 #include <HSDI/charon_interface_NvmDriver.h>
+#include "HSDI/charon_interface_debug.h"
 #include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 #include "Common/charon_negativeResponse.h"
@@ -45,11 +46,13 @@ static uds_responseCode_t requestTransfer(transferDirection_t direction, const u
             (receivedMessage->dataFormatIdentifier != 0x00u)
         )
     {
+        CHARON_ERROR("Format Identifier invalid: size of address = %i, size of length = %i.", lengthOfMemoryAddress, lengthOfMemoryLength);
         result = uds_responseCode_RequestOutOfRange;
     }
 
     else if ( (((uint32_t)lengthOfMemoryAddress + lengthOfMemoryLength) + 3u) != receiveBufferSize )
     {
+        CHARON_ERROR("Unexpected message length.");
         result = uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
     }
 
@@ -66,13 +69,16 @@ static uds_responseCode_t requestTransfer(transferDirection_t direction, const u
         {
             memoryLength |= (uint32_t)receivedMessage->AddressInformation[(lengthOfMemoryAddress + lengthOfMemoryLength) - (i+1u)] << (i*8u);
         }
+        CHARON_INFO("Transfer Requested, address 0x%x, length 0x%x, direction %s.", memoryAddress, memoryLength, direction == transfer_download ? "download" : "upload");
 
         if ( false == charon_NvmDriver_checkAddressRange(memoryAddress, memoryLength) )
         {
+            CHARON_ERROR("Reuqested memory is out of range.");
             result = uds_responseCode_RequestOutOfRange;
         }
         else if (s_transferDirection != transfer_idle)
         {
+            CHARON_ERROR("A transfer is already ongoing.");
             result = uds_responseCode_ConditionsNotCorrect;
         }
         else
@@ -131,18 +137,22 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8
 
     if (receiveBufferSize > UDS_MAX_INPUT_FRAME_SIZE)
     {
+        CHARON_ERROR("Frame is too long! Maximum size is %i.", UDS_MAX_INPUT_FRAME_SIZE);
         result = uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
     }
     else if (s_transferDirection == transfer_idle)
     {
+        CHARON_ERROR("Transfer Data was not expected. Forgot to request upload/downlaod?");
         result = uds_responseCode_RequestSequenceError;
     }
     else if (s_remainingMemoryLength < (receiveBufferSize - 2u) )
     {
+        CHARON_ERROR("Too much data received!");
         result = uds_responseCode_TransferDataSuspended;
     }
     else if (receivedMessage->blockSequenceCounter != s_nextSequenceCounter)
     {
+        CHARON_ERROR("Sequence number not expected! Received: %i, Expected: %i.", receivedMessage->blockSequenceCounter, s_nextSequenceCounter);
         result = uds_responseCode_WrongBlockSequenceCounter;
     }
     else
@@ -161,6 +171,10 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8
                         receivedMessage->blockSequenceCounter
                 };
                 charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
+            }
+            else
+            {
+                CHARON_ERROR("NVM driver reported error while writing to flash.");
             }
         }
         else
@@ -195,14 +209,17 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (cons
 
     if (receiveBufferSize > 1u)
     {
+        CHARON_ERROR("Unexpected message length.");
         result = uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
     }
     else if (s_remainingMemoryLength != 0u)
     {
+        CHARON_ERROR("Transfer Exit received, but not all data was transfered.");
         result = uds_responseCode_RequestSequenceError;
     }
     else if (s_transferDirection == transfer_idle)
     {
+        CHARON_ERROR("No transfer ongoing, cannot exit transfer.");
         result = uds_responseCode_RequestSequenceError;
     }
     else
@@ -212,6 +229,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (cons
         s_nextSequenceCounter = 0;
         s_transferDirection = transfer_idle;
 
+        CHARON_INFO("Exiting transfer mode.");
         uint8_t transmitBuffer[1] = {(uint8_t)uds_sid_RequestTransferExit | (uint8_t)uds_sid_PositiveResponseMask};
         charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
     }
