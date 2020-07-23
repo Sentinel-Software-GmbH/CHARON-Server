@@ -102,6 +102,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   timer_init(&htim2);
   uart_init(&huart2);
+  charon_init(uartSocket);
   /* USER CODE END 2 */
 
   /* Infinite loop */

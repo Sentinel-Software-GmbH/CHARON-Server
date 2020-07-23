@@ -10,6 +10,9 @@
 
 #include "stm32f4xx_hal_dma.h"
 #include "stm32f4xx_hal_uart.h"
+#include "Interface/Socket/ISocket.h"
+
+extern ISocket_t uartSocket;
 
 void uart_init (UART_HandleTypeDef *huart);
 
