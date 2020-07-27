@@ -5,7 +5,6 @@
  *      Author: Florian Kaup
  */
 
-#include "HSDI/charon_interface_canisotp.h"
 #include "uart.h"
 
 #include <stdint.h>
@@ -19,9 +18,19 @@ static uint16_t receiveLength;
 static bool receiveData;
 static bool receiveFinished;
 
-static uint8_t * transmitBuffer;
+static const uint8_t * transmitBuffer;
 static uint16_t transmitLenght;
 static bool transmitData;
+
+static uint32_t uart_numAvailableBytes (void);
+static uint32_t uart_receive (uint8_t* data, uint32_t maxSize);
+static uint32_t uart_transmit (const uint8_t* data, uint32_t size);
+
+ISocket_t uartSocket = {
+        uart_numAvailableBytes,
+        uart_receive,
+        uart_transmit
+};
 
 void uart_init(UART_HandleTypeDef *huart)
 {
@@ -48,7 +57,7 @@ void uart_transmitInterrupt (void)
 {
     if (!transmitData)
     {
-        HAL_UART_Transmit_DMA(handle,transmitBuffer,transmitLenght);
+        HAL_UART_Transmit_DMA(handle,(uint8_t*)transmitBuffer,transmitLenght);
         transmitData = true;
     }
     else
@@ -57,7 +66,12 @@ void uart_transmitInterrupt (void)
     }
 }
 
-uint16_t charon_interface_isotp_receive (uint8_t* data, uint32_t maxSize)
+static uint32_t uart_numAvailableBytes (void)
+{
+    return UINT32_MAX;
+}
+
+static uint32_t uart_receive (uint8_t* data, uint32_t maxSize)
 {
     uint16_t size = 0;
     if (receiveFinished)
@@ -72,7 +86,7 @@ uint16_t charon_interface_isotp_receive (uint8_t* data, uint32_t maxSize)
     return size;
 }
 
-uint16_t charon_interface_isotp_transmit (uint8_t* data, uint32_t size)
+static uint32_t uart_transmit (const uint8_t* data, uint32_t size)
 {
     transmitBuffer = data;
     transmitLenght = size;
