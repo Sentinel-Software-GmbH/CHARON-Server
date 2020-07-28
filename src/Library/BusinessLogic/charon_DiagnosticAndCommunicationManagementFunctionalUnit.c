@@ -6,10 +6,43 @@
  */
 
 #include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
+#include "ComLogic/charon_SessionAndSerivceControl.h"
+#include "HSDI/charon_interface_debug.h"
+#include "Common/charon_negativeResponse.h"
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    return uds_responseCode_ServiceNotSupported;
+    uds_responseCode_t result = uds_responseCode_PositiveResponse;
+    (void) receiveBuffer;
+
+    if (receiveBufferSize != 2u)
+    {
+        CHARON_ERROR("Unexpected message length.");
+        result = uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
+    }
+    else
+    {
+        uint8_t session = receiveBuffer[1] & 0x7Fu;
+        if (session >= (uint8_t)charon_sscType_amount)
+        {
+            CHARON_WARNING("Session 0x%x unknown!", session);
+            result = uds_responseCode_SubfunctionNotSupported;
+        }
+        else
+        {
+            CHARON_INFO("Changing Session to 0x%x.", session);
+            // todo: these timing values are example values from iso 14229-1 chapter 15.4.2 table 445
+            // change these as necessary
+            uint8_t transmitBuffer[6] = {(uint8_t)uds_sid_DiagnosticSessionControl | (uint8_t)uds_sid_PositiveResponseMask, session, 0, 0x96, 0x17, 0x70};
+            charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
+            charon_sscSetSession(session, 0x96u, 0x1770uL*10u);
+        }
+    }
+    if (result != uds_responseCode_PositiveResponse)
+    {
+        charon_sendNegativeResponse(result, uds_sid_RequestTransferExit);
+    }
+    return result;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
