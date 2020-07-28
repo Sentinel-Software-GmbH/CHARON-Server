@@ -47,9 +47,9 @@
 
 typedef struct ISocket_t_public
 {
-    uint32_t (*numAvailableBytes)(void);
-    uint32_t (*receive)(uint8_t *buf, uint32_t len);
-    uint32_t (*transmit)(const uint8_t *buf, uint32_t len);
+    int32_t (*numAvailableBytes)(void);
+    int32_t (*receive)(uint8_t *buf, uint32_t len);
+    int32_t (*transmit)(const uint8_t *buf, uint32_t len);
 } ISocket_t;
 
 /* Interfaces ****************************************************************/
