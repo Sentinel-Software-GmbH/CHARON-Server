@@ -353,6 +353,7 @@ static void handleDiagnosticSession (void)
     /* Check if Session Timed Out */
     if(charon_interface_clock_getTimeElapsed(s_diagnoticSessionTimestamp) >= p3TimeoutLimit)
     {
+        CHARON_WARNING("Session timed out, activating default session.");
         /* Reset Session */
         charon_sscSetSession(charon_sscType_default, 0u, 0u);
         //TODO Signal any ongoing services to stop whatever they are doing
