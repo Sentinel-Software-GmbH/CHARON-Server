@@ -13,7 +13,6 @@
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     uds_responseCode_t result = uds_responseCode_PositiveResponse;
-    (void) receiveBuffer;
 
     if (receiveBufferSize != 2u)
     {
@@ -23,6 +22,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
     else
     {
         uint8_t session = receiveBuffer[1] & 0x7Fu;
+        uint8_t responseSuppress = receiveBuffer[1] & 0x80u;
         if (session >= (uint8_t)charon_sscType_amount)
         {
             CHARON_WARNING("Session 0x%x unknown!", session);
@@ -33,8 +33,11 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
             CHARON_INFO("Changing Session to 0x%x.", session);
             // todo: these timing values are example values from iso 14229-1 chapter 15.4.2 table 445
             // change these as necessary
-            uint8_t transmitBuffer[6] = {(uint8_t)uds_sid_DiagnosticSessionControl | (uint8_t)uds_sid_PositiveResponseMask, session, 0, 0x96, 0x17, 0x70};
-            charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
+            if (responseSuppress == 0)
+            {
+                uint8_t transmitBuffer[6] = {(uint8_t)uds_sid_DiagnosticSessionControl | (uint8_t)uds_sid_PositiveResponseMask, session, 0, 0x96, 0x17, 0x70};
+                charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
+            }
             charon_sscSetSession(session, 0x96u, 0x1770uL*10u);
         }
     }
