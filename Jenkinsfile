@@ -30,7 +30,7 @@ pipeline {
                 }
                 stage('CppCheck') {
                     steps {
-                        bat '"C:/Program Files/Cppcheck/cppcheck.exe" -j4 --enable=all -I./src/ --xml --xml-version=2 ./src 2> cppcheck.xml'
+                        bat '"C:/Program Files/Cppcheck/cppcheck.exe" -j4 --enable=all -I./src/Library --xml --xml-version=2 ./src/Library 2> cppcheck.xml'
                         publishCppcheck pattern:'cppcheck.xml'
                     }
                 }
@@ -39,6 +39,16 @@ pipeline {
                     steps {
                         bat 'cd toolchain/pclint & "C:/Program Files (x86)/PC-lint 9.0/lint-nt.exe" jenkins.lnt & exit 0'
                         recordIssues tools: [pcLint(pattern: 'toolchain/pclint/lintResults.txt')]
+                    }
+                }
+                stage('Windows Port') {
+                    steps {
+                        bat 'cd src/Port/Windows & ceedling.cmd release'
+                    }
+                }
+                stage('STM32F4 Port') {
+                    steps {
+                        bat 'cd src/Port/STM32F4-Discovery & ceedling.cmd release'
                     }
                 }
             }
