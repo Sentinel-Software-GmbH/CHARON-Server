@@ -41,6 +41,16 @@ pipeline {
                         recordIssues tools: [pcLint(pattern: 'toolchain/pclint/lintResults.txt')]
                     }
                 }
+                stage('Windows Port') {
+                    steps {
+                        bat 'cd src/Port/Windows & ceedling.cmd release'
+                    }
+                }
+                stage('STM32F4 Port') {
+                    steps {
+                        bat 'cd src/Port/STM32F4-Discovery & ceedling.cmd release'
+                    }
+                }
             }
         }
     }
