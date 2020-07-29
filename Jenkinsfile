@@ -53,5 +53,10 @@ pipeline {
                 }
             }
         }
+        stage('check warnings') {
+            steps {
+                recordIssues qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]], tools:[gcc()]
+            }
+        }
     }
 }

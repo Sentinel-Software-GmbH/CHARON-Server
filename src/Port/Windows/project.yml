@@ -29,6 +29,7 @@
       :*:
         - -g
         - -O0
+        - -Wall
 
 :extension:
   :executable: .exe

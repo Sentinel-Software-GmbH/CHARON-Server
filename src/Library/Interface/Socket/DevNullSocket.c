@@ -52,7 +52,7 @@ static uint32_t DevNull_transmit(const uint8_t *buf, uint32_t len);
 
 /* Interfaces  ***************************************************************/
 
-extern const ISocket_t DevNullSocket =
+const ISocket_t DevNullSocket =
 {
         DevNull_numOfData,
         DevNull_receive,
