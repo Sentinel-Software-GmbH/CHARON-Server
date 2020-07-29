@@ -24,25 +24,25 @@ void pipe_init (void)
             NULL);
 }
 
-static uint32_t uart_numAvailableBytes (void)
+static int32_t uart_numAvailableBytes (void)
 {
     return UINT32_MAX;
 }
 
-static uint32_t uart_receive (uint8_t* data, uint32_t maxSize)
+static int32_t uart_receive (uint8_t* data, uint32_t maxSize)
 {
-    DWORD numBytes = 0;
+	DWORD numBytes = 0;
     BOOL result = ReadFile(pipeHandle, data, maxSize, &numBytes, NULL);
-    DWORD error = GetLastError();
+    INT error = GetLastError();
     if (!result && error == 109) pipe_init();
-    return numBytes;
+    return (int32_t)numBytes;
 }
 
-static uint32_t uart_transmit (const uint8_t* data, uint32_t size)
+static int32_t uart_transmit (const uint8_t* data, uint32_t size)
 {
-    DWORD numBytes;
+	DWORD numBytes;
     WriteFile(pipeHandle, data, size, &numBytes, NULL);
-    return numBytes;
+    return (int32_t)numBytes;
 }
 
 

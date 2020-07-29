@@ -22,9 +22,9 @@ static const uint8_t * transmitBuffer;
 static uint16_t transmitLenght;
 static bool transmitData;
 
-static uint32_t uart_numAvailableBytes (void);
-static uint32_t uart_receive (uint8_t* data, uint32_t maxSize);
-static uint32_t uart_transmit (const uint8_t* data, uint32_t size);
+static int32_t uart_numAvailableBytes (void);
+static int32_t uart_receive (uint8_t* data, uint32_t maxSize);
+static int32_t uart_transmit (const uint8_t* data, uint32_t size);
 
 ISocket_t uartSocket = {
         uart_numAvailableBytes,
@@ -66,12 +66,12 @@ void uart_transmitInterrupt (void)
     }
 }
 
-static uint32_t uart_numAvailableBytes (void)
+static int32_t uart_numAvailableBytes (void)
 {
-    return UINT32_MAX;
+    return INT32_MAX;
 }
 
-static uint32_t uart_receive (uint8_t* data, uint32_t maxSize)
+static int32_t uart_receive (uint8_t* data, uint32_t maxSize)
 {
     uint16_t size = 0;
     if (receiveFinished)
@@ -86,7 +86,7 @@ static uint32_t uart_receive (uint8_t* data, uint32_t maxSize)
     return size;
 }
 
-static uint32_t uart_transmit (const uint8_t* data, uint32_t size)
+static int32_t uart_transmit (const uint8_t* data, uint32_t size)
 {
     transmitBuffer = data;
     transmitLenght = size;
