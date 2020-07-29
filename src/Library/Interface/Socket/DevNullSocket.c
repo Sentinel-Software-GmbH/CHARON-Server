@@ -46,9 +46,9 @@
 
 /* Private Function Definitions **********************************************/
 
-static uint32_t DevNull_numOfData(void);
-static uint32_t DevNull_receive(uint8_t *buf, uint32_t len);
-static uint32_t DevNull_transmit(const uint8_t *buf, uint32_t len);
+static int32_t DevNull_numOfData(void);
+static int32_t DevNull_receive(uint8_t *buf, uint32_t len);
+static int32_t DevNull_transmit(const uint8_t *buf, uint32_t len);
 
 /* Interfaces  ***************************************************************/
 
@@ -61,17 +61,17 @@ const ISocket_t DevNullSocket =
 
 /* Private Function **********************************************************/
 
-static uint32_t DevNull_numOfData(void)
+static int32_t DevNull_numOfData(void)
 {
     return 0;
 }
 
-static uint32_t DevNull_receive(uint8_t *buf, uint32_t len)
+static int32_t DevNull_receive(uint8_t *buf, uint32_t len)
 {
     return 0;
 }
 
-static uint32_t DevNull_transmit(const uint8_t *buf, uint32_t len)
+static int32_t DevNull_transmit(const uint8_t *buf, uint32_t len)
 {
     return len;
 }
