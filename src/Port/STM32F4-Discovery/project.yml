@@ -48,40 +48,9 @@
   #  1) remove the trailing [] from the :common: section
   #  2) add entries to the :common: section (e.g. :test: has TEST defined)
   :commmon: &common_defines []
-  :test:
-    - *common_defines
-    - TEST
-  :test_preprocess:
-    - *common_defines
-    - TEST
   :release:
     - STM32F407xx
 
-
-:cmock:
-  :mock_prefix: mock_
-  :when_no_prototypes: :warn
-  :enforce_strict_ordering: TRUE
-  :plugins:
-    - :ignore
-    - :ignore_arg
-    - :array
-    - :callback
-    - :return_thru_ptr
-  :treat_as:
-    uint8:    HEX8
-    uint16:   HEX16
-    uint32:   UINT32
-    int8:     INT8
-    bool:     UINT8
-
-:gcov:
-  :html_report: true
-  :html_report_type: detailed
-  :xml_report: true
-  :gcovr:
-    :xml_pretty: true
-    :cobertura_pretty: true
 
 :tools:
    :release_compiler:
