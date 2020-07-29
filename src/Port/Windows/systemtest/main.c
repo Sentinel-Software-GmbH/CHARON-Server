@@ -75,9 +75,16 @@ int main (int argc, char ** argv)
     transferData(sizeof(requestDownloadCommand), requestDownloadCommand);
 
     printf("transfer data...\n");
-    uint8_t transferDataCommand[0x200] = "\066This is a very big penis C================8";
-    transferData(sizeof(transferDataCommand), transferDataCommand);
+    uint8_t transferDataCommand1[0x100] = "\066\001This is a very big penis C================8";
+    transferData(sizeof(transferDataCommand1), transferDataCommand1);
+    uint8_t transferDataCommand2[0x100] = "\066\002More penis C================8";
+    transferData(sizeof(transferDataCommand2), transferDataCommand2);
+    uint8_t transferDataCommand3[0x6] = "\066\003oO";
+    transferData(sizeof(transferDataCommand3), transferDataCommand3);
 
+    printf("transfer exit...\n");
+    uint8_t transferExitCommand[0x1] = {0x37};
+    transferData(sizeof(transferExitCommand), transferExitCommand);
 
     return 0;
 }
