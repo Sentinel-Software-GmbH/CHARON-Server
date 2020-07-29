@@ -113,6 +113,14 @@ static uds_responseCode_t requestTransfer(transferDirection_t direction, const u
     return result;
 }
 
+void charon_UploadDownloadFunctionalUnit_reset (void)
+{
+    s_transferDirection = transfer_idle;
+    s_currentMemoryAddress = 0;
+    s_remainingMemoryLength = 0;
+    s_nextSequenceCounter = 0;
+}
+
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestDownload (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     return requestTransfer(transfer_download, receiveBuffer, receiveBufferSize);

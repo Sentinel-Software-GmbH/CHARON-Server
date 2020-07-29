@@ -11,6 +11,8 @@
 #include <stdint.h>
 #include "Common/charon_types.h"
 
+void charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset (void);
+
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);

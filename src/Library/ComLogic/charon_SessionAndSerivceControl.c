@@ -356,7 +356,8 @@ static void handleDiagnosticSession (void)
         CHARON_WARNING("Session timed out, activating default session.");
         /* Reset Session */
         charon_sscSetSession(charon_sscType_default, 0u, 0u);
-        //TODO Signal any ongoing services to stop whatever they are doing
+        // Signal any ongoing services to stop whatever they are doing
+        charon_reset();
     }
 }
 

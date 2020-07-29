@@ -10,6 +10,11 @@
 #include "HSDI/charon_interface_debug.h"
 #include "Common/charon_negativeResponse.h"
 
+void charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset (void)
+{
+
+}
+
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     uds_responseCode_t result = uds_responseCode_PositiveResponse;

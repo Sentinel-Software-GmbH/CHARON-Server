@@ -47,6 +47,8 @@
 
 /* Interfaces ****************************************************************/
 
+void charon_reset (void);
+
 void charon_init (ISocket_t systemCommunicationSocket);
 
 void charon_task (void);

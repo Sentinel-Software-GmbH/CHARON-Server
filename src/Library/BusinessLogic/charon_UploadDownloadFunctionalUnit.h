@@ -11,6 +11,8 @@
 #include <stdint.h>
 #include "Common/charon_types.h"
 
+void charon_UploadDownloadFunctionalUnit_reset (void);
+
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestDownload (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestUpload (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
