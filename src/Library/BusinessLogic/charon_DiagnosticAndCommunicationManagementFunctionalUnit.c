@@ -38,7 +38,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
                 uint8_t transmitBuffer[6] = {(uint8_t)uds_sid_DiagnosticSessionControl | (uint8_t)uds_sid_PositiveResponseMask, session, 0, 0x96, 0x17, 0x70};
                 charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
             }
-            charon_sscSetSession(session, 0x96u, 0x1770uL*10u);
+            charon_sscSetSession((charon_sessionTypes_t)session, 0x96u, 0x1770uL*10u);
         }
     }
     if (result != uds_responseCode_PositiveResponse)

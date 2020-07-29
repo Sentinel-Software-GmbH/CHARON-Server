@@ -195,7 +195,7 @@ void charon_sscCyclic (void)
 
 void charon_sscRcvMessage (void)
 {
-    uint32_t length;
+    int32_t length;
 
     /* Get Message from Underlying Transport LL */
     length = s_systemComSocket.receive(s_receiveBuffer, sizeof(s_receiveBuffer));
@@ -206,7 +206,7 @@ void charon_sscRcvMessage (void)
      */
 
     /* Process Received Message if one was gotten and de-crypted */
-    if(length > 0u)
+    if(length > 0)
     {
         processReveivedMessage(s_receiveBuffer, length);
     }
