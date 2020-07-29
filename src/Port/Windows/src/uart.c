@@ -31,18 +31,18 @@ static int32_t uart_numAvailableBytes (void)
 
 static int32_t uart_receive (uint8_t* data, uint32_t maxSize)
 {
-    INT numBytes = 0;
+	DWORD numBytes = 0;
     BOOL result = ReadFile(pipeHandle, data, maxSize, &numBytes, NULL);
     INT error = GetLastError();
     if (!result && error == 109) pipe_init();
-    return numBytes;
+    return (int32_t)numBytes;
 }
 
 static int32_t uart_transmit (const uint8_t* data, uint32_t size)
 {
-	INT numBytes;
+	DWORD numBytes;
     WriteFile(pipeHandle, data, size, &numBytes, NULL);
-    return numBytes;
+    return (int32_t)numBytes;
 }
 
 
