@@ -10,6 +10,7 @@
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 #include "Common/charon_types.h"
 #include "mock_SocketMock.h"
+#include "mock_charon_uds.h"
 #include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "mock_charon_RoutineFunctionalUnit.h"
 #include "mock_charon_UploadDownloadFunctionalUnit.h"
@@ -295,6 +296,7 @@ void test_charon_SessionAndServiceControl_monitorOngoingService_diagnosticSessio
 
     /* Setup Expected Function Calls */
     charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 5001u);
+    charon_reset_Expect();
     charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 10u);
 
     /* Run Function Test */
