@@ -70,13 +70,12 @@
 
 /* Types *********************************************************************/
 
-/** Struct to store all timeing required Data */
+/** Struct to store all timing required Data */
 typedef struct
 {
     //TODO: there are many more, but for now...
     uint32_t        p2Server;
     uint32_t        p2StarServer;
-    uint32_t        s3Server;
 } ComTimeoutLimits_t;
 
 /* Variables *****************************************************************/
@@ -94,7 +93,7 @@ static uint32_t s_diagnoticSessionTimestamp = 0u;
 /** Adjustable timeouts, initialized with server default values */
 static ComTimeoutLimits_t s_ttl =
 {
-        DEFAULT_P2_SERVER, DEFAULT_P2_STAR_SERVER, DEFAULT_S3_SERVER
+        DEFAULT_P2_SERVER, DEFAULT_P2_STAR_SERVER
 };
 /** Stores the System given Communication Socket */
 static ISocket_t s_systemComSocket = {NULL};
@@ -360,10 +359,8 @@ static bool isServiceInSession (charon_sessionTypes_t currentSession, const char
 
 static void handleDiagnosticSession (void)
 {
-    /* Copy current P3 Server Timing onto stack */
-    uint32_t p3TimeoutLimit = s_ttl.s3Server;
     /* Check if Session Timed Out */
-    if(charon_interface_clock_getTimeElapsed(s_diagnoticSessionTimestamp) >= p3TimeoutLimit)
+    if(charon_interface_clock_getTimeElapsed(s_diagnoticSessionTimestamp) >= DEFAULT_S3_SERVER)
     {
         CHARON_WARNING("Session timed out, activating default session.");
         /* terminate Session */
