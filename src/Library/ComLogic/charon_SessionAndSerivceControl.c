@@ -48,9 +48,9 @@
 /* Macros ********************************************************************/
 
 /** Size of the UDS Receive Buffer in byte */
-#define CHARON_RCV_BUFFER_SIZE      ((uint32_t) 4096u)
+#define CHARON_RCV_BUFFER_SIZE      ((uint32_t) 4095u)
 /** Size of the UDS Transmit Buffer in byte */
-#define CHARON_TX_BUFFER_SIZE      ((uint32_t) 4096u)
+#define CHARON_TX_BUFFER_SIZE      ((uint32_t) 4095u)
 
 /**
  * Default Timing Parameter for the UDS Server Communication and Session Control
@@ -97,7 +97,7 @@ static ComTimeoutLimits_t s_ttl =
         DEFAULT_P2_SERVER, DEFAULT_P2_STAR_SERVER, DEFAULT_S3_SERVER
 };
 /** Stores the System given Communication Socket */
-static ISocket_t s_systemComSocket = {0};
+static ISocket_t s_systemComSocket = {NULL};
 
 /* Buffers *****************************************************************/
 
@@ -208,7 +208,7 @@ void charon_sscRcvMessage (void)
     /* Process Received Message if one was gotten and de-crypted */
     if(length > 0)
     {
-        processReveivedMessage(s_receiveBuffer, length);
+        processReveivedMessage(s_receiveBuffer, (uint32_t)length);
     }
 }
 

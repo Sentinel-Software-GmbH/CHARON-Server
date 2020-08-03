@@ -127,7 +127,8 @@ charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject (uint8_t sid)
 const char * charon_ServiceLookupTable_getNameForServiceSid (uint8_t sid)
 {
     const char * result = "unknown sid";
-    switch(sid)
+    uds_sid_t castedSid = (uds_sid_t)sid;
+    switch(castedSid)
     {
     case uds_sid_DiagnosticSessionControl:
         result = "DiagnosticSessionControl";
