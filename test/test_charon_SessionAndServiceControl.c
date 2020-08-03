@@ -10,7 +10,6 @@
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 #include "Common/charon_types.h"
 #include "mock_SocketMock.h"
-#include "mock_charon_uds.h"
 #include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "mock_charon_RoutineFunctionalUnit.h"
 #include "mock_charon_UploadDownloadFunctionalUnit.h"

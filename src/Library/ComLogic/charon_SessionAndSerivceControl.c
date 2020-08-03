@@ -39,7 +39,6 @@
 #include "Common/charon_negativeResponse.h"
 #include "HSDI/charon_interface_clock.h"
 #include "HSDI/charon_interface_debug.h"
-#include "Interface/charon_uds.h"
 #include "Interface/Socket/ISocket.h"
 
 /* Imports *******************************************************************/
