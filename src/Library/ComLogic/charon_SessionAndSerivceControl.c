@@ -168,6 +168,18 @@ static void sendMessage (uint8_t const * const pUdsMessage, uint32_t length);
 
 /* Interfaces  ***************************************************************/
 
+void charon_sscReset (void)
+{
+    s_currentDiagnosticSession = charon_sscType_default;
+    s_currentlyPendingService = NULL;
+    s_pendingRequestStartTime = 0u;
+    s_p2PendingExceededHandled = false;
+    s_diagnoticSessionTimestamp = 0u;
+    s_ttl.p2Server = DEFAULT_P2_SERVER;
+    s_ttl.p2StarServer = DEFAULT_P2_STAR_SERVER;
+    s_ttl.s3Server = DEFAULT_S3_SERVER;
+}
+
 void charon_sscInit (ISocket_t sscComSocket)
 {
     s_systemComSocket = sscComSocket;
@@ -354,9 +366,8 @@ static void handleDiagnosticSession (void)
     if(charon_interface_clock_getTimeElapsed(s_diagnoticSessionTimestamp) >= p3TimeoutLimit)
     {
         CHARON_WARNING("Session timed out, activating default session.");
-        /* Reset Session */
-        charon_sscSetSession(charon_sscType_default, 0u, 0u);
-        //TODO Signal any ongoing services to stop whatever they are doing
+        /* terminate Session */
+        s_currentDiagnosticSession = charon_sscType_timedOut;
     }
 }
 

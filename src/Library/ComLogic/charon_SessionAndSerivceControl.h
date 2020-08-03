@@ -55,10 +55,14 @@ typedef enum
     charon_sscType_extended,        /**< charon_sscType_extended */
     charon_sscType_secured,         /**< charon_sscType_secured */
 
-    charon_sscType_amount /**< charon_sscType_amount */
+    charon_sscType_amount,          /**< The amount of valid session IDs */
+    charon_sscType_notStarted,      /**< There is no active session with a client */
+    charon_sscType_timedOut         /**< A session has timed out, a library wide reset is necessary */
 } charon_sessionTypes_t;
 
 /* Interfaces ****************************************************************/
+
+void charon_sscReset (void);
 
 void charon_sscInit (ISocket_t sscComSocket);
 

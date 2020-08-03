@@ -33,6 +33,8 @@
 /* Includes ******************************************************************/
 
 #include "charon_uds.h"
+#include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
+#include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 
 /* Imports *******************************************************************/
@@ -50,8 +52,16 @@
 /* Interfaces  ***************************************************************/
 
 
+void charon_reset (void)
+{
+    charon_sscReset();
+    charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset();
+    charon_UploadDownloadFunctionalUnit_reset();
+}
+
 void charon_init (ISocket_t systemCommunicationSocket)
 {
+    charon_reset();
     charon_sscInit(systemCommunicationSocket);
 }
 
@@ -64,6 +74,12 @@ void charon_task (void)
 
     /* Process SSC Layer */
     charon_sscCyclic();
+
+    /* Reset library if session has ended */
+    if (charon_sscGetSession() == charon_sscType_timedOut)
+    {
+        charon_reset();
+    }
 
     return;
 }
