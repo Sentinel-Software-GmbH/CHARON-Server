@@ -74,6 +74,12 @@ void charon_task (void)
     /* Process SSC Layer */
     charon_sscCyclic();
 
+    /* Reset library if session has ended */
+    if (charon_sscGetSession() == charon_sscType_timedOut)
+    {
+        charon_reset();
+    }
+
     return;
 }
 
