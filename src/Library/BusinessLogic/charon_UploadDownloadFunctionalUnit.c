@@ -175,6 +175,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8
             else
             {
                 CHARON_ERROR("NVM driver reported error while writing to flash.");
+                // negative response is sent at the end of the function, nothing to do here.
             }
         }
         else

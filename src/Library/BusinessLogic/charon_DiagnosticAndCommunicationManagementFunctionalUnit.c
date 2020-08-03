@@ -33,7 +33,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
             CHARON_INFO("Changing Session to 0x%x.", session);
             // todo: these timing values are example values from iso 14229-1 chapter 15.4.2 table 445
             // change these as necessary
-            if (responseSuppress == 0)
+            if (responseSuppress == 0u)
             {
                 uint8_t transmitBuffer[6] = {(uint8_t)uds_sid_DiagnosticSessionControl | (uint8_t)uds_sid_PositiveResponseMask, session, 0, 0x96, 0x17, 0x70};
                 charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
@@ -50,46 +50,64 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
+    (void)receiveBuffer;
+    (void)receiveBufferSize;
     return uds_responseCode_ServiceNotSupported;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecurityAccess (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
+    (void)receiveBuffer;
+    (void)receiveBufferSize;
     return uds_responseCode_ServiceNotSupported;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_CommunicationControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
+    (void)receiveBuffer;
+    (void)receiveBufferSize;
     return uds_responseCode_ServiceNotSupported;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_TesterPresent (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
+    (void)receiveBuffer;
+    (void)receiveBufferSize;
     return uds_responseCode_ServiceNotSupported;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_AccessTimingParameter (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
+    (void)receiveBuffer;
+    (void)receiveBufferSize;
     return uds_responseCode_ServiceNotSupported;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecuredDataTransmission (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
+    (void)receiveBuffer;
+    (void)receiveBufferSize;
     return uds_responseCode_ServiceNotSupported;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
+    (void)receiveBuffer;
+    (void)receiveBufferSize;
     return uds_responseCode_ServiceNotSupported;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_ResponseOnEvent (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
+    (void)receiveBuffer;
+    (void)receiveBufferSize;
     return uds_responseCode_ServiceNotSupported;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_LinkControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
+    (void)receiveBuffer;
+    (void)receiveBufferSize;
     return uds_responseCode_ServiceNotSupported;
 }
 
