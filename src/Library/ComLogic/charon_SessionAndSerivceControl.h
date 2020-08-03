@@ -62,6 +62,8 @@ typedef enum
 
 /* Interfaces ****************************************************************/
 
+void charon_sscReset (void);
+
 void charon_sscInit (ISocket_t sscComSocket);
 
 void charon_sscCyclic(void);

@@ -54,6 +54,7 @@
 
 void charon_reset (void)
 {
+    charon_sscReset();
     charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset();
     charon_UploadDownloadFunctionalUnit_reset();
 }
