@@ -56,8 +56,8 @@
  * Default Timing Parameter for the UDS Server Communication and Session Control
  * @{
  * */
-#define DEFAULT_P2_SERVER            ((uint32_t) 100u)       /**< Default P2 Server Time (see ISO Requirements) */
-#define DEFAULT_P2_STAR_SERVER       ((uint32_t) 300u)       /**< Default P2* Server Time (see ISO Requirements) */
+#define DEFAULT_P2_SERVER            ((uint32_t) 50u)       /**< Default P2 Server Time (see ISO Requirements) */
+#define DEFAULT_P2_STAR_SERVER       ((uint32_t) 5000u)       /**< Default P2* Server Time (see ISO Requirements) */
 #define DEFAULT_S3_SERVER            ((uint32_t) 5000u)      /**< Default S3 Server Time (see ISO Requirements) */
 /**
  * @}
@@ -176,7 +176,6 @@ void charon_sscReset (void)
     s_diagnoticSessionTimestamp = 0u;
     s_ttl.p2Server = DEFAULT_P2_SERVER;
     s_ttl.p2StarServer = DEFAULT_P2_STAR_SERVER;
-    s_ttl.s3Server = DEFAULT_S3_SERVER;
 }
 
 void charon_sscInit (ISocket_t sscComSocket)
@@ -275,6 +274,11 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
             break;
         }
         }
+        if (retVal != uds_responseCode_RequestCorrectlyReceived_ResponsePending)
+        {
+            // completion of a service (which is indicated by not being "response pending") updates session timer
+            s_diagnoticSessionTimestamp = charon_interface_clock_getTime();
+        }
     }
     else
     {
@@ -300,6 +304,7 @@ void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
         }
         else
         {
+            // todo: how to handle this case?
             CHARON_ERROR("Message SID %s (0x%x) does not match with pending SID %s (0x%x)", charon_ServiceLookupTable_getNameForServiceSid(responeRequestId), responeRequestId, charon_ServiceLookupTable_getNameForServiceSid((uint8_t)s_currentlyPendingService->sid), (uint8_t)s_currentlyPendingService->sid);
         }
     }
@@ -393,6 +398,7 @@ static void handleResponsePending (void)
             s_pendingRequestStartTime = charon_interface_clock_getTime();
         }
         //TODO as far as i remember there was a maximum amount to do this, but i couldn't find it...
+        // remark: you probably mean P4_Server, which is manufacturer specific
     }
 }
 

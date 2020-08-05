@@ -57,8 +57,8 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
                 {
                         (uint8_t)uds_sid_DiagnosticSessionControl | (uint8_t)uds_sid_PositiveResponseMask,
                         session,
-                        defaultTimings[session].p2,
-                        defaultTimings[session].p2star/10
+                        (uint16_t)defaultTimings[session].p2,
+                        (uint16_t)(defaultTimings[session].p2star/10u)
                 };
                 charon_sscTxMessage((uint8_t*)&transmitBuffer, sizeof(transmitBuffer));
             }
