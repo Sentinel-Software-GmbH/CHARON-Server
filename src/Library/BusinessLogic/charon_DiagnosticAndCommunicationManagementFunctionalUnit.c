@@ -67,7 +67,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
     }
     if (result != uds_responseCode_PositiveResponse)
     {
-        charon_sendNegativeResponse(result, uds_sid_RequestTransferExit);
+        charon_sendNegativeResponse(result, uds_sid_DiagnosticSessionControl);
     }
     return result;
 }
@@ -95,9 +95,33 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Com
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_TesterPresent (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    (void)receiveBuffer;
-    (void)receiveBufferSize;
-    return uds_responseCode_ServiceNotSupported;
+    uds_responseCode_t result = uds_responseCode_PositiveResponse;
+
+    if (receiveBufferSize != 2u)
+    {
+        CHARON_ERROR("Unexpected message length.");
+        result = uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
+    }
+    else if ( (receiveBuffer[1] & 0x7Fu) != 0u)
+    {
+        CHARON_ERROR("Subfunction is not 0x00 or 0x80.");
+        result = uds_responseCode_SubfunctionNotSupported;
+    }
+    else
+    {
+        charon_sscTesterPresentHeartbeat();
+        if ( (receiveBuffer[1] & 0x80u) == 0u)
+        {
+            uint8_t transmitBuffer[2] = {(uint8_t)uds_sid_TesterPresent | (uint8_t)uds_sid_PositiveResponseMask, 0u};
+            charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
+        }
+    }
+
+    if (result != uds_responseCode_PositiveResponse)
+    {
+        charon_sendNegativeResponse(result, uds_sid_TesterPresent);
+    }
+    return result;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_AccessTimingParameter (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)

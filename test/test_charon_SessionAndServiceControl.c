@@ -88,6 +88,7 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Success
 
     /* Setup Environment */
     charon_sscSetSession(charon_sscType_default, 0u, 0u);
+    charon_interface_clock_getTime_IgnoreAndReturn(0x12345678u);
 
     /* Setup Expected Function Calls */
     SocketMock_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
@@ -122,6 +123,7 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Fail(vo
 
     /* Setup Environment */
     charon_sscSetSession(charon_sscType_default, 0u, 0u);
+    charon_interface_clock_getTime_IgnoreAndReturn(0x12345678u);
 
     /* Setup Expected Function Calls */
     SocketMock_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
@@ -149,6 +151,7 @@ void test_charon_SessionAndServiceControl_serviceNotSupported(void)
 
     /* Setup Environment */
     charon_sscSetSession(charon_sscType_default, 0u, 0u);
+    charon_interface_clock_getTime_IgnoreAndReturn(0x12345678u);
 
     /* Setup Expected Function Calls */
     SocketMock_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
@@ -250,7 +253,7 @@ void test_charon_SessionAndServiceControl_executeService_ServicePendingAcceptTes
     };
 
     /* Setup Environment */
-    //NA
+    charon_interface_clock_getTime_IgnoreAndReturn(0x100);
 
     /* Setup Expected Function Calls */
     SocketMock_receive_ExpectAndReturn(0, 0, sizeof(clientMsg));
