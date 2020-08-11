@@ -50,6 +50,7 @@
  */
 typedef enum
 {
+    charon_sscType_invalid,
     charon_sscType_default,         /**< charon_sscType_default */
     charon_sscType_programming,     /**< charon_sscType_programming */
     charon_sscType_extended,        /**< charon_sscType_extended */

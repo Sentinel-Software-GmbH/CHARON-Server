@@ -28,9 +28,9 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
     {
         uint8_t session = receiveBuffer[1] & 0x7Fu;
         uint8_t responseSuppress = receiveBuffer[1] & 0x80u;
-        if (session >= (uint8_t)charon_sscType_amount)
+        if ( (session >= (uint8_t)charon_sscType_amount) || (session == (uint8_t)charon_sscType_invalid) )
         {
-            CHARON_WARNING("Session 0x%x unknown!", session);
+            CHARON_WARNING("Session 0x%x unknown or invalid!", session);
             result = uds_responseCode_SubfunctionNotSupported;
         }
         else
