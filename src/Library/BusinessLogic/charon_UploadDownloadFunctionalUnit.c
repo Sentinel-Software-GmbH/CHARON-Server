@@ -1,9 +1,36 @@
-/*
- * charon_UploadDownloadFunctionalUnit.c
+/**
+ *  Sentinel Software GmbH
+ *  Copyright (C) 2020 Andreas Hofmann
  *
- *  Created on: 16.01.2020
- *      Author: Florian Kaup
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+/**
+ * @addtogroup CharonUDS
+ * @{
+ * @addtogroup BusinessLogic
+ * @{
+ * @file charon_UploadDownloadFunctionalUnit
+ * Implementation of Upload Download FU.
+ *
+ * $Id:  $
+ * $URL:  $
+ * @}
+ * @}
+ */
+/*****************************************************************************/
+
+/* Includes ******************************************************************/
 
 #include <HSDI/charon_interface_NvmDriver.h>
 #include "HSDI/charon_interface_debug.h"
@@ -11,107 +38,36 @@
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 #include "Common/charon_negativeResponse.h"
 
+/* Imports *******************************************************************/
+
+/* Constants *****************************************************************/
+
+/* Macros ********************************************************************/
+
 #define     UDS_MAX_INPUT_FRAME_SIZE    4095u
 #define     UDS_MAX_OUTPUT_FRAME_SIZE   4095u
 
-typedef enum {
+/* Types *********************************************************************/
+
+typedef enum
+{
     transfer_idle,
     transfer_download,
     transfer_upload
 } transferDirection_t;
+
+/* Variables *****************************************************************/
+
 static transferDirection_t s_transferDirection = transfer_idle;
 static uint32_t s_currentMemoryAddress = 0;
 static uint32_t s_remainingMemoryLength = 0;
 static uint8_t s_nextSequenceCounter = 0;
 
+/* Private Function Definitions **********************************************/
 
-static uds_responseCode_t requestTransfer(transferDirection_t direction, const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
-{
-    const struct __attribute__((packed)) {
-        uint8_t sid;
-        uint8_t dataFormatIdentifier;
-        uint8_t addressAndLengthFormatIdentifier;
-        uint8_t AddressInformation[8];
-    } * receivedMessage = (const void*)receiveBuffer;
+static uds_responseCode_t requestTransfer(transferDirection_t direction, const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-    uds_responseCode_t result = uds_responseCode_PositiveResponse;
-
-    uint8_t lengthOfMemoryLength = receivedMessage->addressAndLengthFormatIdentifier >> 4;
-    uint8_t lengthOfMemoryAddress = receivedMessage->addressAndLengthFormatIdentifier & 0xFu;
-    if (
-            (lengthOfMemoryAddress == 0u) ||
-            (lengthOfMemoryLength == 0u) ||
-            (lengthOfMemoryAddress > 4u) ||
-            (lengthOfMemoryLength > 4u) ||
-            (receivedMessage->dataFormatIdentifier != 0x00u)
-        )
-    {
-        CHARON_ERROR("Format Identifier invalid: size of address = %i, size of length = %i.", lengthOfMemoryAddress, lengthOfMemoryLength);
-        result = uds_responseCode_RequestOutOfRange;
-    }
-
-    else if ( (((uint32_t)lengthOfMemoryAddress + lengthOfMemoryLength) + 3u) != receiveBufferSize )
-    {
-        CHARON_ERROR("Unexpected message length.");
-        result = uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
-    }
-
-    else
-    {
-        uint32_t memoryAddress = 0;
-        uint32_t memoryLength = 0;
-        for (uint8_t i = 0; i<lengthOfMemoryAddress; i++)
-        {
-            memoryAddress |= (uint32_t)(receivedMessage->AddressInformation[lengthOfMemoryAddress - (i+1u)]) << (i*8u);
-        }
-
-        for (uint8_t i = 0; i<lengthOfMemoryLength; i++)
-        {
-            memoryLength |= (uint32_t)receivedMessage->AddressInformation[(lengthOfMemoryAddress + lengthOfMemoryLength) - (i+1u)] << (i*8u);
-        }
-        CHARON_INFO("Transfer Requested, address 0x%x, length 0x%x, direction %s.", memoryAddress, memoryLength, direction == transfer_download ? "download" : "upload");
-
-        if ( false == charon_NvmDriver_checkAddressRange(memoryAddress, memoryLength) )
-        {
-            CHARON_ERROR("Reuqested memory is out of range.");
-            result = uds_responseCode_RequestOutOfRange;
-        }
-        else if (s_transferDirection != transfer_idle)
-        {
-            CHARON_ERROR("A transfer is already ongoing.");
-            result = uds_responseCode_ConditionsNotCorrect;
-        }
-        else
-        {
-            s_currentMemoryAddress = memoryAddress;
-            s_remainingMemoryLength = memoryLength;
-            s_transferDirection = direction;
-            s_nextSequenceCounter = 1;
-            uint8_t transmitBuffer[4] = {
-                    receivedMessage->sid | (uint8_t)uds_sid_PositiveResponseMask,
-                    0x20,
-                    (uint8_t)((UDS_MAX_INPUT_FRAME_SIZE >> 8u) & 0xFFu),
-                    (uint8_t)(UDS_MAX_INPUT_FRAME_SIZE & 0xFFu)
-            };
-            charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
-        }
-
-    }
-    if (result != uds_responseCode_PositiveResponse)
-    {
-        uds_sid_t receivedSid;
-        if (direction == transfer_download)
-        {
-            receivedSid = uds_sid_RequestDownload;
-        }
-        else
-        {
-            receivedSid = uds_sid_RequestUpload;
-        }
-        charon_sendNegativeResponse(result, receivedSid);
-    }
-    return result;
-}
+/* Interfaces  ***************************************************************/
 
 void charon_UploadDownloadFunctionalUnit_reset (void)
 {
@@ -131,11 +87,10 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestUpload (const uint
     return requestTransfer(transfer_upload, receiveBuffer, receiveBufferSize);
 }
 
-
-
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    const struct __attribute__((packed)) {
+    /**@ todo: No attribute packed! Not plattform independet!!! */
+    const PACKED_STRUCT(anonym) {
         uint8_t sid;
         uint8_t blockSequenceCounter;
         uint8_t data[UDS_MAX_INPUT_FRAME_SIZE];
@@ -295,4 +250,97 @@ uint8_t charon_UploadDownloadFunctionalUnit_getNextSequenceCounter (void)
 
 #endif
 
+
+/* Private Function **********************************************************/
+
+static uds_responseCode_t requestTransfer(transferDirection_t direction, const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+{
+    /**@ todo: No attribute packed! Not plattform independet!!! */
+    const PACKED_STRUCT(anonym) {
+        uint8_t sid;
+        uint8_t dataFormatIdentifier;
+        uint8_t addressAndLengthFormatIdentifier;
+        uint8_t AddressInformation[8];
+    } * receivedMessage = (const void*)receiveBuffer;
+
+    uds_responseCode_t result = uds_responseCode_PositiveResponse;
+
+    uint8_t lengthOfMemoryLength = receivedMessage->addressAndLengthFormatIdentifier >> 4;
+    uint8_t lengthOfMemoryAddress = receivedMessage->addressAndLengthFormatIdentifier & 0xFu;
+    if (
+            (lengthOfMemoryAddress == 0u) ||
+            (lengthOfMemoryLength == 0u) ||
+            (lengthOfMemoryAddress > 4u) ||
+            (lengthOfMemoryLength > 4u) ||
+            (receivedMessage->dataFormatIdentifier != 0x00u)
+        )
+    {
+        CHARON_ERROR("Format Identifier invalid: size of address = %i, size of length = %i.", lengthOfMemoryAddress, lengthOfMemoryLength);
+        result = uds_responseCode_RequestOutOfRange;
+    }
+
+    else if ( (((uint32_t)lengthOfMemoryAddress + lengthOfMemoryLength) + 3u) != receiveBufferSize )
+    {
+        CHARON_ERROR("Unexpected message length.");
+        result = uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
+    }
+
+    else
+    {
+        uint32_t memoryAddress = 0;
+        uint32_t memoryLength = 0;
+        for (uint8_t i = 0; i<lengthOfMemoryAddress; i++)
+        {
+            memoryAddress |= (uint32_t)(receivedMessage->AddressInformation[lengthOfMemoryAddress - (i+1u)]) << (i*8u);
+        }
+
+        for (uint8_t i = 0; i<lengthOfMemoryLength; i++)
+        {
+            memoryLength |= (uint32_t)receivedMessage->AddressInformation[(lengthOfMemoryAddress + lengthOfMemoryLength) - (i+1u)] << (i*8u);
+        }
+        CHARON_INFO("Transfer Requested, address 0x%x, length 0x%x, direction %s.", memoryAddress, memoryLength, direction == transfer_download ? "download" : "upload");
+
+        if ( false == charon_NvmDriver_checkAddressRange(memoryAddress, memoryLength) )
+        {
+            CHARON_ERROR("Reuqested memory is out of range.");
+            result = uds_responseCode_RequestOutOfRange;
+        }
+        else if (s_transferDirection != transfer_idle)
+        {
+            CHARON_ERROR("A transfer is already ongoing.");
+            result = uds_responseCode_ConditionsNotCorrect;
+        }
+        else
+        {
+            s_currentMemoryAddress = memoryAddress;
+            s_remainingMemoryLength = memoryLength;
+            s_transferDirection = direction;
+            s_nextSequenceCounter = 1;
+            uint8_t transmitBuffer[4] = {
+                    receivedMessage->sid | (uint8_t)uds_sid_PositiveResponseMask,
+                    0x20,
+                    (uint8_t)((UDS_MAX_INPUT_FRAME_SIZE >> 8u) & 0xFFu),
+                    (uint8_t)(UDS_MAX_INPUT_FRAME_SIZE & 0xFFu)
+            };
+            charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
+        }
+
+    }
+    if (result != uds_responseCode_PositiveResponse)
+    {
+        uds_sid_t receivedSid;
+        if (direction == transfer_download)
+        {
+            receivedSid = uds_sid_RequestDownload;
+        }
+        else
+        {
+            receivedSid = uds_sid_RequestUpload;
+        }
+        charon_sendNegativeResponse(result, receivedSid);
+    }
+    return result;
+}
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
 
