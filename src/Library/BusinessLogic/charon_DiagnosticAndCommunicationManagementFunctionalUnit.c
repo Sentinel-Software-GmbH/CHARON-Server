@@ -10,6 +10,20 @@
 #include "HSDI/charon_interface_debug.h"
 #include "Common/charon_negativeResponse.h"
 
+/**
+ * Default timings for each session.
+ * Sorted for their session id. Values are in milliseconds, for both parameters.
+ */
+// todo: these timing values are example values from iso 14229-2 chapter 7.2 table 4
+// change these as necessary
+static const struct {uint32_t p2, p2star;} defaultTimings[charon_sscType_amount] =
+{
+        {50,5000},
+        {50,5000},
+        {50,5000},
+        {50,5000}
+};
+
 void charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset (void)
 {
 
@@ -36,19 +50,24 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
         else
         {
             CHARON_INFO("Changing Session to 0x%x.", session);
-            // todo: these timing values are example values from iso 14229-1 chapter 15.4.2 table 445
-            // change these as necessary
+
             if (responseSuppress == 0u)
             {
-                uint8_t transmitBuffer[6] = {(uint8_t)uds_sid_DiagnosticSessionControl | (uint8_t)uds_sid_PositiveResponseMask, session, 0, 0x96, 0x17, 0x70};
-                charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
+                struct {uint8_t sid, session; uint16_t p2, p2star;} __attribute__((packed)) transmitBuffer =
+                {
+                        (uint8_t)uds_sid_DiagnosticSessionControl | (uint8_t)uds_sid_PositiveResponseMask,
+                        session,
+                        (uint16_t)defaultTimings[session].p2,
+                        (uint16_t)(defaultTimings[session].p2star/10u)
+                };
+                charon_sscTxMessage((uint8_t*)&transmitBuffer, sizeof(transmitBuffer));
             }
-            charon_sscSetSession((charon_sessionTypes_t)session, 0x96u, 0x1770uL*10u);
+            charon_sscSetSession((charon_sessionTypes_t)session, defaultTimings[session].p2, defaultTimings[session].p2star);
         }
     }
     if (result != uds_responseCode_PositiveResponse)
     {
-        charon_sendNegativeResponse(result, uds_sid_RequestTransferExit);
+        charon_sendNegativeResponse(result, uds_sid_DiagnosticSessionControl);
     }
     return result;
 }
@@ -76,9 +95,33 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Com
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_TesterPresent (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    (void)receiveBuffer;
-    (void)receiveBufferSize;
-    return uds_responseCode_ServiceNotSupported;
+    uds_responseCode_t result = uds_responseCode_PositiveResponse;
+
+    if (receiveBufferSize != 2u)
+    {
+        CHARON_ERROR("Unexpected message length.");
+        result = uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
+    }
+    else if ( (receiveBuffer[1] & 0x7Fu) != 0u)
+    {
+        CHARON_ERROR("Subfunction is not 0x00 or 0x80.");
+        result = uds_responseCode_SubfunctionNotSupported;
+    }
+    else
+    {
+        charon_sscTesterPresentHeartbeat();
+        if ( (receiveBuffer[1] & 0x80u) == 0u)
+        {
+            uint8_t transmitBuffer[2] = {(uint8_t)uds_sid_TesterPresent | (uint8_t)uds_sid_PositiveResponseMask, 0u};
+            charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
+        }
+    }
+
+    if (result != uds_responseCode_PositiveResponse)
+    {
+        charon_sendNegativeResponse(result, uds_sid_TesterPresent);
+    }
+    return result;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_AccessTimingParameter (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)

@@ -56,8 +56,8 @@
  * Default Timing Parameter for the UDS Server Communication and Session Control
  * @{
  * */
-#define DEFAULT_P2_SERVER            ((uint32_t) 100u)       /**< Default P2 Server Time (see ISO Requirements) */
-#define DEFAULT_P2_STAR_SERVER       ((uint32_t) 300u)       /**< Default P2* Server Time (see ISO Requirements) */
+#define DEFAULT_P2_SERVER            ((uint32_t) 50u)       /**< Default P2 Server Time (see ISO Requirements) */
+#define DEFAULT_P2_STAR_SERVER       ((uint32_t) 5000u)       /**< Default P2* Server Time (see ISO Requirements) */
 #define DEFAULT_S3_SERVER            ((uint32_t) 5000u)      /**< Default S3 Server Time (see ISO Requirements) */
 /**
  * @}
@@ -70,13 +70,12 @@
 
 /* Types *********************************************************************/
 
-/** Struct to store all timeing required Data */
+/** Struct to store all timing required Data */
 typedef struct
 {
     //TODO: there are many more, but for now...
     uint32_t        p2Server;
     uint32_t        p2StarServer;
-    uint32_t        s3Server;
 } ComTimeoutLimits_t;
 
 /* Variables *****************************************************************/
@@ -94,7 +93,7 @@ static uint32_t s_diagnoticSessionTimestamp = 0u;
 /** Adjustable timeouts, initialized with server default values */
 static ComTimeoutLimits_t s_ttl =
 {
-        DEFAULT_P2_SERVER, DEFAULT_P2_STAR_SERVER, DEFAULT_S3_SERVER
+        DEFAULT_P2_SERVER, DEFAULT_P2_STAR_SERVER
 };
 /** Stores the System given Communication Socket */
 static ISocket_t s_systemComSocket = {NULL};
@@ -177,7 +176,6 @@ void charon_sscReset (void)
     s_diagnoticSessionTimestamp = 0u;
     s_ttl.p2Server = DEFAULT_P2_SERVER;
     s_ttl.p2StarServer = DEFAULT_P2_STAR_SERVER;
-    s_ttl.s3Server = DEFAULT_S3_SERVER;
 }
 
 void charon_sscInit (ISocket_t sscComSocket)
@@ -276,6 +274,11 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
             break;
         }
         }
+        if (retVal != uds_responseCode_RequestCorrectlyReceived_ResponsePending)
+        {
+            // completion of a service (which is indicated by not being "response pending") updates session timer
+            s_diagnoticSessionTimestamp = charon_interface_clock_getTime();
+        }
     }
     else
     {
@@ -301,6 +304,7 @@ void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
         }
         else
         {
+            // todo: how to handle this case?
             CHARON_ERROR("Message SID %s (0x%x) does not match with pending SID %s (0x%x)", charon_ServiceLookupTable_getNameForServiceSid(responeRequestId), responeRequestId, charon_ServiceLookupTable_getNameForServiceSid((uint8_t)s_currentlyPendingService->sid), (uint8_t)s_currentlyPendingService->sid);
         }
     }
@@ -360,10 +364,8 @@ static bool isServiceInSession (charon_sessionTypes_t currentSession, const char
 
 static void handleDiagnosticSession (void)
 {
-    /* Copy current P3 Server Timing onto stack */
-    uint32_t p3TimeoutLimit = s_ttl.s3Server;
     /* Check if Session Timed Out */
-    if(charon_interface_clock_getTimeElapsed(s_diagnoticSessionTimestamp) >= p3TimeoutLimit)
+    if(charon_interface_clock_getTimeElapsed(s_diagnoticSessionTimestamp) >= DEFAULT_S3_SERVER)
     {
         CHARON_WARNING("Session timed out, activating default session.");
         /* terminate Session */
@@ -396,6 +398,7 @@ static void handleResponsePending (void)
             s_pendingRequestStartTime = charon_interface_clock_getTime();
         }
         //TODO as far as i remember there was a maximum amount to do this, but i couldn't find it...
+        // remark: you probably mean P4_Server, which is manufacturer specific
     }
 }
 
