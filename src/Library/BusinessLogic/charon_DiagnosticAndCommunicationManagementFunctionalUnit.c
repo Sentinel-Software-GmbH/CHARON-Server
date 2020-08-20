@@ -10,18 +10,24 @@
 #include "HSDI/charon_interface_debug.h"
 #include "Common/charon_negativeResponse.h"
 
+
+typedef struct defaultSessionTimings_t_private
+{
+    uint32_t p2;
+    uint32_t p2star;
+}defaultSessionTimings_t;
 /**
  * Default timings for each session.
  * Sorted for their session id. Values are in milliseconds, for both parameters.
  */
 // todo: these timing values are example values from iso 14229-2 chapter 7.2 table 4
 // change these as necessary
-static const struct {uint32_t p2, p2star;} defaultTimings[charon_sscType_amount] =
+static const defaultSessionTimings_t defaultTimings[charon_sscType_amount] =
 {
-        {50,5000},
-        {50,5000},
-        {50,5000},
-        {50,5000}
+        {50,5000},      /* Default */
+        {50,5000},      /* Programming */
+        {50,5000},      /* Extended */
+        {50,5000}       /* Securty */
 };
 
 void charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset (void)
@@ -53,7 +59,13 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
 
             if (responseSuppress == 0u)
             {
-                struct {uint8_t sid, session; uint16_t p2, p2star;} __attribute__((packed)) transmitBuffer =
+                PACKED_STRUCT(anonym)
+                {
+                    uint8_t sid;
+                    uint8_t session;
+                    uint16_t p2;
+                    uint16_t p2star;
+                } transmitBuffer =
                 {
                         (uint8_t)uds_sid_DiagnosticSessionControl | (uint8_t)uds_sid_PositiveResponseMask,
                         session,
