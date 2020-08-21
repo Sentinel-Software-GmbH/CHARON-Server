@@ -44,6 +44,16 @@
 #define NULL        ((void *) 0)
 #endif
 
+/** Helper Macro to define a Byte Packed struct depending on compiler */
+#ifdef __GNUC__
+#define PACKED_STRUCT(name)             \
+struct __attribute__((packed)) name
+#endif
+#ifdef __arm__
+#define PACKED_STRUCT(name)             \
+struct __attribute__((packed)) name
+#endif
+
 /* Types *********************************************************************/
 
 typedef enum
