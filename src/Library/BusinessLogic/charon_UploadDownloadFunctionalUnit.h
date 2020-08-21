@@ -46,16 +46,60 @@
 
 /* Interfaces ****************************************************************/
 
+/**
+ * Resets all internal Variables and
+ * stops all ongoing Services.
+ */
 void charon_UploadDownloadFunctionalUnit_reset (void);
 
+/**
+ * UDS ISO 14229-1 SE 2013-03-15
+ * SID: 0x34
+ *
+ * @param receiveBuffer Paylpad
+ * @param receiveBufferSize Payload Size
+ * @return @see @ref uds_responseCode_t
+ */
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestDownload (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/**
+ * UDS ISO 14229-1 SE 2013-03-15
+ * SID: 0x35
+ *
+ * @param receiveBuffer Paylpad
+ * @param receiveBufferSize Payload Size
+ * @return @see @ref uds_responseCode_t
+ */
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestUpload (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/**
+ * UDS ISO 14229-1 SE 2013-03-15
+ * SID: 0x36
+ *
+ * @param receiveBuffer Paylpad
+ * @param receiveBufferSize Payload Size
+ * @return @see @ref uds_responseCode_t
+ */
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/**
+ * UDS ISO 14229-1 SE 2013-03-15
+ * SID: 0x37
+ *
+ * @param receiveBuffer Paylpad
+ * @param receiveBufferSize Payload Size
+ * @return @see @ref uds_responseCode_t
+ */
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/**
+ * UDS ISO 14229-1 SE 2013-03-15
+ * SID: 0x38
+ *
+ * @param receiveBuffer Paylpad
+ * @param receiveBufferSize Payload Size
+ * @return @see @ref uds_responseCode_t
+ */
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestFileTransfer (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 

@@ -44,28 +44,56 @@
 
 /* Macros ********************************************************************/
 
-#define     UDS_MAX_INPUT_FRAME_SIZE    4095u
-#define     UDS_MAX_OUTPUT_FRAME_SIZE   4095u
+/**
+ * UDS Payload Size, in this case defined by ISO TP
+ * @{
+ */
+#define UDS_MAX_INPUT_FRAME_SIZE    4095u
+#define UDS_MAX_OUTPUT_FRAME_SIZE   4095u
+/**
+ * @}
+ */
 
 /* Types *********************************************************************/
 
-typedef enum
+/**
+ * Enumeration to describe the Transfer States
+ */
+typedef enum TransferDirection_t_private
 {
-    transfer_idle,
-    transfer_download,
-    transfer_upload
-} transferDirection_t;
+    transfer_idle,           /**< No Transfer Ongoing */
+    transfer_download,       /**< Transfer Client -> Server */
+    transfer_upload          /**< Transfer Server -> Client */
+} TransferDirection_t;
 
 /* Variables *****************************************************************/
 
-static transferDirection_t s_transferDirection = transfer_idle;
-static uint32_t s_currentMemoryAddress = 0;
-static uint32_t s_remainingMemoryLength = 0;
-static uint8_t s_nextSequenceCounter = 0;
+/** Current Transfer State */
+static TransferDirection_t s_transferDirection = transfer_idle;
+/** Stores the Memory Address used to send Data in Chunks */
+static uint32_t s_currentMemoryAddress = 0uL;
+/** Stores Transfer Amoung remaining */
+static uint32_t s_remainingMemoryLength = 0uL;
+/** Stores Counter to Check Transfer amount and count */
+static uint8_t s_nextSequenceCounter = 0uL;
 
 /* Private Function Definitions **********************************************/
 
-static uds_responseCode_t requestTransfer(transferDirection_t direction, const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+/**
+ * Handle Transfers
+ *
+ * Checks on Transfer direction and initiates the Transfer of Data in
+ * given direction.
+ *
+ * @param direction
+ *      @see @ref TransferDirection_t
+ * @param receiveBuffer
+ *      Payload
+ * @param receiveBufferSize
+ *      Payload Length
+ * @return @see @ref uds_responseCode_t
+ */
+static uds_responseCode_t requestTransfer(TransferDirection_t direction, const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 /* Interfaces  ***************************************************************/
 
@@ -89,7 +117,6 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestUpload (const uint
 
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    /**@ todo: No attribute packed! Not plattform independet!!! */
     const PACKED_STRUCT(anonym) {
         uint8_t sid;
         uint8_t blockSequenceCounter;
@@ -253,9 +280,8 @@ uint8_t charon_UploadDownloadFunctionalUnit_getNextSequenceCounter (void)
 
 /* Private Function **********************************************************/
 
-static uds_responseCode_t requestTransfer(transferDirection_t direction, const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t requestTransfer(TransferDirection_t direction, const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    /**@ todo: No attribute packed! Not plattform independet!!! */
     const PACKED_STRUCT(anonym) {
         uint8_t sid;
         uint8_t dataFormatIdentifier;
