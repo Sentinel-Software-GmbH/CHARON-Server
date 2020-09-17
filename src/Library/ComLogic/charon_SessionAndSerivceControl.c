@@ -352,8 +352,7 @@ void charon_sscTesterPresentHeartbeat (void)
 static bool isServiceInSession (charon_sessionTypes_t currentSession, const charon_serviceObject_t * pService)
 {
     bool retval = false;
-    uint32_t sessionMaskAligned = (uint32_t)(pService->sessionMask << 1uL);
-    uint32_t result = (sessionMaskAligned & ((uint32_t)(1uL << (uint8_t)currentSession)));
+    uint32_t result = (uint32_t)((uint32_t)(1uL << currentSession) & pService->sessionMask);
     if(result > 0u)
     {
         retval = true;

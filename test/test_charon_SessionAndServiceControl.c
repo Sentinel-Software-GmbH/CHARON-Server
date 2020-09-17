@@ -81,7 +81,7 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Success
     charon_serviceObject_t dummyServiceObjectForSessionControl =
     {
             uds_sid_DiagnosticSessionControl,   /* ID */
-            0x0F,                               /* All Sessions */
+            0x1E,                               /* All Sessions */
             dummyServiceRoutineSuccess,         /* Dummy Service */
             0u                                  /* No encrypt */
     };
@@ -116,7 +116,7 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Fail(vo
     charon_serviceObject_t dummyServiceObjectForDownloadRequest =
     {
             uds_sid_RequestDownload,            /* ID */
-            0x0E,                               /* Programming Session and Upwards */
+            0x1C,                               /* Programming Session and Upwards */
             NULL,                               /* Can be Null since it is not reached */
             0u                                  /* No encrypt */
     };
@@ -178,7 +178,7 @@ void test_charon_SessionAndServiceControl_executeService_AnswerPending(void)
     static charon_serviceObject_t dummyServiceObjectForWriteMemoryByAddress =           /* This is declared static since it has to be used */
     {                                                                                   /* for the pending ongoing test cases */
             uds_sid_WriteMemoryByAddress,       /* ID */
-            0x0E,                               /* Programming upward Sessions */
+            0x1C,                               /* Programming upward Sessions */
             dummyServiceRoutinePending,         /* Dummy Service */
             0u                                  /* No encrypt */
     };
@@ -213,7 +213,7 @@ void test_charon_SessionAndServiceControl_executeService_ServicePendingDenyServi
     charon_serviceObject_t dummyServiceObjectForDiagnosticSessionControl =
     {
             uds_sid_DiagnosticSessionControl,   /* ID */
-            0x0F,                               /* All Sessions */
+            0x1E,                               /* All Sessions */
             NULL,                               /* Dummy Service = NULL should not be reached */
             0u                                  /* No encrypt */
     };
@@ -247,7 +247,7 @@ void test_charon_SessionAndServiceControl_executeService_ServicePendingAcceptTes
     charon_serviceObject_t dummyServiceObjectTesterPresent =
     {
             uds_sid_TesterPresent,              /* ID */
-            0x0F,                               /* All Sessions */
+            0x1E,                               /* All Sessions */
             dummyServiceRoutineSuccess,         /* Dummy Service = NULL should not be reached */
             0u                                  /* No encrypt */
     };
