@@ -9,11 +9,13 @@
 #include "Interface/Socket/ISocket.h"
 
 extern void pipe_init (void);
+extern ISocket_t pipe_socket;
+extern void uart_init (void);
 extern ISocket_t uart_socket;
 
 int main (void)
 {
-    pipe_init();
+    uart_init();
     charon_init(uart_socket);
     while (1)
     {
@@ -21,3 +23,4 @@ int main (void)
     }
     return 0;
 }
+

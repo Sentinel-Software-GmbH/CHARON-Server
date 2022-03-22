@@ -37,6 +37,7 @@
 #include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "BusinessLogic/charon_RoutineFunctionalUnit.h"
 #include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
+#include "BusinessLogic/charon_InputOutputControlFunctionalUnit.h"
 
 /* Imports *******************************************************************/
 
@@ -63,7 +64,7 @@ static charon_serviceObject_t serviceLookupTable[] =
         {uds_sid_ReadDataByPeriodicIdentifier,              (                                        SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
         {uds_sid_DynamicallyDefineDataIdentifier,           (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
         {uds_sid_WriteDataByIdentifier,                     (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
-        {uds_sid_InputOutputControlByIdentifier,            (                                        SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
+        {uds_sid_InputOutputControlByIdentifier,            (                                        SESSION_EXTENDED | SESSION_SECURED),   charon_InputOutputControlFunctionalUnit_InputOutputControlByIdentifier,                         0u},
         {uds_sid_RoutineControl,                            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_RoutineFunctionalUnit_RoutineControl,                                                    0u},
         {uds_sid_RequestDownload,                           (                  SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_UploadDownloadFunctionalUnit_RequestDownload,                                            0u},
         {uds_sid_RequestUpload,                             (                  SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_UploadDownloadFunctionalUnit_RequestUpload,                                              0u},

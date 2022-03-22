@@ -11,6 +11,7 @@
 #include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "mock_charon_RoutineFunctionalUnit.h"
 #include "mock_charon_UploadDownloadFunctionalUnit.h"
+#include "mock_charon_InputOutputControlFunctionalUnit.h"
 
 void test_charon_ServiceLookupTable_getServiceObject_noEntryFound_returnsNull (void)
 {
