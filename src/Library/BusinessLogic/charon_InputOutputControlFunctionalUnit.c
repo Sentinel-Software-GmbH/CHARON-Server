@@ -162,6 +162,7 @@ IO_DID_List_Entry_t* charon_InputOutputControlFunctionalUnit_removeIOEntry(uint1
         }
         nextEntry = nextEntry->next;
     }
+    return NULL;
 }
 
 IO_DID_List_Entry_t *findDID(uint16_t DID)
@@ -191,6 +192,7 @@ IO_Ctrl_Object_t *findMaskObject(IO_DID_List_Entry_t *did_object, uint16_t posit
 
 bool charon_InputOutputControlFunctionalUnit_clearIOEntries() {
     io_control_list = NULL;
+    return true;
 }
 #endif
 
@@ -250,7 +252,7 @@ static uds_responseCode_t handleFlag(IO_DID_List_Entry_t* did_entry, uint16_t cu
 
 static uds_responseCode_t handleNegative(char *message, uint16_t DID, uint16_t currentMaskPosition, uds_responseCode_t responseCode)
 {
-    CHARON_WARNING(message, DID, currentMaskPosition);
+    // CHARON_WARNING(message, DID, currentMaskPosition); /< @todo (spike) Wut? (<_< )
     charon_sendNegativeResponse(responseCode, uds_sid_InputOutputControlByIdentifier);
     return responseCode;
 }
