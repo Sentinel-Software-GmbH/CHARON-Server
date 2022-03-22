@@ -57,8 +57,8 @@
  * @{
  * */
 #define DEFAULT_P2_SERVER            ((uint32_t) 50u)       /**< Default P2 Server Time (see ISO Requirements) */
-#define DEFAULT_P2_STAR_SERVER       ((uint32_t) 5000u)       /**< Default P2* Server Time (see ISO Requirements) */
-#define DEFAULT_S3_SERVER            ((uint32_t) 5000u)      /**< Default S3 Server Time (see ISO Requirements) */
+#define DEFAULT_P2_STAR_SERVER       ((uint32_t) 5000u)     /**< Default P2* Server Time (see ISO Requirements) */
+#define DEFAULT_S3_SERVER            ((uint32_t) 5000u)     /**< Default S3 Server Time (see ISO Requirements) */
 /**
  * @}
  */
@@ -98,7 +98,7 @@ static ComTimeoutLimits_t s_ttl =
 /** Stores the System given Communication Socket */
 static ISocket_t s_systemComSocket = {NULL};
 
-/* Buffers *****************************************************************/
+/* Buffers *******************************************************************/
 
 /** Charon Session and Communication Control Receive Buffer */
 static uint8_t s_receiveBuffer[CHARON_RCV_BUFFER_SIZE];
