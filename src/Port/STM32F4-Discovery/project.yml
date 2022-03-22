@@ -54,7 +54,7 @@
 
 :tools:
    :release_compiler:
-      :executable: "C:/Program Files (x86)/GNU Arm Embedded Toolchain/9 2020-q2-update/bin/arm-none-eabi-gcc.exe"
+      :executable: "C:/GNUArmEmbeddedToolchain/10_2021_07/bin/arm-none-eabi-gcc.exe"
       :name: "ARM Cross GCC"
       :arguments:
          - -mcpu=cortex-m4
@@ -70,7 +70,7 @@
          - -o ${2}
          - ${1}
    :release_assembler:
-      :executable: "C:/Program Files (x86)/GNU Arm Embedded Toolchain/9 2020-q2-update/bin/arm-none-eabi-gcc.exe"
+      :executable: "C:/GNUArmEmbeddedToolchain/10_2021_07/bin/arm-none-eabi-gcc.exe"
       :name: "ARM Cross GCC"
       :arguments:
          -  -x assembler-with-cpp
@@ -87,7 +87,7 @@
          - -o ${2}
          - ${1}
    :release_linker:
-      :executable: "C:/Program Files (x86)/GNU Arm Embedded Toolchain/9 2020-q2-update/bin/arm-none-eabi-gcc.exe"
+      :executable: "C:/GNUArmEmbeddedToolchain/10_2021_07/bin/arm-none-eabi-gcc.exe"
       :name: "ARM Cross GCC"
       :arguments:
          - -mcpu=cortex-m4
