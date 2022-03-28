@@ -72,7 +72,7 @@ typedef enum TransferDirection_t_private
 static TransferDirection_t s_transferDirection = transfer_idle;
 /** Stores the Memory Address used to send Data in Chunks */
 static uint32_t s_currentMemoryAddress = 0uL;
-/** Stores Transfer Amoung remaining */
+/** Stores Transfer Amount remaining */
 static uint32_t s_remainingMemoryLength = 0uL;
 /** Stores Counter to Check Transfer amount and count */
 static uint8_t s_nextSequenceCounter = 0uL;
@@ -132,7 +132,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8
     }
     else if (s_transferDirection == transfer_idle)
     {
-        CHARON_ERROR("Transfer Data was not expected. Forgot to request upload/downlaod?");
+        CHARON_ERROR("Transfer Data was not expected. Forgot to request upload/download?");
         result = uds_responseCode_RequestSequenceError;
     }
     else if (s_remainingMemoryLength < (receiveBufferSize - 2u) )
@@ -205,7 +205,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (cons
     }
     else if (s_remainingMemoryLength != 0u)
     {
-        CHARON_ERROR("Transfer Exit received, but not all data was transfered.");
+        CHARON_ERROR("Transfer Exit received, but not all data was transferred.");
         result = uds_responseCode_RequestSequenceError;
     }
     else if (s_transferDirection == transfer_idle)
@@ -328,7 +328,7 @@ static uds_responseCode_t requestTransfer(TransferDirection_t direction, const u
 
         if ( false == charon_NvmDriver_checkAddressRange(memoryAddress, memoryLength) )
         {
-            CHARON_ERROR("Reuqested memory is out of range.");
+            CHARON_ERROR("Requested memory is out of range.");
             result = uds_responseCode_RequestOutOfRange;
         }
         else if (s_transferDirection != transfer_idle)
