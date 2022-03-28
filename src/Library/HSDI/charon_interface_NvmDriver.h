@@ -1,4 +1,4 @@
-/*
+/**
  *  Sentinel Software GmbH
  *  Copyright (C) 2022 Florian Kaup
  *
@@ -88,3 +88,5 @@ void charon_NvmDriver_read (uint32_t address, uint8_t* data, uint32_t size);
 void charon_NvmDriver_erase (void);
 
 #endif /* CHARON_INTERFACE_FLASHDRIVER_H_ */
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

@@ -20,7 +20,7 @@
  * @{
  * @defgroup BusinessLogic Business Logic
  * @{
- * @file charon_UploadDownloadFunctionalUnit
+ * @file charon_UploadDownloadFunctionalUnit.h
  * Module handles Service Group for Upload Download
  *
  * $Id:  $
@@ -102,7 +102,6 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (cons
  */
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestFileTransfer (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-
 #ifdef TEST
 
 void charon_UploadDownloadFunctionalUnit_setCurrentMemoryAddress (uint32_t newAddress);
@@ -122,7 +121,6 @@ uint8_t charon_UploadDownloadFunctionalUnit_getTransferDirection (void);
 uint8_t charon_UploadDownloadFunctionalUnit_getNextSequenceCounter (void);
 
 #endif
-
 
 #endif /* CHARON_UPLOADDOWNLOADFUNCTIONALUNIT_H_ */
 

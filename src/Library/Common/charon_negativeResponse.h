@@ -1,4 +1,4 @@
-/*
+/**
  *  Sentinel Software GmbH
  *  Copyright (C) 2022 Florian Kaup
  *
@@ -48,3 +48,5 @@
 void charon_sendNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid);
 
 #endif /* CHARON_NEGATIVERESPONSE_H_ */
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

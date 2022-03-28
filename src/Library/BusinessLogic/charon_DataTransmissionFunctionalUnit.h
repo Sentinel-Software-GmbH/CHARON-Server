@@ -117,3 +117,5 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_WriteDataByIdentifier (
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_WriteMemoryByAddress (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 #endif /* CHARON_DATATRANSMISSIONFUNCTIONALUNIT_H_ */
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

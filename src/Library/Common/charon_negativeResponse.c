@@ -1,4 +1,4 @@
-/*
+/**
  *  Sentinel Software GmbH
  *  Copyright (C) 2022 Florian Kaup
  *
@@ -20,7 +20,7 @@
  * @{
  * @addtogroup Common
  * @{
- * @file charon_negativeResponse.h
+ * @file charon_negativeResponse.c
  * This Module handles the Transfer of the negative Response message.
  *
  * $Id:  $
@@ -58,3 +58,9 @@ void charon_sendNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t Req
     charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
 }
 
+/* Private Function **********************************************************/
+
+
+
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

@@ -18,9 +18,9 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup BusinessLogic
+ * @addtogroup BusinessLogic Business Logic
  * @{
- * @file charon_UploadDownloadFunctionalUnit
+ * @file charon_UploadDownloadFunctionalUnit.c
  * Implementation of Upload Download FU.
  *
  * $Id:  $
@@ -231,7 +231,6 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (cons
     return result;
 }
 
-
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestFileTransfer (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     (void)receiveBuffer;
@@ -239,7 +238,6 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestFileTransfer (cons
     charon_sendNegativeResponse(uds_responseCode_ServiceNotSupported, uds_sid_RequestFileTransfer);
     return uds_responseCode_ServiceNotSupported;
 }
-
 
 #ifdef TEST
 void charon_UploadDownloadFunctionalUnit_setCurrentMemoryAddress (uint32_t newAddress)
@@ -276,7 +274,6 @@ uint8_t charon_UploadDownloadFunctionalUnit_getNextSequenceCounter (void)
 }
 
 #endif
-
 
 /* Private Function **********************************************************/
 
@@ -369,4 +366,3 @@ static uds_responseCode_t requestTransfer(TransferDirection_t direction, const u
 }
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
-

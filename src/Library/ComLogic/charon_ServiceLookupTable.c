@@ -20,7 +20,7 @@
  * @{
  * @addtogroup ComLogic
  * @{
- * @file charon_ServiceLookupTable
+ * @file charon_ServiceLookupTable.c
  * Implementation of the Service Lookup Table
  *
  * $Id:  $

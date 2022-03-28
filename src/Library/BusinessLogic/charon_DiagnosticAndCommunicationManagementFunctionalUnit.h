@@ -155,5 +155,3 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Lin
 #endif /* CHARON_DIAGNOSTICANDCOMMUNICATIONMANAGEMENTFUNCTIONALUNIT_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
-
-

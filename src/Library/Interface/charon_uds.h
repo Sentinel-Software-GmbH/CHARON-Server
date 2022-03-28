@@ -56,5 +56,3 @@ void charon_task (void);
 #endif /* CHARON_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
-
-

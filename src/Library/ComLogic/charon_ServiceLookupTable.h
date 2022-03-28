@@ -20,7 +20,7 @@
  * @{
  * @defgroup ComLogic
  * @{
- * @file charon_ServiceLookupTable
+ * @file charon_ServiceLookupTable.c
  * This Module holds the lookup Table to connect all relevant data of
  * allowance and target FU for every service.
  *

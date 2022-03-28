@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2020 Andreas Hofmann
+ *  Copyright (C) 2022 Andreas Hofmann
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  * @{
  * @addtogroup ComLogic
  * @{
- * @file charon_SessionAndSerivceControl.c
+ * @file charon_SessionAndServiceControl.c
  * Implementation of the Service and Session Control Module
  *
  * $Id:  $

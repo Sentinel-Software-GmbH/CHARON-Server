@@ -1,4 +1,4 @@
-/*
+/**
  *  Sentinel Software GmbH
  *  Copyright (C) 2022 Florian Kaup
  *
@@ -57,3 +57,5 @@
 uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 #endif /* CHARON_ROUTINEFUNCTIONALUNIT_H_ */
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

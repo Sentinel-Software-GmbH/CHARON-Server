@@ -1,4 +1,4 @@
-/*
+/**
  *  Sentinel Software GmbH
  *  Copyright (C) 2022 Florian Kaup
  *
@@ -68,3 +68,5 @@ uint32_t charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation 
 uint32_t charon_StoredDataTransmissionFunctionalUnit_ReadDtcInformation (uint8_t * receiveBuffer, uint32_t receiveBufferSize, uint8_t * transmitBuffer, uint32_t transmitBufferSize);
 
 #endif /* CHARON_STOREDDATATRANSMISSIONFUNCTIONALUNIT_H_ */
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
