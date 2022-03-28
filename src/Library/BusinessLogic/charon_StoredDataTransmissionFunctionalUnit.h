@@ -21,7 +21,7 @@
  * @defgroup BusinessLogic Business Logic
  * @{
  * @file charon_StoredDataTransmissionFunctionalUnit.h
- * Module handles Service Group for DTC control functions
+ * Module handles Service Group the Stored Data Transmission Unit
  *
  * $Id:  $
  * $URL:  $

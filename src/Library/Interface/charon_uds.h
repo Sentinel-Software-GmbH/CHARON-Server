@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup ComLogic
+ * @defgroup Interface
  * @{
  * @file charon_uds
  * This Module Contains All Interfaces provided to the Application to Handle the

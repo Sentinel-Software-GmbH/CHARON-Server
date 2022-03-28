@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup HSDI
+ * @addtogroup Socket
  * @{
  * @file DevNullSocket.c
  * Implementation of NULL Socket.
