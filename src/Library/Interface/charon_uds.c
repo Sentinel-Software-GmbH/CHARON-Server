@@ -49,7 +49,16 @@
 
 /* Private Function Definitions **********************************************/
 
+/**
+ * @brief Print Welcome Message to Output
+ * As means for Open source just starters and for Demonstration
+ * Purposes.
+ * Can be disabled.
+ */
+static void printUnnecessaryLargeWelcome (void);
+
 /* Interfaces  ***************************************************************/
+
 
 void charon_reset (void)
 {
@@ -62,6 +71,9 @@ void charon_init (ISocket_t systemCommunicationSocket)
 {
     charon_reset();
     charon_sscInit(systemCommunicationSocket);
+#if (!(CHARON_CONFIG_DO_NOT_PRINT_WELCOME))
+    printUnnecessaryLargeWelcome();
+#endif
 }
 
 void charon_task (void)
@@ -85,7 +97,10 @@ void charon_task (void)
 
 /* Private Function **********************************************************/
 
-
-
+static void printUnnecessaryLargeWelcome (void)
+{
+    PRINT_CHARON_LOGO_ON_LOG_OUT();
+}
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
+
