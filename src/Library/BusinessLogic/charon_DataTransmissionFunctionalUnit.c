@@ -1,6 +1,6 @@
-/*
+/**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Florian Kaup
+ *  Copyright (C) 2022 Andreas Hofmann
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @addtogroup ComLogic
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file charon_SessionAndServiceControl.c
+ * Implementation of the Service and Session Control Module
  *
  * $Id:  $
  * $URL:  $
@@ -31,11 +31,6 @@
 /*****************************************************************************/
 
 /* Includes ******************************************************************/
-
-#include <unity.h>
-#include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndSerivceControl.h"
 
 /* Imports *******************************************************************/
 
@@ -50,16 +45,6 @@
 /* Private Function Definitions **********************************************/
 
 /* Interfaces  ***************************************************************/
-
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
-{
-
-}
-
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
-{
-
-}
 
 /* Private Function **********************************************************/
 

@@ -1,18 +1,56 @@
 /*
- * test_charon_UploadDownloadFunctionalUnit.c
+ *  Sentinel Software GmbH
+ *  Copyright (C) 2022 Florian Kaup
  *
- *  Created on: 16.01.2020
- *      Author: Florian Kaup
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+/**
+ * @addtogroup CharonUDS
+ * @{
+ * @addtogroup test
+ * @{
+ * @file test_charon_UploadDownloadFunctionalUnit.c
+ * Implementation of unti tests for charon_UploadDownloadFunctionalUnit
+ *
+ * $Id:  $
+ * $URL:  $
+ * @}
+ * @}
+ */
+/*****************************************************************************/
 
+/* Includes ******************************************************************/
 
 #include <unity.h>
 #include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
-
 #include "mock_charon_interface_NvmDriver.h"
 #include "mock_charon_negativeResponse.h"
 #include "mock_charon_SessionAndSerivceControl.h"
 
+/* Imports *******************************************************************/
+
+/* Constants *****************************************************************/
+
+/* Macros ********************************************************************/
+
+/* Types *********************************************************************/
+
+/* Variables *****************************************************************/
+
+/* Private Function Definitions **********************************************/
+
+/* Interfaces  ***************************************************************/
 
 void test_charon_UploadDownloadFunctionalUnit_requestDownload_wrongSize_returnsIncorrectMessageLength (void)
 {
@@ -124,11 +162,6 @@ void test_charon_UploadDownloadFunctionalUnit_requestDownload_ok_returnsBufferSi
     TEST_ASSERT_EQUAL(1, charon_UploadDownloadFunctionalUnit_getTransferDirection());
 }
 
-
-
-
-
-
 void test_charon_UploadDownloadFunctionalUnit_requestUpload_wrongSize_returnsIncorrectMessageLength (void)
 {
     charon_UploadDownloadFunctionalUnit_setCurrentMemoryAddress(0);
@@ -223,9 +256,6 @@ void test_charon_UploadDownloadFunctionalUnit_requestUpload_ok_returnsBufferSize
     TEST_ASSERT_EQUAL(0x10000, charon_UploadDownloadFunctionalUnit_getRemainingMemoryLength());
     TEST_ASSERT_EQUAL(2, charon_UploadDownloadFunctionalUnit_getTransferDirection());
 }
-
-
-
 
 void test_charon_UploadDownloadFunctionalUnit_transferData_bufferTooBig_returnsIncorrectMessageLength (void)
 {
@@ -350,8 +380,6 @@ void test_charon_UploadDownloadFunctionalUnit_transferData_UploadOk_returnsOk (v
 
 }
 
-
-
 void test_charon_UploadDownloadFunctionalUnit_requestTransferExit_incorrectMessageLength_returnsIncorrectMessageLength (void)
 {
     uint8_t inputData[] = {0x37, 0x00};
@@ -400,8 +428,6 @@ void test_charon_UploadDownloadFunctionalUnit_requestTransferExit_correctSequenc
     TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse, charon_UploadDownloadFunctionalUnit_RequestTransferExit(inputData, sizeof(inputData)));
 }
 
-
-
 void test_charon_UploadDownloadFunctionalUnit_requestFileTransfer_returnsNotSupported (void)
 {
     uint8_t inputData[] = {0x38};
@@ -409,5 +435,11 @@ void test_charon_UploadDownloadFunctionalUnit_requestFileTransfer_returnsNotSupp
     charon_sendNegativeResponse_Expect(0x11, 0x38);
     TEST_ASSERT_EQUAL(uds_responseCode_ServiceNotSupported, charon_UploadDownloadFunctionalUnit_RequestFileTransfer(inputData, sizeof(inputData)));
 }
+/* Private Function **********************************************************/
+
+
+
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
 
 

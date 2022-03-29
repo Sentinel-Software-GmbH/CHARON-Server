@@ -51,7 +51,6 @@
 
 /* Interfaces  ***************************************************************/
 
-
 void charon_reset (void)
 {
     charon_sscReset();
