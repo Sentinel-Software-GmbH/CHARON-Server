@@ -36,6 +36,10 @@
 #include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
 #include "ComLogic/charon_SessionAndSerivceControl.h"
+#if (!(CHARON_CONFIG_DO_NOT_PRINT_WELCOME))
+#include "charon_interface_debug.h"
+#include "charon_logo.h"
+#endif
 
 /* Imports *******************************************************************/
 
