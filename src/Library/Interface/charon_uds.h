@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup ComLogic
+ * @defgroup Interface
  * @{
  * @file charon_uds
  * This Module Contains All Interfaces provided to the Application to Handle the
@@ -56,5 +56,3 @@ void charon_task (void);
 #endif /* CHARON_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
-
-

@@ -1,19 +1,53 @@
-/*
- * charon_InputOutputControlFunctionalUnit.h
+/**
+ *  Sentinel Software GmbH
+ *  Copyright (C) 2022 Florian Kaup
  *
- *  Created on: 20.01.2020
- *      Author: Florian Kaup, Steven Inácio
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+/**
+ * @addtogroup CharonUDS
+ * @{
+ * @defgroup BusinessLogic Business Logic
+ * @{
+ * @file charon_InputOutputControlFunctionalUnit.h
+ * Module handles Service Group for Input and Output control functions
+ *
+ * $Id:  $
+ * $URL:  $
+ * @}
+ * @}
+ */
+/*****************************************************************************/
+
 
 #ifndef CHARON_INPUTOUTPUTCONTROLFUNCTIONALUNIT_H_
 #define CHARON_INPUTOUTPUTCONTROLFUNCTIONALUNIT_H_
+
+/* Includes ******************************************************************/
 
 #include "charon_types.h"
 #include <stdbool.h>
 #include <stdint.h>
 
+/* Constants *****************************************************************/
+
+/* Macros ********************************************************************/
+
 #define STATIC_IO_CONTROL 0
 #define DYNAMIC_IO_CONTROL 1
+
+/* Types *********************************************************************/
 
 typedef struct IO_Ctrl_Object_t_public {
     bool (*returnControlToEcu)(void);
@@ -62,6 +96,19 @@ typedef struct IO_Ctrl_Object_t_public {
 #else
     #error "You must use either static or dynamic memory location for io control."
 #endif
+
+/* Interfaces ****************************************************************/
+
+/**
+ * UDS ISO 14229-1 SE 2013-03-15
+ * SID: 0x2F
+ *
+ * @param receiveBuffer Payload
+ * @param receiveBufferSize Payload Size
+ * @param transmitBuffer Payload
+ * @param transmitBufferSize Payload Size
+ * @return @see @ref uint32_t
+ */
 
 uds_responseCode_t charon_InputOutputControlFunctionalUnit_InputOutputControlByIdentifier(const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 

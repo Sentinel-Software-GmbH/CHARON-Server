@@ -1,14 +1,50 @@
-/*
- * uart.c
- * 
- * Created on: 14.09.2020
- *     Author: Steven Inácio
+/**
+ *  Sentinel Software GmbH
+ *  Copyright (C) 2022 Steven Inacio
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+/**
+ * @addtogroup CharonUDS
+ * @{
+ * @addtogroup Windows Port
+ * @{
+ * @file uart.c
+ * Implementation of the Service and Session Control Module
+ *
+ * $Id:  $
+ * $URL:  $
+ * @}
+ * @}
+ */
+/*****************************************************************************/
+
+/* Includes ******************************************************************/
 
 #include "ISocket.h"
 #include <windows.h>
 #include "charon_interface_debug.h"
 
+/* Imports *******************************************************************/
+
+/* Constants *****************************************************************/
+
+/* Macros ********************************************************************/
+
+/* Types *********************************************************************/
+
+/* Variables *****************************************************************/
 
 HANDLE hComm;
 DWORD dwRead;
@@ -17,6 +53,10 @@ OVERLAPPED osReader = {0};
 DCB UartConfig;
 COMMTIMEOUTS UartTimeouts;
 LPTSTR COM_PORT_NAME  = "\\\\.\\COM12";
+
+/* Private Function Definitions **********************************************/
+
+/* Interfaces  ***************************************************************/
 
 void uart_init()
 {
@@ -113,3 +153,9 @@ ISocket_t uart_socket = {
     .receive = uart_receive,
     .transmit = uart_send
 };
+/* Private Function **********************************************************/
+
+
+
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

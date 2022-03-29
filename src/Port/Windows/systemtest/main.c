@@ -1,10 +1,34 @@
-/*
- * main.c
+/**
+ *  Sentinel Software GmbH
+ *  Copyright (C) 2022 Florian Kaup
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   any later version.
  *
- *  Created on: 15.07.2020
- *      Author: Florian Kaup
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+/**
+ * @addtogroup CharonUDS
+ * @{
+ * @addtogroup SystemTest
+ * @{
+ * @file main.c
+ *
+ * $Id:  $
+ * $URL:  $
+ * @}
+ * @}
+ */
+/*****************************************************************************/
 
+/* Includes ******************************************************************/
 
 #include <stdint.h>
 #include <windows.h>
@@ -12,9 +36,22 @@
 
 //static const uint8_t [] = {};
 
+/* Imports *******************************************************************/
+
+/* Constants *****************************************************************/
+
+/* Macros ********************************************************************/
+
+/* Types *********************************************************************/
+
+/* Variables *****************************************************************/
 
 HANDLE pipeHandle;
 LPCSTR pipeName = "\\\\.\\pipe\\charonserver";
+
+/* Private Function Definitions **********************************************/
+
+/* Interfaces  ***************************************************************/
 
 void initPipe (void)
 {
@@ -75,9 +112,9 @@ int main (int argc, char ** argv)
     transferData(sizeof(requestDownloadCommand), requestDownloadCommand);
 
     printf("transfer data...\n");
-    uint8_t transferDataCommand1[0x100] = "\066\001This is a very big penis C================8";
+    uint8_t transferDataCommand1[0x100] = "\066\001This is a very big ... lamp C================8";
     transferData(sizeof(transferDataCommand1), transferDataCommand1);
-    uint8_t transferDataCommand2[0x100] = "\066\002More penis C================8";
+    uint8_t transferDataCommand2[0x100] = "\066\002More lamp C================8";
     transferData(sizeof(transferDataCommand2), transferDataCommand2);
     uint8_t transferDataCommand3[0x6] = "\066\003oO";
     transferData(sizeof(transferDataCommand3), transferDataCommand3);
@@ -89,4 +126,6 @@ int main (int argc, char ** argv)
     return 0;
 }
 
+/* Private Function **********************************************************/
 
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

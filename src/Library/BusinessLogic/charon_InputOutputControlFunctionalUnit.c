@@ -1,9 +1,37 @@
-/*
- * uds_InputOutputControlFunctionalUnit.c
+/**
+ *  Sentinel Software GmbH
+ *  Copyright (C) 2022 Florian Kaup
  *
- *  Created on: 20.01.2020
- *      Author: Florian Kaup
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+/**
+ * @addtogroup CharonUDS
+ * @{
+ * @defgroup BusinessLogic Business Logic
+ * @{
+ * @file  uds_InputOutputControlFunctionalUnit.c.h
+ * 
+ *
+ * $Id:  $
+ * $URL:  $
+ * @}
+ * @}
+ * 
+ */
+/*****************************************************************************/
+
+/* Includes ******************************************************************/
 
 #include "charon_InputOutputControlFunctionalUnit.h"
 #include "charon_interface_debug.h"
@@ -11,6 +39,11 @@
 #include "charon_negativeResponse.h"
 #include <stdint.h>
 #include <string.h>
+/* Imports *******************************************************************/
+
+/* Constants *****************************************************************/
+
+/* Macros ********************************************************************/
 
 #define IO_CTRL_RETURN_CONTROL_TO_ECU 0x00
 #define IO_CTRL_RESET_TO_DEFAULT 0x01
@@ -24,12 +57,19 @@ IO_DID_List_Entry_t *findDID(uint16_t DID);
 #else
 #error "You must use either static or dynamic memory location for io control."
 #endif
+/* Types *********************************************************************/
+
+/* Variables *****************************************************************/
 
 static IO_DID_List_Entry_t *io_control_list;
+
+/* Private Function Definitions **********************************************/
 
 static uds_responseCode_t handleFlag(IO_DID_List_Entry_t* did_entry, uint16_t currentMaskPosition, uint8_t receivedCommand, const uint8_t *data, uint32_t data_length);
 
 static uds_responseCode_t handleNegative(char *message, uint16_t DID, uint16_t currentMaskPosition, uds_responseCode_t responseCode);
+
+/* Interfaces  ***************************************************************/
 
 uds_responseCode_t charon_InputOutputControlFunctionalUnit_InputOutputControlByIdentifier(const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
@@ -196,6 +236,8 @@ bool charon_InputOutputControlFunctionalUnit_clearIOEntries() {
 }
 #endif
 
+/* Private Function **********************************************************/
+
 static uds_responseCode_t handleFlag(IO_DID_List_Entry_t* did_entry, uint16_t currentMaskPosition, uint8_t receivedCommand, const uint8_t *data, uint32_t data_length)
 {
     // IO OBJECT AT MASK FLAG?
@@ -256,3 +298,5 @@ static uds_responseCode_t handleNegative(char *message, uint16_t DID, uint16_t c
     charon_sendNegativeResponse(responseCode, uds_sid_InputOutputControlByIdentifier);
     return responseCode;
 }
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
