@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup HSDI
+ * @addtogroup Socket
  * @{
  * @file ISocket.h
  * An abstract interface to all kind of hardware interfaces, like uart, usb, spi,

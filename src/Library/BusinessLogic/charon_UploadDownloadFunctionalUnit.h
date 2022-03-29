@@ -20,7 +20,7 @@
  * @{
  * @defgroup BusinessLogic Business Logic
  * @{
- * @file charon_UploadDownloadFunctionalUnit
+ * @file charon_UploadDownloadFunctionalUnit.h
  * Module handles Service Group for Upload Download
  *
  * $Id:  $
@@ -56,7 +56,7 @@ void charon_UploadDownloadFunctionalUnit_reset (void);
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x34
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -66,7 +66,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestDownload (const ui
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x35
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -76,7 +76,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestUpload (const uint
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x36
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -86,7 +86,7 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x37
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -96,12 +96,11 @@ uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (cons
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x38
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
 uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestFileTransfer (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
-
 
 #ifdef TEST
 
@@ -122,7 +121,6 @@ uint8_t charon_UploadDownloadFunctionalUnit_getTransferDirection (void);
 uint8_t charon_UploadDownloadFunctionalUnit_getNextSequenceCounter (void);
 
 #endif
-
 
 #endif /* CHARON_UPLOADDOWNLOADFUNCTIONALUNIT_H_ */
 

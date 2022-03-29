@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2020 Andreas Hofmann
+ *  Copyright (C) 2022 Andreas Hofmann
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  * @{
  * @addtogroup ComLogic
  * @{
- * @file charon_SessionAndSerivceControl.c
+ * @file charon_SessionAndServiceControl.c
  * Implementation of the Service and Session Control Module
  *
  * $Id:  $
@@ -89,7 +89,7 @@ static uint32_t s_pendingRequestStartTime = 0u;
 /** Flag to indicate if the P2 Expired Message for Pending was already handled */
 static bool s_p2PendingExceededHandled = false;
 /** Timestamp for Diagnostic Session Timing */
-static uint32_t s_diagnoticSessionTimestamp = 0u;
+static uint32_t s_diagnosticSessionTimestamp = 0u;
 /** Adjustable timeouts, initialized with server default values */
 static ComTimeoutLimits_t s_ttl =
 {
@@ -117,7 +117,7 @@ static uint8_t s_sendBuffer[CHARON_TX_BUFFER_SIZE];
  * @param length
  *      Length in Bytes
  */
-static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t length);
+static void processReceivedMessage (uint8_t const * const pBuffer, uint32_t length);
 
 /**
  * Checks if SID is allowed in session
@@ -173,7 +173,7 @@ void charon_sscReset (void)
     s_currentlyPendingService = NULL;
     s_pendingRequestStartTime = 0u;
     s_p2PendingExceededHandled = false;
-    s_diagnoticSessionTimestamp = 0u;
+    s_diagnosticSessionTimestamp = 0u;
     s_ttl.p2Server = DEFAULT_P2_SERVER;
     s_ttl.p2StarServer = DEFAULT_P2_STAR_SERVER;
 }
@@ -218,11 +218,11 @@ void charon_sscRcvMessage (void)
     /* Process Received Message if one was gotten and de-crypted */
     if(length > 0)
     {
-        processReveivedMessage(s_receiveBuffer, (uint32_t)length);
+        processReceivedMessage(s_receiveBuffer, (uint32_t)length);
     }
 }
 
-static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t length)
+static void processReceivedMessage (uint8_t const * const pBuffer, uint32_t length)
 {
     charon_serviceObject_t * pServiceObj = charon_ServiceLookupTable_getServiceObject((uint8_t)pBuffer[0]);   /* Get Service Object */
     uds_responseCode_t retVal;
@@ -277,7 +277,7 @@ static void processReveivedMessage (uint8_t const * const pBuffer, uint32_t leng
         if (retVal != uds_responseCode_RequestCorrectlyReceived_ResponsePending)
         {
             // completion of a service (which is indicated by not being "response pending") updates session timer
-            s_diagnoticSessionTimestamp = charon_interface_clock_getTime();
+            s_diagnosticSessionTimestamp = charon_interface_clock_getTime();
         }
     }
     else
@@ -321,7 +321,7 @@ void charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeoutP2
     if(charon_sscType_default != sessionType)
     {
         /* Mark Beginning of an Diagnostic session that is not default session */
-        s_diagnoticSessionTimestamp = charon_interface_clock_getTime();
+        s_diagnosticSessionTimestamp = charon_interface_clock_getTime();
         /* Set new timings */
         s_ttl.p2Server = timeoutP2;
         s_ttl.p2StarServer = timeoutP2extended;
@@ -344,7 +344,7 @@ charon_sessionTypes_t charon_sscGetSession (void)
 
 void charon_sscTesterPresentHeartbeat (void)
 {
-    s_diagnoticSessionTimestamp = charon_interface_clock_getTime();
+    s_diagnosticSessionTimestamp = charon_interface_clock_getTime();
 }
 
 /* Private Function **********************************************************/
@@ -364,7 +364,7 @@ static bool isServiceInSession (charon_sessionTypes_t currentSession, const char
 static void handleDiagnosticSession (void)
 {
     /* Check if Session Timed Out */
-    if(charon_interface_clock_getTimeElapsed(s_diagnoticSessionTimestamp) >= DEFAULT_S3_SERVER)
+    if(charon_interface_clock_getTimeElapsed(s_diagnosticSessionTimestamp) >= DEFAULT_S3_SERVER)
     {
         CHARON_WARNING("Session timed out, activating default session.");
         /* terminate Session */

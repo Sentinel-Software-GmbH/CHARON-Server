@@ -1,15 +1,53 @@
-/*
- * charon_RoutineFunctionalUnit.c
+/**
+ *  Sentinel Software GmbH
+ *  Copyright (C) 2022 Florian Kaup
  *
- *  Created on: 29.01.2020
- *      Author: Florian Kaup
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+/**
+ * @addtogroup CharonUDS
+ * @{
+ * @addtogroup BusinessLogic Business Logic
+ * @{
+ * @file charon_RoutineFunctionalUnit.c
+ * Implementation of the Routine functional Unit Module
+ *
+ * $Id:  $
+ * $URL:  $
+ * @}
+ * @}
+ */
+/*****************************************************************************/
+
+/* Includes ******************************************************************/
 
 #include "HSDI/charon_interface_NvmDriver.h"
 #include "BusinessLogic/charon_RoutineFunctionalUnit.h"
 #include "Common/charon_negativeResponse.h"
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 
+/* Imports *******************************************************************/
+
+/* Macros ********************************************************************/
+
+/* Types *********************************************************************/
+
+/* Variables *****************************************************************/
+
+/* Private Function Definitions **********************************************/
+
+/* Interfaces  ***************************************************************/
 
 uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
@@ -53,3 +91,9 @@ uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (const uint8_t * 
     return result;
 }
 
+/* Private Function **********************************************************/
+
+
+
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

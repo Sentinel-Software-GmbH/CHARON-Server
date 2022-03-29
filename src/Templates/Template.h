@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2020 Andreas Hofmann
+ *  Copyright (C) 2022 Andreas Hofmann
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  * @{
  * @defgroup ComLogic
  * @{
- * @file charon_SessionAndSerivceControl.h
+ * @file charon_SessionAndServiceControl.h
  * This Module handles the Receive and Transfer of the charon uds stack data.
  * It Controls encryption and checks for all demanded Timeouts.
  *

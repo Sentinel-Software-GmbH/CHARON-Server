@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup HSDI
+ * @defgroup Socket
  * @{
  * @file DevNullSocket.h
  * Socket for ignoring all data, like "dev/null" on unix systems

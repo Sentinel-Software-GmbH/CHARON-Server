@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2020 Florian Kaup
+ *  Copyright (C) 2022 Florian Kaup
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup ComLogic
+ * @addtogroup BusinessLogic Business Logic
  * @{
  * @file charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
  * Implementation of the DCM Module
@@ -65,7 +65,7 @@ static const DefaultSessionTimings_t defaultTimings[charon_sscType_amount] =
         {50,5000},      /* Default */
         {50,5000},      /* Programming */
         {50,5000},      /* Extended */
-        {50,5000}       /* Securty */
+        {50,5000}       /* Security */
 };
 
 /* Variables *****************************************************************/
@@ -73,10 +73,6 @@ static const DefaultSessionTimings_t defaultTimings[charon_sscType_amount] =
 /* Private Function Definitions **********************************************/
 
 /* Interfaces  ***************************************************************/
-
-
-
-
 
 void charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset (void)
 {

@@ -51,7 +51,6 @@
 
 /* Interfaces  ***************************************************************/
 
-
 void charon_reset (void)
 {
     charon_sscReset();
@@ -86,5 +85,7 @@ void charon_task (void)
 
 /* Private Function **********************************************************/
 
-/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
 
+
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

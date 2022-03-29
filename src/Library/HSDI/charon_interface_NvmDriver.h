@@ -1,16 +1,53 @@
-/*
- * charon_interface_NvmDriver.h
+/**
+ *  Sentinel Software GmbH
+ *  Copyright (C) 2022 Florian Kaup
  *
- *  Created on: 27.01.2020
- *      Author: Florian Kaup
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+/**
+ * @addtogroup CharonUDS
+ * @{
+ * @addtogroup HSDI
+ * @{
+ * @file charon_interface_NvmDriver.h
+ * This Module handles all functions to use Nvm
+ *
+ * $Id:  $
+ * $URL:  $
+ * @}
+ * @}
+ */
+/*****************************************************************************/
 
 #ifndef CHARON_INTERFACE_NVMDRIVER_H_
 #define CHARON_INTERFACE_NVMDRIVER_H_
 
+/* Includes ******************************************************************/
+
 #include <stdint.h>
 #include <stdbool.h>
 #include "Common/charon_types.h"
+
+/* Constants *****************************************************************/
+
+/* Macros ********************************************************************/
+
+/* Types *********************************************************************/
+
+/* Variables *****************************************************************/
+
+/* Interfaces  ***************************************************************/
 
 /**
  * Checks given memory address for validity.
@@ -51,3 +88,5 @@ void charon_NvmDriver_read (uint32_t address, uint8_t* data, uint32_t size);
 void charon_NvmDriver_erase (void);
 
 #endif /* CHARON_INTERFACE_FLASHDRIVER_H_ */
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

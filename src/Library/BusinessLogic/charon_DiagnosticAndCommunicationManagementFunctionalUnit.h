@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2020 Florian Kaup
+ *  Copyright (C) 2022 Florian Kaup
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ void charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset (void);
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x10
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -66,7 +66,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x11
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -76,7 +76,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Ecu
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x27
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -86,7 +86,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Sec
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x28
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -96,7 +96,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Com
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x3E
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -106,7 +106,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Tes
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x83
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -116,7 +116,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Acc
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x84
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -126,7 +126,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Sec
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x85
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -136,7 +136,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Con
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x86
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -146,7 +146,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Res
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x87
  *
- * @param receiveBuffer Paylpad
+ * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
@@ -155,5 +155,3 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Lin
 #endif /* CHARON_DIAGNOSTICANDCOMMUNICATIONMANAGEMENTFUNCTIONALUNIT_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
-
-
