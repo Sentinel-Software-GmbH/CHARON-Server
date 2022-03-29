@@ -17,19 +17,14 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup ComLogic
+ * @addtogroup Port
  * @{
- * @file charon_SessionAndServiceControl.c
- * Implementation of the Service and Session Control Module
+ * @file main.c
  *
  * $Id:  $
  * $URL:  $
  * @}
  * @}
- * main.c
- *
- *  Created on: 08.07.2020
- *      Author: Florian Kaup
  */
 /*****************************************************************************/
 
@@ -37,8 +32,14 @@
 
 #include "Interface/charon_uds.h"
 #include "Interface/Socket/ISocket.h"
+#include "HSDI/charon_interface_debug.h"
 
 /* Imports *******************************************************************/
+
+extern void pipe_init (void);
+extern ISocket_t pipe_socket;
+extern void uart_init (void);
+extern ISocket_t uart_socket;
 
 /* Constants *****************************************************************/
 
@@ -52,13 +53,11 @@
 
 /* Interfaces  ***************************************************************/
 
-extern void pipe_init (void);
-extern ISocket_t uart_socket;
-
 int main (void)
 {
     pipe_init();
-    charon_init(uart_socket);
+    charon_init(pipe_socket);
+    CHARON_INFO("CharonUDS Initialized...");
     while (1)
     {
         charon_task();
@@ -67,8 +66,3 @@ int main (void)
 }
 
 /* Private Function **********************************************************/
-
-
-
-
-/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

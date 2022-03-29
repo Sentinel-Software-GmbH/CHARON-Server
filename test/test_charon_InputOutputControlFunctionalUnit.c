@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022
+ *  Copyright (C) 2020 ${Author}
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -15,24 +15,16 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-/**
- * @addtogroup CharonUDS
- * @{
- * @addtogroup BusinessLogic Business Logic
- * @{
- * @file charon_StoredDataTransmissionFunctionalUnit.c
- * Implementation of the Stored Data Transmission Unit Module
- *
- * $Id:  $
- * $URL:  $
- * @}
- * @}
- */
 /*****************************************************************************/
 
 /* Includes ******************************************************************/
 
+#include "unity.h"
+#include "charon_InputOutputControlFunctionalUnit.h"
+
 /* Imports *******************************************************************/
+
+/* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
 
@@ -40,13 +32,20 @@
 
 /* Variables *****************************************************************/
 
-/* Private Function Definitions **********************************************/
+/* Setup and Teardowns *******************************************************/
 
-/* Interfaces  ***************************************************************/
+void setUp(void) {
 
-/* Private Function **********************************************************/
+}
 
+void tearDown(void) {
 
+}
 
+/* Test Functions ************************************************************/
+
+void test_$TestName(void) {
+    TEST_ASSERT_EQUAL(1, 1);
+}
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

@@ -19,4 +19,6 @@ To use the Charon UDS Server you need to set up a few things:
 
 The EA design will no longer maintained. Instead the architecture documentation can be found at the following link:
 
+https://drive.google.com/file/d/1WDjvAKW8tA1s4Mtgc6YLVcqvCr4p2PGO/view?usp=sharing
+
 ## Thanks

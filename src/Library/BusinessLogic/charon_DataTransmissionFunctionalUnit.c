@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup ComLogic
+ * @addtogroup BusinessLogic
  * @{
  * @file charon_SessionAndServiceControl.c
  * Implementation of the Service and Session Control Module
