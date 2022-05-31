@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "charon_logo.h": "c",
+        "charon_uds.h": "c"
+    }
+}
