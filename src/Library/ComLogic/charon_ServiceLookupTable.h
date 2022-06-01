@@ -43,6 +43,11 @@
 
 /* Macros ********************************************************************/
 
+#define SESSION_DEFAULT			((uint32_t) 1u << (uint8_t)charon_sscType_default)
+#define SESSION_PROGRAMMING  	((uint32_t) 1u << (uint8_t)charon_sscType_programming)
+#define SESSION_EXTENDED		((uint32_t) 1u << (uint8_t)charon_sscType_extended)
+#define SESSION_SECURED			((uint32_t) 1u << (uint8_t)charon_sscType_secured)
+
 /* Types *********************************************************************/
 
 /**

@@ -34,6 +34,7 @@
 
 #include <stdint.h>
 #include "CHARON_DATATRANSMISSIONFUNCTIONALUNIT.h"
+#include "charon_DataIdentifier.h" 
 
 /* Imports *******************************************************************/
 
@@ -64,6 +65,8 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
     /* Amount of Data Identifiers (-1u for the SID not Counting) (/2u for a Data Identifier is 2 bytes) */
     uint16_t AmountOfDIDs = ((receiveBufferSize -1u) /2u);
     uint8_t counter =0u;
+    charon_dataIdentifierObject_t* DidLookupData;
+    
 
     if((receiveBufferSize > MAX_RCV_LENGTH)
         || (receiveBufferSize < MIN_RCV_LENGTH))
@@ -75,10 +78,16 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
         for(uint16_t i=0; i < AmountOfDIDs; i ++ )
         {
             /* Build Data Identifier */
-            dataIdentifier = ((receiveBuffer[i * 2u + 1u] <<8) | (receiveBuffer[i * 2u + 2u] ));
-
-            //dataIdentifier = ((receiveBuffer[i * 2u + 1u]) << (receiveBuffer[i * 2u + 2u] ));
+            dataIdentifier = *(uint16_t*) &receiveBuffer [i * 2u + 1u];
+            dataIdentifier = __rev16(dataIdentifier);
             
+            DidLookupData = charon_getDidLookupTable(dataIdentifier);
+
+            if(DidLookupData->sessionMask == charon_sscGetSession())
+            {
+                
+            }
+
             /** @Todo Implement session support 
             check if DID is supported in active session
             charon_sscGetSession() ;
@@ -95,7 +104,6 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
 
                
         }
-        /* check if at least one DID is allowed in active session */
         if(counter!= 0u)
         {
             
