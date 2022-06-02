@@ -36,6 +36,7 @@
 #include "CHARON_DATATRANSMISSIONFUNCTIONALUNIT.h"
 #include "charon_DataIdentifier.h" 
 
+
 /* Imports *******************************************************************/
 
 /* Constants *****************************************************************/
@@ -48,6 +49,8 @@
 #define MIN_RCV_LENGTH                  ((uint32_t) 3u)
 /** Max Length of requested DIDs (SID 1 Byte + 2 Byte id per DID) */
 #define MAX_RCV_LENGTH                  ((uint32_t) 1u + (MAX_PARALLEL_REQUESTED_DID * 2u))
+/** Max Transmission Massage buffer size  */
+#define MAX_TX_BUFFER_SIZE              ((uint32_t) 1024u)
 
 /* Types *********************************************************************/
 
@@ -66,7 +69,10 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
     uint16_t AmountOfDIDs = ((receiveBufferSize -1u) /2u);
     uint8_t counter =0u;
     charon_dataIdentifierObject_t* DidLookupData;
-    
+    charon_dataIdentifierObject_t* DidArray[AmountOfDIDs];
+    uint32_t SessionCheck;
+    static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
+
 
     if((receiveBufferSize > MAX_RCV_LENGTH)
         || (receiveBufferSize < MIN_RCV_LENGTH))
@@ -82,32 +88,45 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
             dataIdentifier = __rev16(dataIdentifier);
             
             DidLookupData = charon_getDidLookupTable(dataIdentifier);
+            SessionCheck = DidLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
 
-            if(DidLookupData->sessionMask == charon_sscGetSession())
+            /* check if the actual DID is allowed in the active session */
+            if(SessionCheck != 0)    
             {
-                
-            }
-
-            /** @Todo Implement session support 
-            check if DID is supported in active session
-            charon_sscGetSession() ;
-            if(DID allowed in session)
-            {
+                /** @Todo Implement security check 
+                check if DID security check ok?
+                return uds_responseCode_SecurityAccessDenied;
+                */   
+                DidArray[counter] = dataIdentifier;
                 counter ++;
-            }
-            */
-
-            /** @Todo Implement security check 
-            check if DID security check ok?
-            return uds_responseCode_SecurityAccessDenied;
-            */
-
-               
+            }             
         }
-        if(counter!= 0u)
+
+        if(counter != 0u)
         {
+            /* the 1 is for the SID number */
+            uint32_t length = 1u;
+            /** @todo check if needed to add to Response code enum */
+            s_buffer[0] = 0x62u;
+
+            for(uint16_t i=0; i < counter; i ++ )
+            {
+                /* check length here, befor writing to the buffer to protect an unintended writing anywhere */
+                if(MAX_TX_BUFFER_SIZE < (length + (DidArray[i]->lengthOfData)))
+                {
+                    return uds_responseCode_ResponseTooLong;
+                }
+                memcpy(&s_buffer[length], DidArray[i]->DID, 2u);
+                memcpy(&s_buffer[length+2u], DidArray[i]->AddressOfData, DidArray[i]->lengthOfData);
+                /* the + 2 is for the DID number itself, because it is always the same length */
+                length +=  (DidArray[i]->lengthOfData + 2u);
+            }
+
+          
+            charon_sscTxMessage(s_buffer,length);
+            //charon info einfügen für debuging!
+            return uds_responseCode_PositiveResponse;
             
-            //charon_sscTxMessage();
         }
         else
         {
