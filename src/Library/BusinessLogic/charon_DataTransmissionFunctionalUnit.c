@@ -66,11 +66,12 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
 {
     uint16_t dataIdentifier ;
     /* Amount of Data Identifiers (-1u for the SID not Counting) (/2u for a Data Identifier is 2 bytes) */
-    uint16_t AmountOfDIDs = ((receiveBufferSize -1u) /2u);
+    uint16_t amountOfDIDs = ((receiveBufferSize -1u) /2u);
     uint8_t counter =0u;
-    charon_dataIdentifierObject_t* DidLookupData;
-    charon_dataIdentifierObject_t* DidArray[AmountOfDIDs];
-    uint32_t SessionCheck;
+    charon_dataIdentifierObject_t* didLookupData;
+    charon_dataIdentifierObject_t* didArray[amountOfDIDs];
+    uint32_t sessionCheck;
+    uint8_t lengthOfDID = 2u;
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
 
 
@@ -81,23 +82,23 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
     }
     else
     {
-        for(uint16_t i=0; i < AmountOfDIDs; i ++ )
+        for(uint16_t i=0; i < amountOfDIDs; i ++ )
         {
             /* Build Data Identifier */
-            dataIdentifier = *(uint16_t*) &receiveBuffer [i * 2u + 1u];
+            dataIdentifier = *(uint16_t*) &receiveBuffer [i * lengthOfDID + 1u];
             dataIdentifier = __rev16(dataIdentifier);
             
-            DidLookupData = charon_getDidLookupTable(dataIdentifier);
-            SessionCheck = DidLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
+            didLookupData = charon_getDidLookupTable(dataIdentifier);
+            sessionCheck = didLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
 
             /* check if the actual DID is allowed in the active session */
-            if(SessionCheck != 0)    
+            if(sessionCheck != 0)    
             {
                 /** @Todo Implement security check 
                 check if DID security check ok?
                 return uds_responseCode_SecurityAccessDenied;
                 */   
-                DidArray[counter] = dataIdentifier;
+                didArray[counter] = dataIdentifier;
                 counter ++;
             }             
         }
@@ -106,36 +107,35 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
         {
             /* the 1 is for the SID number */
             uint32_t length = 1u;
-            /** @todo check if needed to add to Response code enum */
-            s_buffer[0] = 0x62u;
+            s_buffer[0] = (uds_sid_ReadDataByIdentifier | (uint8_t)uds_sid_PositiveResponseMask);
 
             for(uint16_t i=0; i < counter; i ++ )
             {
-                /* check length here, befor writing to the buffer to protect an unintended writing anywhere */
-                if(MAX_TX_BUFFER_SIZE < (length + (DidArray[i]->lengthOfData)))
+                /* check length here, befor writing to the buffer to not disturb the dragons */
+                if(MAX_TX_BUFFER_SIZE < (length + (didArray[i]->lengthOfData)))
                 {
                     return uds_responseCode_ResponseTooLong;
                 }
-                memcpy(&s_buffer[length], DidArray[i]->DID, 2u);
-                memcpy(&s_buffer[length+2u], DidArray[i]->AddressOfData, DidArray[i]->lengthOfData);
-                /* the + 2 is for the DID number itself, because it is always the same length */
-                length +=  (DidArray[i]->lengthOfData + 2u);
+                memcpy(&s_buffer[length], didArray[i]->DID, lengthOfDID);
+                memcpy(&s_buffer[length+lengthOfDID], didArray[i]->AddressOfData, didArray[i]->lengthOfData);
+                length +=  (didArray[i]->lengthOfData + lengthOfDID);
             }
 
-          
             charon_sscTxMessage(s_buffer,length);
             //charon info einfügen für debuging!
-            return uds_responseCode_PositiveResponse;
-            
+            return uds_responseCode_PositiveResponse;          
         }
         else
         {
             return uds_responseCode_RequestOutOfRange;
         }
-
     }
     
 }
 
+uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+{
+    
+}
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
