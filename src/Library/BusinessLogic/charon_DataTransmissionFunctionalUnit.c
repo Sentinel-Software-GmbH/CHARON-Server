@@ -33,6 +33,7 @@
 /* Includes ******************************************************************/
 
 #include <stdint.h>
+#include <stdbool.h>
 #include "CHARON_DATATRANSMISSIONFUNCTIONALUNIT.h"
 #include "charon_DataIdentifier.h" 
 
@@ -46,11 +47,20 @@
 /** Max allowed DID per Request */
 #define MAX_PARALLEL_REQUESTED_DID      ((uint32_t) 5u)
 /** Min Length is 3 Byte by ISO */
-#define MIN_RCV_LENGTH                  ((uint32_t) 3u)
+#define MIN_RCV_LENGTH_OF_DID           ((uint32_t) 3u)
 /** Max Length of requested DIDs (SID 1 Byte + 2 Byte id per DID) */
-#define MAX_RCV_LENGTH                  ((uint32_t) 1u + (MAX_PARALLEL_REQUESTED_DID * 2u))
+#define MAX_RCV_LENGTH_OF_DID           ((uint32_t) 1u + (MAX_PARALLEL_REQUESTED_DID * 2u))
 /** Max Transmission Massage buffer size  */
 #define MAX_TX_BUFFER_SIZE              ((uint32_t) 1024u)
+
+/** Max Bytes used for memory Size parameter*/
+#define MAX_MEMORY_SIZE_RMBA            ((uint32_t) 4u)
+/** Max Bytes used for memory Address parameter*/
+#define MAX_MEMORY_ADDRESS_RMBA         ((uint32_t) 4u)
+/** Min Length is 4 Byte by ISO (SID 1 Byte + AddressAndLengthFormatIdentifier 1 Byte + At least 1 Byte for Memory Size + At least 1 Byte for Memory Address)*/
+#define MIN_RCV_LENGTH_OF_RMBA          ((uint32_t) 4u)
+/** Max Length of requested ReadMemoryByAddress (SID 1 Byte + 1 Byte AddressAndLengthFormatIdentifier + Max Bytes for memory Size + Max bytes for Memory Address) */
+#define MAX_RCV_LENGTH_OF_RMBA          ((uint32_t) 1u + 1u + MAX_MEMORY_SIZE_RMBA + MAX_MEMORY_ADDRESS_RMBA)
 
 /* Types *********************************************************************/
 
@@ -58,13 +68,15 @@
 
 /* Private Function Definitions **********************************************/
 
+bool requestInRange (uint8_t memorySize, uint8_t memoryAddress);
+
 /* Interfaces  ***************************************************************/
 
 /* Private Function **********************************************************/
 
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    uint16_t dataIdentifier ;
+    uint16_t dataIdentifier;
     /* Amount of Data Identifiers (-1u for the SID not Counting) (/2u for a Data Identifier is 2 bytes) */
     uint16_t amountOfDIDs = ((receiveBufferSize -1u) /2u);
     uint8_t counter =0u;
@@ -75,8 +87,8 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
 
 
-    if((receiveBufferSize > MAX_RCV_LENGTH)
-        || (receiveBufferSize < MIN_RCV_LENGTH))
+    if((receiveBufferSize > MAX_RCV_LENGTH_OF_DID)
+        || (receiveBufferSize < MIN_RCV_LENGTH_OF_DID))
     {
         return uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
     }
@@ -135,7 +147,38 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
 
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    
+    uint8_t addressAndLengthFormatID = &receiveBuffer[1];
+    uint8_t bytesForMemorySize = ((addressAndLengthFormatID & 0xF0) >> 4u);
+    uint8_t bytesForMemoryAddress = (addressAndLengthFormatID & 0x0F);
+
+    if((receiveBufferSize < MIN_RCV_LENGTH_OF_RMBA)
+        || (receiveBufferSize > MAX_RCV_LENGTH_OF_RMBA))
+    {
+        return uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
+    }
+
+    if(!requestInRange(bytesForMemorySize, bytesForMemoryAddress))
+    {
+        return uds_responseCode_RequestOutOfRange;
+    }
+          
+
+     
 }
 
+
+bool requestInRange (uint8_t memorySize, uint8_t memoryAddress)
+{
+    bool SizeInRange = false;
+
+    if((memorySize != 0u)
+        || (memorySize > MAX_MEMORY_SIZE_RMBA)
+            || (memoryAddress != 0u)
+                ||  (memoryAddress > MAX_MEMORY_ADDRESS_RMBA))
+    {
+        SizeInRange = true;
+    }
+
+    return SizeInRange;
+}
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
