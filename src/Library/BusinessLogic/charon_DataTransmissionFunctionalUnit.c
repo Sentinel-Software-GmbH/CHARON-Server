@@ -35,7 +35,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "CHARON_DATATRANSMISSIONFUNCTIONALUNIT.h"
-#include "charon_DataIdentifier.h" 
+#include "charon_DataLookupTable.h" 
 
 
 /* Imports *******************************************************************/
@@ -100,7 +100,7 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
             dataIdentifier = *(uint16_t*) &receiveBuffer [i * lengthOfDID + 1u];
             dataIdentifier = __rev16(dataIdentifier);
             
-            didLookupData = charon_getDidLookupTable(dataIdentifier);
+            didLookupData = charon_getDataLookupTable(dataIdentifier, 0u);
             sessionCheck = didLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
 
             /* check if the actual DID is allowed in the active session */
@@ -150,6 +150,9 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (ui
     uint8_t addressAndLengthFormatID = &receiveBuffer[1];
     uint8_t bytesForMemorySize = ((addressAndLengthFormatID & 0xF0) >> 4u);
     uint8_t bytesForMemoryAddress = (addressAndLengthFormatID & 0x0F);
+    uint32_t dataAddress;
+    uint8_t startOfAddress = 3u;
+    charon_dataIdentifierObject_t* dataLookupData;
 
     if((receiveBufferSize < MIN_RCV_LENGTH_OF_RMBA)
         || (receiveBufferSize > MAX_RCV_LENGTH_OF_RMBA))
@@ -161,8 +164,11 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (ui
     {
         return uds_responseCode_RequestOutOfRange;
     }
-          
 
+    /* build Data address*/
+    memcpy(&dataAddress, &receiveBuffer[startOfAddress], bytesForMemoryAddress);
+    dataLookupData = charon_getDataLookupTable(0u, dataAddress);
+    
      
 }
 
@@ -172,12 +178,13 @@ bool requestInRange (uint8_t memorySize, uint8_t memoryAddress)
     bool SizeInRange = false;
 
     if((memorySize != 0u)
-        || (memorySize > MAX_MEMORY_SIZE_RMBA)
-            || (memoryAddress != 0u)
-                ||  (memoryAddress > MAX_MEMORY_ADDRESS_RMBA))
+        && (memorySize > MAX_MEMORY_SIZE_RMBA)
+            && (memoryAddress != 0u)
+                &&  (memoryAddress > MAX_MEMORY_ADDRESS_RMBA))
     {
         SizeInRange = true;
     }
+    
 
     return SizeInRange;
 }

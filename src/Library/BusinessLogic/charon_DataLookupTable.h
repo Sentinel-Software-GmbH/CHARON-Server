@@ -20,7 +20,7 @@
  * @{
  * @defgroup BusinessLogic Business Logic
  * @{
- * @file charon_SessionAndServiceControl.h
+ * @file charon_DataLookupTable.h
  * This Module handles the Receive and Transfer of the charon uds stack data.
  * It Controls encryption and checks for all demanded Timeouts.
  *
@@ -31,8 +31,8 @@
  */
 /*****************************************************************************/
 
-#ifndef CHARON_DATAIDENTIFIER_H_
-#define CHARON_DATAIDENTIFIER_H_
+#ifndef CHARON_DATALOOKUPTABLE_H_
+#define CHARON_DATALOOKUPTABLE_H_
 
 /* Includes ******************************************************************/
 #include <stdint.h>
@@ -45,7 +45,7 @@
 
 typedef struct charon_dataIdentifierObject_t_public
 {
-    uds_did_t       DID; /* dataIdentifier */
+    uds_data_t      DID; /* dataIdentifier */
     uint32_t        sessionMask;
     uint32_t        lengthOfData;
     uint32_t        AddressOfData;
@@ -53,17 +53,17 @@ typedef struct charon_dataIdentifierObject_t_public
 
 typedef enum
 {
-    uds_did_test_did  = 0x4269u,
-    uds_did_test_did2 = 0x6942u,
+    uds_data_test_did  = 0x4269,
+    uds_data_test_did2 = 0x6942,
 
-    uds_did_amount
-} uds_did_t;
+    uds_data_amount
+} uds_data_t;
 
 
 /* Interfaces ****************************************************************/
 
-charon_dataIdentifierObject_t* charon_getDidLookupTable (uint16_t DID);
+charon_dataIdentifierObject_t* charon_getDataLookupTable (uint16_t DID, uint32_t DataAddress);
 
-#endif /* CHARON_DATAIDENTIFIER_H_ */
+#endif /* CHARON_DATALOOKUPTABLE_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

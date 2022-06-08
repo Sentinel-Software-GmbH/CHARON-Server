@@ -33,7 +33,7 @@
 /* Includes ******************************************************************/
 
 #include <stdint.h>
-#include "charon_DataIdentifier.h"
+#include "charon_DataLookupTable.h"
 #include "ComLogic/charon_ServiceLookupTable.h"
 #include "ComLogic/charon_SessionAndSerivceControl.h"
 
@@ -44,8 +44,8 @@
 static charon_dataIdentifierObject_t charonDIDLookupTable[] =
 {
     /* Data Identifier */     /* length */      /* Allowed Sessions */                                                              /* Start Address of Data */
-    {uds_did_test_did,          10u,            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),       0x00000000},
-    {uds_did_test_did2,         10u,            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),       0x00000000},
+    {uds_data_test_did,          10u,            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),       0x00000000},
+    {uds_data_test_did2,         10u,            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),       0x00000000},
 
 };
 
@@ -72,15 +72,20 @@ int init (void)
 }
 
 
-charon_dataIdentifierObject_t* charon_getDidLookupTable (uint16_t DID)
+charon_dataIdentifierObject_t* charon_getDataLookupTable (uint16_t DID, uint32_t DataAddress)
 {
-    for(uint32_t i=0; i< ARRAY_SIZE(charonDIDLookupTable);i++)
+    for(uint32_t i=0; i < ARRAY_SIZE(charonDIDLookupTable); i++)
     {
-        if(DID == &charonDIDLookupTable[i])
+        if(DID == &charonDIDLookupTable[i].DID)
         {
             return &charonDIDLookupTable[i];
         }
         
+        if(DataAddress == &charonDIDLookupTable[i].AddressOfData)
+        {
+            return &charonDIDLookupTable[i];
+        }
+
     }
 }
 
