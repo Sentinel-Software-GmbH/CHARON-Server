@@ -34,6 +34,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "charon_uds.h"
 #include "CHARON_DATATRANSMISSIONFUNCTIONALUNIT.h"
 #include "charon_DataLookupTable.h" 
 
@@ -98,8 +99,9 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
         {
             /* Build Data Identifier */
             dataIdentifier = *(uint16_t*) &receiveBuffer [i * lengthOfDID + 1u];
+            #if !CHARON_CONFIG_IS_BIG_ENDIAN
             dataIdentifier = __rev16(dataIdentifier);
-            
+            #endif
             didLookupData = charon_getDataLookupTable(dataIdentifier, 0u);
             sessionCheck = didLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
 
@@ -168,8 +170,14 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (ui
     /* build Data address*/
     memcpy(&dataAddress, &receiveBuffer[startOfAddress], bytesForMemoryAddress);
     dataLookupData = charon_getDataLookupTable(0u, dataAddress);
-    
-     
+    #if !CHARON_CONFIG_IS_BIG_ENDIAN
+    dataLookupData = __rev32(dataLookupData);
+    #endif
+    if(dataAddress != dataLookupData->AddressOfData)
+    {
+        return uds_responseCode_RequestOutOfRange;
+    }
+
 }
 
 
