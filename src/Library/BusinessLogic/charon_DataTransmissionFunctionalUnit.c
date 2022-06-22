@@ -153,8 +153,11 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (ui
     uint8_t bytesForMemorySize = ((addressAndLengthFormatID & 0xF0) >> 4u);
     uint8_t bytesForMemoryAddress = (addressAndLengthFormatID & 0x0F);
     uint32_t dataAddress;
+    uint32_t datalength = 0u; 
     uint8_t startOfAddress = 3u;
     charon_dataIdentifierObject_t* dataLookupData;
+    uint32_t sessionCheck;
+    static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
 
     if((receiveBufferSize < MIN_RCV_LENGTH_OF_RMBA)
         || (receiveBufferSize > MAX_RCV_LENGTH_OF_RMBA))
@@ -167,16 +170,32 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (ui
         return uds_responseCode_RequestOutOfRange;
     }
 
-    /* build Data address*/
+    /* build Data address and data Length*/
     memcpy(&dataAddress, &receiveBuffer[startOfAddress], bytesForMemoryAddress);
+    memcpy(&datalength, &receiveBuffer[startOfAddress + bytesForMemoryAddress], bytesForMemorySize);
     dataLookupData = charon_getDataLookupTable(0u, dataAddress);
     #if !CHARON_CONFIG_IS_BIG_ENDIAN
     dataLookupData = __rev32(dataLookupData);
+    datalength = __rev32(datalength);
     #endif
-    if(dataAddress != dataLookupData->AddressOfData)
+
+    if(datalength > MAX_TX_BUFFER_SIZE)
     {
         return uds_responseCode_RequestOutOfRange;
     }
+
+    sessionCheck = dataLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
+    if(sessionCheck == 0u)
+    {
+        return uds_responseCode_RequestOutOfRange;
+    }
+
+    /** @todo check security when implemented */
+
+    s_buffer[0] = (uds_sid_ReadMemoryByAddress | (uint8_t)uds_sid_PositiveResponseMask);
+    memcpy(&s_buffer[1],dataAddress,datalength);
+    //charon info einfügen für debuging!
+    return uds_responseCode_PositiveResponse;
 
 }
 
