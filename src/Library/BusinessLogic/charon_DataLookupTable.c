@@ -43,9 +43,9 @@
 
 static charon_dataIdentifierObject_t charonDIDLookupTable[] =
 {
-    /* Data Identifier */     /* length */      /* Allowed Sessions */                                                              /* Start Address of Data */
-    {uds_data_test_did,          10u,            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),       0x00000000},
-    {uds_data_test_did2,         10u,            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),       0x00000000},
+    /* Data Identifier */     /* length */      /* Allowed Sessions */                                                              /* Start Address of Data */         /* ScalingByteHighNibble */
+    {uds_data_test_did,          10u,            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),       0x00000000,                        unSignedNumeric     },
+    {uds_data_test_did2,         10u,            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),       0x00000000,                        signedFloatingPoint },
 
 };
 

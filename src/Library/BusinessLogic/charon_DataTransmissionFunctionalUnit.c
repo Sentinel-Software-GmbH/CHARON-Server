@@ -199,6 +199,10 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (ui
 
 }
 
+uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+{
+    
+}
 
 bool requestInRange (uint8_t memorySize, uint8_t memoryAddress)
 {
