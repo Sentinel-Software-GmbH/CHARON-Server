@@ -50,6 +50,7 @@ typedef struct charon_dataIdentifierObject_t_public
     uint32_t        lengthOfData;
     uint32_t        AddressOfData;
     scalingByteHighNibble_t ScalingByteHighNibble;
+    uint8_t ScalingByteLowNibble;
 
 } charon_dataIdentifierObject_t;
 

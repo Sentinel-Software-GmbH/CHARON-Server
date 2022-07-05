@@ -34,6 +34,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include "charon_uds.h"
 #include "CHARON_DATATRANSMISSIONFUNCTIONALUNIT.h"
 #include "charon_DataLookupTable.h" 
@@ -201,7 +202,39 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (ui
 
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    
+    uint16_t dataIdentifier;
+    charon_dataIdentifierObject_t* didLookupData;
+    uint32_t sessionCheck;
+    static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
+
+
+    if(receiveBufferSize = MIN_RCV_LENGTH_OF_DID)    
+    {
+        return uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
+    }
+    else
+    {
+        /* Build Data Identifier */
+        dataIdentifier = *(uint16_t*) &receiveBuffer [2];
+        #if !CHARON_CONFIG_IS_BIG_ENDIAN
+        dataIdentifier = __rev16(dataIdentifier);
+        #endif
+        didLookupData = charon_getDataLookupTable(dataIdentifier, 0u);
+        sessionCheck = didLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
+
+        /* Scaling information available */
+        if(didLookupData->ScalingByteHighNibble != NULL)
+        {
+            /* the 1 is for the SID number */
+            uint32_t length = 1u;
+            s_buffer[0] = (uds_sid_ReadDataByIdentifier | (uint8_t)uds_sid_PositiveResponseMask);
+
+        }
+        else
+        {
+            return uds_responseCode_RequestOutOfRange;
+        }
+    }
 }
 
 bool requestInRange (uint8_t memorySize, uint8_t memoryAddress)
