@@ -223,12 +223,17 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdenti
         sessionCheck = didLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
 
         /* Scaling information available */
-        if(didLookupData->ScalingByteHighNibble != NULL)
+        if(didLookupData->HasScalingData != false)
         {
             /* the 1 is for the SID number */
-            uint32_t length = 1u;
-            s_buffer[0] = (uds_sid_ReadDataByIdentifier | (uint8_t)uds_sid_PositiveResponseMask);
+            uint32_t length = 3u;
+            s_buffer[0] = (uds_sid_ReadScalingDataByIdentifier | (uint8_t)uds_sid_PositiveResponseMask);
+            s_buffer[1] = dataIdentifier;
+            memcpy(&s_buffer[3],didLookupData->AddressOfScalingData,didLookupData->lengthOfScalingData);
 
+            charon_sscTxMessage(s_buffer,(length + didLookupData->lengthOfScalingData));
+            //charon info einfügen für debuging!
+            return uds_responseCode_PositiveResponse;
         }
         else
         {

@@ -36,6 +36,7 @@
 
 /* Includes ******************************************************************/
 #include <stdint.h>
+#include <stdbool.h>
 
 /* Constants *****************************************************************/
 
@@ -49,8 +50,9 @@ typedef struct charon_dataIdentifierObject_t_public
     uint32_t        sessionMask;
     uint32_t        lengthOfData;
     uint32_t        AddressOfData;
-    scalingByteHighNibble_t ScalingByteHighNibble;
-    uint8_t ScalingByteLowNibble;
+    bool            HasScalingData;
+    uint32_t        lengthOfScalingData;
+    uint32_t        AddressOfScalingData;
 
 } charon_dataIdentifierObject_t;
 
