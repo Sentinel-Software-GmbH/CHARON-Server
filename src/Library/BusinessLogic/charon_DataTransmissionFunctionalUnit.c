@@ -35,7 +35,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <string.h>
 #include "charon_uds.h"
+#include "charon_SessionAndSerivceControl.h"
 #include "CHARON_DATATRANSMISSIONFUNCTIONALUNIT.h"
 #include "charon_DataLookupTable.h" 
 
@@ -81,7 +83,6 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
     uint16_t dataIdentifier;
     /* Amount of Data Identifiers (-1u for the SID not Counting) (/2u for a Data Identifier is 2 bytes) */
     uint16_t amountOfDIDs = ((receiveBufferSize -1u) /2u);
-    uint8_t counter =0u;
     charon_dataIdentifierObject_t* didLookupData;
     charon_dataIdentifierObject_t* didArray[amountOfDIDs];
     uint32_t sessionCheck;
@@ -96,6 +97,8 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
     }
     else
     {
+        uint8_t counter =0u;
+        
         for(uint16_t i=0; i < amountOfDIDs; i ++ )
         {
             /* Build Data Identifier */
@@ -103,7 +106,7 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
             #if !CHARON_CONFIG_IS_BIG_ENDIAN
             dataIdentifier = __rev16(dataIdentifier);
             #endif
-            didLookupData = charon_getDataLookupTable(dataIdentifier, 0u);
+            didLookupData = charon_getDataLookupTableByDID (dataIdentifier);
             sessionCheck = didLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
 
             /* check if the actual DID is allowed in the active session */
@@ -113,7 +116,7 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
                 check if DID security check ok?
                 return uds_responseCode_SecurityAccessDenied;
                 */   
-                didArray[counter] = dataIdentifier;
+                didArray[counter]->DID = dataIdentifier;
                 counter ++;
             }             
         }
@@ -131,8 +134,8 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
                 {
                     return uds_responseCode_ResponseTooLong;
                 }
-                memcpy(&s_buffer[length], didArray[i]->DID, lengthOfDID);
-                memcpy(&s_buffer[length+lengthOfDID], didArray[i]->AddressOfData, didArray[i]->lengthOfData);
+                memcpy(&s_buffer[length], &didArray[i]->DID, lengthOfDID);
+                memcpy(&s_buffer[length + lengthOfDID], &didArray[i]->AddressOfData, didArray[i]->lengthOfData);
                 length +=  (didArray[i]->lengthOfData + lengthOfDID);
             }
 
@@ -150,7 +153,7 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
 
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    uint8_t addressAndLengthFormatID = &receiveBuffer[1];
+    uint8_t addressAndLengthFormatID = *(uint8_t*) &receiveBuffer[1];
     uint8_t bytesForMemorySize = ((addressAndLengthFormatID & 0xF0) >> 4u);
     uint8_t bytesForMemoryAddress = (addressAndLengthFormatID & 0x0F);
     uint32_t dataAddress;
@@ -174,11 +177,13 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (ui
     /* build Data address and data Length*/
     memcpy(&dataAddress, &receiveBuffer[startOfAddress], bytesForMemoryAddress);
     memcpy(&datalength, &receiveBuffer[startOfAddress + bytesForMemoryAddress], bytesForMemorySize);
-    dataLookupData = charon_getDataLookupTable(0u, dataAddress);
+    
     #if !CHARON_CONFIG_IS_BIG_ENDIAN
-    dataLookupData = __rev32(dataLookupData);
+    dataAddress = __rev32(dataAddress);
     datalength = __rev32(datalength);
     #endif
+
+    dataLookupData = charon_getDataLookupTableByAddress (dataAddress);
 
     if(datalength > MAX_TX_BUFFER_SIZE)
     {
@@ -194,7 +199,7 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (ui
     /** @todo check security when implemented */
 
     s_buffer[0] = (uds_sid_ReadMemoryByAddress | (uint8_t)uds_sid_PositiveResponseMask);
-    memcpy(&s_buffer[1],dataAddress,datalength);
+    memcpy(&s_buffer[1], &dataAddress,datalength);
     //charon info einfügen für debuging!
     return uds_responseCode_PositiveResponse;
 
@@ -208,7 +213,7 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdenti
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
 
 
-    if(receiveBufferSize = MIN_RCV_LENGTH_OF_DID)    
+    if(receiveBufferSize == MIN_RCV_LENGTH_OF_DID)    
     {
         return uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
     }
@@ -219,17 +224,18 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdenti
         #if !CHARON_CONFIG_IS_BIG_ENDIAN
         dataIdentifier = __rev16(dataIdentifier);
         #endif
-        didLookupData = charon_getDataLookupTable(dataIdentifier, 0u);
+        didLookupData = charon_getDataLookupTableByDID (dataIdentifier);
         sessionCheck = didLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
 
         /* Scaling information available */
-        if(didLookupData->HasScalingData != false)
+        if((didLookupData->HasScalingData != false) 
+            || (sessionCheck != 0u))
         {
             /* the 1 is for the SID number */
             uint32_t length = 3u;
             s_buffer[0] = (uds_sid_ReadScalingDataByIdentifier | (uint8_t)uds_sid_PositiveResponseMask);
             s_buffer[1] = dataIdentifier;
-            memcpy(&s_buffer[3],didLookupData->AddressOfScalingData,didLookupData->lengthOfScalingData);
+            memcpy(&s_buffer[3],&didLookupData->AddressOfScalingData,didLookupData->lengthOfScalingData);
 
             charon_sscTxMessage(s_buffer,(length + didLookupData->lengthOfScalingData));
             //charon info einfügen für debuging!

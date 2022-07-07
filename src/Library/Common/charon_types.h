@@ -39,6 +39,11 @@
 
 /* Macros ********************************************************************/
 
+/** Helper to get the size of an array */
+#ifndef ARRAY_SIZE
+#define ARRAY_SIZE(x)   (sizeof(x) / sizeof(x[0]))
+#endif
+
 /** Define NULL for Compatibility across libraries and Compilers */
 #ifndef NULL
 #define NULL        ((void *) 0)

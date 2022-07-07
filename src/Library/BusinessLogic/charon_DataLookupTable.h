@@ -44,6 +44,14 @@
 
 /* Types *********************************************************************/
 
+typedef enum uds_data_t_public
+{
+    uds_data_test_did  = 0x4269,
+    uds_data_test_did2 = 0x6942,
+
+    uds_data_amount
+} uds_data_t;
+
 typedef struct charon_dataIdentifierObject_t_public
 {
     uds_data_t      DID; /* dataIdentifier */
@@ -56,13 +64,6 @@ typedef struct charon_dataIdentifierObject_t_public
 
 } charon_dataIdentifierObject_t;
 
-typedef enum uds_data_t_public
-{
-    uds_data_test_did  = 0x4269,
-    uds_data_test_did2 = 0x6942,
-
-    uds_data_amount
-} uds_data_t;
 
 typedef enum scalingByteHighNibble_t_public
 {
@@ -198,7 +199,21 @@ typedef enum Unit_Format_scaling_byte_t_public
 }Unit_Format_scaling_byte_t;
 /* Interfaces ****************************************************************/
 
-charon_dataIdentifierObject_t* charon_getDataLookupTable (uint16_t DID, uint32_t DataAddress);
+/**
+ * @brief 
+ * 
+ * @param DID 
+ * @return charon_dataIdentifierObject_t* 
+ */
+charon_dataIdentifierObject_t* charon_getDataLookupTableByDID (uint16_t DID);
+
+/**
+ * @brief 
+ * 
+ * @param DataAddress 
+ * @return charon_dataIdentifierObject_t* 
+ */
+charon_dataIdentifierObject_t* charon_getDataLookupTableByAddress (uint32_t DataAddress);
 
 #endif /* CHARON_DATALOOKUPTABLE_H_ */
 

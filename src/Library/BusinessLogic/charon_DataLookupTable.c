@@ -33,6 +33,7 @@
 /* Includes ******************************************************************/
 
 #include <stdint.h>
+#include "charon_types.h"
 #include "charon_DataLookupTable.h"
 #include "ComLogic/charon_ServiceLookupTable.h"
 #include "ComLogic/charon_SessionAndSerivceControl.h"
@@ -63,30 +64,42 @@ static charon_dataIdentifierObject_t charonDIDLookupTable[] =
 
 int init (void)
 {
-    for(int counter = 1; counter < ARRAY_SIZE(charonDIDLookupTable); counter ++)
+    for(int counter = 0; counter < ARRAY_SIZE(charonDIDLookupTable); counter ++)
     {
         charon_dataIdentifierObject_t * pTableEntryBase = &charonDIDLookupTable[counter];
         charon_dataIdentifierObject_t * pTableEntry = &charonDIDLookupTable[counter + 1];
         pTableEntry->AddressOfData = pTableEntryBase->AddressOfData + pTableEntry->lengthOfData;
     }  
+    return 0;
 }
 
 
-charon_dataIdentifierObject_t* charon_getDataLookupTable (uint16_t DID, uint32_t DataAddress)
+charon_dataIdentifierObject_t* charon_getDataLookupTableByDID (uint16_t DID )
 {
+    charon_dataIdentifierObject_t* pDidEntry = NULL;
+
     for(uint32_t i=0; i < ARRAY_SIZE(charonDIDLookupTable); i++)
     {
-        if(DID == &charonDIDLookupTable[i].DID)
+        if(DID == charonDIDLookupTable[i].DID)
         {
-            return &charonDIDLookupTable[i];
+            pDidEntry = &charonDIDLookupTable[i];
         }
-        
-        if(DataAddress == &charonDIDLookupTable[i].AddressOfData)
-        {
-            return &charonDIDLookupTable[i];
-        }
-
     }
+    return pDidEntry;        
+}
+
+charon_dataIdentifierObject_t* charon_getDataLookupTableByAddress (uint32_t DataAddress)
+{
+    charon_dataIdentifierObject_t* pAddressEntry = NULL;
+
+    for(uint32_t i=0; i < ARRAY_SIZE(charonDIDLookupTable); i++)
+    {
+        if(DataAddress == charonDIDLookupTable[i].AddressOfData)
+        {
+            pAddressEntry = &charonDIDLookupTable[i];
+        }
+    }
+    return pAddressEntry;
 }
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
