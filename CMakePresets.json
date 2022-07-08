@@ -1,0 +1,35 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "BASE",
+            "displayName": "BASE",
+            "description": "Default build arguments",
+            "hidden": true,
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "toolchainFile": "${sourceDir}/toolchain/cmake/GCC.cmake"
+        },
+        {
+            "name": "Windows",
+            "displayName": "Port - Windows",
+            "description": "Building the exe file for Windows",
+            "inherits": "BASE",
+            "cacheVariables": {
+                "PORT": "Windows"
+            }
+        },
+        {
+            "name": "STM32",
+            "displayName": "Port - STM32",
+            "description": "Building the elf file for STM32",
+            "inherits": "BASE",
+            "cacheVariables": {
+                "PORT": "STM32"
+            }
+        }
+    
+    ]
+}

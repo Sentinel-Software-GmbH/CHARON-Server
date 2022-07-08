@@ -22,3 +22,14 @@ The EA design will no longer maintained. Instead the architecture documentation 
 https://drive.google.com/file/d/1WDjvAKW8tA1s4Mtgc6YLVcqvCr4p2PGO/view?usp=sharing
 
 ## Thanks
+
+
+
+## Bulding Tools:
+
+CMAKE:
+For CMAKE use this Pattern in your Build folder:
+```
+cmake ../uds_server --preset=Windows
+
+```
