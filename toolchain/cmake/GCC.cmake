@@ -20,9 +20,13 @@ set(CMAKE_SHARED_LIBRARY_LINK_ASM_FLAGS "")
 set(SHARED_LIBS OFF)
 set(STATIC_LIBS ON)
 
+
+# Generate compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set(COMMON_FLAGS "-O0 -Wall")
 set(CMAKE_C_FLAGS "${COMMON_FLAGS}")
-set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} -fno-rtti -fno-exceptions")
+# set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} -fno-rtti -fno-exceptions")
 
 # Debug Flags
 set(COMMON_DEBUG_FLAGS "-g3 -gdwarf-2 --debug")
