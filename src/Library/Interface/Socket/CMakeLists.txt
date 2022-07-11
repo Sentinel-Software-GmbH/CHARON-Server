@@ -7,6 +7,8 @@ add_library(${MODULE_NAME}
 )
 
 target_include_directories(${MODULE_NAME} 
+  PRIVATE
+  ${CHARON_SOURCE_DIR}/src/Library
   PUBLIC 
   ${CHARON_SOURCE_DIR}/src/Library/Interface/Socket
 )

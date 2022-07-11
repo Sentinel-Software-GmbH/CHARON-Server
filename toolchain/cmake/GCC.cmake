@@ -2,6 +2,7 @@ if(NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif()
 
+set(CMAKE_SYSTEM_PROCESSOR x86_64)
 set(CMAKE_SYSTEM_NAME Windows)
 
 
@@ -19,7 +20,7 @@ set(CMAKE_SHARED_LIBRARY_LINK_ASM_FLAGS "")
 set(SHARED_LIBS OFF)
 set(STATIC_LIBS ON)
 
-set(COMMON_FLAGS " -O0 -Wall -ffunction-sections -fdata-sections -fdiagnostics-color=always")
+set(COMMON_FLAGS "-O0 -Wall")
 set(CMAKE_C_FLAGS "${COMMON_FLAGS}")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} -fno-rtti -fno-exceptions")
 

@@ -11,14 +11,19 @@ add_executable(${MODULE_NAME}
 )
 
 target_include_directories(${MODULE_NAME} 
+  PRIVATE
+  ${CHARON_SOURCE_DIR}/src/Library
   PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}/HSDI
 )
 
 target_link_libraries(${MODULE_NAME}
   PUBLIC
+  HSDI
+  Interface
   Socket
   Common
-  Interface
-  HSDI
+  WindowsPortHSDI
 )
+
+add_subdirectory(src)

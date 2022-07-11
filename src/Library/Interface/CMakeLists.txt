@@ -7,8 +7,10 @@ ${CMAKE_CURRENT_LIST_DIR}/charon_uds.c
 )
 
 target_include_directories(${MODULE_NAME} 
-PUBLIC 
-${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE
+  ${CHARON_SOURCE_DIR}/src/Library
+  PUBLIC 
+  ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_link_libraries(${MODULE_NAME} 
