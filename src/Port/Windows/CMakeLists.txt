@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.19)
 
 add_subdirectory(src)
 
-add_definitions(-DCHARON_CONFIG_DO_NOT_PRINT_WELCOME)
-
 set(MODULE_NAME charonServerWindows)
 
 add_executable(${MODULE_NAME}
@@ -16,6 +14,7 @@ add_executable(${MODULE_NAME}
 target_include_directories(${MODULE_NAME} 
   PRIVATE
   ${CHARON_SOURCE_DIR}/src/Library
+  ${CHARON_SOURCE_DIR}/src/Port/Windows/srx/HSDI
 )
 target_link_libraries(${MODULE_NAME}
   PUBLIC
