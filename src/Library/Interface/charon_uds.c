@@ -53,6 +53,7 @@
 
 /* Private Function Definitions **********************************************/
 
+#if (!(CHARON_CONFIG_DO_NOT_PRINT_WELCOME))
 /**
  * @brief Print Welcome Message to Output
  * As means for Open source just starters and for Demonstration
@@ -60,6 +61,7 @@
  * Can be disabled.
  */
 static void printUnnecessaryLargeWelcome (void);
+#endif
 
 /* Interfaces  ***************************************************************/
 
@@ -101,10 +103,11 @@ void charon_task (void)
 
 /* Private Function **********************************************************/
 
+#if (!(CHARON_CONFIG_DO_NOT_PRINT_WELCOME))
 static void printUnnecessaryLargeWelcome (void)
 {
     PRINT_CHARON_LOGO_ON_LOG_OUT();
 }
-
+#endif
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
 

@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "charon_logo.h": "c",
+        "charon_uds.h": "c",
+        "charon_servicelookuptable.h": "c",
+        "charon_interface_nvmdriver.h": "c"
+    }
+}

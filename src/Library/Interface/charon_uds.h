@@ -39,6 +39,8 @@
 #include <stdint.h>
 #include "Interface/Socket/ISocket.h"
 
+#define CHARON_CONFIG_DO_NOT_PRINT_WELCOME 1
+#define CHARON_CONFIG_IS_BIG_ENDIAN 1
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
