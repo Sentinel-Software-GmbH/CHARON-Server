@@ -22,7 +22,7 @@ target_link_libraries(${MODULE_NAME}
   PUBLIC
   Common
   WindowsPortHSDI
-  # HSDI
+  HSDI
   # Socket
   # ComLogic
   # Interface
