@@ -36,7 +36,7 @@
 /* Includes ******************************************************************/
 
 #include <stdint.h>
-#include "Common/charon_types.h"
+#include "charon_types.h"
 
 /* Constants *****************************************************************/
 

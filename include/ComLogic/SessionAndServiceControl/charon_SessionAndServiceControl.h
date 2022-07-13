@@ -37,7 +37,7 @@
 /* Includes ******************************************************************/
 
 #include <stdint.h>
-#include "Interface/Socket/ISocket.h"
+#include "ISocket.h"
 
 /* Constants *****************************************************************/
 

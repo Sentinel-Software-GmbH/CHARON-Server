@@ -18,10 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Common
+ * @defgroup BusinessLogic Business Logic
  * @{
- * @file charon_negativeResponse.h
- * This Module handles the Transfer of the negative Response message.
+ * @file charon_RoutineFunctionalUnit.h
+ * Module specifies the services of remote activation of routines, as they shall be implemented in servers and client.
  *
  * $Id:  $
  * $URL:  $
@@ -30,12 +30,13 @@
  */
 /*****************************************************************************/
 
-#ifndef CHARON_NEGATIVERESPONSE_H_
-#define CHARON_NEGATIVERESPONSE_H_
+#ifndef CHARON_ROUTINEFUNCTIONALUNIT_H_
+#define CHARON_ROUTINEFUNCTIONALUNIT_H_
 
 /* Includes ******************************************************************/
-#include "Common/charon_types.h"
+
 #include <stdint.h>
+#include "charon_types.h"
 
 /* Constants *****************************************************************/
 
@@ -45,8 +46,16 @@
 
 /* Interfaces ****************************************************************/
 
-void charon_sendNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid);
+/**
+ * UDS ISO 14229-1 SE 2013-03-15
+ * SID: 0x31
+ *
+ * @param receiveBuffer Payload
+ * @param receiveBufferSize Payload Size
+ * @return @see @ref uds_responseCode_t
+ */
+uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-#endif /* CHARON_NEGATIVERESPONSE_H_ */
+#endif /* CHARON_ROUTINEFUNCTIONALUNIT_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

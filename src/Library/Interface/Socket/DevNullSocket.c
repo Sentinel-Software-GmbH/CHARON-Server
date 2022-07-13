@@ -32,7 +32,7 @@
 
 /* Includes ******************************************************************/
 
-#include "Interface/Socket/DevNullSocket.h"
+#include "DevNullSocket.h"
 
 /* Imports *******************************************************************/
 

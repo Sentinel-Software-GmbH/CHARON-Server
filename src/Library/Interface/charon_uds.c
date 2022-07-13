@@ -33,9 +33,9 @@
 /* Includes ******************************************************************/
 
 #include "charon_uds.h"
-#include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
-#include "ComLogic/charon_SessionAndSerivceControl.h"
+#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
+#include "charon_UploadDownloadFunctionalUnit.h"
+#include "charon_SessionAndServiceControl.h"
 #if (!(CHARON_CONFIG_DO_NOT_PRINT_WELCOME))
 #include "charon_interface_debug.h"
 #include "charon_logo.h"

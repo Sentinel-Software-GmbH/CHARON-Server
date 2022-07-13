@@ -8,15 +8,16 @@ add_library(${MODULE_NAME}
 )
 target_include_directories(${MODULE_NAME} 
   INTERFACE PUBLIC
-  ${CHARON_SOURCE_DIR}/src/Library
-  ${CHARON_SOURCE_DIR}/src/Library/Interface
+  ${PROJECT_SOURCE_DIR}/include/Interface
 )
 target_link_libraries(${MODULE_NAME} 
-  PRIVATE
-  BusinessLogic
-  ComLogic
+PRIVATE
+  charon_DiagnosticAndCommunicationManagementFunctionalUnit
+  charon_UploadDownloadFunctionalUnit
+  charon_SessionAndServiceControl
   Socket
-  WindowsPortHSDI
+  Common
+  HSDI
 )
 
 add_subdirectory(Socket)

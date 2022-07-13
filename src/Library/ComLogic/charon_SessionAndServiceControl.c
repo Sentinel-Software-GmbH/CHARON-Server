@@ -34,12 +34,12 @@
 
 #include <stdbool.h>
 #include <string.h>
-#include "ComLogic/charon_SessionAndSerivceControl.h"
-#include "ComLogic/charon_ServiceLookupTable.h"
-#include "Common/charon_negativeResponse.h"
-#include "HSDI/charon_interface_clock.h"
-#include "HSDI/charon_interface_debug.h"
-#include "Interface/Socket/ISocket.h"
+#include "charon_SessionAndServiceControl.h"
+#include "charon_ServiceLookupTable.h"
+#include "charon_negativeResponse.h"
+#include "charon_interface_clock.h"
+#include "charon_interface_debug.h"
+#include "ISocket.h"
 
 /* Imports *******************************************************************/
 

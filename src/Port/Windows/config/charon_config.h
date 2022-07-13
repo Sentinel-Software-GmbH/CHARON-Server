@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Florian Kaup
+ *  Copyright (C) 2022 Andreas Hofmann
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,11 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup BusinessLogic Business Logic
+ * @defgroup Interface
  * @{
- * @file charon_RoutineFunctionalUnit.h
- * Module specifies the services of remote activation of routines, as they shall be implemented in servers and client.
+ * @file charon_uds
+ * This Module Contains All Interfaces provided to the Application to Handle the
+ * CharonUDS Stack.
  *
  * $Id:  $
  * $URL:  $
@@ -30,32 +31,25 @@
  */
 /*****************************************************************************/
 
-#ifndef CHARON_ROUTINEFUNCTIONALUNIT_H_
-#define CHARON_ROUTINEFUNCTIONALUNIT_H_
+#ifndef CHARON_CONFIG_H_
+#define CHARON_CONFIG_H_
 
 /* Includes ******************************************************************/
 
-#include <stdint.h>
-#include "Common/charon_types.h"
+/* Imports *******************************************************************/
 
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
 
+#define CHARON_CONFIG_DO_NOT_PRINT_WELCOME 0
+#define CHARON_CONFIG_IS_BIG_ENDIAN 1
+#define CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION 1
+
 /* Types *********************************************************************/
 
-/* Interfaces ****************************************************************/
+/* Variables *****************************************************************/
 
-/**
- * UDS ISO 14229-1 SE 2013-03-15
- * SID: 0x31
- *
- * @param receiveBuffer Payload
- * @param receiveBufferSize Payload Size
- * @return @see @ref uds_responseCode_t
- */
-uds_responseCode_t charon_RoutineFunctionalUnit_RoutineControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+/* Private Function Definitions **********************************************/
 
-#endif /* CHARON_ROUTINEFUNCTIONALUNIT_H_ */
-
-/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
+/* Interfaces  ***************************************************************/

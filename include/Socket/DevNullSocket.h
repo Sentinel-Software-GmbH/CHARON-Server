@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Andreas Hofmann
+ *  Copyright (C) 2020 Andreas Hofmann
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,11 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup Interface
+ * @defgroup Socket
  * @{
- * @file charon_uds
- * This Module Contains All Interfaces provided to the Application to Handle the
- * CharonUDS Stack.
+ * @file DevNullSocket.h
+ * Socket for ignoring all data, like "dev/null" on unix systems
  *
  * $Id:  $
  * $URL:  $
@@ -31,16 +30,13 @@
  */
 /*****************************************************************************/
 
-#ifndef CHARON_H_
-#define CHARON_H_
+#ifndef DEVNULLSOCKET_H
+#define DEVNULLSOCKET_H
 
 /* Includes ******************************************************************/
 
-#include <stdint.h>
-#include "Interface/Socket/ISocket.h"
+#include "ISocket.h"
 
-#define CHARON_CONFIG_DO_NOT_PRINT_WELCOME 1
-#define CHARON_CONFIG_IS_BIG_ENDIAN 1
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
@@ -49,12 +45,9 @@
 
 /* Interfaces ****************************************************************/
 
-void charon_reset (void);
+extern const ISocket_t DevNullSocket;
 
-void charon_init (ISocket_t systemCommunicationSocket);
-
-void charon_task (void);
-
-#endif /* CHARON_H_ */
+#endif /* DEVNULLSOCKET_H */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
+

@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2020 Andreas Hofmann
+ *  Copyright (C) 2022 Florian Kaup
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup Socket
+ * @addtogroup Common
  * @{
- * @file DevNullSocket.h
- * Socket for ignoring all data, like "dev/null" on unix systems
+ * @file charon_negativeResponse.h
+ * This Module handles the Transfer of the negative Response message.
  *
  * $Id:  $
  * $URL:  $
@@ -30,12 +30,12 @@
  */
 /*****************************************************************************/
 
-#ifndef DEVNULLSOCKET_H
-#define DEVNULLSOCKET_H
+#ifndef CHARON_NEGATIVERESPONSE_H_
+#define CHARON_NEGATIVERESPONSE_H_
 
 /* Includes ******************************************************************/
-
-#include "Interface/Socket/ISocket.h"
+#include "charon_types.h"
+#include <stdint.h>
 
 /* Constants *****************************************************************/
 
@@ -45,9 +45,8 @@
 
 /* Interfaces ****************************************************************/
 
-extern const ISocket_t DevNullSocket;
+void charon_sendNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid);
 
-#endif /* DEVNULLSOCKET_H */
+#endif /* CHARON_NEGATIVERESPONSE_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
-

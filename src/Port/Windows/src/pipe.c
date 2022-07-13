@@ -5,7 +5,7 @@
  *      Author: Florian Kaup
  */
 
-#include "Interface/Socket/ISocket.h"
+#include "ISocket.h"
 #include <windows.h>
 
 HANDLE pipeHandle;

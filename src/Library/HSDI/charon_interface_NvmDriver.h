@@ -37,7 +37,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "Common/charon_types.h"
+#include "charon_types.h"
 
 /* Constants *****************************************************************/
 

@@ -35,8 +35,8 @@
 #include <stdint.h>
 #include "charon_types.h"
 #include "charon_DataLookupTable.h"
-#include "ComLogic/charon_ServiceLookupTable.h"
-#include "ComLogic/charon_SessionAndSerivceControl.h"
+#include "charon_ServiceLookupTable.h"
+#include "charon_SessionAndServiceControl.h"
 
 /* Imports *******************************************************************/
 

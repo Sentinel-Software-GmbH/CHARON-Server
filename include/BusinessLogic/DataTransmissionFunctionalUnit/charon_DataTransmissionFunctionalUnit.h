@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2020 Florian Kaup
+ *  Copyright (C) 2022 Andreas Hofmann
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  * @{
  * @defgroup BusinessLogic Business Logic
  * @{
- * @file charon_UploadDownloadFunctionalUnit.h
- * Module handles Service Group for Upload Download
+ * @file charon_DataTransmissionFunctionalUnit.h
+ * Implementation of the DTF Module
  *
  * $Id:  $
  * $URL:  $
@@ -30,13 +30,13 @@
  */
 /*****************************************************************************/
 
-#ifndef CHARON_UPLOADDOWNLOADFUNCTIONALUNIT_H_
-#define CHARON_UPLOADDOWNLOADFUNCTIONALUNIT_H_
+#ifndef CHARON_DATATRANSMISSIONFUNCTIONALUNIT_H_
+#define CHARON_DATATRANSMISSIONFUNCTIONALUNIT_H_
 
 /* Includes ******************************************************************/
 
 #include <stdint.h>
-#include "Common/charon_types.h"
+#include "charon_types.h"
 
 /* Constants *****************************************************************/
 
@@ -47,81 +47,75 @@
 /* Interfaces ****************************************************************/
 
 /**
- * Resets all internal Variables and
- * stops all ongoing Services.
- */
-void charon_UploadDownloadFunctionalUnit_reset (void);
-
-/**
  * UDS ISO 14229-1 SE 2013-03-15
- * SID: 0x34
+ * SID: 0x22
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
-uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestDownload (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 /**
  * UDS ISO 14229-1 SE 2013-03-15
- * SID: 0x35
+ * SID: 0x23
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
-uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestUpload (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 /**
  * UDS ISO 14229-1 SE 2013-03-15
- * SID: 0x36
+ * SID: 0x24
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
-uds_responseCode_t charon_UploadDownloadFunctionalUnit_TransferData (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 /**
  * UDS ISO 14229-1 SE 2013-03-15
- * SID: 0x37
+ * SID: 0x2A
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
-uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestTransferExit (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByPeriodicIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 /**
  * UDS ISO 14229-1 SE 2013-03-15
- * SID: 0x38
+ * SID: 0x2C
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
  * @return @see @ref uds_responseCode_t
  */
-uds_responseCode_t charon_UploadDownloadFunctionalUnit_RequestFileTransfer (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+uds_responseCode_t charon_DataTransmissionFunctionalUnit_DynamicallyDefineDataIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-#ifdef TEST
+/**
+ * UDS ISO 14229-1 SE 2013-03-15
+ * SID: 0x2E
+ *
+ * @param receiveBuffer Payload
+ * @param receiveBufferSize Payload Size
+ * @return @see @ref uds_responseCode_t
+ */
+uds_responseCode_t charon_DataTransmissionFunctionalUnit_WriteDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-void charon_UploadDownloadFunctionalUnit_setCurrentMemoryAddress (uint32_t newAddress);
+/**
+ * UDS ISO 14229-1 SE 2013-03-15
+ * SID: 0x3D
+ *
+ * @param receiveBuffer Payload
+ * @param receiveBufferSize Payload Size
+ * @return @see @ref uds_responseCode_t
+ */
+uds_responseCode_t charon_DataTransmissionFunctionalUnit_WriteMemoryByAddress (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-void charon_UploadDownloadFunctionalUnit_setRemainingMemoryLength (uint32_t newLength);
-
-void charon_UploadDownloadFunctionalUnit_setTransferDirection (uint8_t newDirection);
-
-void charon_UploadDownloadFunctionalUnit_setNextSequenceCounter (uint8_t newCounter);
-
-uint32_t charon_UploadDownloadFunctionalUnit_getCurrentMemoryAddress (void);
-
-uint32_t charon_UploadDownloadFunctionalUnit_getRemainingMemoryLength (void);
-
-uint8_t charon_UploadDownloadFunctionalUnit_getTransferDirection (void);
-
-uint8_t charon_UploadDownloadFunctionalUnit_getNextSequenceCounter (void);
-
-#endif
-
-#endif /* CHARON_UPLOADDOWNLOADFUNCTIONALUNIT_H_ */
+#endif /* CHARON_DATATRANSMISSIONFUNCTIONALUNIT_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

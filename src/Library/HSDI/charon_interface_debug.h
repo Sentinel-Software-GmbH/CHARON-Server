@@ -14,8 +14,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-/**
+ 
  * @addtogroup CharonUDS
  * @{
  * @addtogroup HSDI
@@ -41,13 +40,32 @@
 
 /* Includes ******************************************************************/
 
+#include "charon_uds.h"
+
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
 
+#if CHARON_CONFIG_LOG_MSG_OUT_AS_MACRO
+// Add your Logging Macro here
 #define CHARON_INFO(x, ...)
 #define CHARON_WARNING(x, ...)
 #define CHARON_ERROR(x, ...)
+#endif
+
+#if CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION
+void CHARON_INFO (char *x, ...);
+void CHARON_WARNING (char *x, ...);
+void CHARON_ERROR (char *x, ...);
+#endif
+
+#if !(CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION) && !(CHARON_CONFIG_LOG_MSG_OUT_AS_MACRO)
+#define CHARON_INFO(x, ...)
+#define CHARON_WARNING(x, ...)
+#define CHARON_ERROR(x, ...)
+#endif
+
+
 
 /* Types *********************************************************************/
 

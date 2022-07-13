@@ -37,7 +37,7 @@
 #include <stddef.h>
 #include <string.h>
 #include "charon_uds.h"
-#include "charon_SessionAndSerivceControl.h"
+#include "charon_SessionAndServiceControl.h"
 #include "CHARON_DATATRANSMISSIONFUNCTIONALUNIT.h"
 #include "charon_DataLookupTable.h" 
 

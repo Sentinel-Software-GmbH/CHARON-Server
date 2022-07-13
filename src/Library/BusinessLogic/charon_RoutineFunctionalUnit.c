@@ -32,10 +32,10 @@
 
 /* Includes ******************************************************************/
 
-#include "HSDI/charon_interface_NvmDriver.h"
-#include "BusinessLogic/charon_RoutineFunctionalUnit.h"
-#include "Common/charon_negativeResponse.h"
-#include "ComLogic/charon_SessionAndSerivceControl.h"
+#include "charon_interface_NvmDriver.h"
+#include "charon_RoutineFunctionalUnit.h"
+#include "charon_negativeResponse.h"
+#include "charon_SessionAndServiceControl.h"
 
 /* Imports *******************************************************************/
 

@@ -33,9 +33,9 @@
 /* Includes ******************************************************************/
 
 #include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "ComLogic/charon_SessionAndSerivceControl.h"
-#include "HSDI/charon_interface_debug.h"
-#include "Common/charon_negativeResponse.h"
+#include "charon_SessionAndServiceControl.h"
+#include "charon_interface_debug.h"
+#include "charon_negativeResponse.h"
 
 /* Imports *******************************************************************/
 

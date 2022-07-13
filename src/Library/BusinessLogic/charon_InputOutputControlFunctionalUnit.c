@@ -35,7 +35,7 @@
 
 #include "charon_InputOutputControlFunctionalUnit.h"
 #include "charon_interface_debug.h"
-#include "charon_SessionAndSerivceControl.h"
+#include "charon_SessionAndServiceControl.h"
 #include "charon_negativeResponse.h"
 #include <stdint.h>
 #include <string.h>

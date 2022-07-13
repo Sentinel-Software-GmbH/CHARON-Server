@@ -32,12 +32,12 @@
 
 /* Includes ******************************************************************/
 
-#include "ComLogic/charon_ServiceLookupTable.h"
-#include "ComLogic/charon_SessionAndSerivceControl.h"
-#include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "BusinessLogic/charon_RoutineFunctionalUnit.h"
-#include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
-#include "BusinessLogic/charon_InputOutputControlFunctionalUnit.h"
+#include "charon_ServiceLookupTable.h"
+#include "charon_SessionAndServiceControl.h"
+#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
+#include "charon_RoutineFunctionalUnit.h"
+#include "charon_UploadDownloadFunctionalUnit.h"
+#include "charon_InputOutputControlFunctionalUnit.h"
 
 /* Imports *******************************************************************/
 

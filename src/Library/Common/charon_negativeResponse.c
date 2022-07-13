@@ -33,9 +33,9 @@
 /* Interfaces ****************************************************************/
 
 #include "charon_negativeResponse.h"
-#include "ComLogic/charon_SessionAndSerivceControl.h"
-#include "ComLogic/charon_ServiceLookupTable.h"
-#include "HSDI/charon_interface_debug.h"
+#include "charon_SessionAndServiceControl.h"
+#include "charon_ServiceLookupTable.h"
+#include "charon_interface_debug.h"
 
 /* Imports *******************************************************************/
 

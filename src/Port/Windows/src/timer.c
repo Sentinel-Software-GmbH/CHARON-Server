@@ -32,7 +32,7 @@
 
 /* Includes ******************************************************************/
 
-#include "HSDI/charon_interface_clock.h"
+#include "charon_interface_clock.h"
 #include <time.h>
 
 /* Imports *******************************************************************/

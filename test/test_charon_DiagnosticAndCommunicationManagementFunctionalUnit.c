@@ -35,7 +35,7 @@
 #include <unity.h>
 #include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndSerivceControl.h"
+#include "mock_charon_SessionAndServiceControl.h"
 
 /* Imports *******************************************************************/
 

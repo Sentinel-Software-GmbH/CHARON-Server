@@ -33,7 +33,7 @@
 /* Includes ******************************************************************/
 
 #include <unity.h>
-#include "ComLogic/charon_SessionAndSerivceControl.h"
+#include "ComLogic/charon_SessionAndServiceControl.h"
 #include "Common/charon_types.h"
 #include "mock_SocketMock.h"
 #include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
