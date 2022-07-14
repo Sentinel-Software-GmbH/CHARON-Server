@@ -31,6 +31,7 @@
     - test/**
   :source:
     - src/Library/**
+    - include/**
 
 :defines:
   # in order to add common defines:

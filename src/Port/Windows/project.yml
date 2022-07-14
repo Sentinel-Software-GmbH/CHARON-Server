@@ -36,7 +36,9 @@
 
 :paths:
   :source:
+    - config/**
     - src/**
     - ../../Library/**
+    - ../../../include/**
 
 ...
