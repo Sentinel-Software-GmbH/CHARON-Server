@@ -29,6 +29,9 @@ https://drive.google.com/file/d/1WDjvAKW8tA1s4Mtgc6YLVcqvCr4p2PGO/view?usp=shari
 
 CMAKE:
 For CMAKE use this Pattern in your Build folder:
+Availabe Ports:
+Windows
+STM32
 ```
 cmake ../uds_server --preset=Windows
 

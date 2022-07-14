@@ -19,5 +19,4 @@ target_link_libraries(${MODULE_NAME}
   HSDI
   Interface
   Socket
-  
 )
