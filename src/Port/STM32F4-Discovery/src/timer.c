@@ -6,7 +6,7 @@
  */
 
 
-#include "HSDI/charon_interface_clock.h"
+#include "charon_interface_clock.h"
 #include "timer.h"
 #include "stm32f4xx_hal_dma.h"
 

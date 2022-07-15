@@ -7,7 +7,7 @@ add_library(${MODULE_NAME}
 )
 
 target_include_directories(${MODULE_NAME} 
-INTERFACE PUBLIC
+  INTERFACE PUBLIC
   ${CHARON_SOURCE_DIR}/include/Common
 )
 
@@ -18,6 +18,7 @@ target_link_libraries(${MODULE_NAME}
   HSDI
   Socket
   Interface
+  ${CHARON_CONFIG}
 )
 
 

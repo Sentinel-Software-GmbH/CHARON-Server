@@ -22,12 +22,12 @@
             }
         },
         {
-            "name": "STM32",
-            "displayName": "Port - STM32",
-            "description": "Building the elf file for STM32",
+            "name": "STM32F4",
+            "displayName": "Port - STM32F4",
+            "description": "Building the elf file for STM32F4",
             "inherits": "BASE",
             "cacheVariables": {
-                "PORT": "STM32"
+                "PORT": "STM32F4"
             }
         }
     

@@ -7,6 +7,6 @@ add_library(${MODULE_NAME}
 )
 target_include_directories(${MODULE_NAME}
   INTERFACE
-  ${STM32_SOURCE}/Drivers/CMSIS/Core/Include
-  ${STM32_SOURCE}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
+  ${CMAKE_CURRENT_LIST_DIR}/Core/Include
+  ${CMAKE_CURRENT_LIST_DIR}/Device/ST/STM32F4xx/Include
 )

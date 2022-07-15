@@ -53,3 +53,7 @@
 /* Private Function Definitions **********************************************/
 
 /* Interfaces  ***************************************************************/
+
+#endif /* ISOCKET_H */
+
+/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

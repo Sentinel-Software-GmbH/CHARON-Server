@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.19)
 
 set(MODULE_NAME BusinessLogic)
 
-
 add_library(charon_DataLookupTable 
   ${CMAKE_CURRENT_LIST_DIR}/charon_DataLookupTable.c
 )
@@ -23,7 +22,7 @@ add_library(charon_DataTransmissionFunctionalUnit
   ${CMAKE_CURRENT_LIST_DIR}/charon_DataTransmissionFunctionalUnit.c
 )
 target_include_directories(charon_DataTransmissionFunctionalUnit
-INTERFACE PUBLIC
+  INTERFACE PUBLIC
   ${PROJECT_SOURCE_DIR}/include/BusinessLogic/DataTransmissionFunctionalUnit
 )
 target_link_libraries(charon_DataTransmissionFunctionalUnit
@@ -33,6 +32,7 @@ PRIVATE
   Interface
   Common
   Socket
+  ${CHARON_CONFIG}
 )
 
 
@@ -40,7 +40,7 @@ add_library(charon_DiagnosticAndCommunicationManagementFunctionalUnit
 ${CMAKE_CURRENT_LIST_DIR}/charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
 )
 target_include_directories(charon_DiagnosticAndCommunicationManagementFunctionalUnit
-INTERFACE PUBLIC
+  INTERFACE PUBLIC
   ${PROJECT_SOURCE_DIR}/include/BusinessLogic/DiagnosticAndCommunicationManagementFunctionalUnit
 )
 target_link_libraries(charon_DiagnosticAndCommunicationManagementFunctionalUnit
@@ -50,6 +50,7 @@ target_link_libraries(charon_DiagnosticAndCommunicationManagementFunctionalUnit
   Common
   Socket
   Interface
+  ${CHARON_CONFIG}
 )
 
 
@@ -67,6 +68,7 @@ PRIVATE
   Interface
   Common
   Socket
+  ${CHARON_CONFIG}
 )
 
 
@@ -113,6 +115,7 @@ PRIVATE
   charon_SessionAndServiceControl
   Common
   Socket
+  ${CHARON_CONFIG}
 )
 
 # add_library(${MODULE_NAME}

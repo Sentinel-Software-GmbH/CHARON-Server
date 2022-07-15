@@ -7,7 +7,7 @@ add_library(charon_ServiceLookupTable
   ${CMAKE_CURRENT_LIST_DIR}/charon_ServiceLookupTable.c
 )
 target_include_directories(charon_ServiceLookupTable
-INTERFACE PUBLIC
+  INTERFACE PUBLIC
   ${PROJECT_SOURCE_DIR}/include/ComLogic/ServiceLookupTable
 )
 target_link_libraries(charon_ServiceLookupTable
@@ -26,8 +26,8 @@ add_library(charon_SessionAndServiceControl
   ${CMAKE_CURRENT_LIST_DIR}/charon_SessionAndServiceControl.c
 )
 target_include_directories(charon_SessionAndServiceControl
-INTERFACE PUBLIC
-${PROJECT_SOURCE_DIR}/include/ComLogic/SessionAndServiceControl
+  INTERFACE PUBLIC
+  ${PROJECT_SOURCE_DIR}/include/ComLogic/SessionAndServiceControl
 )
 target_link_libraries(charon_SessionAndServiceControl
   PRIVATE
@@ -36,6 +36,7 @@ target_link_libraries(charon_SessionAndServiceControl
   Interface
   HSDI
   Socket
+  ${CHARON_CONFIG}
 )
 
 

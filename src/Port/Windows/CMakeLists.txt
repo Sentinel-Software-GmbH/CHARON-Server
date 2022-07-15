@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 
+add_subdirectory(config)
+
 set(MODULE_NAME charonServerWindows)
 
 add_executable(${MODULE_NAME}
@@ -19,4 +21,5 @@ target_link_libraries(${MODULE_NAME}
   HSDI
   Interface
   Socket
+  ${CHARON_CONFIG}
 )

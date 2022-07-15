@@ -31,8 +31,12 @@ CMAKE:
 For CMAKE use this Pattern in your Build folder:
 Availabe Ports:
 Windows
-STM32
+STM32F4
 ```
 cmake ../uds_server --preset=Windows
-
 ```
+Then use ninja to build.
+
+Ceedling:
+navigate to the Port folder and use one of the Ports:
+use ceedling release to build exe or elf.

@@ -5,7 +5,7 @@
  *      Author: Florian Kaup
  */
 
-#include "HSDI/charon_interface_NvmDriver.h"
+#include "charon_interface_NvmDriver.h"
 #include <string.h>
 
 
