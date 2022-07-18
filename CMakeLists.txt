@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
 
-enable_language( C CXX ASM )
 project(Charon_Server LANGUAGES C ASM)
 
 set(CHARON_SOURCE_DIR ${PROJECT_SOURCE_DIR})
@@ -12,6 +11,7 @@ if(PORT STREQUAL Windows)
 elseif(PORT STREQUAL STM32F4)
   set(CHARON_CONFIG "F4Config")
 endif()
+
 
 
 

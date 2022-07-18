@@ -18,7 +18,13 @@
             "description": "Building the exe file for Windows",
             "inherits": "BASE",
             "cacheVariables": {
-                "PORT": "Windows"
+                "CMAKE_SYSTEM_NAME": "Windows",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_OBJCOPY": "objcopy",
+                "CMAKE_OBJDUMP": "objdump",
+                "PORT": "Windows",
+                "CHARON_CONFIG": "Windows"
             }
         },
         {
@@ -27,7 +33,15 @@
             "description": "Building the elf file for STM32F4",
             "inherits": "BASE",
             "cacheVariables": {
-                "PORT": "STM32F4"
+                "CMAKE_SYSTEM_NAME": "Generic",
+                "CMAKE_SYSTEM_PROCESSOR ": "armv7-m",
+                "CMAKE_C_COMPILER": "arm-none-eabi-gcc",
+                "CMAKE_CXX_COMPILER": "arm-none-eabi-g++",
+                "CMAKE_ASM_COMPILER": "arm-none-eabi-gcc",
+                "CMAKE_OBJCOPY": "arm-none-eabi-objcopy",
+                "CMAKE_OBJDUMP": "arm-none-eabi-objdump",
+                "PORT": "STM32F4",
+                "CHARON_CONFIG": "F4Config"
             }
         }
     
