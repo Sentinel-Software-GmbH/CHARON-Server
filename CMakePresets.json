@@ -20,7 +20,7 @@
             "cacheVariables": {
                 "CMAKE_SYSTEM_NAME": "Windows",
                 "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_ASM_COMPILER": "gcc",
                 "CMAKE_OBJCOPY": "objcopy",
                 "CMAKE_OBJDUMP": "objdump",
                 "PORT": "Windows",

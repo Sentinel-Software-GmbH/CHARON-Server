@@ -54,6 +54,6 @@
 
 /* Interfaces  ***************************************************************/
 
-#endif /* ISOCKET_H */
+#endif /* CHARON_CONFIG_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

@@ -13,6 +13,5 @@ elseif(PORT STREQUAL STM32F4)
 endif()
 
 
-
-
 add_subdirectory(src)
+add_subdirectory(port)

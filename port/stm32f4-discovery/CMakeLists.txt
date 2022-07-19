@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
 
-add_definitions("-DSTM32F407xx")
-
 add_subdirectory(Drivers)
 add_subdirectory(config)
 

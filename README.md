@@ -32,6 +32,14 @@ For CMAKE use this Pattern in your Build folder:
 Availabe Ports:
 Windows
 STM32F4
+If you want to switch Ports without deleting the full build folder then follow the steps.
+Step 1:
+Navigate to your build folder and find and delete the CMakeCache.txt
+Step 2:
+Find the and delete the CMakeFiles folder.
+Step 3:
+Open cmd in your build folder and use the pattern below(use the Port you like to build).
+The previous steps causes cmake to reconfigure the Project an swapping compilers. 
 ```
 cmake ../uds_server --preset=Windows
 ```
