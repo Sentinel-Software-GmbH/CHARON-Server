@@ -24,7 +24,7 @@ target_include_directories(${MODULE_NAME}
   PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}/Inc
   ${CMAKE_CURRENT_LIST_DIR}/Inc/Legacy
-  ${PROJECT_SOURCE_DIR}/src/Port/STM32F4-Discovery/Inc
+  ${PROJECT_SOURCE_DIR}/port/stm32f4-discovery/Inc
 )
 target_link_libraries(${MODULE_NAME}
   PRIVATE

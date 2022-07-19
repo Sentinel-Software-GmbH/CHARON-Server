@@ -13,7 +13,7 @@
   :compile_threads: <%= ENV['NUMBER_OF_PROCESSORS'] %>
   :release_build: TRUE
   :test_file_prefix: test_
-  :which_ceedling: ../../../toolchain/ceedling
+  :which_ceedling: ../../toolchain/ceedling
   :default_tasks:
     - release
 
@@ -36,9 +36,10 @@
 
 :paths:
   :source:
-    - config/**
     - src/**
-    - ../../Library/**
-    - ../../../include/**
+    - ../../src/**
+  :include:
+    - config/**
+    - ../../include/**
 
 ...

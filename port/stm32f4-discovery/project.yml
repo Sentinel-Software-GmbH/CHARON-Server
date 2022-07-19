@@ -13,7 +13,7 @@
   :compile_threads: <%= ENV['NUMBER_OF_PROCESSORS'] %>
   :release_build: TRUE
   :test_file_prefix: test_
-  :which_ceedling: ../../../toolchain/ceedling
+  :which_ceedling: ../../toolchain/ceedling
   :default_tasks:
     - release
 
@@ -29,11 +29,12 @@
 
 :paths:
   :source:
-    - ../../Library/**
+    - ../../src/**
     - Src/**
     - Drivers/STM32F4xx_HAL_Driver/Src/**
   :include:
-    - ../../../include/**
+    - ../../include/**
+    - config/**
     - Inc/**
     - Drivers/STM32F4xx_HAL_Driver/Inc
     - Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
@@ -55,7 +56,7 @@
 
 :tools:
    :release_compiler:
-      :executable: "C:/GNUArmEmbeddedToolchain/10_2021_07/bin/arm-none-eabi-gcc.exe"
+      :executable: "C:/GNUArmEmbeddedToolchain/bin/arm-none-eabi-gcc.exe"
       :name: "ARM Cross GCC"
       :arguments:
          - -mcpu=cortex-m4
@@ -71,7 +72,7 @@
          - -o ${2}
          - ${1}
    :release_assembler:
-      :executable: "C:/GNUArmEmbeddedToolchain/10_2021_07/bin/arm-none-eabi-gcc.exe"
+      :executable: "C:/GNUArmEmbeddedToolchain/bin/arm-none-eabi-gcc.exe"
       :name: "ARM Cross GCC"
       :arguments:
          -  -x assembler-with-cpp
@@ -88,7 +89,7 @@
          - -o ${2}
          - ${1}
    :release_linker:
-      :executable: "C:/GNUArmEmbeddedToolchain/10_2021_07/bin/arm-none-eabi-gcc.exe"
+      :executable: "C:/GNUArmEmbeddedToolchain/bin/arm-none-eabi-gcc.exe"
       :name: "ARM Cross GCC"
       :arguments:
          - -mcpu=cortex-m4

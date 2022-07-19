@@ -1,1 +1,1 @@
-ruby ..\..\..\toolchain\ceedling\bin\ceedling %*
+ruby ..\..\toolchain\ceedling\bin\ceedling %*
