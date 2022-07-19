@@ -30,7 +30,8 @@
   :test:
     - test/**
   :source:
-    - src/Library/**
+    - src/**
+  :include:
     - include/**
 
 :defines:

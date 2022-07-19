@@ -33,7 +33,7 @@
 /* Includes ******************************************************************/
 
 #include <unity.h>
-#include "BusinessLogic/charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
+#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "mock_charon_negativeResponse.h"
 #include "mock_charon_SessionAndServiceControl.h"
 

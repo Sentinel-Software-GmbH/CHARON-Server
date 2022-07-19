@@ -33,7 +33,7 @@
 /* Includes ******************************************************************/
 
 #include <unity.h>
-#include "BusinessLogic/charon_RoutineFunctionalUnit.h"
+#include "charon_RoutineFunctionalUnit.h"
 #include "mock_charon_interface_NvmDriver.h"
 #include "mock_charon_negativeResponse.h"
 #include "mock_charon_SessionAndServiceControl.h"
