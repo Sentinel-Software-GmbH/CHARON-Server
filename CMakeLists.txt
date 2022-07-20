@@ -12,7 +12,10 @@ elseif(PORT STREQUAL STM32F4)
   set(CHARON_CONFIG "F4Config")
 elseif(PORT STREQUAL standalone)
   set(CHARON_CONFIG "standaloneConfig")
+elseif(PORT STREQUAL UnitTest)
+  
 endif()
+
 
 
 add_subdirectory(src)

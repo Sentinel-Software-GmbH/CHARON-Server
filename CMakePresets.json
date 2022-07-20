@@ -37,7 +37,6 @@
                 "CMAKE_SYSTEM_PROCESSOR ": "armv7-m",
                 "CMAKE_C_COMPILER": "arm-none-eabi-gcc",
                 "CMAKE_ASM_COMPILER": "arm-none-eabi-gcc",
-                "CMAKE_OBJCOPY": "arm-none-eabi-objcopy",
                 "CMAKE_OBJDUMP": "arm-none-eabi-objdump",
                 "PORT": "STM32F4",
                 "CHARON_CONFIG": "F4Config"
@@ -52,9 +51,22 @@
                 "CMAKE_SYSTEM_NAME": "Generic",
                 "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_ASM_COMPILER": "gcc",
-                "CMAKE_OBJCOPY": "objcopy",
                 "CMAKE_OBJDUMP": "objdump",
                 "PORT": "standalone",
+                "CHARON_CONFIG": "standalone"
+            }
+        },
+        {
+            "name": "UnitTest",
+            "displayName": "Port - UnitTest",
+            "description": "Building charon UnitTests",
+            "inherits": "BASE",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Generic",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_ASM_COMPILER": "gcc",
+                "CMAKE_OBJDUMP": "objdump",
+                "PORT": "UnitTest",
                 "CHARON_CONFIG": "standalone"
             }
         }

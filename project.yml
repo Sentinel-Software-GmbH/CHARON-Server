@@ -33,6 +33,7 @@
     - src/**
   :include:
     - include/**
+    - port/standalone/config/**
 
 :defines:
   # in order to add common defines:
