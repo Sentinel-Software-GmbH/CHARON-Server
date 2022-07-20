@@ -53,7 +53,7 @@
 
 int main()
  {
-    charonDummy()
+    charonDummy();
     CHARON_INFO("CharonUDS reset is coming soon...");
     while (1)
     {

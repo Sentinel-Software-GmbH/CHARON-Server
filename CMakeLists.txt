@@ -10,8 +10,8 @@ if(PORT STREQUAL Windows)
   set(CHARON_CONFIG "windowsConfig")
 elseif(PORT STREQUAL STM32F4)
   set(CHARON_CONFIG "F4Config")
-elseif(PORT STREQUAL standaloneLib)
-  set(CHARON_CONFIG "standaloneLibConfig")
+elseif(PORT STREQUAL standalone)
+  set(CHARON_CONFIG "standaloneConfig")
 endif()
 
 

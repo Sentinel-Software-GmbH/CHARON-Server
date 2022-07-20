@@ -41,20 +41,21 @@ target_link_libraries(charon_SessionAndServiceControl
 
 
 
-# add_library(${MODULE_NAME}
-#   ${CMAKE_CURRENT_LIST_DIR}/charon_ServiceLookupTable.c
-#   ${CMAKE_CURRENT_LIST_DIR}/charon_SessionAndServiceControl.c
-# )
-# target_include_directories(${MODULE_NAME} 
-#   PRIVATE
-#   ${CHARON_SOURCE_DIR}/src/Library
-#   PUBLIC 
-#   ${CHARON_SOURCE_DIR}/src/Library/ComLogic
-# )
-# target_link_libraries(${MODULE_NAME}
-#   PUBLIC
-#   BusinessLogic
-#   Common
-#   HSDI
-#   Socket
-# )
+add_library(${MODULE_NAME}
+  ${CMAKE_CURRENT_LIST_DIR}/charon_ServiceLookupTable.c
+  ${CMAKE_CURRENT_LIST_DIR}/charon_SessionAndServiceControl.c
+)
+target_include_directories(${MODULE_NAME} 
+  INTERFACE PUBLIC
+  ${CHARON_SOURCE_DIR}/include/ComLogic/ServiceLookupTable
+  ${CHARON_SOURCE_DIR}/include/ComLogic/SessionAndServiceControl
+)
+target_link_libraries(${MODULE_NAME}
+  PUBLIC
+  BusinessLogic
+  Common
+  HSDI
+  Socket
+  Interface
+  ${CHARON_CONFIG}
+)

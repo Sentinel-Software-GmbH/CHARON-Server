@@ -118,28 +118,32 @@ PRIVATE
   ${CHARON_CONFIG}
 )
 
-# add_library(${MODULE_NAME}
-#   ${CMAKE_CURRENT_LIST_DIR}/charon_DataLookupTable.c 
-#   ${CMAKE_CURRENT_LIST_DIR}/charon_DataTransmissionFunctionalUnit.c
-#   ${CMAKE_CURRENT_LIST_DIR}/charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
-#   ${CMAKE_CURRENT_LIST_DIR}/charon_InputOutputControlFunctionalUnit.c
-#   ${CMAKE_CURRENT_LIST_DIR}/charon_RoutineFunctionalUnit.c
-#   ${CMAKE_CURRENT_LIST_DIR}/charon_StoredDataTransmissionFunctionalUnit.c
-#   ${CMAKE_CURRENT_LIST_DIR}/charon_UploadDownloadFunctionalUnit.c
-# )
 
-# target_include_directories(${MODULE_NAME} 
-#   PRIVATE
-#   ${CHARON_SOURCE_DIR}/src/Library
-#   PUBLIC 
-#   ${CHARON_SOURCE_DIR}/src/Library/BusinessLogic
-# )
-
-# target_link_libraries(${MODULE_NAME} 
-#   PUBLIC
-#   Common
-#   HSDI
-#   Interface
-#   # Socket
-#   # ComLogic
-# )
+add_library(${MODULE_NAME}
+  ${CMAKE_CURRENT_LIST_DIR}/charon_DataLookupTable.c 
+  ${CMAKE_CURRENT_LIST_DIR}/charon_DataTransmissionFunctionalUnit.c
+  ${CMAKE_CURRENT_LIST_DIR}/charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
+  ${CMAKE_CURRENT_LIST_DIR}/charon_InputOutputControlFunctionalUnit.c
+  ${CMAKE_CURRENT_LIST_DIR}/charon_RoutineFunctionalUnit.c
+  ${CMAKE_CURRENT_LIST_DIR}/charon_StoredDataTransmissionFunctionalUnit.c
+  ${CMAKE_CURRENT_LIST_DIR}/charon_UploadDownloadFunctionalUnit.c
+)
+target_include_directories(${MODULE_NAME} 
+  INTERFACE PUBLIC
+  ${CHARON_SOURCE_DIR}/include/BusinessLogic/DataLookupTable
+  ${CHARON_SOURCE_DIR}/include/BusinessLogic/DataTransmissionFunctionalUnit
+  ${CHARON_SOURCE_DIR}/include/BusinessLogic/DiagnosticAndCommunicationManagementFunctionalUnit
+  ${CHARON_SOURCE_DIR}/include/BusinessLogic/InputOutputControlFunctionalUnit
+  ${CHARON_SOURCE_DIR}/include/BusinessLogic/RoutineFunctionalUnit
+  ${CHARON_SOURCE_DIR}/include/BusinessLogic/StoredDataTransmissionFunctionalUnit
+  ${CHARON_SOURCE_DIR}/include/BusinessLogic/UploadDownloadFunctionalUnit
+)
+target_link_libraries(${MODULE_NAME} 
+  PUBLIC
+  Common
+  HSDI
+  Interface
+  Socket
+  ComLogic
+  ${CHARON_CONFIG}
+)

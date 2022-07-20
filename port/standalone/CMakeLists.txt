@@ -4,7 +4,7 @@ add_subdirectory(config)
 
 set(MODULE_NAME charonStandaloneLib)
 
-add_executable(${MODULE_NAME}
+add_library(${MODULE_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/src/charon_Dummy.c
 )
 target_include_directories(${MODULE_NAME}
@@ -17,5 +17,7 @@ target_link_libraries(${MODULE_NAME}
   Interface
   HSDI
   Socket
+  $<TARGET_OBJECTS:BusinessLogic>
+  $<TARGET_OBJECTS:ComLogic>
   ${CHARON_CONFIG}
 )

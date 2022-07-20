@@ -44,8 +44,8 @@
             }
         },
         {
-            "name": "standaloneLib",
-            "displayName": "Port - standaloneLib",
+            "name": "standalone",
+            "displayName": "Port - standalone",
             "description": "Building standalone charon library",
             "inherits": "BASE",
             "cacheVariables": {
@@ -54,8 +54,8 @@
                 "CMAKE_ASM_COMPILER": "gcc",
                 "CMAKE_OBJCOPY": "objcopy",
                 "CMAKE_OBJDUMP": "objdump",
-                "PORT": "standaloneLib",
-                "CHARON_CONFIG": "standaloneLib"
+                "PORT": "standalone",
+                "CHARON_CONFIG": "standalone"
             }
         }
     
