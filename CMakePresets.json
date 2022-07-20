@@ -42,6 +42,21 @@
                 "PORT": "STM32F4",
                 "CHARON_CONFIG": "F4Config"
             }
+        },
+        {
+            "name": "standaloneLib",
+            "displayName": "Port - standaloneLib",
+            "description": "Building standalone charon library",
+            "inherits": "BASE",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Generic",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_ASM_COMPILER": "gcc",
+                "CMAKE_OBJCOPY": "objcopy",
+                "CMAKE_OBJDUMP": "objdump",
+                "PORT": "standaloneLib",
+                "CHARON_CONFIG": "standaloneLib"
+            }
         }
     
     ]
