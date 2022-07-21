@@ -1,0 +1,1 @@
+python toolchain\python\buildRunner.py %*

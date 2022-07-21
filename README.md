@@ -25,7 +25,7 @@ https://drive.google.com/file/d/1WDjvAKW8tA1s4Mtgc6YLVcqvCr4p2PGO/view?usp=shari
 
 
 
-## Building Tools:
+### Building Tools:
 
 ## Supported Ports:
 ```
@@ -56,7 +56,7 @@ Then use ninja to build.
 
 Ceedling:
 Navigate to the Port folder and use one of the Ports.
-Use ceedling release to build exe or elf.
+Use ceedling release to build .exe or .elf.
 
 ## Note
 standalone build will only create a library with any port dependencies.
