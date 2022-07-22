@@ -23,18 +23,9 @@ https://drive.google.com/file/d/1WDjvAKW8tA1s4Mtgc6YLVcqvCr4p2PGO/view?usp=shari
 
 ## Thanks
 
+# Building Tools and small How To:
 
-
-### Building Tools:
-
-## Supported Ports:
-```
-Windows
-STM32F4
-```
-### Small How To:
-
-# CMAKE:
+### CMAKE:
 For CMAKE use this Pattern in your Build folder:
 
 ```
@@ -54,12 +45,12 @@ Open cmd in your build folder and use the pattern below(use the Port you like to
 The previous steps causes CMake to reconfigure the project and swapping compilers. 
 Then use ninja to build.
 
-# Ceedling:
+### Ceedling:
 Navigate to the Port folder and use one of the Ports.
 Use ceedling release to build .exe or .elf.
 
 
-# runBuilder
+### runBuilder:
 You can use the runBuilder.cmd to run and configure cmake and ninja for you.
 To Use the runBuilder open a cmd in your Project folder and use:
 ```
@@ -82,4 +73,10 @@ cmake ../uds_server --preset=Windows -DCMAKE_BUILD_TYPE=Release
 Windows
 STM32F4
 standalone
+```
+
+## Supported Ports:
+```
+Windows
+STM32F4
 ```
