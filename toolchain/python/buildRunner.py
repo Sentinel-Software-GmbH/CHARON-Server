@@ -25,12 +25,17 @@ def argParser():
     """ @brief argument parser defines selectable options;
         @return namespace args used to make options available;
     """
-    parser = argparse.ArgumentParser(description='Build your charon as you like! If needed by Force!')
-    parser.add_argument("-p",'--port',choices=["Windows","standalone","STM32F4","UnitTest"],
-                        help=" use -p + Windows to build charon server for Windows;" 
-                        " use -p + STM32F4 to build charon server for stm32f4-discovery board;"
-                        " use -p + standalone to build charon server standalone library;"
-                        " use -p + UnitTest to run ceedling for UnitTests"
+    parser = argparse.ArgumentParser(description='Build your charon as you like; all target builds contain debug information by default;')
+    parser.add_argument("-p","--port",choices=["Windows","windows","standalone","Standalone","STM32F4","stm32f4","UnitTest","unittest"],
+                        help=" use -p/--port + Windows to build charon server for Windows;" 
+                        " use -p/--port + STM32F4 to build charon server for stm32f4-discovery board;"
+                        " use -p/--port + standalone to build charon server standalone library;"
+                        " use -p/--port + UnitTest to run ceedling for UnitTests;"
+                        )
+    parser.add_argument("-r","--release",choices=["Windows","windows","standalone","Standalone","STM32F4","stm32f4"],
+                        help=" use -r/--release + Windows to build charon server for Windows;" 
+                        " use -r/--release + STM32F4 to build charon server for stm32f4-discovery board;"
+                        " use -r/--release + standalone to build charon server standalone library;"
                         )
     args = parser.parse_args()
     return args
@@ -51,12 +56,16 @@ def cmakeAndNinja(cmdStream,ninja):
         print(output)
 
 
-def prepBuildFolder():
-    """ @brief preparing build folder for cmake config"""
-    neededWorkspace = "build"
+def prepBuildFolder(buildType):
+    """ @brief preparing build folder depending on buildtype if debug or release for cmake config
+        @param buildType defines which type of build will be used debug or release;
+    """
+    if(buildType == "release"):
+        neededWorkspace = "build\\CMakeReleaseBuild"
+    else:
+        neededWorkspace = "build\\CMakeDebugBuild"
     cmakeCache = "CMakeCache.txt"
     cmakeCacheFolder = "CMakeFiles"
-    os.chdir("..")
     if(os.path.isdir(neededWorkspace) is False):
         print("build folder does not exist and will be created")
         pathlib.Path(neededWorkspace).mkdir(parents=True,exist_ok=True)
@@ -69,34 +78,47 @@ def prepBuildFolder():
         os.remove(cmakeCache)
 
 
-def buildRunnerWindows(workspace):
-    """ @brief windows build runner will create build folder if needed and runs cmake for windows port;
-        @param workspace current working directory;    
+
+def buildRunnerWindows(workspace,buildType):
+    """ @brief windows build runner will create debug build for windows port;
+        @param workspace current working directory;
+        @param buildType defines which type of build will be used debug or release;    
     """
-    cmdStream = "cmake ../uds_server --preset=Windows"
-    prepBuildFolder()
+    if(buildType == "release"):
+        cmdStream = "cmake ../../ --preset=Windows -DCMAKE_BUILD_TYPE=Release"
+    else:
+        cmdStream = "cmake ../../ --preset=Windows"
+    prepBuildFolder(buildType)
     cmakeAndNinja(cmdStream,True)
     os.chdir(workspace)
     print(os.getcwd())
 
 
-def buildRunnerSTM32(workspace):
-    """ @brief STM32 build runner will create build folder if needed and runs cmake for discovery board port;
-        @param workspace current working directory;    
+def buildRunnerSTM32(workspace,buildType):
+    """ @brief STM32 build runner will create debug build for discovery board port; 
+        @param workspace current working directory;
+        @param buildType defines which type of build will be used debug or release;    
     """
-    cmdStream = "cmake ../uds_server --preset=STM32F4"
-    prepBuildFolder()
+    if(buildType == "release"):
+        cmdStream = "cmake ../../ --preset=STM32F4 -DCMAKE_BUILD_TYPE=Release"
+    else:
+        cmdStream = "cmake ../../ --preset=STM32F4"
+    prepBuildFolder(buildType)
     cmakeAndNinja(cmdStream,True)
     os.chdir(workspace)
     print(os.getcwd())
 
 
-def buildRunnerStandalone(workspace):
-    """ @brief standalone build runner will create build folder if needed and runs cmake for windows port;
-        @param workspace current working directory;    
+def buildRunnerStandalone(workspace,buildType):
+    """ @brief standalone build runner will create debug build for windows port;
+        @param workspace current working directory;
+        @param buildType defines which type of build will be used debug or release;    
     """
-    cmdStream = "cmake ../uds_server --preset=standalone"
-    prepBuildFolder()
+    if(buildType == "release"):
+        cmdStream = "cmake ../../ --preset=standalone -DCMAKE_BUILD_TYPE=Release"
+    else:
+        cmdStream = "cmake ../../ --preset=standalone"
+    prepBuildFolder(buildType)
     cmakeAndNinja(cmdStream,True)
     os.chdir(workspace)
     print(os.getcwd())
@@ -112,14 +134,20 @@ def mainRunner():
     args = argParser()
     workspace = os.getcwd()
     try:
-        if(args.port in ("Windows")):
-            buildRunnerWindows(workspace)
-        if(args.port in ("STM32F4")):
-            buildRunnerSTM32(workspace)
-        if(args.port in ("standalone")):
-            buildRunnerStandalone(workspace)
-        if(args.port in ("UnitTest")):
+        if(args.port in ("Windows", "windows")):
+            buildRunnerWindows(workspace, "debug")
+        if(args.port in ("STM32F4","stm32f4")):
+            buildRunnerSTM32(workspace, "debug")
+        if(args.port in ("standalone", "StandAlone", "Standalone")):
+            buildRunnerStandalone(workspace, "debug")
+        if(args.port in ("UnitTest", "unittest", "Unittest")):
             buildRunnerCeedling()
+        if(args.release in ("Windows", "windows")):
+            buildRunnerWindows(workspace, "release")
+        if(args.release in ("STM32F4", "stm32f4")):
+            buildRunnerSTM32(workspace, "release")
+        if(args.release in ("standalone", "StandAlone", "Standalone")):
+            buildRunnerStandalone(workspace, "release")
     except Exception as unwantedBehavior:
         print(unwantedBehavior)
 

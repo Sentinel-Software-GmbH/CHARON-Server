@@ -26,43 +26,60 @@ https://drive.google.com/file/d/1WDjvAKW8tA1s4Mtgc6YLVcqvCr4p2PGO/view?usp=shari
 # Building Tools and small How To:
 
 ### CMAKE:
-For CMAKE use this Pattern in your Build folder:
+For CMAKE use one of the predefined pattern in your build folder as example:
 
+If you want to build your port in a build folder that is outside your project folder:
 ```
-cmake ../uds_server --preset=Windows
+cmake ../uds_server --preset=Windows    
+```
+If you want to build your port in a build folder that is inside your project folder:
+```
+cmake ../ --preset=Windows 
+```
+The command above causes CMake to configure the windows port as debug build.
+Use ninja after configuring CMake to build your desired port.
 
-```
 If you want to switch Ports without deleting the full build folder then follow the steps.
 
 Step 1:
-Navigate to your build folder and find and delete the CMakeCache.txt.
+Navigate to your build folder then find and delete the "CMakeCache.txt" if it exists.
 
 Step 2:
-Find the and delete the CMakeFiles folder.
+Find and delete the "CMakeFiles" folder in your build folder if it exits.
 
 Step 3:
-Open cmd in your build folder and use the pattern below(use the Port you like to build).
+Open cmd in your build folder and use one of the pattern below(use the Port you like to build).
 The previous steps causes CMake to reconfigure the project and swapping compilers. 
 Then use ninja to build.
 
 ### Ceedling:
 Navigate to the Port folder and use one of the Ports.
-Use ceedling release to build .exe or .elf.
+Open cmd in the chosen port folder then use "ceedling release" ind your cmd to build .exe or .elf.
 
 
-### runBuilder:
-You can use the runBuilder.cmd to run and configure cmake and ninja for you.
-To Use the runBuilder open a cmd in your Project folder and use:
+### runCharonBuilder:
+You can use the runCharonBuilder.cmd to run and configure cmake and ninja for you.
+To Use the runCharonBuilder open a cmd in your project folder and use:
 ```
-runBuilder.cmd --port Windows
+runCharonBuilder.cmd --port Windows
 ```
-The command above will create a build folder outside your project folder and will configure cmake to for the Windows Port,
+The command above will create a debug build folder inside your project folder. After that it will configure cmake to for the Windows Port,
 it will also run ninja.
+You can choose between debug and release build, to create a release build use the command below.
+```
+runCharonBuilder.cmd --release Windows
+```
+The command above will also create a release build folder.
 The command for the other ports are the same as the cmake presets.
+If you like you can use:
+```
+runCharonBuilder.cmd --port unittest
+```
+The command above will create a build folder and run ceedling to create unit tests. 
 
 ## Note
 standalone build will only create a library without any port dependencies.
-All builds containing debug information for release build you need to use:
+All CMake presets containing debug information, if you want a release build you need to use:
 
 ```
 cmake ../uds_server --preset=Windows -DCMAKE_BUILD_TYPE=Release
@@ -78,5 +95,5 @@ standalone
 ## Supported Ports:
 ```
 Windows
-STM32F4
+STM32F4-Discovery
 ```
