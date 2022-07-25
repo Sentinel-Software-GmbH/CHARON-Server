@@ -47,9 +47,9 @@
 
 /* Macros ********************************************************************/
 
-#define CHARON_CONFIG_DO_NOT_PRINT_WELCOME 0
+#define CHARON_CONFIG_DO_NOT_PRINT_WELCOME 1
 #define CHARON_CONFIG_IS_BIG_ENDIAN 1
-#define CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION 1
+#define CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION 0
 
 /* Types *********************************************************************/
 

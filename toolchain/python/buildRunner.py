@@ -108,7 +108,6 @@ def buildRunnerCeedling():
     cmakeAndNinja(cmdStream,False)
 
 
-
 def mainRunner():
     args = argParser()
     workspace = os.getcwd()
