@@ -26,16 +26,17 @@ https://drive.google.com/file/d/1WDjvAKW8tA1s4Mtgc6YLVcqvCr4p2PGO/view?usp=shari
 # Building Tools and small How To:
 
 ### CMAKE:
-For CMAKE use one of the predefined pattern in your build folder as example:
+For CMAKE you have to create a build folder. After that you can use one of the predefined pattern in your build folder:
 
-If you want to build your port in a build folder that is outside your project folder:
+If you want to build a charon port in a build folder that is created outside your project folder:
 ```
 cmake ../uds_server --preset=Windows    
 ```
-If you want to build your port in a build folder that is inside your project folder:
+If you want to build a charon port in a build folder that is created inside your project folder:
 ```
 cmake ../ --preset=Windows 
 ```
+
 The command above causes CMake to configure the windows port as debug build.
 Use ninja after configuring CMake to build your desired port.
 
@@ -53,9 +54,10 @@ The previous steps causes CMake to reconfigure the project and swapping compiler
 Then use ninja to build.
 
 ### Ceedling:
-Navigate to the Port folder and use one of the Ports.
-Open cmd in the chosen port folder then use "ceedling release" ind your cmd to build .exe or .elf.
-
+You can use ceedling to build Unit Tests and the supported charon ports.
+To build a port navigate to the port folder and use one of the Ports.
+Open cmd in the chosen port folder then use "ceedling release" in your cmd to build .exe or .elf.
+To build Unit Tests open cmd in your project folder and use "ceedling.cmd". 
 
 ### runCharonBuilder:
 You can use the runCharonBuilder.cmd to run and configure cmake and ninja for you.
