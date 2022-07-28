@@ -34,11 +34,6 @@
 #include "ISocket.h"
 #include "charon_interface_debug.h"
 
-
-#define DEBUGGING 1
-#define FILL_NVM_AUTOMATIC 1
-
-
 #if DEBUGGING
 #include "charon_StoredDataTransmissionFunctionalUnit.h"
 #include "charon_interface_NvmDriver.h"
