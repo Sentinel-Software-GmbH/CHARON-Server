@@ -17,6 +17,7 @@ target_link_libraries(charon_ServiceLookupTable
   charon_RoutineFunctionalUnit
   charon_UploadDownloadFunctionalUnit
   charon_InputOutputControlFunctionalUnit
+  charon_StoredDataTransmissionFunctionalUnit
   Socket
   Common
 )

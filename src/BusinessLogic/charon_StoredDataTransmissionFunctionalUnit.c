@@ -35,11 +35,11 @@
 #include <stdint.h>
 #include <string.h>
 #include "charon_types.h"
-#include "charon_SessionAndSerivceControl.h"
+#include "charon_SessionAndServiceControl.h"
 #include "charon_StoredDataTransmissionFunctionalUnit.h"
-#include "Charon_DTC_LookupTable.h"
+#include "charon_DTC_LookupTable.h"
 #include "charon_negativeResponse.h"
-#include "Common/charon_types.h"
+#include "charon_types.h"
 #include "charon_interface_NvmDriver.h"
 
 /* Imports *******************************************************************/

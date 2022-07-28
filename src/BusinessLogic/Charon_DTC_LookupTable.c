@@ -33,7 +33,7 @@
 /* Includes ******************************************************************/
 #include <stdint.h>
 #include "charon_types.h"
-#include "Charon_DTC_LookupTable.h"
+#include "charon_DTC_LookupTable.h"
 #include "charon_StoredDataTransmissionFunctionalUnit.h"
 #include "charon_interface_NvmDriver.h"
 

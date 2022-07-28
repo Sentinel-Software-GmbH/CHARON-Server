@@ -38,6 +38,7 @@
 #include "charon_RoutineFunctionalUnit.h"
 #include "charon_UploadDownloadFunctionalUnit.h"
 #include "charon_InputOutputControlFunctionalUnit.h"
+#include "charon_StoredDataTransmissionFunctionalUnit.h"
 
 /* Imports *******************************************************************/
 

@@ -37,7 +37,7 @@
 #include <stdio.h>
 
 #include "ISocket.h"
-#include "HSDI/charon_interface_debug.h"
+#include "charon_interface_debug.h"
 
 
 /* Imports *******************************************************************/

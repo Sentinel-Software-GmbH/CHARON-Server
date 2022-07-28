@@ -40,7 +40,7 @@
 
 
 #if DEBUGGING
-#include "BusinessLogic/charon_StoredDataTransmissionFunctionalUnit.h"
+#include "charon_StoredDataTransmissionFunctionalUnit.h"
 #include "charon_interface_NvmDriver.h"
 #endif
 

@@ -94,10 +94,12 @@ add_library(charon_StoredDataTransmissionFunctionalUnit
 target_include_directories(charon_StoredDataTransmissionFunctionalUnit
 INTERFACE PUBLIC
   ${PROJECT_SOURCE_DIR}/include/BusinessLogic/StoredDataTransmissionFunctionalUnit
-  )
+)
  target_link_libraries(charon_StoredDataTransmissionFunctionalUnit
-   PRIVATE
+   PUBLIC
    Common
+   ComLogic
+   charon_DTC_LookupTable
  ) 
 
 
@@ -105,11 +107,11 @@ add_library(charon_UploadDownloadFunctionalUnit
   ${CMAKE_CURRENT_LIST_DIR}/charon_UploadDownloadFunctionalUnit.c
 )
 target_include_directories(charon_UploadDownloadFunctionalUnit
-INTERFACE PUBLIC
+  INTERFACE PUBLIC
   ${PROJECT_SOURCE_DIR}/include/BusinessLogic/UploadDownloadFunctionalUnit
 )
 target_link_libraries(charon_UploadDownloadFunctionalUnit
-PRIVATE
+  PRIVATE
   HSDI
   Interface
   charon_SessionAndServiceControl
@@ -117,6 +119,22 @@ PRIVATE
   Socket
   ${CHARON_CONFIG}
 )
+
+
+add_library(charon_DTC_LookupTable 
+  ${CMAKE_CURRENT_LIST_DIR}/charon_DTC_LookupTable.c
+)
+target_include_directories(charon_DTC_LookupTable
+  INTERFACE PUBLIC
+  ${PROJECT_SOURCE_DIR}/include/BusinessLogic/DTCLookupTable 
+)
+target_link_libraries(charon_DTC_LookupTable
+  PRIVATE
+  Common
+  charon_StoredDataTransmissionFunctionalUnit
+  HSDI
+)
+
 
 
 add_library(${MODULE_NAME}
@@ -127,6 +145,7 @@ add_library(${MODULE_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/charon_RoutineFunctionalUnit.c
   ${CMAKE_CURRENT_LIST_DIR}/charon_StoredDataTransmissionFunctionalUnit.c
   ${CMAKE_CURRENT_LIST_DIR}/charon_UploadDownloadFunctionalUnit.c
+  ${CMAKE_CURRENT_LIST_DIR}/charon_DTC_LookupTable.c
 )
 target_include_directories(${MODULE_NAME} 
   INTERFACE PUBLIC
@@ -137,6 +156,7 @@ target_include_directories(${MODULE_NAME}
   ${CHARON_SOURCE_DIR}/include/BusinessLogic/RoutineFunctionalUnit
   ${CHARON_SOURCE_DIR}/include/BusinessLogic/StoredDataTransmissionFunctionalUnit
   ${CHARON_SOURCE_DIR}/include/BusinessLogic/UploadDownloadFunctionalUnit
+  ${CHARON_SOURCE_DIR}/include/BusinessLogic/DTCLookupTable
 )
 target_link_libraries(${MODULE_NAME} 
   PUBLIC
