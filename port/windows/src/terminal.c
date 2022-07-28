@@ -21,8 +21,8 @@
  * @addtogroup Windows Port
  * @{
  * @file terminal.c
- * Implementation of the Service and Session Control Module
- *
+ * Implementation of the Terminal output
+ * 
  * $Id:  $
  * $URL:  $
  * @}
@@ -51,11 +51,20 @@
 /* Variables *****************************************************************/
 
 /* Private Function Definitions **********************************************/
+
 static int32_t terminal_receive (uint8_t *buffer, uint32_t length);
 static int32_t terminal_numAvailableBytes (void);
 static int32_t terminal_send(const uint8_t *data, uint32_t length);
 
 /* Interfaces  ***************************************************************/
+
+ISocket_t terminal_socket = {
+    .numAvailableBytes = terminal_numAvailableBytes,
+    .receive = terminal_receive,
+    .transmit = terminal_send
+};
+
+/* Private Function **********************************************************/
 
 static int32_t terminal_numAvailableBytes (void)
 {
@@ -89,16 +98,5 @@ static int32_t terminal_send(const uint8_t *data, uint32_t length)
 
     return length;
 }
-
-ISocket_t terminal_socket = {
-    .numAvailableBytes = terminal_numAvailableBytes,
-    .receive = terminal_receive,
-    .transmit = terminal_send
-};
-
-/* Private Function **********************************************************/
-
-
-
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

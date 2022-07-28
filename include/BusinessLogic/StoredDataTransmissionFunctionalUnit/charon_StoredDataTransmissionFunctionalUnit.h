@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Florian Kaup
+ *  Copyright (C) 2022 Florian Schöner
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -98,15 +98,30 @@ typedef PACKED_STRUCT(DTC_t_public)            //                               
     uint8_t DTCHighByte;                        //    H + M + L = DTCMaskRecord                                                                                                  [ISO 11.3.2.3 S=198]
     uint8_t DTCMiddleByte;                      // 3-byte value, together represent a unique identification number for a specific diagnostic trouble code
     uint8_t DTCLowByte;                         // 
-    uint8_t DTCSnapshotRecorNumber;             // 0x01-0xFE manufacturer specific usage, 0xFF = report all stored records at once.                     [ISO 11.3.2.3 S=198]
+    uint8_t DTCSnapshotRecordNumber;             // 0x01-0xFE manufacturer specific usage, 0xFF = report all stored records at once.                     [ISO 11.3.2.3 S=198]
     uint8_t DTCStoredDataRecordNumber;          // 0x01-0xFE manufacturer specific usage, 0xFF = report all stored records at once.                     [ISO 11.3.2.3 S=198]
     uint8_t DTCExtDataRecordNumber;             // 0x01-0x8F manufacturer specific records, 0x90-0xEF report legislated OBD records,                    [ISO 11.3.2.3 S=199]
                                                 // 0xFE report all legislated OBD in a single message, 0xFF report all records.
     uint8_t DTCSeverityMaskRecordHigh;          // = DTCSeverityMask
     uint8_t DTCSeverityMaskRecordLow;           // = DTCStatusMask 
     uint8_t DTCSeverityMask;                    // Bit 0-4 def: DTC class information, Bit 5-7 def: DTC severity information                            [ISO D.3 S=366]
-    uint8_t FunctionalGroupidentifier;          // 0x33 = Emission, 0xD0 = Safety, 0xFE = VOBD, 0xFF = ALL                                              [ISO D.5 S=369]
+    uint8_t FunctionalGroupIdentifier;          // 0x33 = Emission, 0xD0 = Safety, 0xFE = VOBD, 0xFF = ALL                                              [ISO D.5 S=369]
     uint32_t MemorySelection;                   // 
+    
+    uint16_t DTCSnapshot1_length;               //
+    uint32_t DTCSnapshot1_address;              //
+    uint16_t DTCSnapshot2_length;               //
+    uint32_t DTCSnapshot2_address;              //
+    uint16_t DTCSnapshot3_length;               //
+    uint32_t DTCSnapshot3_address;              //
+
+    uint16_t DTCStoredData_length;              //
+    uint32_t DTCStoredData_address;             //
+
+    uint16_t DTCExternData_length;              //
+    uint32_t DTCExternData_address;             //
+
+    uint16_t reserved;                          //
 }DTC_t;
 
 
@@ -134,6 +149,7 @@ uds_responseCode_t charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticIn
  */
 uds_responseCode_t charon_StoredDataTransmissionFunctionalUnit_ReadDtcInformation (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+
 /**
  * used to input or change a DTC in the Nvm 
  * default for DTCnumber is 0 and will add a new DTC, if you want to change a specific DTC you will need to input the DTCnumber 
@@ -141,20 +157,26 @@ uds_responseCode_t charon_StoredDataTransmissionFunctionalUnit_ReadDtcInformatio
  * 
  * DTCnumber CAN'T be used to generate new DTC!
  * 
- * @param DTCnumber                     0 for defult, Number to edit DTC
- * @param StatusMask                    Bitstatus mask 
+ * @param DTCnumber                     0 for default, Number to edit DTC
+ * @param StatusMask                    Bit status mask 
  * @param HighByte                      Part of the 24 bit DTC identification number
  * @param MiddleByte                    Part of ...
  * @param LowByte                       Part of ...
- * @param SnapshotRecorNumber           0x01 - 0xFE to store the DTC snapshot record number
+ * @param SnapshotRecordNumber           0x01 - 0xFE to store the DTC snapshot record number
  * @param StoredDataRecordNumber        0x01 - 0xFE to store the DTC data record number
  * @param ExtDataRecordNumber           Storage for extern data
  * @param SeverityMask                  Bit 7-5 for severity, Bit 4-0 for DTC class information
- * @param FunctionalGroupidentifier     ISO 14229-1 S369  (or D.5)
- * @return uds_responseCode_t               
+ * @param FunctionalGroupIdentifier     ISO 14229-1 S369  (or D.5)
+ * @param DTCSnapshot1_length           Length of Snapshot1 Data
+ * @param DTCSnapshot2_length           Length of Snapshot2 Data
+ * @param DTCSnapshot3_length           Length of Snapshot3 Data
+ * @param DTCStoredData_length          Length of DTCStored Data 
+ * @param DTCExternData_length          Length of Extern Data 
+ * @return uds_responseCode_t 
  */
 uds_responseCode_t charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm (uint32_t DTCnumber, uint8_t StatusMask, uint8_t HighByte, uint8_t MiddleByte, uint8_t LowByte,
-    uint8_t SnapshotRecorNumber, uint8_t StoredDataRecordNumber, uint8_t ExtDataRecordNumber, uint8_t SeverityMask, uint8_t FunctionalGroupidentifier);
+    uint8_t SnapshotRecordNumber, uint8_t StoredDataRecordNumber, uint8_t ExtDataRecordNumber, uint8_t SeverityMask, uint8_t FunctionalGroupIdentifier, uint16_t DTCSnapshot1_length,
+    uint16_t DTCSnapshot2_length, uint16_t DTCSnapshot3_length, uint16_t DTCStoredData_length, uint16_t DTCExternData_length );
 
 /**
  * Gets the amount of stored DTC.

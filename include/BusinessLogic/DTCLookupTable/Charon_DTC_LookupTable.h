@@ -21,9 +21,9 @@
  * @defgroup BusinessLogic Business Logic
  * @{
  * @file charon_SessionAndServiceControl.h
- * This Module handles the Receive and Transfer of the charon uds stack data.
- * It Controls encryption and checks for all demanded Timeouts.
- *
+ * This Module handles the DTC masks and provides the DTC Funktions
+ * 
+ * 
  * $Id:  $
  * $URL:  $
  * @}
@@ -70,7 +70,7 @@
 /**
  * Returns DTC status availability mask.
  * 
- * @return uint8_t 
+ * @return uint8_t witch contains the DTC status availability Mask
  */
 uint8_t charon_getDTCStatusAvailabilityMask(void);
 
