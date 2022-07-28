@@ -1,6 +1,6 @@
-/*
+/**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Andreas Hofmann
+ *  Copyright (C) 2022 Florian Kaup
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @addtogroup Windows Port
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file timer.c
+ * Implementation of timer functions
  *
  * $Id:  $
  * $URL:  $
@@ -32,10 +32,8 @@
 
 /* Includes ******************************************************************/
 
-#include <unity.h>
-#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndServiceControl.h"
+#include "charon_interface_clock.h"
+#include <time.h>
 
 /* Imports *******************************************************************/
 
@@ -51,14 +49,14 @@
 
 /* Interfaces  ***************************************************************/
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
+uint32_t charon_interface_clock_getTime(void)
 {
-
+    return clock()*1000/CLOCKS_PER_SEC;
 }
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
+uint32_t charon_interface_clock_getTimeElapsed(uint32_t timestamp)
 {
-
+    return clock()*1000/CLOCKS_PER_SEC - timestamp;
 }
 
 /* Private Function **********************************************************/

@@ -1,6 +1,6 @@
-/*
+/**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Andreas Hofmann
+ *  Copyright (C) 2022 Florian Kaup
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,24 +18,24 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @addtogroup Windows Port
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file charon_interface_debug.c
+ * Implementation of debug interface
  *
  * $Id:  $
  * $URL:  $
  * @}
  * @}
- */
-/*****************************************************************************/
+ *
+**/
 
 /* Includes ******************************************************************/
 
-#include <unity.h>
-#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndServiceControl.h"
+#include "charon_interface_debug.h"
+#include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
 
 /* Imports *******************************************************************/
 
@@ -51,14 +51,61 @@
 
 /* Interfaces  ***************************************************************/
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
+void CHARON_INFO (char *x, ...)
 {
+    /* Declare a va_list type variable */
+    va_list myargs;
+    char catArray[512];
 
+    /* Initialise the va_list variable with the ... after fmt */
+    va_start(myargs, x);
+
+    snprintf(catArray, 512, "[CHARON_INFO] %s\n\r", x);
+
+    /* Forward the '...' to vprintf */
+    vprintf(catArray, myargs);
+    fflush(stdout);
+
+    /* Clean up the va_list */
+    va_end(myargs);
 }
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
+void CHARON_WARNING (char *x, ...)
 {
+    /* Declare a va_list type variable */
+    va_list myargs;
+    char catArray[512];
 
+    /* Initialise the va_list variable with the ... after fmt */
+    va_start(myargs, x);
+
+    snprintf(catArray, 512, "[CHARON_WARNING] %s\n\r", x);
+
+    /* Forward the '...' to vprintf */
+    vprintf(catArray, myargs);
+    fflush(stdout);
+
+    /* Clean up the va_list */
+    va_end(myargs);
+}
+
+void CHARON_ERROR (char *x, ...)
+{
+    /* Declare a va_list type variable */
+    va_list myargs;
+    char catArray[512];
+
+    /* Initialise the va_list variable with the ... after fmt */
+    va_start(myargs, x);
+
+    snprintf(catArray, 512, "[CHARON_ERROR] %s\n\r", x);
+
+    /* Forward the '...' to vprintf */
+    vprintf(catArray, myargs);
+    fflush(stdout);
+
+    /* Clean up the va_list */
+    va_end(myargs);
 }
 
 /* Private Function **********************************************************/

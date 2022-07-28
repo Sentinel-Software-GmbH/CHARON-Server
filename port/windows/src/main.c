@@ -1,7 +1,6 @@
-/*
+/**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Andreas Hofmann
- *
+ *  Copyright (C) 2022 Florian Kaup
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
@@ -18,10 +17,9 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @addtogroup Port
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file main.c
  *
  * $Id:  $
  * $URL:  $
@@ -32,12 +30,16 @@
 
 /* Includes ******************************************************************/
 
-#include <unity.h>
-#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndServiceControl.h"
+#include "charon_uds.h"
+#include "ISocket.h"
+#include "charon_interface_debug.h"
 
 /* Imports *******************************************************************/
+
+extern void pipe_init (void);
+extern ISocket_t pipe_socket;
+extern void uart_init (void);
+extern ISocket_t uart_socket;
 
 /* Constants *****************************************************************/
 
@@ -51,19 +53,16 @@
 
 /* Interfaces  ***************************************************************/
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
+int main (void)
 {
-
-}
-
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
-{
-
+    pipe_init();
+    charon_init(pipe_socket);
+    CHARON_INFO("CharonUDS Initialized...");
+    while (1)
+    {
+        charon_task();
+    }
+    return 0;
 }
 
 /* Private Function **********************************************************/
-
-
-
-
-/*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

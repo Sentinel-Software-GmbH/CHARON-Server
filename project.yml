@@ -9,7 +9,7 @@
   :use_exceptions: FALSE
   :use_test_preprocessor: TRUE
   :use_auxiliary_dependencies: TRUE
-  :build_root: build
+  :build_root: build/ceedling
   :compile_threads: <%= ENV['NUMBER_OF_PROCESSORS'] %>
 #  :release_build: TRUE
   :test_file_prefix: test_
@@ -30,7 +30,10 @@
   :test:
     - test/**
   :source:
-    - src/Library/**
+    - src/**
+  :include:
+    - include/**
+    - test/config/**
 
 :defines:
   # in order to add common defines:

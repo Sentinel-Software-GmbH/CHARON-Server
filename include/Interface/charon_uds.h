@@ -1,4 +1,4 @@
-/*
+/**
  *  Sentinel Software GmbH
  *  Copyright (C) 2022 Andreas Hofmann
  *
@@ -18,10 +18,11 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @defgroup Interface
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file charon_uds
+ * This Module Contains All Interfaces provided to the Application to Handle the
+ * CharonUDS Stack.
  *
  * $Id:  $
  * $URL:  $
@@ -30,14 +31,14 @@
  */
 /*****************************************************************************/
 
+#ifndef CHARON_H_
+#define CHARON_H_
+
 /* Includes ******************************************************************/
 
-#include <unity.h>
-#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndServiceControl.h"
-
-/* Imports *******************************************************************/
+#include <stdint.h>
+#include "ISocket.h"
+#include "charon_config.h"
 
 /* Constants *****************************************************************/
 
@@ -45,25 +46,14 @@
 
 /* Types *********************************************************************/
 
-/* Variables *****************************************************************/
+/* Interfaces ****************************************************************/
 
-/* Private Function Definitions **********************************************/
+void charon_reset (void);
 
-/* Interfaces  ***************************************************************/
+void charon_init (ISocket_t systemCommunicationSocket);
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
-{
+void charon_task (void);
 
-}
-
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
-{
-
-}
-
-/* Private Function **********************************************************/
-
-
-
+#endif /* CHARON_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

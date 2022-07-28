@@ -1,4 +1,4 @@
-/*
+/**
  *  Sentinel Software GmbH
  *  Copyright (C) 2022 Andreas Hofmann
  *
@@ -14,14 +14,13 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-/**
+ *
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @defgroup ComLogic
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file charon_SessionAndServiceControl.h
+ * Only dummy file for charon standalone version without dependencies to any port.
  *
  * $Id:  $
  * $URL:  $
@@ -30,14 +29,11 @@
  */
 /*****************************************************************************/
 
+#ifndef CHARON_DUMMY_H_
+#define CHARON_DUMMY_H_
+
 /* Includes ******************************************************************/
-
-#include <unity.h>
-#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndServiceControl.h"
-
-/* Imports *******************************************************************/
+#include <stdio.h>
 
 /* Constants *****************************************************************/
 
@@ -45,25 +41,9 @@
 
 /* Types *********************************************************************/
 
-/* Variables *****************************************************************/
+/* Interfaces ****************************************************************/
+int charonDummy();
 
-/* Private Function Definitions **********************************************/
-
-/* Interfaces  ***************************************************************/
-
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
-{
-
-}
-
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
-{
-
-}
-
-/* Private Function **********************************************************/
-
-
-
+#endif /* CHARON_DUMMY_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

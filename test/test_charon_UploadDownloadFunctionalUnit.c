@@ -33,10 +33,10 @@
 /* Includes ******************************************************************/
 
 #include <unity.h>
-#include "BusinessLogic/charon_UploadDownloadFunctionalUnit.h"
+#include "charon_UploadDownloadFunctionalUnit.h"
 #include "mock_charon_interface_NvmDriver.h"
 #include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndSerivceControl.h"
+#include "mock_charon_SessionAndServiceControl.h"
 
 /* Imports *******************************************************************/
 

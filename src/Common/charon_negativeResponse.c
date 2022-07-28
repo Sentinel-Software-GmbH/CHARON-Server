@@ -1,6 +1,6 @@
-/*
+/**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Andreas Hofmann
+ *  Copyright (C) 2022 Florian Kaup
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @addtogroup Common
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file charon_negativeResponse.c
+ * This Module handles the Transfer of the negative Response message.
  *
  * $Id:  $
  * $URL:  $
@@ -30,12 +30,12 @@
  */
 /*****************************************************************************/
 
-/* Includes ******************************************************************/
+/* Interfaces ****************************************************************/
 
-#include <unity.h>
-#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndServiceControl.h"
+#include "charon_negativeResponse.h"
+#include "charon_SessionAndServiceControl.h"
+#include "charon_ServiceLookupTable.h"
+#include "charon_interface_debug.h"
 
 /* Imports *******************************************************************/
 
@@ -51,14 +51,11 @@
 
 /* Interfaces  ***************************************************************/
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
+void charon_sendNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid)
 {
-
-}
-
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
-{
-
+    CHARON_INFO("Sending error message %s (0x%x) for SID %s (0x%x)", charon_ServiceLookupTable_getNameForReturnCode(ResponseCode), (uint8_t)ResponseCode, charon_ServiceLookupTable_getNameForServiceSid((uint8_t)RequestedSid), (uint8_t)RequestedSid);
+    uint8_t transmitBuffer[3] = {(uint8_t)uds_sid_NegativeResponse, (uint8_t)RequestedSid, (uint8_t)ResponseCode};
+    charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
 }
 
 /* Private Function **********************************************************/

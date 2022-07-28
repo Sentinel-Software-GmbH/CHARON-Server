@@ -1,6 +1,6 @@
-/*
+/**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Andreas Hofmann
+ *  Copyright (C) 2020 Andreas Hofmann
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @addtogroup Socket
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file DevNullSocket.c
+ * Implementation of NULL Socket.
  *
  * $Id:  $
  * $URL:  $
@@ -32,10 +32,7 @@
 
 /* Includes ******************************************************************/
 
-#include <unity.h>
-#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndServiceControl.h"
+#include "DevNullSocket.h"
 
 /* Imports *******************************************************************/
 
@@ -49,21 +46,35 @@
 
 /* Private Function Definitions **********************************************/
 
+static int32_t DevNull_numOfData(void);
+static int32_t DevNull_receive(uint8_t *buf, uint32_t len);
+static int32_t DevNull_transmit(const uint8_t *buf, uint32_t len);
+
 /* Interfaces  ***************************************************************/
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
+const ISocket_t DevNullSocket =
 {
-
-}
-
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
-{
-
-}
+        DevNull_numOfData,
+        DevNull_receive,
+        DevNull_transmit
+};
 
 /* Private Function **********************************************************/
 
+static int32_t DevNull_numOfData(void)
+{
+    return 0;
+}
 
+static int32_t DevNull_receive(uint8_t *buf, uint32_t len)
+{
+    return 0;
+}
 
+static int32_t DevNull_transmit(const uint8_t *buf, uint32_t len)
+{
+    return len;
+}
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
+

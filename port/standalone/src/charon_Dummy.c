@@ -1,4 +1,4 @@
-/*
+/**
  *  Sentinel Software GmbH
  *  Copyright (C) 2022 Andreas Hofmann
  *
@@ -18,10 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @addtogroup ComLogic
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file charon_SessionAndServiceControl.c
+ * Only dummy file for charon standalone version without dependencies to any port.
  *
  * $Id:  $
  * $URL:  $
@@ -32,10 +32,10 @@
 
 /* Includes ******************************************************************/
 
-#include <unity.h>
-#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndServiceControl.h"
+
+#include "charon_Dummy.h"
+#include "charon_uds.h"
+#include "charon_interface_debug.h"
 
 /* Imports *******************************************************************/
 
@@ -51,15 +51,24 @@
 
 /* Interfaces  ***************************************************************/
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
-{
-
+int main()
+ {
+    charonDummy();
+    CHARON_INFO("CharonUDS reset is coming soon...");
+    while (1)
+    {
+        charon_reset();
+    }
+    return 0;
 }
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
+int charonDummy()
 {
-
+  printf("Welcome to Charon Server\n");
+  return 0;
 }
+
+
 
 /* Private Function **********************************************************/
 

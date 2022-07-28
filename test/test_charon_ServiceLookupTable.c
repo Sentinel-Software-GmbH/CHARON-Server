@@ -33,7 +33,7 @@
 /* Includes ******************************************************************/
 
 #include <unity.h>
-#include "ComLogic/charon_ServiceLookupTable.h"
+#include "charon_ServiceLookupTable.h"
 #include "mock_charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "mock_charon_RoutineFunctionalUnit.h"
 #include "mock_charon_UploadDownloadFunctionalUnit.h"

@@ -1,0 +1,61 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "BASE",
+            "displayName": "BASE",
+            "description": "Default build arguments",
+            "hidden": true,
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "toolchainFile": "${sourceDir}/toolchain/cmake/GCC.cmake"
+        },
+        {
+            "name": "Windows",
+            "displayName": "Port - Windows",
+            "description": "Building the exe file for Windows",
+            "inherits": "BASE",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Windows",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_ASM_COMPILER": "gcc",
+                "CMAKE_OBJCOPY": "objcopy",
+                "CMAKE_OBJDUMP": "objdump",
+                "PORT": "Windows",
+                "CHARON_CONFIG": "Windows"
+            }
+        },
+        {
+            "name": "STM32F4",
+            "displayName": "Port - STM32F4",
+            "description": "Building the elf file for STM32F4",
+            "inherits": "BASE",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Generic",
+                "CMAKE_SYSTEM_PROCESSOR ": "armv7-m",
+                "CMAKE_C_COMPILER": "arm-none-eabi-gcc",
+                "CMAKE_ASM_COMPILER": "arm-none-eabi-gcc",
+                "CMAKE_OBJDUMP": "arm-none-eabi-objdump",
+                "PORT": "STM32F4",
+                "CHARON_CONFIG": "F4Config"
+            }
+        },
+        {
+            "name": "standalone",
+            "displayName": "Port - standalone",
+            "description": "Building standalone charon library",
+            "inherits": "BASE",
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Generic",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_ASM_COMPILER": "gcc",
+                "CMAKE_OBJDUMP": "objdump",
+                "PORT": "standalone",
+                "CHARON_CONFIG": "standalone"
+            }
+        }
+       
+    ]
+}

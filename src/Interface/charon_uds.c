@@ -1,4 +1,4 @@
-/*
+/**
  *  Sentinel Software GmbH
  *  Copyright (C) 2022 Andreas Hofmann
  *
@@ -18,10 +18,10 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @addtogroup Interface
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file charon_uds
+ * Implementation of Application Interfaces
  *
  * $Id:  $
  * $URL:  $
@@ -32,10 +32,14 @@
 
 /* Includes ******************************************************************/
 
-#include <unity.h>
+#include "charon_uds.h"
 #include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndServiceControl.h"
+#include "charon_UploadDownloadFunctionalUnit.h"
+#include "charon_SessionAndServiceControl.h"
+#if (!(CHARON_CONFIG_DO_NOT_PRINT_WELCOME))
+#include "charon_interface_debug.h"
+#include "charon_logo.h"
+#endif
 
 /* Imports *******************************************************************/
 
@@ -49,21 +53,61 @@
 
 /* Private Function Definitions **********************************************/
 
+#if (!(CHARON_CONFIG_DO_NOT_PRINT_WELCOME))
+/**
+ * @brief Print Welcome Message to Output
+ * As means for Open source just starters and for Demonstration
+ * Purposes.
+ * Can be disabled.
+ */
+static void printUnnecessaryLargeWelcome (void);
+#endif
+
 /* Interfaces  ***************************************************************/
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
-{
 
+void charon_reset (void)
+{
+    charon_sscReset();
+    charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset();
+    charon_UploadDownloadFunctionalUnit_reset();
 }
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
+void charon_init (ISocket_t systemCommunicationSocket)
 {
+    charon_reset();
+    charon_sscInit(systemCommunicationSocket);
+#if (!(CHARON_CONFIG_DO_NOT_PRINT_WELCOME))
+    printUnnecessaryLargeWelcome();
+#endif
+}
 
+void charon_task (void)
+{
+    // TODO think about putting charon_sscRcvMessage into charon_sscCyclic
+
+    /* Process Received Data */
+    charon_sscRcvMessage();
+
+    /* Process SSC Layer */
+    charon_sscCyclic();
+
+    /* Reset library if session has ended */
+    if (charon_sscGetSession() == charon_sscType_timedOut)
+    {
+        charon_reset();
+    }
+
+    return;
 }
 
 /* Private Function **********************************************************/
 
-
-
-
+#if (!(CHARON_CONFIG_DO_NOT_PRINT_WELCOME))
+static void printUnnecessaryLargeWelcome (void)
+{
+    PRINT_CHARON_LOGO_ON_LOG_OUT();
+}
+#endif
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
+

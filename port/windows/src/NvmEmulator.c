@@ -1,6 +1,6 @@
-/*
+/**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Andreas Hofmann
+ *  Copyright (C) 2022 Florian Kaup
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -18,24 +18,26 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup test
+ * @addtogroup Windows Port
  * @{
- * @file test_charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
- * Implementation of unit tests for charon_DiagnosticAndCommunicationManagementFunctionalUnit
+ * @file NVMEmulator.c
+ * Implementation of NVM Emutation Module
  *
  * $Id:  $
  * $URL:  $
  * @}
  * @}
+ * NvmEmulator.c
+ *
+ *  Created on: 08.07.2020
+ *      Author: Florian Kaup
  */
 /*****************************************************************************/
 
 /* Includes ******************************************************************/
 
-#include <unity.h>
-#include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
-#include "mock_charon_negativeResponse.h"
-#include "mock_charon_SessionAndServiceControl.h"
+#include "charon_interface_NvmDriver.h"
+#include <string.h>
 
 /* Imports *******************************************************************/
 
@@ -47,18 +49,34 @@
 
 /* Variables *****************************************************************/
 
+static uint8_t NvmEmulator_MemorySpace[2*1024*1024];
+
 /* Private Function Definitions **********************************************/
 
 /* Interfaces  ***************************************************************/
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_sendAdditionalParameters_returnsIncorrectMessageLength (void)
+bool charon_NvmDriver_checkAddressRange (uint32_t address, uint32_t length)
 {
-
+    return (address + length) < sizeof(NvmEmulator_MemorySpace);
 }
 
-void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl_ok_returnsTimingParameters (void)
-{
 
+uds_responseCode_t charon_NvmDriver_write (uint32_t address, const uint8_t* data, uint32_t size)
+{
+    memcpy(&NvmEmulator_MemorySpace[address], data, size);
+    return uds_responseCode_PositiveResponse;
+}
+
+
+void charon_NvmDriver_read (uint32_t address, uint8_t* data, uint32_t size)
+{
+    memcpy(data, &NvmEmulator_MemorySpace[address], size);
+}
+
+
+void charon_NvmDriver_erase (void)
+{
+    memset(NvmEmulator_MemorySpace, 0xFF, sizeof(NvmEmulator_MemorySpace));
 }
 
 /* Private Function **********************************************************/
