@@ -1,10 +1,6 @@
 /**
  *  Sentinel Software GmbH
-<<<<<<< HEAD:src/BusinessLogic/charon_DataLookupTable.c
- *  Copyright (C) 2022 Andreas Hofmann
-=======
  *  Copyright (C) 2022 Florian Schöner
->>>>>>> 7f10c7e (Squashed Commit of Flos and Renes DTC and DID stuff.):src/Library/BusinessLogic/charon_DataLookupTable.c
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by

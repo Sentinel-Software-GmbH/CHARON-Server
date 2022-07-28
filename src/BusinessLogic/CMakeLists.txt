@@ -95,10 +95,10 @@ target_include_directories(charon_StoredDataTransmissionFunctionalUnit
 INTERFACE PUBLIC
   ${PROJECT_SOURCE_DIR}/include/BusinessLogic/StoredDataTransmissionFunctionalUnit
   )
-# target_link_libraries(charon_StoredDataTransmissionFunctionalUnit
-#   PRIVATE
-
-# ) will be added when implemented
+ target_link_libraries(charon_StoredDataTransmissionFunctionalUnit
+   PRIVATE
+   Common
+ ) 
 
 
 add_library(charon_UploadDownloadFunctionalUnit
