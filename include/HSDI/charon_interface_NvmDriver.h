@@ -87,6 +87,21 @@ void charon_NvmDriver_read (uint32_t address, uint8_t* data, uint32_t size);
  */
 void charon_NvmDriver_erase (void);
 
+/**
+ * Gets the Nvm address for the requested DTC. 
+ * 
+ * @param DTCnumber   The in row saved DTC specific number 
+ * @return uint32_t   The address the specific DTC is saved in Nvm
+ */
+uint32_t charon_NvmDriver_getAddress (uint32_t DTCnumber);
+
+/**
+ * Gives back the Nvm start address.
+ * 
+ * @return uint32_t   The Nvm start address
+ */
+uint32_t charon_NvmDriver_getNvmAddress (void);
+
 #endif /* CHARON_INTERFACE_FLASHDRIVER_H_ */
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

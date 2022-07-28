@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Florian Kaup
+ *  Copyright (C) 2022 René Mutscheller
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,84 +20,85 @@
  * @{
  * @addtogroup Windows Port
  * @{
- * @file NVMEmulator.c
- * Implementation of NVM Emutation Module
+ * @file terminal.c
+ * Implementation of the Service and Session Control Module
  *
  * $Id:  $
  * $URL:  $
  * @}
  * @}
- * NvmEmulator.c
- *
- *  Created on: 08.07.2020
- *      Author: Florian Kaup
  */
 /*****************************************************************************/
 
 /* Includes ******************************************************************/
 
-#include "charon_interface_NvmDriver.h"
+#include <stdint.h>
 #include <string.h>
+#include <stdio.h>
+
+#include "ISocket.h"
+#include "HSDI/charon_interface_debug.h"
+
 
 /* Imports *******************************************************************/
 
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
-#define STORAGE_HEADER ((uint8_t) 16u) 
 
 /* Types *********************************************************************/
 
-
 /* Variables *****************************************************************/
 
-static uint8_t NvmEmulator_MemorySpace[2*1024*1024];
-
 /* Private Function Definitions **********************************************/
+static int32_t terminal_receive (uint8_t *buffer, uint32_t length);
+static int32_t terminal_numAvailableBytes (void);
+static int32_t terminal_send(const uint8_t *data, uint32_t length);
 
 /* Interfaces  ***************************************************************/
 
-bool charon_NvmDriver_checkAddressRange (uint32_t address, uint32_t length)
+static int32_t terminal_numAvailableBytes (void)
 {
-    return (address + length) < sizeof(NvmEmulator_MemorySpace);
+    return UINT32_MAX;
+} 
+
+static int32_t terminal_receive (uint8_t *buffer, uint32_t length)
+{
+    return 0;
 }
 
-
-uds_responseCode_t charon_NvmDriver_write (uint32_t address, const uint8_t* data, uint32_t size)
+static int32_t terminal_send(const uint8_t *data, uint32_t length)
 {
-    memcpy(&NvmEmulator_MemorySpace[address], data, size);
-    return uds_responseCode_PositiveResponse;
+    uint8_t buff[1024];
+    uint32_t i, pos = 0u;
+
+    for (i = 0; i < length; i++)
+    {
+        sprintf((char *)&buff[pos], "0x");
+        pos += 2u; 
+        sprintf((char *)&buff[pos], "%02x", data[i]); 
+        pos += 2u;
+        buff[pos] = ' ';
+        pos++;
+    }
+
+    buff[pos] = '\0';
+
+    CHARON_INFO("Debug Console Output for Terminal Socket: %s", buff);
+    fflush(stdout);
+
+    return length;
 }
 
+ISocket_t terminal_socket = {
+    .numAvailableBytes = terminal_numAvailableBytes,
+    .receive = terminal_receive,
+    .transmit = terminal_send
+};
 
-void charon_NvmDriver_read (uint32_t address, uint8_t* data, uint32_t size)
-{
-    memcpy(data, &NvmEmulator_MemorySpace[address], size);
-}
-
-
-void charon_NvmDriver_erase (void)
-{
-    memset(NvmEmulator_MemorySpace, 0xFF, sizeof(NvmEmulator_MemorySpace));
-}
-
-uint32_t charon_NvmDriver_getAddress (uint32_t DTCnumber)
-{
-    uint8_t position = DTCnumber;
-    uint8_t length = 16;
-    uint32_t address = 0;
-
-
-    address = (uint32_t)&NvmEmulator_MemorySpace[((position*length)+STORAGE_HEADER)];
-
-
-    return address;
-}
-
-uint32_t charon_NvmDriver_getNvmAddress (void)
-{
-    return (uint32_t) &NvmEmulator_MemorySpace[0];
-}
 /* Private Function **********************************************************/
+
+
+
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
