@@ -94,20 +94,20 @@ void debug (void)
 {
 #if !FILL_NVM_AUTOMATIC
     //write to first
-    charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm(0,111,1,2,3,222,222,222,222,222);
+    charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm(0,111,1,2,3,222,222,222,222,222,111,111,111,111,111);
     //write to second
-    charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm(0,222,222,222,222,222,222,222,222,222);
+    charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm(0,222,222,222,222,222,222,222,222,222,111,111,111,111,111);
     //write to third
-    charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm(0,111,7,8,9,222,222,222,222,222);
+    charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm(0,111,7,8,9,222,222,222,222,222,111,111,111,111,111);
     //change second
-    charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm(2,155,4,5,6,111,111,111,111,111);
+    charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm(2,155,4,5,6,111,111,111,111,111,111,111,111,111,111);
 #endif
 
 #if FILL_NVM_AUTOMATIC
     for (uint16_t i = 0; i < (255-3); i++)
     {
         //write into NVM
-        charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm(0,0b11111111,i+1,i+2,i+3,111,111,111,111,111);
+        charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm(0,0b11111111,i+1,i+2,i+3,111,111,111,111,111,111,111,111,111,111);
     }
 #endif
 

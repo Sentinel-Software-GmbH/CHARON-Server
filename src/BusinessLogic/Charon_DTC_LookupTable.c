@@ -20,8 +20,8 @@
  * @{
  * @addtogroup BusinessLogic Business Logic
  * @{
- * @file charon_SessionAndServiceControl.c
- * Implementation of the Service and Session Control Module
+ * @file charon_DTC_LookupTable.c
+ * Implementation of the DTC Lookup Table Module
  *
  * $Id:  $
  * $URL:  $
@@ -63,8 +63,6 @@ static const uint8_t DTCStatusAvailabilityMask =
 /* Private Function Definitions **********************************************/
 
 /* Interfaces  ***************************************************************/
-
-/* Private Function **********************************************************/
 
 uint8_t charon_getDTCStatusAvailabilityMask(void)
 {
@@ -139,5 +137,7 @@ uint32_t charon_getDTCCountByStatusMask (uint8_t StatusMask)
     }
     return retval;
 }
+
+/* Private Function **********************************************************/
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

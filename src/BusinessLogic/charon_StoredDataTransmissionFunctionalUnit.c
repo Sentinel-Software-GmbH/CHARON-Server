@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022
+ *  Copyright (C) 2022 Florian Schöner
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -50,68 +50,92 @@
 #define MAX_TX_BUFFER_SIZE              ((uint32_t) 1024u)
 
 /** safe area in Nvm */
-#define STORAGE_HEADER ((uint8_t) 16u) 
+#define STORAGE_HEADER ((uint8_t) 48u) 
 
 /* Types *********************************************************************/
 
 /* Variables *****************************************************************/
+
 static uint32_t DTCcounter = 0;
 
 /* Private Function Definitions **********************************************/
 
+/* Read DTC Information (SID 0x019) Subfunction 0x01 from ISO: 14229-1 */
 uds_responseCode_t NumberOfDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x02 from ISO: 14229-1 */
 uds_responseCode_t DTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x03 from ISO: 14229-1 */
 uds_responseCode_t DTCSnapshotIdentification (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x04 from ISO: 14229-1 */
 uds_responseCode_t DTCSnapshotRecordByDTCNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x05 from ISO: 14229-1 */
 uds_responseCode_t DTCStoredDataByRecordNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x06 from ISO: 14229-1 */
 uds_responseCode_t DTCExtDataRecordByDTCNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x07 from ISO: 14229-1 */
 uds_responseCode_t NumberOfDTCBySeverityMaskRecord (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x08 from ISO: 14229-1 */
 uds_responseCode_t DTCBySeverityMaskRecord (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x09 from ISO: 14229-1 */
 uds_responseCode_t SeverityInformationOfDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x0A from ISO: 14229-1 */
 uds_responseCode_t SupportedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x0B from ISO: 14229-1 */
 uds_responseCode_t FirstTestFailedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x0C from ISO: 14229-1 */
 uds_responseCode_t FirstConfirmedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x0D from ISO: 14229-1 */
 uds_responseCode_t MostRecentTestFailedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x0E from ISO: 14229-1 */
 uds_responseCode_t MostRecentConfirmedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x0F from ISO: 14229-1 */
 uds_responseCode_t MirrorMemoryDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x10 from ISO: 14229-1 */
 uds_responseCode_t MirrorMemoryDTCExtDataRecordByDTCNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x11 from ISO: 14229-1 */
 uds_responseCode_t NumberOfMirrorMemoryDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x12 from ISO: 14229-1 */
 uds_responseCode_t NumberOfEmissionsOBDDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x13 from ISO: 14229-1 */
 uds_responseCode_t EmissionsOBDDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x14 from ISO: 14229-1 */
 uds_responseCode_t DTCFaultDetectionCounter (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x15 from ISO: 14229-1 */
 uds_responseCode_t DTCWithPermanentStatus (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x16 from ISO: 14229-1 */
 uds_responseCode_t DTCExtDataRecordByRecordNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x17 from ISO: 14229-1 */
 uds_responseCode_t UserDefMemoryDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x18 from ISO: 14229-1 */
 uds_responseCode_t UserDefMemoryDTCSnapshotRecordByDTCNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
+/* Read DTC Information (SID 0x019) Subfunction 0x19 from ISO: 14229-1 */
 uds_responseCode_t UserDefMemoryDTCExtDataRecordByDTCNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
 /* Interfaces  ***************************************************************/
-
-/* Private Function **********************************************************/
 
 uds_responseCode_t charon_StoredDataTransmissionFunctionalUnit_ReadDtcInformation (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
@@ -284,6 +308,70 @@ uds_responseCode_t charon_StoredDataTransmissionFunctionalUnit_ReadDtcInformatio
     }
 }
 
+uds_responseCode_t charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm (uint32_t DTCnumber, uint8_t StatusMask, uint8_t HighByte, uint8_t MiddleByte, uint8_t LowByte,
+    uint8_t SnapshotRecordNumber, uint8_t StoredDataRecordNumber, uint8_t ExtDataRecordNumber, uint8_t SeverityMask, uint8_t FunctionalGroupIdentifier, uint16_t DTCSnapshot1_length,
+    uint16_t DTCSnapshot2_length, uint16_t DTCSnapshot3_length, uint16_t DTCStoredData_length, uint16_t DTCExternData_length )
+{
+    uint8_t data[sizeof(DTC_t)];
+    uint8_t length = sizeof(DTC_t);
+    uint32_t position;
+    DTC_t DTC;
+
+
+    // DTCnumber cant be allowed to generate a new DTC
+    if (DTCnumber > DTCcounter)
+    {
+        charon_sendNegativeResponse(uds_responseCode_RequestOutOfRange, uds_sid_ReadDtcInformation);
+        return uds_responseCode_GeneralReject;
+    }
+    
+    // DTCnumber can be used to change a DTC
+    if (DTCnumber != 0)
+    {
+        position = DTCnumber;
+        position--;
+    }
+    else
+    {
+        position = DTCcounter;
+        DTCcounter++;
+    }
+
+
+    // fill DTC type
+    DTC.DTCStatusMask                   = StatusMask;
+    DTC.DTCHighByte                     = HighByte;
+    DTC.DTCMiddleByte                   = MiddleByte;
+    DTC.DTCLowByte                      = LowByte;
+    DTC.DTCSnapshotRecordNumber          = SnapshotRecordNumber;
+    DTC.DTCStoredDataRecordNumber       = StoredDataRecordNumber;
+    DTC.DTCExtDataRecordNumber          = ExtDataRecordNumber;
+    DTC.DTCSeverityMask                 = SeverityMask;
+    DTC.DTCSeverityMaskRecordHigh       = DTC.DTCSeverityMask;
+    DTC.DTCSeverityMaskRecordLow        = DTC.DTCStatusMask;
+    DTC.FunctionalGroupIdentifier       = FunctionalGroupIdentifier;
+    DTC.MemorySelection                 = charon_NvmDriver_getAddress(position);
+
+
+    // cast DTC typ to uint8_t array
+    memcpy(data,&DTC,length);
+    
+    if (charon_NvmDriver_write(((position*length) + STORAGE_HEADER), data, length) == uds_responseCode_PositiveResponse)
+    {
+        return uds_responseCode_PositiveResponse;
+    }
+    else
+    {
+        return uds_responseCode_GeneralReject;
+    }
+}
+
+uint32_t charon_StoredDataTransmissionFunctionalUnit_getDTCcount (void)
+{
+    return (uint32_t) DTCcounter;
+}
+
+/* Private Function **********************************************************/
 
 uds_responseCode_t NumberOfDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
@@ -488,66 +576,5 @@ uds_responseCode_t UserDefMemoryDTCExtDataRecordByDTCNumber (const uint8_t * rec
 return uds_responseCode_SubfunctionNotSupported;
 }
 
-
-uds_responseCode_t charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm (uint32_t DTCnumber, uint8_t StatusMask, uint8_t HighByte, uint8_t MiddleByte, uint8_t LowByte, uint8_t SnapshotRecorNumber, uint8_t StoredDataRecordNumber, uint8_t ExtDataRecordNumber, uint8_t SeverityMask, uint8_t FunctionalGroupidentifier)
-{
-    uint8_t data[sizeof(DTC_t)];
-    uint8_t length = sizeof(DTC_t);
-    uint32_t position;
-    DTC_t DTC;
-
-
-    // DTCnumber cant be allowed to generate a new DTC
-    if (DTCnumber > DTCcounter)
-    {
-        charon_sendNegativeResponse(uds_responseCode_RequestOutOfRange, uds_sid_ReadDtcInformation);
-        return uds_responseCode_GeneralReject;
-    }
-    
-    // DTCnumber can be used to change a DTC
-    if (DTCnumber != 0)
-    {
-        position = DTCnumber;
-        position--;
-    }
-    else
-    {
-        position = DTCcounter;
-        DTCcounter++;
-    }
-
-
-    // fill DTC type
-    DTC.DTCStatusMask                   = StatusMask;
-    DTC.DTCHighByte                     = HighByte;
-    DTC.DTCMiddleByte                   = MiddleByte;
-    DTC.DTCLowByte                      = LowByte;
-    DTC.DTCSnapshotRecorNumber          = SnapshotRecorNumber;
-    DTC.DTCStoredDataRecordNumber       = StoredDataRecordNumber;
-    DTC.DTCExtDataRecordNumber          = ExtDataRecordNumber;
-    DTC.DTCSeverityMask                 = SeverityMask;
-    DTC.DTCSeverityMaskRecordHigh       = DTC.DTCSeverityMask;
-    DTC.DTCSeverityMaskRecordLow        = DTC.DTCStatusMask;
-    DTC.FunctionalGroupidentifier       = FunctionalGroupidentifier;
-    DTC.MemorySelection                 = charon_NvmDriver_getAddress(position);
-
-
-    // cast DTC typ to uint8_t array
-    memcpy(data,&DTC,length);
-    
-    if (charon_NvmDriver_write(((position*length) + STORAGE_HEADER), data, length) == uds_responseCode_PositiveResponse)
-    {
-        return uds_responseCode_PositiveResponse;
-    }
-    else
-    {
-        return uds_responseCode_GeneralReject;
-    }
-}
-
-uint32_t charon_StoredDataTransmissionFunctionalUnit_getDTCcount (void)
-{
-    return (uint32_t) DTCcounter;
-}
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Florian Kaup
+ *  Copyright (C) 2022 Rene Mutscheller
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -53,6 +53,7 @@
  * Checks given memory address for validity.
  * This function checks the address range, if it is available in
  * memory map for reading or writing.
+ * 
  * @param address   The start address of the memory range
  * @param length    The length of the range
  * @retval  true    Memory range is valid
@@ -63,6 +64,7 @@ bool charon_NvmDriver_checkAddressRange (uint32_t address, uint32_t length);
 /**
  * Writes data to non volatile memory.
  * This function writes given data to the desired memory location.
+ * 
  * @param address   The start address of write operation
  * @param data      The data to write
  * @param size      The amount of bytes to write
@@ -76,6 +78,7 @@ uds_responseCode_t charon_NvmDriver_write (uint32_t address, const uint8_t* data
 /**
  * Reads data from non volatile memory.
  * This function reads data to given buffer from desired memory location.
+ * 
  * @param address   The start address of read operation
  * @param data      The buffer to fill with data
  * @param size      The number of bytes to read
