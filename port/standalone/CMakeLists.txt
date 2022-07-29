@@ -5,7 +5,11 @@ add_subdirectory(config)
 set(MODULE_NAME charonStandaloneLib)
 
 add_library(${MODULE_NAME}
-  ${CMAKE_CURRENT_LIST_DIR}/src/charon_Dummy.c
+  $<TARGET_OBJECTS:BusinessLogic>
+  $<TARGET_OBJECTS:ComLogic>
+  $<TARGET_OBJECTS:Common>
+  $<TARGET_OBJECTS:Socket>
+  $<TARGET_OBJECTS:Interface>
 )
 target_include_directories(${MODULE_NAME}
   PRIVATE
@@ -14,10 +18,8 @@ target_include_directories(${MODULE_NAME}
 )
 target_link_libraries(${MODULE_NAME}
   PUBLIC
-  Interface
-  HSDI
-  Socket
-  $<TARGET_OBJECTS:BusinessLogic>
-  $<TARGET_OBJECTS:ComLogic>
   ${CHARON_CONFIG}
+  HSDI
+  Interface
+  Socket
 )
