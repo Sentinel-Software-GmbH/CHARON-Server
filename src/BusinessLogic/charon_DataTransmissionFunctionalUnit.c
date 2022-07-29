@@ -1,7 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Andreas Hofmann
- *
+ *  Copyright (C) 2022 Florian Schöner
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
@@ -20,8 +19,8 @@
  * @{
  * @addtogroup BusinessLogic
  * @{
- * @file charon_SessionAndServiceControl.c
- * Implementation of the Service and Session Control Module
+ * @file charon_DataTransmissionFunctionalUnit.c
+ * Implementation of the Data Transmission Functional Unit Module
  *
  * $Id:  $
  * $URL:  $
@@ -75,8 +74,6 @@
 bool requestInRange (uint8_t memorySize, uint8_t memoryAddress);
 
 /* Interfaces  ***************************************************************/
-
-/* Private Function **********************************************************/
 
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
@@ -262,5 +259,9 @@ bool requestInRange (uint8_t memorySize, uint8_t memoryAddress)
     
 
     return SizeInRange;
+    
 }
+
+/* Private Function **********************************************************/
+
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

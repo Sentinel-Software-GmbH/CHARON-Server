@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Andreas Hofmann
+ *  Copyright (C) 2022 Florian Schöner
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,8 +21,7 @@
  * @defgroup BusinessLogic Business Logic
  * @{
  * @file charon_DataLookupTable.h
- * This Module handles the Receive and Transfer of the charon uds stack data.
- * It Controls encryption and checks for all demanded Timeouts.
+ * This Module handles the Data Management of the stored DataIdentifier for the system.
  *
  * $Id:  $
  * $URL:  $
@@ -101,6 +100,7 @@ typedef enum formulaIdentifier_encoding_t_public
 
     formulaIdentifier_encoding_amount
 }formulaIdentifier_encoding_t;
+
 
 typedef enum Unit_Format_scaling_byte_t_public
 {
@@ -201,17 +201,19 @@ typedef enum Unit_Format_scaling_byte_t_public
 
 /**
  * @brief 
+ * This function allows to get access of the data lookup table via the "DataIdentifier"
  * 
- * @param DID 
- * @return charon_dataIdentifierObject_t* 
+ * @param DID a two byte value that has to match a defined Data Identifier
+ * @return charon_dataIdentifierObject_t* returns a pointer to the "dataArray" in the position of the given DataIdentifier
  */
 charon_dataIdentifierObject_t* charon_getDataLookupTableByDID (uint16_t DID);
 
 /**
  * @brief 
+ * This function allows to get access of the data lookup table via the Address
  * 
- * @param DataAddress 
- * @return charon_dataIdentifierObject_t* 
+ * @param DataAddress the address of a stored DataIdentifier
+ * @return charon_dataIdentifierObject_t* returns a pointer to the "dataArray" in the position of the given Address
  */
 charon_dataIdentifierObject_t* charon_getDataLookupTableByAddress (uint32_t DataAddress);
 

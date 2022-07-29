@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Florian Kaup
+ *  Copyright (C) 2022 Rene Mutscheller
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,16 +21,13 @@
  * @addtogroup Windows Port
  * @{
  * @file NVMEmulator.c
- * Implementation of NVM Emutation Module
+ * Implementation of NVM Emulation Module
  *
  * $Id:  $
  * $URL:  $
  * @}
  * @}
  * NvmEmulator.c
- *
- *  Created on: 08.07.2020
- *      Author: Florian Kaup
  */
 /*****************************************************************************/
 
@@ -44,8 +41,10 @@
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
+#define STORAGE_HEADER ((uint8_t) 48u) 
 
 /* Types *********************************************************************/
+
 
 /* Variables *****************************************************************/
 
@@ -79,9 +78,23 @@ void charon_NvmDriver_erase (void)
     memset(NvmEmulator_MemorySpace, 0xFF, sizeof(NvmEmulator_MemorySpace));
 }
 
+uint32_t charon_NvmDriver_getAddress (uint32_t DTCnumber)
+{
+    uint8_t position = DTCnumber;
+    uint8_t length = 48u;
+    uint32_t address = 0u;
+
+
+    address = (uint32_t)&NvmEmulator_MemorySpace[((position*length)+STORAGE_HEADER)];
+
+
+    return address;
+}
+
+uint32_t charon_NvmDriver_getNvmAddress (void)
+{
+    return (uint32_t) &NvmEmulator_MemorySpace[0];
+}
 /* Private Function **********************************************************/
-
-
-
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

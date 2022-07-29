@@ -38,6 +38,7 @@
 #include "mock_charon_RoutineFunctionalUnit.h"
 #include "mock_charon_UploadDownloadFunctionalUnit.h"
 #include "mock_charon_InputOutputControlFunctionalUnit.h"
+#include "mock_charon_StoredDataTransmissionFunctionalUnit.h"
 
 /* Imports *******************************************************************/
 

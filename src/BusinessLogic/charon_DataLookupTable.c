@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Andreas Hofmann
+ *  Copyright (C) 2022 Florian Schöner
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  * @{
  * @addtogroup BusinessLogic
  * @{
- * @file charon_SessionAndServiceControl.c
- * Implementation of the Service and Session Control Module
+ * @file charon_DataLookupTable.c
+ * Implementation of the Data Lookup Table
  *
  * $Id:  $
  * $URL:  $
@@ -60,11 +60,9 @@ static charon_dataIdentifierObject_t charonDIDLookupTable[] =
 
 /* Interfaces  ***************************************************************/
 
-/* Private Function **********************************************************/
-
-int init (void)
+uint32_t init (void)
 {
-    for(int counter = 0; counter < ARRAY_SIZE(charonDIDLookupTable); counter ++)
+    for(uint32_t counter = 0; counter < ARRAY_SIZE(charonDIDLookupTable); counter ++)
     {
         charon_dataIdentifierObject_t * pTableEntryBase = &charonDIDLookupTable[counter];
         charon_dataIdentifierObject_t * pTableEntry = &charonDIDLookupTable[counter + 1];
@@ -101,5 +99,7 @@ charon_dataIdentifierObject_t* charon_getDataLookupTableByAddress (uint32_t Data
     }
     return pAddressEntry;
 }
+
+/* Private Function **********************************************************/
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

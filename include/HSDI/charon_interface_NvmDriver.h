@@ -1,6 +1,6 @@
 /**
  *  Sentinel Software GmbH
- *  Copyright (C) 2022 Florian Kaup
+ *  Copyright (C) 2022 Rene Mutscheller
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -53,6 +53,7 @@
  * Checks given memory address for validity.
  * This function checks the address range, if it is available in
  * memory map for reading or writing.
+ * 
  * @param address   The start address of the memory range
  * @param length    The length of the range
  * @retval  true    Memory range is valid
@@ -63,6 +64,7 @@ bool charon_NvmDriver_checkAddressRange (uint32_t address, uint32_t length);
 /**
  * Writes data to non volatile memory.
  * This function writes given data to the desired memory location.
+ * 
  * @param address   The start address of write operation
  * @param data      The data to write
  * @param size      The amount of bytes to write
@@ -76,6 +78,7 @@ uds_responseCode_t charon_NvmDriver_write (uint32_t address, const uint8_t* data
 /**
  * Reads data from non volatile memory.
  * This function reads data to given buffer from desired memory location.
+ * 
  * @param address   The start address of read operation
  * @param data      The buffer to fill with data
  * @param size      The number of bytes to read
@@ -86,6 +89,21 @@ void charon_NvmDriver_read (uint32_t address, uint8_t* data, uint32_t size);
  * Erases non volatile memory.
  */
 void charon_NvmDriver_erase (void);
+
+/**
+ * Gets the Nvm address for the requested DTC. 
+ * 
+ * @param DTCnumber   The in row saved DTC specific number 
+ * @return uint32_t   The address the specific DTC is saved in Nvm
+ */
+uint32_t charon_NvmDriver_getAddress (uint32_t DTCnumber);
+
+/**
+ * Gives back the Nvm start address.
+ * 
+ * @return uint32_t   The Nvm start address
+ */
+uint32_t charon_NvmDriver_getNvmAddress (void);
 
 #endif /* CHARON_INTERFACE_FLASHDRIVER_H_ */
 
