@@ -13,9 +13,9 @@
             "toolchainFile": "${sourceDir}/toolchain/cmake/GCC.cmake"
         },
         {
-            "name": "Windows",
-            "displayName": "Port - Windows",
-            "description": "Building the exe file for Windows",
+            "name": "windows",
+            "displayName": "Port - windows",
+            "description": "Building the exe file for windows",
             "inherits": "BASE",
             "cacheVariables": {
                 "CMAKE_SYSTEM_NAME": "Windows",
@@ -23,14 +23,14 @@
                 "CMAKE_ASM_COMPILER": "gcc",
                 "CMAKE_OBJCOPY": "objcopy",
                 "CMAKE_OBJDUMP": "objdump",
-                "PORT": "Windows",
-                "CHARON_CONFIG": "Windows"
+                "PORT": "windows",
+                "CHARON_CONFIG": "windows"
             }
         },
         {
-            "name": "STM32F4",
-            "displayName": "Port - STM32F4",
-            "description": "Building the elf file for STM32F4",
+            "name": "stm32f4",
+            "displayName": "Port - stm32f4",
+            "description": "Building the elf file for stm32f4",
             "inherits": "BASE",
             "cacheVariables": {
                 "CMAKE_SYSTEM_NAME": "Generic",
@@ -38,7 +38,7 @@
                 "CMAKE_C_COMPILER": "arm-none-eabi-gcc",
                 "CMAKE_ASM_COMPILER": "arm-none-eabi-gcc",
                 "CMAKE_OBJDUMP": "arm-none-eabi-objdump",
-                "PORT": "STM32F4",
+                "PORT": "stm32f4",
                 "CHARON_CONFIG": "F4Config"
             }
         },

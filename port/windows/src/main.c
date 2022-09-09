@@ -17,7 +17,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Port
+ * @addtogroup WindowsPort Windows port
  * @{
  * @file main.c
  *

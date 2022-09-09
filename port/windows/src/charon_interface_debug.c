@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Windows Port
+ * @addtogroup WindowsPort Windows port
  * @{
  * @file charon_interface_debug.c
  * Implementation of debug interface

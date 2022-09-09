@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.19)
 
 add_subdirectory(config)
-
+#set name for charonServer Windows port executable
 set(MODULE_NAME charonServerWindows)
-
+#create windows executable
 add_executable(${MODULE_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/src/main.c
   ${CMAKE_CURRENT_LIST_DIR}/src/NvmEmulator.c

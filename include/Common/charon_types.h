@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup Common
+ * @defgroup Common Common
  * @{
  * @file charon_types.h
  * Provides all needed Types and declarations used by Charon UDS.

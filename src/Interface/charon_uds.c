@@ -18,9 +18,9 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Interface
+ * @addtogroup Interface Interface 
  * @{
- * @file charon_uds
+ * @file charon_uds.c
  * Implementation of Application Interfaces
  *
  * $Id:  $

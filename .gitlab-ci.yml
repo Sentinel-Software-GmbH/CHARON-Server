@@ -1,0 +1,82 @@
+default:
+    tags:
+        - native
+    before_script:
+        - chmod +x ./cleanCMakeCache.bat
+    
+
+stages:
+  - test
+  - static-code-analysis
+  - DebugBuild
+  - doxygen
+
+
+cppcheck:
+    stage: static-code-analysis
+    rules:
+        - when: always
+    allow_failure: true
+    script:
+        - .\codeanalysis.bat
+    artifacts:
+        name: "CppCheck"
+        when: always
+        
+        paths:
+          - build/cppCheckReport/*
+
+
+Unit Tests:
+    needs:
+    stage: test
+    rules:
+        - when: always
+    script:
+        - ridk enable
+        - ruby toolchain\ceedling\bin\ceedling
+    artifacts:
+        name: "UnitTestArtefact"
+        paths:
+            - build/ceedling/artifacts/test/*
+
+
+Doxygen:
+    stage: doxygen
+    allow_failure: true
+    needs:
+    rules:
+        - when: always
+    script:
+        doxygen "documentation/Doxyfile" 2> documentation_error.log
+    artifacts:
+        name: "DoxyArtefact"
+        when:
+            always
+        paths:
+            - documentation_error.log
+            - build/documentation/Charon_UDS_Server.chm
+
+
+.build_instruction: &build
+  - cmake -GNinja . -B "build/CMakeDebugBuild/" --preset="$CI_JOB_NAME"
+  - ninja -C "build/CMakeDebugBuild" all | Tee-Object -FilePath "${CI_JOB_NAME}BuildLog.log"
+
+.build_job:
+  stage: DebugBuild
+  rules:
+        - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+        - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+  script:
+    - *build
+  artifacts:
+    paths:
+      - build/CMakeDebugBuild/port/*
+
+
+windows:
+  extends: .build_job
+standalone:
+  extends: .build_job
+stm32f4:
+  extends: .build_job   

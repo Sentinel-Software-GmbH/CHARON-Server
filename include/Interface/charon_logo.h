@@ -18,9 +18,9 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Interface
+ * @addtogroup Interface Interface
  * @{
- * @file charon_logo
+ * @file charon_logo.h
  * This Module Contains the printed logo for console output.
  * it is more a gimmick to be honest.
  *

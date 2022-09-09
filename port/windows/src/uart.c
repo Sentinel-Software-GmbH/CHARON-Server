@@ -18,8 +18,8 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Windows Port
- * @{
+ * @addtogroup WindowsPort Windows port
+ * @{ 
  * @file uart.c
  * Implementation of the Service and Session Control Module
  *

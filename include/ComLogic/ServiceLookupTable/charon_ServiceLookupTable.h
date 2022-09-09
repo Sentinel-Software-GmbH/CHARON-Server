@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup ComLogic
+ * @defgroup ComLogic Com Logic
  * @{
  * @file charon_ServiceLookupTable.c
  * This Module holds the lookup Table to connect all relevant data of

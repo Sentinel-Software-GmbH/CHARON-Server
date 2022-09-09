@@ -3,10 +3,9 @@ if(NOT DEFINED CMAKE_BUILD_TYPE)
 endif()
 
 
-if(PORT MATCHES "^Windows")
+if(PORT MATCHES "^windows")
   set(ARCHITECTURES "-fno-set-stack-executable -mwin32 -mconsole -mnop-fun-dllimport") 
-  set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
-elseif(PORT MATCHES "^STM32F4")
+elseif(PORT MATCHES "^stm32f4")
   set(ARCHITECTURES " -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfloat-abi=hard -fdata-sections -ffunction-sections")  
   add_definitions("-DSTM32F407xx")
   set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")

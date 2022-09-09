@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
-
+#set up module and library name
 set(MODULE_NAME HSDI)
-
+# create interface or headeronly library
 add_library(${MODULE_NAME}
   INTERFACE 
 )

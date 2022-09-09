@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Windows Port
+ * @addtogroup WindowsPort Windows port
  * @{
  * @file terminal.c
  * Implementation of the Terminal output

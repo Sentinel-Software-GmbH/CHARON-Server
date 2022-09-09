@@ -85,9 +85,9 @@ def buildRunnerWindows(workspace,buildType):
         @param buildType defines which type of build will be used debug or release;    
     """
     if(buildType == "release"):
-        cmdStream = "cmake ../../ --preset=Windows -DCMAKE_BUILD_TYPE=Release"
+        cmdStream = "cmake ../../ --preset=windows -DCMAKE_BUILD_TYPE=Release"
     else:
-        cmdStream = "cmake ../../ --preset=Windows"
+        cmdStream = "cmake ../../ --preset=windows"
     prepBuildFolder(buildType)
     cmakeAndNinja(cmdStream,True)
     os.chdir(workspace)
@@ -100,9 +100,9 @@ def buildRunnerSTM32(workspace,buildType):
         @param buildType defines which type of build will be used debug or release;    
     """
     if(buildType == "release"):
-        cmdStream = "cmake ../../ --preset=STM32F4 -DCMAKE_BUILD_TYPE=Release"
+        cmdStream = "cmake ../../ --preset=stm32f4 -DCMAKE_BUILD_TYPE=Release"
     else:
-        cmdStream = "cmake ../../ --preset=STM32F4"
+        cmdStream = "cmake ../../ --preset=stm32f4"
     prepBuildFolder(buildType)
     cmakeAndNinja(cmdStream,True)
     os.chdir(workspace)

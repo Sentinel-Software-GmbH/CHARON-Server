@@ -17,7 +17,7 @@
  
  * @addtogroup CharonUDS
  * @{
- * @addtogroup HSDI
+ * @addtogroup HSDI HSDI
  * @{
  * @file charon_interface_debug.h
  * This Interface Describes the Functions needed by CHARON UDS for

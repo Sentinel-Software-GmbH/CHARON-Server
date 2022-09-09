@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup ComLogic
+ * @defgroup ComLogic Com Logic
  * @{
  * @file charon_SessionAndServiceControl.h
  * This Module handles the Receive and Transfer of the charon uds stack data.

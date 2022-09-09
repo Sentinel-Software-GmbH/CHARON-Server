@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup HSDI
+ * @addtogroup HSDI HSDI
  * @{
  * @file charon_interface_NvmDriver.h
  * This Module handles all functions to use Nvm

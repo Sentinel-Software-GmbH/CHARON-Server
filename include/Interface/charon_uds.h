@@ -18,9 +18,9 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup Interface
+ * @defgroup Interface Interface
  * @{
- * @file charon_uds
+ * @file charon_uds.h
  * This Module Contains All Interfaces provided to the Application to Handle the
  * CharonUDS Stack.
  *
