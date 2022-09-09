@@ -3,3 +3,6 @@
 /build/
 /port/STM32F4-Discovery/build/
 /port/Windows/build/
+/cppcheck.xml
+/documentation_error.log
+/.vscode/settings.json

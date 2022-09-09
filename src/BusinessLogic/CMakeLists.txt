@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.19)
-
+#set up name for whole library
 set(MODULE_NAME BusinessLogic)
 
+#set up name for sub library and create sub library from businesslogic
 add_library(charon_DataLookupTable 
   ${CMAKE_CURRENT_LIST_DIR}/charon_DataLookupTable.c
 )
@@ -135,31 +136,28 @@ target_link_libraries(charon_DTC_LookupTable
   HSDI
 )
 
-
-
+#create whole businesslogic library out of sub librariers
 add_library(${MODULE_NAME}
-  ${CMAKE_CURRENT_LIST_DIR}/charon_DataLookupTable.c 
-  ${CMAKE_CURRENT_LIST_DIR}/charon_DataTransmissionFunctionalUnit.c
-  ${CMAKE_CURRENT_LIST_DIR}/charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
-  ${CMAKE_CURRENT_LIST_DIR}/charon_InputOutputControlFunctionalUnit.c
-  ${CMAKE_CURRENT_LIST_DIR}/charon_RoutineFunctionalUnit.c
-  ${CMAKE_CURRENT_LIST_DIR}/charon_StoredDataTransmissionFunctionalUnit.c
-  ${CMAKE_CURRENT_LIST_DIR}/charon_UploadDownloadFunctionalUnit.c
-  ${CMAKE_CURRENT_LIST_DIR}/charon_DTC_LookupTable.c
+  $<TARGET_OBJECTS:charon_DataLookupTable>
+  $<TARGET_OBJECTS:charon_DataTransmissionFunctionalUnit>
+  $<TARGET_OBJECTS:charon_DiagnosticAndCommunicationManagementFunctionalUnit>
+  $<TARGET_OBJECTS:charon_DTC_LookupTable>
+  $<TARGET_OBJECTS:charon_InputOutputControlFunctionalUnit>
+  $<TARGET_OBJECTS:charon_RoutineFunctionalUnit>
+  $<TARGET_OBJECTS:charon_StoredDataTransmissionFunctionalUnit>
+  $<TARGET_OBJECTS:charon_UploadDownloadFunctionalUnit>
 )
-target_include_directories(${MODULE_NAME} 
-  INTERFACE PUBLIC
-  ${CHARON_SOURCE_DIR}/include/BusinessLogic/DataLookupTable
-  ${CHARON_SOURCE_DIR}/include/BusinessLogic/DataTransmissionFunctionalUnit
-  ${CHARON_SOURCE_DIR}/include/BusinessLogic/DiagnosticAndCommunicationManagementFunctionalUnit
-  ${CHARON_SOURCE_DIR}/include/BusinessLogic/InputOutputControlFunctionalUnit
-  ${CHARON_SOURCE_DIR}/include/BusinessLogic/RoutineFunctionalUnit
-  ${CHARON_SOURCE_DIR}/include/BusinessLogic/StoredDataTransmissionFunctionalUnit
-  ${CHARON_SOURCE_DIR}/include/BusinessLogic/UploadDownloadFunctionalUnit
-  ${CHARON_SOURCE_DIR}/include/BusinessLogic/DTCLookupTable
-)
+#link all sublibrariers and needed librariers
 target_link_libraries(${MODULE_NAME} 
   PUBLIC
+  charon_DataLookupTable
+  charon_DataTransmissionFunctionalUnit
+  charon_DiagnosticAndCommunicationManagementFunctionalUnit
+  charon_DTC_LookupTable
+  charon_InputOutputControlFunctionalUnit
+  charon_RoutineFunctionalUnit
+  charon_StoredDataTransmissionFunctionalUnit
+  charon_UploadDownloadFunctionalUnit
   Common
   HSDI
   Interface

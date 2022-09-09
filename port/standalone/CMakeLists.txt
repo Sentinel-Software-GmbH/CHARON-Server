@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.19)
-
+#set modulename and create stanalone library without dependency to other ports
 add_subdirectory(config)
 
-set(MODULE_NAME charonStandaloneLib)
+set(MODULE_NAME charonStandAlone)
 
 add_library(${MODULE_NAME}
   $<TARGET_OBJECTS:BusinessLogic>

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.19)
-
+#set up name for whole comlogic library
 set(MODULE_NAME ComLogic)
 
-
+#set up name for sub library and create sub library from comlogic
 add_library(charon_ServiceLookupTable
   ${CMAKE_CURRENT_LIST_DIR}/charon_ServiceLookupTable.c
 )
@@ -40,19 +40,15 @@ target_link_libraries(charon_SessionAndServiceControl
   ${CHARON_CONFIG}
 )
 
-
-
+#create whole comlogic library out of sub librariers
 add_library(${MODULE_NAME}
-  ${CMAKE_CURRENT_LIST_DIR}/charon_ServiceLookupTable.c
-  ${CMAKE_CURRENT_LIST_DIR}/charon_SessionAndServiceControl.c
-)
-target_include_directories(${MODULE_NAME} 
-  INTERFACE PUBLIC
-  ${CHARON_SOURCE_DIR}/include/ComLogic/ServiceLookupTable
-  ${CHARON_SOURCE_DIR}/include/ComLogic/SessionAndServiceControl
+  $<TARGET_OBJECTS:charon_ServiceLookupTable>
+  $<TARGET_OBJECTS:charon_SessionAndServiceControl>
 )
 target_link_libraries(${MODULE_NAME}
   PUBLIC
+  charon_ServiceLookupTable
+  charon_SessionAndServiceControl
   BusinessLogic
   Common
   HSDI

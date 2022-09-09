@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup STM32F4 Port
+ * @addtogroup STM32F4Port
  * @{
  * @file NVMEmulator.c
  * Implementation of NVM Emutation Module
@@ -27,11 +27,7 @@
  * $URL:  $
  * @}
  * @}
- * NvmEmulator.c
- *
- *  Created on: 08.07.2020
- *      Author: Florian Kaup
- */
+  */
 /*****************************************************************************/
 
 /* Includes ******************************************************************/

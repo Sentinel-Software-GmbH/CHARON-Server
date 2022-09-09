@@ -3,11 +3,11 @@ cmake_minimum_required(VERSION 3.19)
 add_subdirectory(Drivers)
 add_subdirectory(config)
 
-
+#set name for port root directory
 set(STM32_SOURCE ${CMAKE_CURRENT_LIST_DIR})
-
+#set name for charonServer stm32f4 port executable
 set(MODULE_NAME charonServerF4.elf)
-
+#create elf for f4
 add_executable(${MODULE_NAME}
   ${STM32_SOURCE}/Src/main.c
   ${STM32_SOURCE}/Src/NvmEmulator.c
@@ -32,7 +32,7 @@ target_link_libraries(${MODULE_NAME}
   ${CHARON_CONFIG}
 )
 
-
+#set linker file and linker options also create map file
 set(LINKER_SCRIPT ${STM32_SOURCE}/STM32F407VGTx_FLASH.ld)
 target_link_options(${MODULE_NAME} 
   PRIVATE

@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Common
+ * @addtogroup Common Common
  * @{
  * @file charon_negativeResponse.h
  * This Module handles the Transfer of the negative Response message.

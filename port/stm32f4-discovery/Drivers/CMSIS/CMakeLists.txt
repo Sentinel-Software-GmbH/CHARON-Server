@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-
+#set module name and create cmsis monolith library for hal
 set(MODULE_NAME CMSIS)
 
 add_library(${MODULE_NAME}

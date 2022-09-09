@@ -18,7 +18,7 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @addtogroup Windows Port
+ * @addtogroup WindowsPort Windows port
  * @{
  * @file NVMEmulator.c
  * Implementation of NVM Emulation Module

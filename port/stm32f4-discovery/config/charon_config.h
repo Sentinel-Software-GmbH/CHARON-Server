@@ -18,9 +18,9 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup Interface
+ * @defgroup STM32F4Port F4 Port
  * @{
- * @file charon_uds
+ * @file charon_config.h
  * This Interface Describes the Functions needed by CHARON UDS for
  * its debug output Requirements.
  * For production these functions can be stubbed, so no debug overhead

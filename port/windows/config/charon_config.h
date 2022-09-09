@@ -18,9 +18,9 @@
 /**
  * @addtogroup CharonUDS
  * @{
- * @defgroup Interface
+ * @defgroup WindowsPort Windows port
  * @{
- * @file charon_uds
+ * @file charon_config.h
  * This Interface Describes the Functions needed by CHARON UDS for
  * its debug output Requirements.
  * For production these functions can be stubbed, so no debug overhead
@@ -47,11 +47,11 @@
 
 /* Macros ********************************************************************/
 
-#define CHARON_CONFIG_DO_NOT_PRINT_WELCOME 1
+#define CHARON_CONFIG_DO_NOT_PRINT_WELCOME 0
 #define CHARON_CONFIG_IS_BIG_ENDIAN 1
 #define CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION 1
 #define CHARON_CONFIG_LOG_MSG_OUT_AS_MACRO 0
-#define DEBUGGING 1
+#define DEBUGGING 0
 #define FILL_NVM_AUTOMATIC 1
 
 /* Types *********************************************************************/

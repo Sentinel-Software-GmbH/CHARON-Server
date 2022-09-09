@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
-
+#set up module and library name
 set(MODULE_NAME Interface)
-
+#create whole Interface library 
 add_library(${MODULE_NAME} 
   ${CMAKE_CURRENT_LIST_DIR}/charon_uds.c
 )

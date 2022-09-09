@@ -20,7 +20,7 @@
  * @{
  * @defgroup BusinessLogic Business Logic
  * @{
- * @file  uds_InputOutputControlFunctionalUnit.c.h
+ * @file charon_InputOutputControlFunctionalUnit.c
  * 
  *
  * $Id:  $
