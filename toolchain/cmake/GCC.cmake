@@ -5,15 +5,16 @@ endif()
 
 if(PORT MATCHES "^Windows")
   set(ARCHITECTURES "-fno-set-stack-executable -mwin32 -mconsole -mnop-fun-dllimport") 
+  set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 elseif(PORT MATCHES "^STM32F4")
   set(ARCHITECTURES " -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfloat-abi=hard -fdata-sections -ffunction-sections")  
   add_definitions("-DSTM32F407xx")
-#elseif(PORT MATCHES "^standalone")
+  set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
+elseif(PORT MATCHES "^standalone")
+  set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "-Wl,--export-all-symbols")
 endif()
 
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
-
-set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 
 set(SHARED_LIBS OFF)
 set(STATIC_LIBS ON)
