@@ -15,9 +15,9 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup HSDI HSDI
+ * @addtogroup HSDI Hardware Specific Device Interface
  * @{
  * @file charon_interface_debug.h
  * This Interface Describes the Functions needed by CHARON UDS for
@@ -60,8 +60,11 @@ void CHARON_ERROR (char *x, ...);
 #endif
 
 #if !(CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION) && !(CHARON_CONFIG_LOG_MSG_OUT_AS_MACRO)
+/** @brief Optional implementation of a logging functions in a Info context */
 #define CHARON_INFO(x, ...)
+/** @brief Optional implementation of a logging functions in a Warning context */
 #define CHARON_WARNING(x, ...)
+/** @brief Optional implementation of a logging functions in a error context */
 #define CHARON_ERROR(x, ...)
 #endif
 

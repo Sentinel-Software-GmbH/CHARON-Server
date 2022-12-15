@@ -5,4 +5,5 @@
 /port/Windows/build/
 /cppcheck.xml
 /documentation_error.log
-/.vscode/settings.json
+/.vscode/
+/cppcheck.xml

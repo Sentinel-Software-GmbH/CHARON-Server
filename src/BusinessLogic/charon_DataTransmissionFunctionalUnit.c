@@ -15,9 +15,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup BusinessLogic
+ * @addtogroup BusinessLogic Business Logic Modules
  * @{
  * @file charon_DataTransmissionFunctionalUnit.c
  * Implementation of the Data Transmission Functional Unit Module
@@ -36,9 +36,11 @@
 #include <stddef.h>
 #include <string.h>
 #include "charon_uds.h"
+#include "charon_types.h"
+#include "charon_DataLookupTable.h" 
 #include "charon_SessionAndServiceControl.h"
 #include "CHARON_DATATRANSMISSIONFUNCTIONALUNIT.h"
-#include "charon_DataLookupTable.h" 
+
 
 
 /* Imports *******************************************************************/
@@ -56,9 +58,9 @@
 /** Max Transmission Massage buffer size  */
 #define MAX_TX_BUFFER_SIZE              ((uint32_t) 1024u)
 
-/** Max Bytes used for memory Size parameter*/
+/** Max Bytes used for memory Size parameter ReadMemoryByAddress */
 #define MAX_MEMORY_SIZE_RMBA            ((uint32_t) 4u)
-/** Max Bytes used for memory Address parameter*/
+/** Max Bytes used for memory Address parameter ReadMemoryByAddress */
 #define MAX_MEMORY_ADDRESS_RMBA         ((uint32_t) 4u)
 /** Min Length is 4 Byte by ISO (SID 1 Byte + AddressAndLengthFormatIdentifier 1 Byte + At least 1 Byte for Memory Size + At least 1 Byte for Memory Address)*/
 #define MIN_RCV_LENGTH_OF_RMBA          ((uint32_t) 4u)
@@ -71,6 +73,12 @@
 
 /* Private Function Definitions **********************************************/
 
+/** @brief The Function is used to check if the requested memory address is in rage of the memory size.
+ * 
+ * @param memorySize Size of the the used memory.
+ * @param memoryAddress Specific address in the memory.
+ * @return Successful or failed request. 
+ */
 bool requestInRange (uint8_t memorySize, uint8_t memoryAddress);
 
 /* Interfaces  ***************************************************************/
@@ -101,7 +109,7 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
             /* Build Data Identifier */
             dataIdentifier = *(uint16_t*) &receiveBuffer [i * lengthOfDID + 1u];
             #if !CHARON_CONFIG_IS_BIG_ENDIAN
-            dataIdentifier = __rev16(dataIdentifier);
+            dataIdentifier = REV16(dataIdentifier);
             #endif
             didLookupData = charon_getDataLookupTableByDID (dataIdentifier);
             sessionCheck = didLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
@@ -109,7 +117,7 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (u
             /* check if the actual DID is allowed in the active session */
             if(sessionCheck != 0)    
             {
-                /** @Todo Implement security check 
+                /** @todo Implement security check 
                 check if DID security check ok?
                 return uds_responseCode_SecurityAccessDenied;
                 */   
@@ -176,8 +184,8 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (ui
     memcpy(&datalength, &receiveBuffer[startOfAddress + bytesForMemoryAddress], bytesForMemorySize);
     
     #if !CHARON_CONFIG_IS_BIG_ENDIAN
-    dataAddress = __rev32(dataAddress);
-    datalength = __rev32(datalength);
+    dataAddress = REV32(dataAddress);
+    datalength = REV32(datalength);
     #endif
 
     dataLookupData = charon_getDataLookupTableByAddress (dataAddress);
@@ -219,7 +227,7 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdenti
         /* Build Data Identifier */
         dataIdentifier = *(uint16_t*) &receiveBuffer [2];
         #if !CHARON_CONFIG_IS_BIG_ENDIAN
-        dataIdentifier = __rev16(dataIdentifier);
+        dataIdentifier = REV16(dataIdentifier);
         #endif
         didLookupData = charon_getDataLookupTableByDID (dataIdentifier);
         sessionCheck = didLookupData->sessionMask & ((uint32_t)(1u << charon_sscGetSession()));
@@ -245,6 +253,8 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdenti
     }
 }
 
+/* Private Function **********************************************************/
+
 bool requestInRange (uint8_t memorySize, uint8_t memoryAddress)
 {
     bool SizeInRange = false;
@@ -262,6 +272,5 @@ bool requestInRange (uint8_t memorySize, uint8_t memoryAddress)
     
 }
 
-/* Private Function **********************************************************/
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

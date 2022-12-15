@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup STM32F4-Discovery Port
+ * @addtogroup STM32F4Port stm32f4 discovery porting
  * @{
  * @file uart.h
  * This Module handles needed uart functionalities
@@ -49,6 +49,10 @@
 
 extern ISocket_t uartSocket;
 
+/** @brief Initialize target uart. 
+ * 
+ * @param huart @ref UART_HandleTypeDef
+ */
 void uart_init (UART_HandleTypeDef *huart);
 
 #endif /* SRC_PORT_STM32F4_DISCOVERY_INC_UART_H_ */

@@ -49,6 +49,8 @@ target_link_libraries(charon_DiagnosticAndCommunicationManagementFunctionalUnit
   charon_SessionAndServiceControl
   HSDI
   Common
+  charon_ServiceLookupTable
+  charon_StoredDataTransmissionFunctionalUnit
   Socket
   Interface
   ${CHARON_CONFIG}

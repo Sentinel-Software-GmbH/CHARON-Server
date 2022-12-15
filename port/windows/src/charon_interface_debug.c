@@ -14,11 +14,10 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-/**
- * @addtogroup CharonUDS
+ *
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup WindowsPort Windows port
+ * @addtogroup WindowsPort Windows porting 
  * @{
  * @file charon_interface_debug.c
  * Implementation of debug interface
@@ -28,7 +27,7 @@
  * @}
  * @}
  *
-**/
+ *******************************************************************************/
 
 /* Includes ******************************************************************/
 
@@ -51,6 +50,10 @@
 
 /* Interfaces  ***************************************************************/
 
+/** @brief Function uses snprintf() to log Charon Info messages.
+ * 
+ * @param x String to log.
+ */
 void CHARON_INFO (char *x, ...)
 {
     /* Declare a va_list type variable */
@@ -69,7 +72,10 @@ void CHARON_INFO (char *x, ...)
     /* Clean up the va_list */
     va_end(myargs);
 }
-
+/** @brief Function uses snprintf() to log Charon Info messages.
+ * 
+ * @param x String to log.
+ */
 void CHARON_WARNING (char *x, ...)
 {
     /* Declare a va_list type variable */
@@ -88,7 +94,10 @@ void CHARON_WARNING (char *x, ...)
     /* Clean up the va_list */
     va_end(myargs);
 }
-
+/** @brief Function uses snprintf() to log Charon Info messages.
+ * 
+ * @param x String to log.
+ */
 void CHARON_ERROR (char *x, ...)
 {
     /* Declare a va_list type variable */

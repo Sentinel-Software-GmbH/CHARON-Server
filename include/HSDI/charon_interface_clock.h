@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup HSDI HSDI
+ * @addtogroup HSDI Hardware Specific Device Interface
  * @{
  * @file charon_interface_clock.h
  * This Interface Describes the Functions needed by CHARON UDS for
@@ -49,21 +49,17 @@
 
 /* Interfaces ****************************************************************/
 
-/**
- * Get Current System Time (preferable as Timestamp in ms)
+/** @brief Get Current System Time (preferable as Timestamp in ms).
  *
- * @return System Time
+ * @return System Time.
  */
 uint32_t charon_interface_clock_getTime(void);
 
-/**
- * Get time difference from given System time to moment of
- * call.
+/** @brief Get time difference from given System time to moment of call.
  *
- * @param timestamp
- *      Value given by charon_interface_clock_getTime
+ * @param timestamp Value given by charon_interface_clock_getTime.
  *
- * @return time elapsed to given timestamp (preferable in ms)
+ * @return time elapsed to given timestamp (preferable in ms).
  */
 uint32_t charon_interface_clock_getTimeElapsed(uint32_t timestamp);
 

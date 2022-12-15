@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup ComLogic
+ * @addtogroup ComLogic Communication Logic Modules
  * @{
  * @file charon_SessionAndServiceControl.c
  * Implementation of the Service and Session Control Module
@@ -73,9 +73,9 @@
 /** Struct to store all timing required Data */
 typedef struct
 {
-    //TODO: there are many more, but for now...
-    uint32_t        p2Server;
-    uint32_t        p2StarServer;
+    /** @todo: there are many more, but for now... */
+    uint32_t        p2Server;       /**< Timeout for the initial answer. */
+    uint32_t        p2StarServer;   /**< Timeout for the extended answer. */
 } ComTimeoutLimits_t;
 
 /* Variables *****************************************************************/
@@ -254,7 +254,7 @@ static void processReceivedMessage (uint8_t const * const pBuffer, uint32_t leng
              * since the ISO Requires to answer specifically with the SID that is not supported, even though it can be, that the SID
              * is not in the Enumeration.
              */
-            castedSid = (uds_sid_t)pBuffer[0];  //TODO Suppress
+            castedSid = (uds_sid_t)pBuffer[0];  /** @todo  Suppress */
             /* Send NRC */
             charon_sendNegativeResponse(uds_responseCode_ServiceNotSupported, castedSid);
             break;
@@ -304,7 +304,7 @@ void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length)
         }
         else
         {
-            // todo: how to handle this case?
+            /** @todo: how to handle this case? */
             CHARON_ERROR("Message SID %s (0x%x) does not match with pending SID %s (0x%x)", charon_ServiceLookupTable_getNameForServiceSid(responeRequestId), responeRequestId, charon_ServiceLookupTable_getNameForServiceSid((uint8_t)s_currentlyPendingService->sid), (uint8_t)s_currentlyPendingService->sid);
         }
     }
@@ -396,8 +396,9 @@ static void handleResponsePending (void)
             charon_sendNegativeResponse(uds_responseCode_RequestCorrectlyReceived_ResponsePending, s_currentlyPendingService->sid);
             s_pendingRequestStartTime = charon_interface_clock_getTime();
         }
-        //TODO as far as i remember there was a maximum amount to do this, but i couldn't find it...
-        // remark: you probably mean P4_Server, which is manufacturer specific
+        /** @todo as far as i remember there was a maximum amount to do this, but i couldn't find it...
+            remark: you probably mean P4_Server, which is manufacturer specific 
+        */
     }
 }
 
@@ -439,8 +440,8 @@ static void sendMessage (uint8_t const * const pUdsMessage, uint32_t length)
      */
 
     /* Transmit Message if it fits, otherwise trim */
-    if(length >= CHARON_TX_BUFFER_SIZE)      //TODO Error Case?
-    {
+    if(length >= CHARON_TX_BUFFER_SIZE)      /** @todo Error Case? */
+     {
         txLength = CHARON_TX_BUFFER_SIZE;
     }
     else

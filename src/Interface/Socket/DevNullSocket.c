@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup Socket
+ * @addtogroup Socket Hardware abstraction Socket
  * @{
  * @file DevNullSocket.c
  * Implementation of NULL Socket.
@@ -46,8 +46,26 @@
 
 /* Private Function Definitions **********************************************/
 
+/** @brief Dummy function to ignore data like "dev/null" on unix systems.
+ * 
+ * @return returns 0 immediately to ignore data.
+ */
 static int32_t DevNull_numOfData(void);
+
+/** @brief Dummy function to ignore data like "dev/null" on unix systems.
+ * 
+ * @param buf Date buffer pointer can contain data but will be ignored.  
+ * @param len Size of data buffer in bytes.
+ * @return returns 0 immediately to ignore data.
+ */
 static int32_t DevNull_receive(uint8_t *buf, uint32_t len);
+
+/** @brief Dummy function to ignore data like "dev/null" on unix systems.
+ * 
+ * @param buf Date buffer pointer can contain data but will be ignored.  
+ * @param len Size of data buffer in bytes.
+ * @return Number of bytes in bytes that are ignored.
+ */
 static int32_t DevNull_transmit(const uint8_t *buf, uint32_t len);
 
 /* Interfaces  ***************************************************************/

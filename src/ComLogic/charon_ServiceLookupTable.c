@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup ComLogic
+ * @addtogroup ComLogic Communication Logic Modules
  * @{
  * @file charon_ServiceLookupTable.c
  * Implementation of the Service Lookup Table
@@ -46,11 +46,12 @@
 
 /* Constants *****************************************************************/
 
+/** @brief The LookupTable is used to store all informations about the uds server functionality such as which service is allowed in which session. */
 static charon_serviceObject_t serviceLookupTable[] =
         /* SID */                                           /* Allowed Sessions */                                                          /* Service Function */                                                                          /* Encryption */
 {       {uds_sid_DiagnosticSessionControl,                  (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl,             0u},
         {uds_sid_EcuReset,                                  (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset,                             0u},
-        {uds_sid_ClearDiagnosticInformation,                (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
+        {uds_sid_ClearDiagnosticInformation,                (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation,                         0u},
         {uds_sid_ReadDtcInformation,                        (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_StoredDataTransmissionFunctionalUnit_ReadDtcInformation,                                 0u},
         {uds_sid_ReadDataByIdentifier,                      (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
         {uds_sid_ReadMemoryByAddress,                       (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
@@ -96,7 +97,7 @@ charon_serviceObject_t* charon_ServiceLookupTable_getServiceObject (uint8_t sid)
     {
         iterationSize = (iterationSize+1u) / 2u;
 
-        uint8_t castedSidEnumeration = (uint8_t)serviceLookupTable[TableIndex].sid;// TODO(Check for Misra at this point)
+        uint8_t castedSidEnumeration = (uint8_t)serviceLookupTable[TableIndex].sid; /** @todo (Check for Misra at this point) */
         if (castedSidEnumeration == sid)
         {
             result = &serviceLookupTable[TableIndex];
@@ -349,7 +350,7 @@ const char * charon_ServiceLookupTable_getNameForReturnCode (uds_responseCode_t 
         break;
 
     default:
-        // norhing to do
+        /** nothing to do */
         break;
     }
     return result;

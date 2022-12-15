@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @defgroup BusinessLogic Business Logic
+ * @defgroup BusinessLogic Business Logic Modules
  * @{
  * @file charon_DataLookupTable.h
  * This Module handles the Data Management of the stored DataIdentifier for the system.

@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @defgroup Socket Socket
+ * @defgroup Socket Hardware abstraction Socket
  * @{
  * @file DevNullSocket.h
  * Socket for ignoring all data, like "dev/null" on unix systems
@@ -44,7 +44,7 @@
 /* Types *********************************************************************/
 
 /* Interfaces ****************************************************************/
-
+/** @brief  Socket for ignoring all data */
 extern const ISocket_t DevNullSocket;
 
 #endif /* DEVNULLSOCKET_H */

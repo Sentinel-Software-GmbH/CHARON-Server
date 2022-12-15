@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
  * @addtogroup test
  * @{
@@ -42,6 +42,7 @@
 #include "mock_charon_interface_clock.h"
 #include "mock_charon_ServiceLookupTable.h"
 #include "mock_charon_negativeResponse.h"
+#include "mock_charon_interface_debug.h"
 
 /* Imports *******************************************************************/
 
@@ -136,7 +137,9 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Success
     SocketMock_receive_IgnoreArg_len();
     SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_DiagnosticSessionControl, &dummyServiceObjectForSessionControl);
-
+    charon_ServiceLookupTable_getNameForServiceSid_ExpectAndReturn(uds_sid_DiagnosticSessionControl,"DiagnosticSessionControl");
+    CHARON_INFO_Ignore();
+    charon_ServiceLookupTable_getNameForReturnCode_ExpectAndReturn(uds_responseCode_PositiveResponse,"PositiveResponse");
 
     /* Run Function Test */
     charon_sscRcvMessage();
@@ -171,6 +174,9 @@ void test_charon_SessionAndServiceControl_executeServiceInDefaultSession_Fail(vo
     SocketMock_receive_IgnoreArg_len();
     SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_RequestDownload, &dummyServiceObjectForDownloadRequest);
+    charon_ServiceLookupTable_getNameForServiceSid_ExpectAndReturn(uds_sid_RequestDownload, "RequestDownload");
+    CHARON_INFO_Ignore();
+    CHARON_WARNING_Ignore();
     charon_sendNegativeResponse_Expect(uds_responseCode_ServiceNotSupportedInActiveSession ,uds_sid_RequestDownload);
 
     /* Run Function Test */
@@ -199,6 +205,9 @@ void test_charon_SessionAndServiceControl_serviceNotSupported(void)
     SocketMock_receive_IgnoreArg_len();
     SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_ResponseOnEvent, NULL);
+    charon_ServiceLookupTable_getNameForServiceSid_ExpectAndReturn(uds_sid_ResponseOnEvent, "ResponseOnEvent");
+    CHARON_INFO_Ignore();
+    CHARON_WARNING_Ignore();
     charon_sendNegativeResponse_Expect(uds_responseCode_ServiceNotSupported, uds_sid_ResponseOnEvent);
 
     /* Run Function Test */
@@ -233,6 +242,8 @@ void test_charon_SessionAndServiceControl_executeService_AnswerPending(void)
     SocketMock_receive_IgnoreArg_len();
     SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_WriteMemoryByAddress, &dummyServiceObjectForWriteMemoryByAddress);
+    charon_ServiceLookupTable_getNameForServiceSid_ExpectAndReturn(uds_sid_WriteMemoryByAddress,"WriteMemoryByAddress");
+    CHARON_INFO_Ignore();
     charon_interface_clock_getTime_ExpectAndReturn(0x100u);
 
     /* Run Function Test */
@@ -267,6 +278,9 @@ void test_charon_SessionAndServiceControl_executeService_ServicePendingDenyServi
     SocketMock_receive_IgnoreArg_len();
     SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_DiagnosticSessionControl, &dummyServiceObjectForDiagnosticSessionControl);
+    charon_ServiceLookupTable_getNameForServiceSid_ExpectAndReturn(uds_sid_DiagnosticSessionControl, "DiagnosticSessionControl");
+    CHARON_INFO_Ignore();
+    CHARON_WARNING_Ignore();
     charon_sendNegativeResponse_Expect(uds_responseCode_BusyRepeatRequest, uds_sid_DiagnosticSessionControl);
 
     /* Run Function Test */
@@ -301,6 +315,10 @@ void test_charon_SessionAndServiceControl_executeService_ServicePendingAcceptTes
     SocketMock_receive_IgnoreArg_len();
     SocketMock_receive_ReturnArrayThruPtr_buf(clientMsg, sizeof(clientMsg));
     charon_ServiceLookupTable_getServiceObject_ExpectAndReturn(uds_sid_TesterPresent, &dummyServiceObjectTesterPresent);
+    charon_ServiceLookupTable_getNameForServiceSid_ExpectAndReturn(uds_sid_TesterPresent, "TesterPresent");
+    charon_ServiceLookupTable_getNameForReturnCode_ExpectAndReturn(uds_responseCode_PositiveResponse, "PositiveResponse");
+    CHARON_INFO_Ignore();
+    
 
     /* Run Function Test */
     charon_sscRcvMessage();
@@ -339,7 +357,7 @@ void test_charon_SessionAndServiceControl_monitorOngoingService_diagnosticSessio
     /* Setup Expected Function Calls */
     charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 5001u);
     charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 10u);
-
+    CHARON_WARNING_Ignore();
     /* Run Function Test */
     charon_sscCyclic();
 

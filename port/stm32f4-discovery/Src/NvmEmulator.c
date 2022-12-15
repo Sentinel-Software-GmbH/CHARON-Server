@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup STM32F4Port
+ * @addtogroup STM32F4Port stm32f4 discovery porting
  * @{
  * @file NVMEmulator.c
  * Implementation of NVM Emutation Module
@@ -43,6 +43,8 @@
 /* Types *********************************************************************/
 
 /* Variables *****************************************************************/
+
+/** @brief Stack allocation for emulated nvm. */
 static uint8_t NvmEmulator_MemorySpace[64*1024];
 
 /* Private Function Definitions **********************************************/
@@ -73,17 +75,43 @@ void charon_NvmDriver_erase (void)
     memset(NvmEmulator_MemorySpace, 0xFF, sizeof(NvmEmulator_MemorySpace));
 }
 
-uint32_t charon_NvmDriver_getAddress (uint32_t DTCnumber)
-{
-    //dummy
-    return 0;
-}
-
 uint32_t charon_NvmDriver_getNvmAddress (void)
 {
     //dummy
     return 0;
 }
+
+uint32_t charon_NvmDriver_getMirrorNvmAddress (uint16_t input, bool header)
+{
+    //dummy
+    return 0;
+}
+
+uint32_t charon_NvmDriver_getNvmAddress_for_DTC (uint16_t input, bool header)
+{
+    //dummy
+    return 0;
+}
+
+uint32_t charon_NvmDriver_getNvmAddress_for_Snapshot (uint16_t input)
+{
+    //dummy
+    return 0;
+}
+
+uint32_t charon_NvmDriver_getNvmAddress_for_StoredData (uint16_t input)
+{
+    //dummy
+    return 0;
+}
+
+uint32_t charon_NvmDriver_getNvmAddress_for_ExtendedData (uint16_t input)
+{
+    //dummy
+    return 0;
+}
+
+
 /* Private Function **********************************************************/
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

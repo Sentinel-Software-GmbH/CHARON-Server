@@ -51,7 +51,7 @@ PROJECT_BRIEF          = "A platform independent Server Module for the UDS Proto
 # pixels and the maximum width should not exceed 200 pixels. Doxygen will copy
 # the logo to the output directory.
 
-PROJECT_LOGO           =
+PROJECT_LOGO           = .\documentation\Charonlogo.jpg
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
@@ -878,10 +878,11 @@ INPUT                  = .\src \
                          .\include \
                          .\README.md \
                          .\port\windows\src \
-						 .\port\windows\config \
+                         .\port\windows\config \
                          .\include \
                          .\port\stm32f4-discovery\Src \
-						 .\port\stm32f4-discovery\config
+                         .\port\stm32f4-discovery\config \
+                         .\documentation
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -929,8 +930,8 @@ RECURSIVE              = YES
 # run.
 
 EXCLUDE                = .\port\stm32f4-discovery\Src\stm32f4xx_hal_msp.c \
-						 .\port\stm32f4-discovery\Src\stm32f4xx_it.c \
-						 .\port\stm32f4-discovery\Src\system_stm32f4xx.c 
+                         .\port\stm32f4-discovery\Src\stm32f4xx_it.c \
+                         .\port\stm32f4-discovery\Src\system_stm32f4xx.c
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

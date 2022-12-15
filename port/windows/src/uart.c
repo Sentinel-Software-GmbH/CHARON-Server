@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup WindowsPort Windows port
+ * @addtogroup WindowsPort Windows porting 
  * @{ 
  * @file uart.c
  * Implementation of the Service and Session Control Module
@@ -45,18 +45,51 @@
 /* Types *********************************************************************/
 
 /* Variables *****************************************************************/
-
+/** @brief Declaration of target hardware handle: */
 HANDLE hComm;
-DWORD dwRead;
-BOOL fWaitingOnRead = FALSE;
-OVERLAPPED osReader = {0};
+/** @brief Access to target serial communications device. */
 DCB UartConfig;
+/** @brief Acces to target time-out parameters for a communications device. */
 COMMTIMEOUTS UartTimeouts;
+/** @brief pointer to a constant null-terminated string of target */
 LPTSTR COM_PORT_NAME  = "\\\\.\\COM12";
+
+/* Function Definition *******************************************************/
+
+/** @brief Initialize target uart hardware*/
+void uart_init();
 
 /* Private Function Definitions **********************************************/
 
+/** @brief Function  to  get number of available bytes. 
+ * 
+ * @return Number of bytes available.
+ */
+static int32_t uart_numAvailableBytes (void);
+
+/** @brief Receiving data from Client via target serial communication device.
+ * 
+ * @param buffer Buffer containing received data.
+ * @param length Number of bytes to read in bytes.
+ * @return Number of Bytes received. 
+ */
+static int32_t uart_receive(uint8_t *buffer, uint32_t length);
+
+/** @brief Sending data to Client via target serial communication device.
+ * 
+ * @param data Data to send to Client.
+ * @param length Number of Bytes to send in bytes.
+ * @return Number of send bytes in bytes.
+ */
+static int32_t uart_send(const uint8_t *data, uint32_t length);
+
 /* Interfaces  ***************************************************************/
+
+ISocket_t uart_socket = {
+    .numAvailableBytes = uart_numAvailableBytes,
+    .receive = uart_receive,
+    .transmit = uart_send
+};
 
 void uart_init()
 {
@@ -111,7 +144,7 @@ void uart_init()
 
 static int32_t uart_numAvailableBytes (void)
 {
-    return UINT32_MAX;
+    return INT32_MAX;
 } 
 
 static int32_t uart_receive(uint8_t *buffer, uint32_t length)
@@ -130,7 +163,8 @@ static int32_t uart_receive(uint8_t *buffer, uint32_t length)
     return -1;
 }
 
-static int32_t uart_send(const uint8_t *data, uint32_t length) {
+static int32_t uart_send(const uint8_t *data, uint32_t length) 
+{
     DWORD sentBytes = 0, numBytes = 0;
     uint8_t message[10 + length];
     message[6] = length >> 24;
@@ -148,11 +182,6 @@ static int32_t uart_send(const uint8_t *data, uint32_t length) {
     return length;
 }
 
-ISocket_t uart_socket = {
-    .numAvailableBytes = uart_numAvailableBytes,
-    .receive = uart_receive,
-    .transmit = uart_send
-};
 /* Private Function **********************************************************/
 
 

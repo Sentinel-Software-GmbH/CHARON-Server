@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup WindowsPort Windows port
+ * @addtogroup WindowsPort Windows porting 
  * @{
  * @file pipe.c
  * Implementation of windows pipe for server client communication.
@@ -45,10 +45,40 @@
 
 /* Variables *****************************************************************/
 
+/** @brief Handle for windows pipe usage. */
 HANDLE pipeHandle;
+
+/** @brief 32-bit pointer to a constant null-terminated string of 8-bit Windows. */ 
 LPCSTR pipeName = "\\\\.\\pipe\\charonserver";
 
+/* Function Definition *******************************************************/
+
+/** @brief Function to initialize pipe for communication between Client and Server when boot entities launched on windows. */
+void pipe_Init(void);
+
 /* Private Function Definitions **********************************************/
+
+/** @brief Function to get number of available bytes.
+ * 
+ * @return Number of Bytes.
+ */
+static int32_t pipe_numAvailableBytes (void);
+/**
+ * @brief Function to receive data via pipe.
+ * 
+ * @param data Data buffer with received message.
+ * @param maxSize maximum size of data to receive in bytes.
+ * @return Number of received bytes.
+ */
+static int32_t pipe_receive (uint8_t* data, uint32_t maxSize);
+
+/** @brief Function sends data using pipe and windows std. libraries.
+ * 
+ * @param data Data buffer to send. 
+ * @param size Size of data buffer in bytes.
+ * @return Number of bytes transmitted.
+ */
+static int32_t pipe_transmit (const uint8_t* data, uint32_t size);
 
 /* Interfaces  ***************************************************************/
 

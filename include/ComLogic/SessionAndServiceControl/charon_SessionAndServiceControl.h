@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @defgroup ComLogic Com Logic
+ * @defgroup ComLogic Communication Logic Modules
  * @{
  * @file charon_SessionAndServiceControl.h
  * This Module handles the Receive and Transfer of the charon uds stack data.
@@ -45,9 +45,7 @@
 
 /* Types *********************************************************************/
 
-/**
- * UDS Session Types
- */
+/** @brief Session Types */
 typedef enum
 {
     charon_sscType_invalid,
@@ -63,20 +61,43 @@ typedef enum
 
 /* Interfaces ****************************************************************/
 
+/** @brief The function resets all Session and Service Control involved Parameters to default. */
 void charon_sscReset (void);
 
+/** @brief The function initializes the System given Communication Socket.
+ * 
+ * @param sscComSocket Abstract Hardware socked that should be used to initializes Communication Socket.
+ */
 void charon_sscInit (ISocket_t sscComSocket);
 
+/** @brief This function checks if current session is timed out and checks if the current session needs to be exceeded. */
 void charon_sscCyclic(void);
 
+/** @brief The function handles incoming messages and process them. */
 void charon_sscRcvMessage (void);
 
+/** @brief Function is used to send data to client. 
+ * 
+ * @param pBuffer Contains data to send from Server to Client.
+ * @param length Size of pBuffer in bytes
+ */
 void charon_sscTxMessage (uint8_t const * const pBuffer, uint32_t length);
 
+/** @brief This function is used to change the current Session.  
+ * 
+ * @param sessionType Session to set to @ref charon_sessionTypes_t.
+ * @param timeoutP2 Timeout for the initial answer @ref ComTimeoutLimits_t.
+ * @param timeoutP2extended Timeout for the extended answer @ref ComTimeoutLimits_t.
+ */
 void charon_sscSetSession (charon_sessionTypes_t sessionType, uint32_t timeoutP2, uint32_t timeoutP2extended);
 
+/** @brief Function to get current Session. 
+ * 
+ * @return @ref charon_sessionTypes_t. 
+ */
 charon_sessionTypes_t charon_sscGetSession (void);
 
+/** @brief Function checks timestamp for tester present heartbeat. */
 void charon_sscTesterPresentHeartbeat(void);
 
 #endif /* CHARON_SERVICEANDSESSIONCONTROL_H_ */

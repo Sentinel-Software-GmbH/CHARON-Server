@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup Socket Socket
+ * @addtogroup Socket Hardware abstraction Socket
  * @{
  * @file ISocket.h
  * An abstract interface to all kind of hardware interfaces, like uart, usb, spi,
@@ -45,11 +45,12 @@
 
 /* Types *********************************************************************/
 
+/** @brief abstract interface to all kind of hardware interfaces. */
 typedef struct ISocket_t_public
 {
-    int32_t (*numAvailableBytes)(void);
-    int32_t (*receive)(uint8_t *buf, uint32_t len);
-    int32_t (*transmit)(const uint8_t *buf, uint32_t len);
+    int32_t (*numAvailableBytes)(void);                     /**< User should implement this function for hardware abstraction. */
+    int32_t (*receive)(uint8_t *buf, uint32_t len);         /**< User should implement this function for hardware abstraction. */
+    int32_t (*transmit)(const uint8_t *buf, uint32_t len);  /**< The User should implement this function if it is used for hardware abstraction. */
 } ISocket_t;
 
 /* Interfaces ****************************************************************/

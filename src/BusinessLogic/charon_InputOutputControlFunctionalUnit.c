@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @defgroup BusinessLogic Business Logic
+ * @defgroup BusinessLogic Business Logic Modules
  * @{
  * @file charon_InputOutputControlFunctionalUnit.c
  * 
@@ -39,19 +39,26 @@
 #include "charon_negativeResponse.h"
 #include <stdint.h>
 #include <string.h>
+
 /* Imports *******************************************************************/
 
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
 
+/** @brief Return the Control of an IO DataIdentifier back to the ECU */
 #define IO_CTRL_RETURN_CONTROL_TO_ECU 0x00
+/** @brief Return the IO DataIdentifier back to it's default Values. */
 #define IO_CTRL_RESET_TO_DEFAULT 0x01
+/** @brief Freeze the current state of an io data identifier. */
 #define IO_CTRL_FREEZE_CURRENT_STATE 0x02
+/** @brief Adjust the io data identifier data.  */
 #define IO_CTRL_SHORT_TERM_ADJUSTMENT 0x03
 
+/** @brief Macro for easy differentiation of memory management using static memory assignment. */
 #if STATIC_IO_CONTROL == 1
 IO_DID_Array_Entry_t *findDID(uint16_t DID);
+/** @brief Macro for easy differentiation of memory management using dynamic memory assignment. */
 #elif DYNAMIC_IO_CONTROL == 1
 IO_DID_List_Entry_t *findDID(uint16_t DID);
 #else
@@ -65,8 +72,24 @@ static IO_DID_List_Entry_t *io_control_list;
 
 /* Private Function Definitions **********************************************/
 
+/** @brief The function handles all received commands  
+ * 
+ * @param did_entry @ref IO_DID_List_Entry_t
+ * @param currentMaskPosition Current position in Mask.
+ * @param receivedCommand received input output command parameter.
+ * @param data Buffer with data that can be adjusted depending on command.
+ * @param data_length Size of data buffer in bytes. 
+ * @return uds_responseCode_t 
+ */
 static uds_responseCode_t handleFlag(IO_DID_List_Entry_t* did_entry, uint16_t currentMaskPosition, uint8_t receivedCommand, const uint8_t *data, uint32_t data_length);
-
+/** @brief Function is used to handle negative response.
+ * 
+ * @param message Buffer containing message from client.
+ * @param DID Data Identifier 
+ * @param currentMaskPosition Current position in Mask.
+ * @param responseCode @ref uds_responseCode_t.
+ * @return uds_responseCode_t 
+ */
 static uds_responseCode_t handleNegative(char *message, uint16_t DID, uint16_t currentMaskPosition, uds_responseCode_t responseCode);
 
 /* Interfaces  ***************************************************************/
@@ -123,7 +146,8 @@ uds_responseCode_t charon_InputOutputControlFunctionalUnit_InputOutputControlByI
         mask_flags = &receiveBuffer[mask_pointer];
         mask_flags_length = receiveBufferSize - mask_pointer + 1;
     }
-    else {
+    else 
+    {
         mask_flags = (uint8_t[]){0x01};
     }
     uint16_t currentMaskPosition = 1;
@@ -168,34 +192,47 @@ IO_DID_Array_Entry_t *findDID(uint16_t DID)
 }
 IO_Ctrl_Object_t *findMaskObject(IO_DID_Array_Entry_t *did_object, uint16_t position)
 {
+/** @todo dummy to prevent CPPcheck  error -> finish this!   
     for (int i = 0; i < did_object->)
+    {
+        i++;
+    }
+*/
+    return IO_Ctrl_Object_t;
 }
 #elif DYNAMIC_IO_CONTROL == 1
-bool charon_InputOutputControlFunctionalUnit_addIOEntry(IO_DID_List_Entry_t *entry) {
-    if(io_control_list == NULL) {
+bool charon_InputOutputControlFunctionalUnit_addIOEntry(IO_DID_List_Entry_t *entry) 
+{
+    if(io_control_list == NULL) 
+    {
         io_control_list = entry;
         return true;
     }
     IO_DID_List_Entry_t *nextEntry = io_control_list;
-    // To limit the user from adding too many entries a counter could be introduced here.
-    // When the counter becomes greater than a threshold the function could return false then.
-    while(nextEntry->next != NULL) {
+    /** @todo limit the user from adding too many entries a counter could be introduced here.
+     When the counter becomes greater than a threshold the function could return false then. */
+    while(nextEntry->next != NULL) 
+    {
         nextEntry = nextEntry->next;
     }
     nextEntry->next = entry;
     return true;
 }
 
-IO_DID_List_Entry_t* charon_InputOutputControlFunctionalUnit_removeIOEntry(uint16_t DID) {
+IO_DID_List_Entry_t* charon_InputOutputControlFunctionalUnit_removeIOEntry(uint16_t DID) 
+{
     IO_DID_List_Entry_t *retVal = NULL;
-    if(io_control_list->DID == DID) {
+    if(io_control_list->DID == DID) 
+    {
         retVal = io_control_list;
         io_control_list = (io_control_list->next == NULL) ? NULL : io_control_list->next;
         return retVal;
     }
     IO_DID_List_Entry_t *nextEntry = io_control_list;
-    while(nextEntry->next != NULL) {
-        if(nextEntry->next->DID == DID) {
+    while(nextEntry->next != NULL) 
+    {
+        if(nextEntry->next->DID == DID) 
+        {
             retVal = nextEntry->next;
             nextEntry->next = (nextEntry->next->next == NULL) ? NULL : nextEntry->next->next;
             return retVal;
@@ -230,7 +267,8 @@ IO_Ctrl_Object_t *findMaskObject(IO_DID_List_Entry_t *did_object, uint16_t posit
     return NULL;
 }
 
-bool charon_InputOutputControlFunctionalUnit_clearIOEntries() {
+bool charon_InputOutputControlFunctionalUnit_clearIOEntries() 
+{
     io_control_list = NULL;
     return true;
 }
@@ -247,7 +285,7 @@ static uds_responseCode_t handleFlag(IO_DID_List_Entry_t* did_entry, uint16_t cu
         // NOT PRESENT
         return handleNegative("IO DID 0x%04x does not have an IO Control Object at position %d.", did_entry->DID, currentMaskPosition, uds_responseCode_RequestOutOfRange);
     }
-    // TODO: How can we simplify this?
+    /** @todo How can we simplify this? */
     switch (receivedCommand)
     {
     case IO_CTRL_RETURN_CONTROL_TO_ECU:
@@ -294,7 +332,7 @@ static uds_responseCode_t handleFlag(IO_DID_List_Entry_t* did_entry, uint16_t cu
 
 static uds_responseCode_t handleNegative(char *message, uint16_t DID, uint16_t currentMaskPosition, uds_responseCode_t responseCode)
 {
-    // CHARON_WARNING(message, DID, currentMaskPosition); /< @todo (spike) Wut? (<_< )
+    /** CHARON_WARNING(message, DID, currentMaskPosition); /< @todo (spike) Wut? (<_< )*/
     charon_sendNegativeResponse(responseCode, uds_sid_InputOutputControlByIdentifier);
     return responseCode;
 }

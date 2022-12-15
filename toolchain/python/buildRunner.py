@@ -26,13 +26,13 @@ def argParser():
         @return namespace args used to make options available;
     """
     parser = argparse.ArgumentParser(description='Build your charon as you like; all target builds contain debug information by default;')
-    parser.add_argument("-p","--port",choices=["Windows","windows","standalone","Standalone","STM32F4","stm32f4","UnitTest","unittest"],
+    parser.add_argument("-p","--port",choices=["Windows","windows","WINDOWS","standalone","Standalone","StandAlone","STANDALONE","STM32F4","stm32f4","UnitTest","unittest","UNITTEST"],
                         help=" use -p/--port + Windows to build charon server for Windows;" 
                         " use -p/--port + STM32F4 to build charon server for stm32f4-discovery board;"
                         " use -p/--port + standalone to build charon server standalone library;"
                         " use -p/--port + UnitTest to run ceedling for UnitTests;"
                         )
-    parser.add_argument("-r","--release",choices=["Windows","windows","standalone","Standalone","STM32F4","stm32f4"],
+    parser.add_argument("-r","--release",choices=["Windows","windows","WINDOWS","standalone","Standalone","StandAlone","STANDALONE","STM32F4","stm32f4"],
                         help=" use -r/--release + Windows to build charon server for Windows;" 
                         " use -r/--release + STM32F4 to build charon server for stm32f4-discovery board;"
                         " use -r/--release + standalone to build charon server standalone library;"
@@ -134,19 +134,19 @@ def mainRunner():
     args = argParser()
     workspace = os.getcwd()
     try:
-        if(args.port in ("Windows", "windows")):
+        if(args.port in ("Windows", "windows", "WINDOWS")):
             buildRunnerWindows(workspace, "debug")
         if(args.port in ("STM32F4","stm32f4")):
             buildRunnerSTM32(workspace, "debug")
-        if(args.port in ("standalone", "StandAlone", "Standalone")):
+        if(args.port in ("standalone", "StandAlone", "Standalone","STANDALONE")):
             buildRunnerStandalone(workspace, "debug")
-        if(args.port in ("UnitTest", "unittest", "Unittest")):
+        if(args.port in ("UnitTest", "unittest", "Unittest","UNITTEST")):
             buildRunnerCeedling()
-        if(args.release in ("Windows", "windows")):
+        if(args.release in ("Windows", "windows","WINDOWS")):
             buildRunnerWindows(workspace, "release")
         if(args.release in ("STM32F4", "stm32f4")):
             buildRunnerSTM32(workspace, "release")
-        if(args.release in ("standalone", "StandAlone", "Standalone")):
+        if(args.release in ("standalone", "StandAlone", "Standalone","STANDALONE")):
             buildRunnerStandalone(workspace, "release")
     except Exception as unwantedBehavior:
         print(unwantedBehavior)

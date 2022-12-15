@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
  * @addtogroup Interface Interface 
  * @{
@@ -84,7 +84,7 @@ void charon_init (ISocket_t systemCommunicationSocket)
 
 void charon_task (void)
 {
-    // TODO think about putting charon_sscRcvMessage into charon_sscCyclic
+    /** @todo think about putting charon_sscRcvMessage into charon_sscCyclic */
 
     /* Process Received Data */
     charon_sscRcvMessage();

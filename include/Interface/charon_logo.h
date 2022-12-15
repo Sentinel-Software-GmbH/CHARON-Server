@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
  * @addtogroup Interface Interface
  * @{
@@ -40,6 +40,7 @@
 
 /* Macros ********************************************************************/
 
+/** @brief Converting Charon Logo to ascii art: */
 #define PRINT_CHARON_LOGO_ON_LOG_OUT()      {           \
     CHARON_INFO("CharonUDS Server Booting up...");      \
     CHARON_INFO("\n\r\n\r\n\r");                        \

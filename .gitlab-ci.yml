@@ -2,7 +2,7 @@ default:
     tags:
         - native
     before_script:
-        - chmod +x ./cleanCMakeCache.bat
+        - .\cleanCMakeCache.bat
     
 
 stages:
@@ -33,7 +33,6 @@ Unit Tests:
     rules:
         - when: always
     script:
-        - ridk enable
         - ruby toolchain\ceedling\bin\ceedling
     artifacts:
         name: "UnitTestArtefact"

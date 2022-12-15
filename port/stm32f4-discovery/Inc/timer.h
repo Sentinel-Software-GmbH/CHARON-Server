@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup STM32F4-Discovery Port
+ * @addtogroup STM32F4Port stm32f4 discovery porting
  * @{
  * @file timer.h
  * This Module handles needed timer functionalities

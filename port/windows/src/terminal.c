@@ -16,12 +16,13 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup WindowsPort Windows port
+ * @addtogroup WindowsPort Windows porting 
  * @{
  * @file terminal.c
- * Implementation of the Terminal output
+ * Implementation of the Terminal output used for debug without communication between server and client. 
+ * Used for server only debugging.
  * 
  * $Id:  $
  * $URL:  $
@@ -35,10 +36,8 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
-
 #include "ISocket.h"
 #include "charon_interface_debug.h"
-
 
 /* Imports *******************************************************************/
 
@@ -52,12 +51,31 @@
 
 /* Private Function Definitions **********************************************/
 
+/** @brief The function ignores alls received data. 
+ * 
+ * @param buffer buffer with received data.
+ * @param length Number of received bytes in bytes.
+ * @return Returns immediately to  ignore all data.
+ */
 static int32_t terminal_receive (uint8_t *buffer, uint32_t length);
+
+/** @brief Function is used to get number of available bytes. 
+ * 
+ * @return Number of bytes.
+ */
 static int32_t terminal_numAvailableBytes (void);
+
+/** @brief Function is used to print data into terminal output for debug purposes.
+ * 
+ * @param data Buffer containing data to send to terminal output.
+ * @param length Size of buffer in Bytes.
+ * @return Number Bytes send to terminal in bytes.
+ */
 static int32_t terminal_send(const uint8_t *data, uint32_t length);
 
 /* Interfaces  ***************************************************************/
 
+/** @brief Abstract hardware socket of target system. */
 ISocket_t terminal_socket = {
     .numAvailableBytes = terminal_numAvailableBytes,
     .receive = terminal_receive,
@@ -94,7 +112,6 @@ static int32_t terminal_send(const uint8_t *data, uint32_t length)
     buff[pos] = '\0';
 
     CHARON_INFO("Debug Console Output for Terminal Socket: %s", buff);
-    fflush(stdout);
 
     return length;
 }
