@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup BusinessLogic Business Logic
+ * @addtogroup BusinessLogic Business Logic Modules
  * @{
  * @file charon_DiagnosticAndCommunicationManagementFunctionalUnit.c
  * Implementation of the DCM Module
@@ -32,10 +32,16 @@
 
 /* Includes ******************************************************************/
 
+#include <stdint.h>
+#include <string.h>
+#include <stdbool.h>
 #include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "charon_SessionAndServiceControl.h"
 #include "charon_interface_debug.h"
 #include "charon_negativeResponse.h"
+#include "charon_ServiceLookupTable.h"
+#include "charon_StoredDataTransmissionFunctionalUnit.h"
+
 
 /* Imports *******************************************************************/
 
@@ -52,14 +58,33 @@ typedef struct DefaultSessionTimings_t_private
     uint32_t p2star;        /**< Extended Response Timing */
 } DefaultSessionTimings_t;
 
+/**
+ * @brief Container Type for states of DTCSetting
+ */
+typedef enum DTCSettingType_t_private
+{
+    ON              = 0x01,
+    OFF             = 0x02,
+    // Vehicle manufacturer specific: 0x40 – 0x5F.
+
+
+    // System supplier specific: 0x60 – 0x7E.
+
+
+    amountOfDTCSettingType
+
+}DTCSettingType_t;
+
+
 /* Constants *****************************************************************/
 
 /**
  * Default timings for each session.
  * Sorted for their session id. Values are in milliseconds, for both parameters.
+ *
+ * @todo: these timing values are example values from iso 14229-2 chapter 7.2 table 4
+ * change these as necessary 
  */
-// todo: these timing values are example values from iso 14229-2 chapter 7.2 table 4
-// change these as necessary
 static const DefaultSessionTimings_t defaultTimings[charon_sscType_amount] =
 {
         {50,5000},      /* Default */
@@ -67,6 +92,7 @@ static const DefaultSessionTimings_t defaultTimings[charon_sscType_amount] =
         {50,5000},      /* Extended */
         {50,5000}       /* Security */
 };
+
 
 /* Variables *****************************************************************/
 
@@ -201,10 +227,55 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Sec
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
-    (void)receiveBuffer;
-    (void)receiveBufferSize;
+    static uint8_t s_buffer[2];
+    uint32_t length = 2u;
+    uint8_t wantedChange;
+    DTC_t DTC_update;
+    uint16_t amountOfDTCToChange;
+
     CHARON_INFO("Control DTC Setting Service SID:0x85 Triggered");
-    return uds_responseCode_ServiceNotSupported;
+
+    // Session check.
+    charon_sessionTypes_t currentSession = charon_sscGetSession();
+    if ((currentSession == SESSION_DEFAULT) || (currentSession == SESSION_PROGRAMMING))
+    {
+        // In current session not allowed.
+        charon_sendNegativeResponse(uds_responseCode_ServiceNotSupportedInActiveSession, uds_sid_ControlDtcSetting);
+        CHARON_ERROR("Service in current session not allowed.");
+        return uds_responseCode_ServiceNotSupportedInActiveSession;
+    }
+    
+    /** @todo check server condition, if server is in critical normal mode = send negative response. (ISO 14229-1 S71)*/
+    if (false)
+    {
+        // Server is in critical normal mode activity.
+        charon_sendNegativeResponse(uds_responseCode_ConditionsNotCorrect, uds_sid_ControlDtcSetting);
+        CHARON_ERROR("Server is in critical normal mode.");
+        return uds_responseCode_ConditionsNotCorrect;
+    }
+
+
+    // Going trough the complete receiveBuffer and building the package to change requested DTC.
+    wantedChange = receiveBuffer[1];
+    amountOfDTCToChange = (receiveBufferSize - 2u);
+    CHARON_INFO("SettingType updating started.");
+    for (uint32_t i = 0; i < amountOfDTCToChange; i+=3)
+    {
+        DTC_update.DTCSettingType = wantedChange;
+        DTC_update.DTCHighByte = receiveBuffer[i + 2];
+        DTC_update.DTCMiddleByte = receiveBuffer[i + 3];
+        DTC_update.DTCLowByte = receiveBuffer[i + 4];
+        charon_StoredDataTransmissionFunctionalUnit_DTCSettingTypeUpdater(DTC_update);
+    }
+
+
+    // Building response buffer.
+    s_buffer[0] = (uint8_t)uds_sid_ControlDtcSetting | (uint8_t)uds_sid_PositiveResponseMask;
+    s_buffer[1] = receiveBuffer[1]; // Even "off" on "off" request a positive response and the requested input shall be given out.
+
+    charon_sscTxMessage(s_buffer,length);
+    CHARON_INFO("SettingType's are now updated.");
+    return uds_responseCode_PositiveResponse;
 }
 
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_ResponseOnEvent (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)

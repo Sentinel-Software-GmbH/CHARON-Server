@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @defgroup BusinessLogic Business Logic
+ * @defgroup BusinessLogic Business Logic Modules
  * @{
  * @file charon_RoutineFunctionalUnit.h
  * Module specifies the services of remote activation of routines, as they shall be implemented in servers and client.

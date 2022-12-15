@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup Common
+ * @addtogroup Common Common
  * @{
  * @file charon_negativeResponse.c
  * This Module handles the Transfer of the negative Response message.

@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
  * @addtogroup test
  * @{
@@ -36,6 +36,9 @@
 #include "charon_DiagnosticAndCommunicationManagementFunctionalUnit.h"
 #include "mock_charon_negativeResponse.h"
 #include "mock_charon_SessionAndServiceControl.h"
+#include "mock_charon_interface_debug.h"
+#include "mock_charon_StoredDataTransmissionFunctionalUnit.h"
+#include "mock_charon_ServiceLookupTable.h"
 
 /* Imports *******************************************************************/
 
@@ -60,6 +63,78 @@ void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSe
 {
 
 }
+
+
+void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting_NotSupportedInActiveSessionDefaultSession_returnsNotSupportedInActiveSession (void)
+{
+    // Setup Variables
+    uint8_t receiveTestBuffer[4] = {0x00, 0x00, 0x00, 0x00};
+    uint8_t receiveTestBufferLength = 4u;
+
+
+    // Setup Environment
+
+
+    // Setup Expected Function Calls
+    CHARON_INFO_Ignore();
+    charon_sscGetSession_IgnoreAndReturn(0x02); // 0x02 is the default session state
+
+    charon_sendNegativeResponse_Ignore();
+    CHARON_ERROR_Ignore();
+
+    // Run Function Test
+
+    // Check Results
+    TEST_ASSERT_EQUAL(uds_responseCode_ServiceNotSupportedInActiveSession,charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting(receiveTestBuffer,receiveTestBufferLength));
+}
+
+void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting_NotSupportedInActiveSessionProgrammingSession_returnsNotSupportedInActiveSession (void)
+{
+    // Setup Variables
+    uint8_t receiveTestBuffer[4] = {0x00, 0x00, 0x00, 0x00};
+    uint8_t receiveTestBufferLength = 4u;
+
+
+    // Setup Environment
+
+
+    // Setup Expected Function Calls
+    CHARON_INFO_Ignore();
+    charon_sscGetSession_IgnoreAndReturn(0x04); // 0x04 is the programming session state
+
+    charon_sendNegativeResponse_Ignore();
+    CHARON_ERROR_Ignore();
+
+    // Run Function Test
+
+    // Check Results
+    TEST_ASSERT_EQUAL(uds_responseCode_ServiceNotSupportedInActiveSession,charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting(receiveTestBuffer,receiveTestBufferLength));
+}
+
+void test_charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting_SecuredOrExtendedSession_returnsPositiveResponse (void)
+{
+    // Setup Variables
+    uint8_t receiveTestBuffer[4] = {0x00, 0x00, 0x00, 0x00};
+    uint8_t receiveTestBufferLength = 4u;
+
+
+    // Setup Environment
+
+
+    // Setup Expected Function Calls
+    CHARON_INFO_Ignore();
+    charon_sscGetSession_IgnoreAndReturn(0x08); // 0x08 is the extended session state
+    charon_StoredDataTransmissionFunctionalUnit_DTCSettingTypeUpdater_Ignore();
+    charon_sscTxMessage_Expect(0x00,0x02);
+    charon_sscTxMessage_IgnoreArg_pBuffer();
+
+    // Run Function Test
+
+    // Check Results
+    TEST_ASSERT_EQUAL(uds_responseCode_PositiveResponse,charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting(receiveTestBuffer,receiveTestBufferLength));
+}
+
+
 
 /* Private Function **********************************************************/
 

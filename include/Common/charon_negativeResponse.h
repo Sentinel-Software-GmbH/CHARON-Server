@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
  * @addtogroup Common Common
  * @{
@@ -34,6 +34,7 @@
 #define CHARON_NEGATIVERESPONSE_H_
 
 /* Includes ******************************************************************/
+
 #include "charon_types.h"
 #include <stdint.h>
 
@@ -45,6 +46,11 @@
 
 /* Interfaces ****************************************************************/
 
+/** @brief The function is used to create a negative response of client request.
+ * 
+ * @param ResponseCode @ref uds_responseCode_t.
+ * @param RequestedSid @ref uds_sid_t.
+ */
 void charon_sendNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t RequestedSid);
 
 #endif /* CHARON_NEGATIVERESPONSE_H_ */

@@ -43,10 +43,13 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+/** @brief handle for timer 2. */
 TIM_HandleTypeDef htim2;
-
+/** @brief Handle for uart 2.*/
 UART_HandleTypeDef huart2;
+/** @brief handle for uart 2 rx dma */
 DMA_HandleTypeDef hdma_usart2_rx;
+/** @brief handle for uart 2 tx dma*/
 DMA_HandleTypeDef hdma_usart2_tx;
 
 /* USER CODE BEGIN PV */
@@ -119,7 +122,6 @@ int main(void)
 
 /**
   * @brief System Clock Configuration
-  * @retval None
   */
 void SystemClock_Config(void)
 {
@@ -157,9 +159,7 @@ void SystemClock_Config(void)
 
 /**
   * @brief TIM2 Initialization Function
-  * @param None
-  * @retval None
-  */
+   */
 static void MX_TIM2_Init(void)
 {
 
@@ -202,8 +202,6 @@ static void MX_TIM2_Init(void)
 
 /**
   * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
   */
 static void MX_USART2_UART_Init(void)
 {
@@ -254,8 +252,6 @@ static void MX_DMA_Init(void)
 
 /**
   * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
   */
 static void MX_GPIO_Init(void)
 {
@@ -271,7 +267,6 @@ static void MX_GPIO_Init(void)
 
 /**
   * @brief  This function is executed in case of error occurrence.
-  * @retval None
   */
 void Error_Handler(void)
 {

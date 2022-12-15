@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @defgroup BusinessLogic Business Logic
+ * @defgroup BusinessLogic Business Logic Modules
  * @{
  * @file charon_DataTransmissionFunctionalUnit.h
  * Implementation of the DTF Module
@@ -46,73 +46,78 @@
 
 /* Interfaces ****************************************************************/
 
-/**
- * UDS ISO 14229-1 SE 2013-03-15
+/** @brief The service allows the client to request data record values from the server identified by 
+ *          one or more dataIdentifiers. 
+ *          UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x22
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
- * @return @see @ref uds_responseCode_t
+ * @return @ref uds_responseCode_t
  */
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
- * UDS ISO 14229-1 SE 2013-03-15
+/** @brief The service allows the client to request memory data from the server via provided starting address and size of memory to be read.  
+ *          UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x23
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
- * @return @see @ref uds_responseCode_t
+ * @return @ref uds_responseCode_t
  */
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
- * UDS ISO 14229-1 SE 2013-03-15
+/** @brief The service allows the client to request scaling data record information from the server identified by a dataIdentifier.  
+ *          UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x24
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
- * @return @see @ref uds_responseCode_t
+ * @return @ref uds_responseCode_t
  */
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
- * UDS ISO 14229-1 SE 2013-03-15
+/** @brief The service allows the client to request the periodic transmission of data record 
+ *          values from the server identified by one or more periodicDataIdentifiers.
+ *          UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x2A
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
- * @return @see @ref uds_responseCode_t
+ * @return @ref uds_responseCode_t
  */
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByPeriodicIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
- * UDS ISO 14229-1 SE 2013-03-15
+/** @brief The service allows the client to dynamically define in a server a data identifier 
+ *          that can be read via the ReadDataByIdentifier service at a later time. 
+ *          UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x2C
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
- * @return @see @ref uds_responseCode_t
+ * @return @ref uds_responseCode_t
  */
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_DynamicallyDefineDataIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
- * UDS ISO 14229-1 SE 2013-03-15
+/** @brief The service allows the client to write information into the server at an internal location 
+ *          specified by the provided data identifier.
+ *          UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x2E
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
- * @return @see @ref uds_responseCode_t
+ * @return @ref uds_responseCode_t
  */
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_WriteDataByIdentifier (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
- * UDS ISO 14229-1 SE 2013-03-15
+/** @brief The service allows the client to write information into the server at one or more 
+ *          contiguous memory locations. 
+ *          UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x3D
  *
  * @param receiveBuffer Payload
  * @param receiveBufferSize Payload Size
- * @return @see @ref uds_responseCode_t
+ * @return Response Code @ref uds_responseCode_t
  */
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_WriteMemoryByAddress (uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 

@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup WindowsPort Windows port
+ * @addtogroup WindowsPort Windows porting 
  * @{
  * @file NVMEmulator.c
  * Implementation of NVM Emulation Module
@@ -34,20 +34,48 @@
 /* Includes ******************************************************************/
 
 #include "charon_interface_NvmDriver.h"
+#include "charon_StoredDataTransmissionFunctionalUnit.h"
 #include <string.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include "charon_config.h"
+
 
 /* Imports *******************************************************************/
 
 /* Constants *****************************************************************/
 
 /* Macros ********************************************************************/
-#define STORAGE_HEADER ((uint8_t) 48u) 
+
+/** @brief Save area for header in the NVM. */
+#define STORAGE_HEADER ((uint8_t) sizeof(DTC_header_t)) 
+
+/** @brief NVm config, may be changed depending on targets memory. Start of Memory block. Chains the DTC memory but can also be saved independet. (still in a block!) */
+#define START_OF_RESERVED_SPACE_FOR_DTC             ((uint8_t)  0u)        /** @todo change start here in merge */
+/** @brief Memory size in NVM for DTC depending on AMOUNT_OF_DTC. Indicates the end. */
+#define END_OF_RESERVED_SPACE_FOR_DTC               ((uint32_t)(sizeof(DTC_t)*AMOUNT_OF_DTC) + STORAGE_HEADER)
+
+/** @brief NVm config, may be changed depending on targets memory. Start of Memory block */
+#define START_OF_RESERVED_SPACE_FOR_SNAPSHOT        ((uint32_t)END_OF_RESERVED_SPACE_FOR_DTC + 1u)
+/** @brief Memory size in NVM for snapshot depending on AMOUNT_OF_SNAPSHOT. Indicates the end. */
+#define END_OF_RESERVED_SPACE_FOR_SNAPSHOT          ((uint32_t)START_OF_RESERVED_SPACE_FOR_SNAPSHOT + (sizeof(DTC_SnapshotData_t)*AMOUNT_OF_SNAPSHOT))
+
+/** @brief NVm config, may be changed depending on targets memory. Start of Memory block */
+#define START_OF_RESERVED_SPACE_FOR_STOREDDATA      ((uint32_t)END_OF_RESERVED_SPACE_FOR_SNAPSHOT + 1u)
+/** @brief Memory size in NVM for storedData depending on AMOUNT_OF_STOREDDATA. Indicates the end. */
+#define END_OF_RESERVED_SPACE_FOR_STOREDDATA        ((uint32_t)START_OF_RESERVED_SPACE_FOR_STOREDDATA + (sizeof(DTC_StoredData_t)*AMOUNT_OF_STOREDDATA))
+
+/** @brief NVm config, may be changed depending on targets memory. Start of Memory block */
+#define START_OF_RESERVED_SPACE_FOR_EXTENDEDDATA    ((uint32_t)END_OF_RESERVED_SPACE_FOR_STOREDDATA + 1u)
+/** @brief Memory size in NVM for extData depending on AMOUNT_OF_EXTENDEDDATA. Indicates the end. */
+#define END_OF_RESERVED_SPACE_FOR_EXTENDEDDATA      ((uint32_t)START_OF_RESERVED_SPACE_FOR_EXTENDEDDATA + (sizeof(DTC_StoredData_t)*AMOUNT_OF_EXTENDEDDATA))
 
 /* Types *********************************************************************/
 
 
 /* Variables *****************************************************************/
 
+/** @brief Stack allocation for emulated nvm. */
 static uint8_t NvmEmulator_MemorySpace[2*1024*1024];
 
 /* Private Function Definitions **********************************************/
@@ -78,23 +106,52 @@ void charon_NvmDriver_erase (void)
     memset(NvmEmulator_MemorySpace, 0xFF, sizeof(NvmEmulator_MemorySpace));
 }
 
-uint32_t charon_NvmDriver_getAddress (uint32_t DTCnumber)
-{
-    uint8_t position = DTCnumber;
-    uint8_t length = 48u;
-    uint32_t address = 0u;
-
-
-    address = (uint32_t)&NvmEmulator_MemorySpace[((position*length)+STORAGE_HEADER)];
-
-
-    return address;
-}
 
 uint32_t charon_NvmDriver_getNvmAddress (void)
 {
     return (uint32_t) &NvmEmulator_MemorySpace[0];
 }
+
+uint32_t charon_NvmDriver_getMirrorNvmAddress (uint16_t input, bool header)
+{
+    uint8_t header_bytes = sizeof(DTC_header_t);
+    uint32_t pos = sizeof(DTC_t);
+    if (header)
+    {
+        header_bytes = 0;
+    }
+    return (uint32_t) &NvmEmulator_MemorySpace[START_OF_RESERVED_SPACE_FOR_DTC + header_bytes + (pos * input)]; /** @todo USER: change to your Mirror starting address.*/
+}
+
+uint32_t charon_NvmDriver_getNvmAddress_for_DTC (uint16_t input, bool header)
+{
+    uint8_t header_bytes = sizeof(DTC_header_t);
+    uint32_t pos = sizeof(DTC_t);
+    if (header)
+    {
+        header_bytes = 0;
+    }
+    return (uint32_t) &NvmEmulator_MemorySpace[START_OF_RESERVED_SPACE_FOR_DTC + header_bytes + (pos * input)];
+}
+
+uint32_t charon_NvmDriver_getNvmAddress_for_Snapshot (uint16_t input)
+{
+    uint32_t pos = sizeof(DTC_SnapshotData_t);
+    return (uint32_t) &NvmEmulator_MemorySpace[START_OF_RESERVED_SPACE_FOR_SNAPSHOT + (pos * input)];
+}
+
+uint32_t charon_NvmDriver_getNvmAddress_for_StoredData (uint16_t input)
+{
+    uint32_t pos = sizeof(DTC_StoredData_t);
+    return (uint32_t) &NvmEmulator_MemorySpace[START_OF_RESERVED_SPACE_FOR_STOREDDATA + (pos * input)];
+}
+
+uint32_t charon_NvmDriver_getNvmAddress_for_ExtendedData (uint16_t input)
+{
+    uint32_t pos = sizeof(DTC_ExtendedData_t);
+    return (uint32_t) &NvmEmulator_MemorySpace[START_OF_RESERVED_SPACE_FOR_EXTENDEDDATA + (pos * input)];
+}
+
 /* Private Function **********************************************************/
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

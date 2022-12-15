@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup BusinessLogic Business Logic
+ * @addtogroup BusinessLogic Business Logic Modules
  * @{
  * @file charon_UploadDownloadFunctionalUnit.c
  * Implementation of Upload Download FU.

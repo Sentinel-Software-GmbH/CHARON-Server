@@ -3,13 +3,13 @@ if(NOT DEFINED CMAKE_BUILD_TYPE)
 endif()
 
 
-if(PORT MATCHES "^windows")
+if(PORT MATCHES "^windows" OR PORT MATCHES "^Windows" OR PORT MATCHES "^WINDOWS")
   set(ARCHITECTURES "-fno-set-stack-executable -mwin32 -mconsole -mnop-fun-dllimport") 
-elseif(PORT MATCHES "^stm32f4")
+elseif(PORT MATCHES "^stm32f4" OR PORT MATCHES "^STM32F4")
   set(ARCHITECTURES " -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfloat-abi=hard -fdata-sections -ffunction-sections")  
   add_definitions("-DSTM32F407xx")
   set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
-elseif(PORT MATCHES "^standalone")
+elseif(PORT MATCHES "^standalone" OR PORT MATCHES "^Standalone" OR PORT MATCHES "^StandAlone") 
   set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "-Wl,--export-all-symbols")
 endif()
 
@@ -21,7 +21,7 @@ set(STATIC_LIBS ON)
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(COMMON_FLAGS "${ARCHITECTURES} -O0 -Wall")
+set(COMMON_FLAGS "${ARCHITECTURES} -O0 -Wall -Wpedantic")
 set(CMAKE_C_FLAGS "${COMMON_FLAGS}")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS} -fno-rtti -fno-exceptions")
 set(CMAKE_ASM_FLAGS "${COMMON_FLAGS} -x assembler-with-cpp")

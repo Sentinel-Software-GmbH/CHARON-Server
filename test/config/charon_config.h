@@ -16,11 +16,11 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @defgroup Interface
+ * @defgroup Test Unit Test Modules
  * @{
- * @file charon_uds
+ * @file charon_config.h
  * This Interface Describes the Functions needed by CHARON UDS for
  * its debug output Requirements.
  * For production these functions can be stubbed, so no debug overhead
@@ -48,8 +48,29 @@
 /* Macros ********************************************************************/
 
 #define CHARON_CONFIG_DO_NOT_PRINT_WELCOME 1
-#define CHARON_CONFIG_IS_BIG_ENDIAN 1
-#define CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION 0
+#define CHARON_CONFIG_IS_BIG_ENDIAN 0
+#define CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION 1
+#define CHARON_CONFIG_LOG_MSG_OUT_AS_MACRO 0
+#define CHARON_CONFIG_DEBUGGING 0
+#define CHARON_CONFIG_FILL_NVM_AUTOMATIC 0
+#define CHARON_CONFIG_OBD_SUPPORT 0
+
+/** For DTC Nvm size, NVm config may be changed depending on targets memory. */
+#define AMOUNT_OF_DTC                                   ((uint16_t) 500u)
+#define AMOUNT_OF_SNAPSHOT                              ((uint16_t) 100u)
+#define AMOUNT_OF_STOREDDATA                            ((uint16_t) 100u)
+#define AMOUNT_OF_EXTENDEDDATA                          ((uint16_t) 100u)
+
+// Used to define how many addresses the USER wants to save per DTC and datatype.
+// If one of these is changed "charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm" function needs to be changed to too input more data.
+#define NVM_AMOUNT_OF_SNAPSHOTS                         ((uint8_t)3u)
+#define NVM_AMOUNT_OF_DATARECORDS                       ((uint8_t)3u)
+#define NVM_AMOUNT_OF_EXTENDED                          ((uint8_t)3u)
+
+// Used to define how much memory space the USER wants to reserve.
+#define NVM_RESERVED_SIZE_SNAPSHOT                      ((uint16_t)100u)
+#define NVM_RESERVED_SIZE_DATARECORD                    ((uint16_t)100u)
+#define NVM_RESERVED_SIZE_EXTENDED                      ((uint16_t)100u)
 
 /* Types *********************************************************************/
 

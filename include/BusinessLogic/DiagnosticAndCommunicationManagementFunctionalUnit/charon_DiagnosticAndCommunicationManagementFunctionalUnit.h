@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @defgroup BusinessLogic Business Logic
+ * @defgroup BusinessLogic Business Logic Modules
  * @{
  * @file charon_DiagnosticAndCommunicationManagementFunctionalUnit.h
  * Module handles Service Group for DCM
@@ -46,13 +46,10 @@
 
 /* Interfaces ****************************************************************/
 
-/**
- * Resets all internal Variables and
- * stops all ongoing Services.
- */
+/** @brief Resets all internal Variables and stops all ongoing Services. */
 void charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset (void);
 
-/**
+/** @brief The service is used to enable different diagnostic sessions in the server.
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x10
  *
@@ -62,7 +59,7 @@ void charon_DiagnosticAndCommunicationManagementFunctionalUnit_reset (void);
  */
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_DiagnosticSessionControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
+/** @brief The service is used by the client to request a server reset.
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x11
  *
@@ -72,7 +69,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Dia
  */
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
+/** @brief The service is to provide a means to access data and/or diagnostic services, which have restricted access for security.
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x27
  *
@@ -82,7 +79,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Ecu
  */
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecurityAccess (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
+/** @brief The service is to switch on/off the transmission and/or the reception of certain messages of (a) server.
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x28
  *
@@ -92,7 +89,8 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Sec
  */
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_CommunicationControl (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
+/** @brief The service is used to indicate to a server that a client is still connected to the vehicle and that certain diagnostic services 
+ *          and/or communication that have been previously activated are to remain active.
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x3E
  *
@@ -102,7 +100,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Com
  */
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_TesterPresent (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
+/** @brief The service is used to read and change the default timing parameters of a communication link for the duration this communication link is active.
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x83
  *
@@ -112,7 +110,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Tes
  */
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_AccessTimingParameter (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
+/** @brief The service is to transmit data that is protected against attacks from third parties - which could endanger data security.
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x84
  *
@@ -122,7 +120,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Acc
  */
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecuredDataTransmission (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
+/** @brief The service shall be used by a client to stop or resume the updating of DTC status bits in the server(s).
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x85
  *
@@ -132,7 +130,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Sec
  */
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_ControlDtcSetting (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
+/** @brief The service requests a server to start or stop transmission of responses on a specified event. 
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x86
  *
@@ -142,7 +140,7 @@ uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_Con
  */
 uds_responseCode_t charon_DiagnosticAndCommunicationManagementFunctionalUnit_ResponseOnEvent (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
 
-/**
+/** @brief The service is used to control the communication between the client and the server(s) in order to gain bus bandwidth for diagnostic purposes.
  * UDS ISO 14229-1 SE 2013-03-15
  * SID: 0x87
  *

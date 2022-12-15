@@ -16,7 +16,7 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
  * @defgroup Interface Interface
  * @{
@@ -48,10 +48,16 @@
 
 /* Interfaces ****************************************************************/
 
+/** @brief Function resets all dependent charon server processes */
 void charon_reset (void);
 
+/** @brief The function initializes charon sever.
+ * 
+ * @param systemCommunicationSocket Socket to be initialized @ref ISocket_t.
+ */
 void charon_init (ISocket_t systemCommunicationSocket);
 
+/** @brief Task can be cyclic called to fullfil its duty to respond to client requests. */
 void charon_task (void);
 
 #endif /* CHARON_H_ */

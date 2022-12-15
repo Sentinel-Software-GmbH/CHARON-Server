@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup BusinessLogic
+ * @addtogroup BusinessLogic Business Logic Modules
  * @{
  * @file charon_DataLookupTable.c
  * Implementation of the Data Lookup Table

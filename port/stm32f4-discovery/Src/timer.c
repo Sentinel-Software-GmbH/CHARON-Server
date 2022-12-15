@@ -16,9 +16,9 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 /**
- * @addtogroup CharonUDS
+ * @addtogroup CharonUDS_Server
  * @{
- * @addtogroup STM32F4Port
+ * @addtogroup STM32F4Port stm32f4 discovery porting
  * @{
  * @file timer.c
  * Implementation of timer Module
@@ -46,28 +46,42 @@
 
 /* Variables *****************************************************************/
 
+/** @brief save TimeHandle on stack for later use. */
 static TIM_HandleTypeDef * handle;
 
 /* Private Function Definitions **********************************************/
 
 /* Interfaces  ***************************************************************/
 
+/** @brief Enables target timer peripheral.
+ * 
+ * @param htim TIM_HandleTypeDef.
+ */
 void timer_init(TIM_HandleTypeDef * htim)
 {
     handle = htim;
     __HAL_TIM_ENABLE(handle);
 }
 
+/* Private Function **********************************************************/
+
+/** @brief Get the TIM Counter Register value on runtime from target peripheral.
+ * 
+ * @return 32-bit value of the timer counter register (TIMx_CNT)
+ */
 uint32_t charon_interface_clock_getTime(void)
 {
     return __HAL_TIM_GET_COUNTER(handle);
 }
 
+/** @brief Get elapsed time between from target peripheral.
+ * 
+ * @return Elapsed time in milli seconds.
+ */
 uint32_t charon_interface_clock_getTimeElapsed(uint32_t timestamp)
 {
     return __HAL_TIM_GET_COUNTER(handle) - timestamp;
 }
 
-/* Private Function **********************************************************/
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/
