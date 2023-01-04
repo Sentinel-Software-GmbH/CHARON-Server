@@ -863,7 +863,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
 {
     // sub 0x06 ISO 14229-1 2013
     // Setup Variables
-    uint8_t receiveTestBuffer[6] = {0x00, 0x06, 0x01, 0x02, 0x03, 0x00}; // 0x00 at array 6 is a reserved number
+    uint8_t receiveTestBuffer[6] = {0x00, 0x06, 0x01, 0x02, 0x03, 0x91}; // 0x91 at array 6 is a reserved OBD number
     uint8_t receiveTestBufferLength = 6u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
@@ -896,7 +896,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
 {
     // sub 0x06 ISO 14229-1 2013
     // Setup Variables
-    uint8_t receiveTestBuffer[6] = {0x00, 0x06, 0x01, 0x02, 0x03, 0x01};
+    uint8_t receiveTestBuffer[6] = {0x00, 0x06, 0x01, 0x02, 0x03, 0xFF};
     uint8_t receiveTestBufferLength = 6u;
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
@@ -909,7 +909,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
 
     DTC_header->CRC16Checksum = 0x00;
     DTC_header->totalDTCCounter = 0x01;
-    DTC_testDummy->NumberOfSavedExtendedData = 0x01;
+    DTC_testDummy->NumberOfSavedExtendedData = 0x03;
 
     Ext_testDummy->DTCExtendedDataRecordNumberOfIdentifiers = 0x01;
     Ext_testDummy->DTCExtendedDataPayload[0] = 0x01;
