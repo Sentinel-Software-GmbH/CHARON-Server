@@ -2,8 +2,8 @@
     "version": 3,
     "configurePresets": [
         {
-            "name": "BASE",
-            "displayName": "BASE",
+            "name": "GCC_BASE",
+            "displayName": "GCC_BASE",
             "description": "Default build arguments",
             "hidden": true,
             "generator": "Ninja",
@@ -13,16 +13,22 @@
             "toolchainFile": "${sourceDir}/toolchain/cmake/GCC.cmake"
         },
         {
+            "name": "ARM_NONE_EABI_BASE",
+            "displayName": "ARM_NONE_EABI_BASE",
+            "description": "Default build arguments",
+            "hidden": true,
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            },
+            "toolchainFile": "${sourceDir}/toolchain/cmake/GNU_ARM_Embedded.cmake"
+        },
+        {
             "name": "windows",
             "displayName": "Port - windows",
             "description": "Building the exe file for windows",
-            "inherits": "BASE",
+            "inherits": "GCC_BASE",
             "cacheVariables": {
-                "CMAKE_SYSTEM_NAME": "Windows",
-                "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_ASM_COMPILER": "gcc",
-                "CMAKE_OBJCOPY": "objcopy",
-                "CMAKE_OBJDUMP": "objdump",
                 "PORT": "windows",
                 "CHARON_CONFIG": "windows"
             }
@@ -31,13 +37,8 @@
             "name": "stm32f4",
             "displayName": "Port - stm32f4",
             "description": "Building the elf file for stm32f4",
-            "inherits": "BASE",
+            "inherits": "ARM_NONE_EABI_BASE",
             "cacheVariables": {
-                "CMAKE_SYSTEM_NAME": "Generic",
-                "CMAKE_SYSTEM_PROCESSOR ": "armv7-m",
-                "CMAKE_C_COMPILER": "arm-none-eabi-gcc",
-                "CMAKE_ASM_COMPILER": "arm-none-eabi-gcc",
-                "CMAKE_OBJDUMP": "arm-none-eabi-objdump",
                 "PORT": "stm32f4",
                 "CHARON_CONFIG": "F4Config"
             }
@@ -46,7 +47,7 @@
             "name": "standalone",
             "displayName": "Port - standalone",
             "description": "Building standalone charon library",
-            "inherits": "BASE",
+            "inherits": "GCC_BASE",
             "cacheVariables": {
                 "CMAKE_SYSTEM_NAME": "Generic",
                 "CMAKE_C_COMPILER": "gcc",

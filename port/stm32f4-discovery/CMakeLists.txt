@@ -19,8 +19,8 @@ add_executable(${MODULE_NAME}
   ${STM32_SOURCE}/startup_stm32f407xx.s
 )
 target_include_directories(${MODULE_NAME}
-  INTERFACE PUBLIC
-  ${STM32_SOURCE}/Inc
+  PRIVATE
+    ${STM32_SOURCE}/Inc
 )
 target_link_libraries(${MODULE_NAME}
   PRIVATE
@@ -32,10 +32,16 @@ target_link_libraries(${MODULE_NAME}
   ${CHARON_CONFIG}
 )
 
+target_compile_definitions(${MODULE_NAME}
+  PRIVATE
+    -D__arm__
+  )
+
 #set linker file and linker options also create map file
 set(LINKER_SCRIPT ${STM32_SOURCE}/STM32F407VGTx_FLASH.ld)
 target_link_options(${MODULE_NAME} 
   PRIVATE
+    -D__arm__
     -T${LINKER_SCRIPT} --specs=nosys.specs
     -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${MODULE_NAME}.map
 )
