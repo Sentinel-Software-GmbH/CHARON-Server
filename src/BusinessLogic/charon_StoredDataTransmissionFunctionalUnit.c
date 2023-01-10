@@ -1201,13 +1201,13 @@ uds_responseCode_t DTCExtDataRecordByDTCNumber (const uint8_t * receiveBuffer, u
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
     uint32_t length = 2u;
     uint8_t lengthOfDTC = 3u;
-    uint8_t recordNumberLoopEnd;
-    uint8_t recordNumberLoopStart = 0u;
+    uint8_t recordNumberLoops = 0u;
     uint8_t DTCMaskRecordhigh = receiveBuffer[2];
     uint8_t DTCMaskRecordmid  = receiveBuffer[3];
     uint8_t DTCMaskRecordlow  = receiveBuffer[4];
     uint8_t DTCExtDataRecordNumber = receiveBuffer[5];
     uint8_t memorySelection = 0u;
+    bool printAll = false;
     if (userDefMemory)
     {
         memorySelection = receiveBuffer[6];
@@ -1225,12 +1225,12 @@ uds_responseCode_t DTCExtDataRecordByDTCNumber (const uint8_t * receiveBuffer, u
             return uds_responseCode_ServiceNotSupported;
         }
     }
-#endif    
+#endif
 #if !CHARON_CONFIG_OBD_SUPPORT
-    // Only true if ExtData is not supported OR PRINT_ALL_OBD (0xFE) was input by user (not supported).
+    // Only true if ExtData is not supported OR PRINT_ALL_OBD (0xFE) was input by user (when not supported).
     for (uint32_t i = 0; i < sizeof(NOT_SUPPORTED_EXTDATA); i++)
     {                                                                                               // 0x90 - 0xFE are reserved for OBD 
-        if (((DTCExtDataRecordNumber == 0) || (DTCExtDataRecordNumber == NOT_SUPPORTED_EXTDATA[i]) || (DTCExtDataRecordNumber >= 0x90)) && (DTCExtDataRecordNumber != PRINT_ALL))
+        if (((DTCExtDataRecordNumber == NOT_SUPPORTED_EXTDATA[i]) || (DTCExtDataRecordNumber >= 0x90)) && (DTCExtDataRecordNumber != PRINT_ALL))
         {
             // No matching DTCRecord found.
             charon_sendNegativeResponse(uds_responseCode_ServiceNotSupported, uds_sid_ReadDtcInformation);
@@ -1266,7 +1266,7 @@ uds_responseCode_t DTCExtDataRecordByDTCNumber (const uint8_t * receiveBuffer, u
             // OBD case, if 0xFE was input by user, all OCB shall be printed.
             if (DTCExtDataRecordNumber == PRINT_ALL_OBD)
             {
-                for (size_t i = 0; i < sizeof(matchedDTC->DTCExtDataRecordNumber); i++)
+                for (uint8_t i = 0; i < sizeof(matchedDTC->DTCExtDataRecordNumber); i++)
                 {
                     if ((matchedDTC->DTCExtDataRecordNumber >= 0x90) && (matchedDTC->DTCExtDataRecordNumber <= 0xEF))
                     {
@@ -1296,37 +1296,52 @@ uds_responseCode_t DTCExtDataRecordByDTCNumber (const uint8_t * receiveBuffer, u
                 // If 0xFF was input by user, all ExtData shall be printed.
                 if (DTCExtDataRecordNumber == PRINT_ALL)
                 {
-                    recordNumberLoopEnd = sizeof(matchedDTC->DTCExtDataRecordNumber);
+                    recordNumberLoops = matchedDTC->NumberOfSavedExtendedData;
+                    printAll = true;
                 }
                 else
                 {
-                    recordNumberLoopStart = (DTCExtDataRecordNumber - 1u); 
-                    recordNumberLoopEnd = DTCExtDataRecordNumber;
+                    recordNumberLoops = 0x01; 
                 }
-                for ( ; recordNumberLoopStart < recordNumberLoopEnd; recordNumberLoopStart++)
-                {
-                    // Check if the new input will fit into the buffer.
-                    if((length + lengthOfDTC + 1u + 1u + (uint16_t)matchedDTC->DTCExtendedDataLength[recordNumberLoopStart]) > MAX_TX_BUFFER_SIZE)
-                    {
-                        // Too many DTC found, 
-                        charon_sendNegativeResponse(uds_responseCode_ResponseTooLong, uds_sid_ReadDtcInformation);
-                        CHARON_ERROR("Response is too long! Maximum size is %i.", MAX_TX_BUFFER_SIZE);
-                        return uds_responseCode_ResponseTooLong;
-                    }
 
-                    // Building response buffer.
-                    memcpy(&s_buffer[length], &matchedDTC->DTCHighByte, lengthOfDTC);
-                    length += lengthOfDTC;
-                    memcpy(&s_buffer[length], &matchedDTC->statusOfDTC, 1u);
-                    length++;
-                    memcpy(&s_buffer[length], &matchedDTC->DTCExtDataRecordNumber[recordNumberLoopStart], 1u);
-                    length++;
-                    memcpy(&s_buffer[length], &matchedDTC->DTCExtendedDataAddress[recordNumberLoopStart]->DTCExtendedDataPayload, (uint16_t)matchedDTC->DTCExtendedDataLength[recordNumberLoopStart]);
-                    length += (uint16_t)matchedDTC->DTCExtendedDataLength[recordNumberLoopStart];
+                for (uint8_t i = 0; i < sizeof(matchedDTC->DTCExtDataRecordNumber); i++)
+                {
+                    if (matchedDTC->DTCExtendedDataLength[i] != 0)
+                    {
+                        if ((matchedDTC->DTCExtDataRecordNumber[i] == DTCExtDataRecordNumber) || (printAll))
+                        {
+                            // Check if the new input will fit into the buffer.
+                            if((length + lengthOfDTC + 1u + 1u + (uint16_t)matchedDTC->DTCExtendedDataLength[i]) > MAX_TX_BUFFER_SIZE)
+                            {
+                                // Too many DTC found, 
+                                charon_sendNegativeResponse(uds_responseCode_ResponseTooLong, uds_sid_ReadDtcInformation);
+                                CHARON_ERROR("Response is too long! Maximum size is %i.", MAX_TX_BUFFER_SIZE);
+                                return uds_responseCode_ResponseTooLong;
+                            }
+
+                            // Building response buffer.
+                            memcpy(&s_buffer[length], &matchedDTC->DTCHighByte, lengthOfDTC);
+                            length += lengthOfDTC;
+                            memcpy(&s_buffer[length], &matchedDTC->statusOfDTC, 1u);
+                            length++;
+                            memcpy(&s_buffer[length], &matchedDTC->DTCExtDataRecordNumber[i], 1u);
+                            length++;
+                            memcpy(&s_buffer[length], &matchedDTC->DTCExtendedDataAddress[i]->DTCExtendedDataPayload, (uint16_t)matchedDTC->DTCExtendedDataLength[i]);
+                            length += (uint16_t)matchedDTC->DTCExtendedDataLength[i];
+
+                            recordNumberLoops--;
+                            if (recordNumberLoops == 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }
-    } else
+    }
+    
+    if ((matchedDTC == NULL) || (recordNumberLoops != 0))
     {
         // When no ExtData was found an echo shall be send back.
         memcpy(&s_buffer[length], &receiveBuffer[2], lengthOfDTC);
