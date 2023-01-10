@@ -2,13 +2,12 @@ if(NOT DEFINED CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif()
 
+set(CMAKE_SYSTEM_NAME Windows)
+set(CMAKE_SYSTEM_VERSION 10.0)
+
 
 if(PORT MATCHES "^windows" OR PORT MATCHES "^Windows" OR PORT MATCHES "^WINDOWS")
   set(ARCHITECTURES "-fno-set-stack-executable -mwin32 -mconsole -mnop-fun-dllimport") 
-elseif(PORT MATCHES "^stm32f4" OR PORT MATCHES "^STM32F4")
-  set(ARCHITECTURES " -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfloat-abi=hard -fdata-sections -ffunction-sections")  
-  add_definitions("-DSTM32F407xx")
-  set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 elseif(PORT MATCHES "^standalone" OR PORT MATCHES "^Standalone" OR PORT MATCHES "^StandAlone") 
   set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "-Wl,--export-all-symbols")
 endif()
@@ -20,6 +19,12 @@ set(STATIC_LIBS ON)
 
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_ASM_COMPILER gcc)
+set(CMAKE_C_COMPILER gcc)
+set(CMAKE_OBJCOPY objcopy)
+set(CMAKE_OBJDUMP objdump)
+set(CMAKE_C_COMPILE_FEATURES "c_std_99")
 
 set(COMMON_FLAGS "${ARCHITECTURES} -O0 -Wall -Wpedantic")
 set(CMAKE_C_FLAGS "${COMMON_FLAGS}")
@@ -38,4 +43,4 @@ set(CMAKE_CXX_FLAGS_RELEASE "${COMMON_RELEASE_FLAGS}")
 set(CMAKE_ASM_FLAGS_RELEASE "${COMMON_RELEASE_FLAGS}")
 
 set(CMAKE_C_COMPILER_TARGET gcc)
-set(CMAKE_CXX_COMPILER_TARGET arm-none-eabi)
+set(CMAKE_CXX_COMPILER_TARGET gcc)

@@ -19,8 +19,8 @@ add_executable(${MODULE_NAME}
   ${STM32_SOURCE}/startup_stm32f407xx.s
 )
 target_include_directories(${MODULE_NAME}
-  INTERFACE PUBLIC
-  ${STM32_SOURCE}/Inc
+  PRIVATE
+    ${STM32_SOURCE}/Inc
 )
 target_link_libraries(${MODULE_NAME}
   PRIVATE

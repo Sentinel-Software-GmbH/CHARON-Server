@@ -55,7 +55,7 @@
 #define PACKED_STRUCT(name)             \
 struct __attribute__((packed, aligned(1))) name
 #endif
-#ifdef __arm__
+#ifdef __ARMCC_VERSION
 #define PACKED_STRUCT(name)             \
 struct __attribute__((packed)) name
 #endif
@@ -64,7 +64,7 @@ struct __attribute__((packed)) name
 #ifdef __GNUC__
 #define REV32(input)        (((input & 0xFF000000) >> 24) | ((input & 0x00FF0000) >> 8) | ((input & 0x0000FF00) << 8) | ((input & 0x000000FF) << 24))                       
 #endif
-#ifdef __arm__
+#ifdef __ARMCC_VERSION
 #define REV32(input)       ( __rev(input))
 #endif
 
@@ -77,7 +77,7 @@ static inline uint16_t REV16 (uint16_t input)
     return rolled;
 }
 #endif
-#ifdef __arm__
+#ifdef __ARMCC_VERSION
 #define REV16(input)       ( __rev16(input))
 #endif
 /* Types *********************************************************************/
