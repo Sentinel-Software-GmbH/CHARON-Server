@@ -20,5 +20,6 @@ target_link_libraries(${MODULE_NAME}
   Interface
   Socket
   charon_StoredDataTransmissionFunctionalUnit
+  charon_DataTransmissionFunctionalUnit
   ${CHARON_CONFIG}
 )

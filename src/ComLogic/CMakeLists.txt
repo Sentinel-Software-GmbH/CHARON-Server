@@ -18,6 +18,7 @@ target_link_libraries(charon_ServiceLookupTable
   charon_UploadDownloadFunctionalUnit
   charon_InputOutputControlFunctionalUnit
   charon_StoredDataTransmissionFunctionalUnit
+  charon_DataTransmissionFunctionalUnit
   Socket
   Common
 )
@@ -33,6 +34,7 @@ target_include_directories(charon_SessionAndServiceControl
 target_link_libraries(charon_SessionAndServiceControl
   PRIVATE
   charon_ServiceLookupTable
+  charon_DataTransmissionFunctionalUnit
   Common
   Interface
   HSDI

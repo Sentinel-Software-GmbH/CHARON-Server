@@ -34,7 +34,6 @@
 #define CHARON_NEGATIVERESPONSE_H_
 
 /* Includes ******************************************************************/
-
 #include "charon_types.h"
 #include <stdint.h>
 

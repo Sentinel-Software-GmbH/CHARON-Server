@@ -39,6 +39,7 @@
 #include "charon_UploadDownloadFunctionalUnit.h"
 #include "charon_InputOutputControlFunctionalUnit.h"
 #include "charon_StoredDataTransmissionFunctionalUnit.h"
+#include "charon_DataTransmissionFunctionalUnit.h"
 
 /* Imports *******************************************************************/
 
@@ -53,14 +54,14 @@ static charon_serviceObject_t serviceLookupTable[] =
         {uds_sid_EcuReset,                                  (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DiagnosticAndCommunicationManagementFunctionalUnit_EcuReset,                             0u},
         {uds_sid_ClearDiagnosticInformation,                (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation,                         0u},
         {uds_sid_ReadDtcInformation,                        (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_StoredDataTransmissionFunctionalUnit_ReadDtcInformation,                                 0u},
-        {uds_sid_ReadDataByIdentifier,                      (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
-        {uds_sid_ReadMemoryByAddress,                       (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
-        {uds_sid_ReadScalingDataByIdentifier,               (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
+        {uds_sid_ReadDataByIdentifier,                      (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier,                                     0u},
+        {uds_sid_ReadMemoryByAddress,                       (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress,                                      0u},
+        {uds_sid_ReadScalingDataByIdentifier,               (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DataTransmissionFunctionalUnit_ReadScalingDataByIdentifier,                              0u},
         {uds_sid_SecurityAccess,                            (                                        SESSION_EXTENDED | SESSION_SECURED),   charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecurityAccess,                       0u},
         {uds_sid_CommunicationControl,                      (                  SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DiagnosticAndCommunicationManagementFunctionalUnit_CommunicationControl,                 0u},
-        {uds_sid_ReadDataByPeriodicIdentifier,              (                                        SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
-        {uds_sid_DynamicallyDefineDataIdentifier,           (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
-        {uds_sid_WriteDataByIdentifier,                     (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
+        {uds_sid_ReadDataByPeriodicIdentifier,              (                                        SESSION_EXTENDED | SESSION_SECURED),   charon_DataTransmissionFunctionalUnit_ReadDataByPeriodicIdentifier,                                                                                           0u},
+        {uds_sid_DynamicallyDefineDataIdentifier,           (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DataTransmissionFunctionalUnit_DynamicallyDefineDataIdentifier,                                                                                           0u},
+        {uds_sid_WriteDataByIdentifier,                     (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DataTransmissionFunctionalUnit_WriteDataByIdentifier,                                    0u},
         {uds_sid_InputOutputControlByIdentifier,            (                                        SESSION_EXTENDED | SESSION_SECURED),   charon_InputOutputControlFunctionalUnit_InputOutputControlByIdentifier,                         0u},
         {uds_sid_RoutineControl,                            (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_RoutineFunctionalUnit_RoutineControl,                                                    0u},
         {uds_sid_RequestDownload,                           (                  SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_UploadDownloadFunctionalUnit_RequestDownload,                                            0u},
@@ -68,7 +69,7 @@ static charon_serviceObject_t serviceLookupTable[] =
         {uds_sid_TransferData,                              (                  SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_UploadDownloadFunctionalUnit_TransferData,                                               0u},
         {uds_sid_RequestTransferExit,                       (                  SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_UploadDownloadFunctionalUnit_RequestTransferExit,                                        0u},
         {uds_sid_RequestFileTransfer,                       (                  SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_UploadDownloadFunctionalUnit_RequestFileTransfer,                                        0u},
-        {uds_sid_WriteMemoryByAddress,                      (                  SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   NULL,                                                                                           0u},
+        {uds_sid_WriteMemoryByAddress,                      (                  SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DataTransmissionFunctionalUnit_WriteMemoryByAddress,                                                                                           0u},
         {uds_sid_TesterPresent,                             (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DiagnosticAndCommunicationManagementFunctionalUnit_TesterPresent,                        0u},
         {uds_sid_AccessTimingParameter,                     (                  SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DiagnosticAndCommunicationManagementFunctionalUnit_AccessTimingParameter,                0u},
         {uds_sid_SecuredDataTransmission,                   (                                                           SESSION_SECURED),   charon_DiagnosticAndCommunicationManagementFunctionalUnit_SecuredDataTransmission,              0u},
