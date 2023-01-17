@@ -42,7 +42,9 @@
 #include "mock_charon_interface_clock.h"
 #include "mock_charon_ServiceLookupTable.h"
 #include "mock_charon_negativeResponse.h"
+#include "mock_charon_DataTransmissionFunctionalUnit.h"
 #include "mock_charon_interface_debug.h"
+
 
 /* Imports *******************************************************************/
 
@@ -338,6 +340,7 @@ void test_charon_SessionAndServiceControl_monitorOngoingService_withinTimeNothin
     /* Setup Expected Function Calls */
     charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 10u);
     charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 10u);
+    charon_DataTransmissionFunctionalUnit_SendPeriodic_Expect();
 
     /* Run Function Test */
     charon_sscCyclic();
@@ -357,7 +360,9 @@ void test_charon_SessionAndServiceControl_monitorOngoingService_diagnosticSessio
     /* Setup Expected Function Calls */
     charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 5001u);
     charon_interface_clock_getTimeElapsed_ExpectAndReturn(0x100u, 10u);
+    charon_DataTransmissionFunctionalUnit_SendPeriodic_Expect();
     CHARON_WARNING_Ignore();
+
     /* Run Function Test */
     charon_sscCyclic();
 

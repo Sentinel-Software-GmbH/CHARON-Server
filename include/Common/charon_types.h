@@ -108,7 +108,7 @@ typedef enum
 {
     uds_sid_DiagnosticSessionControl = 0x10u,           /**< The service is used to enable different diagnostic sessions in the server. */
     uds_sid_EcuReset = 0x11u,                           /**< The service is used by the client to request a server reset. */ 
-    uds_sid_ClearDiagnosticInformation = 0x14u,         /**< The service is used by the client to clear diagnostic information in one or multiple serversâ€™ memory. */
+    uds_sid_ClearDiagnosticInformation = 0x14u,         /**< The service is used by the client to clear diagnostic information in one or multiple servers’ memory. */
     uds_sid_ReadDtcInformation = 0x19u,                 /**< The service allows a client to read the status of server resident Diagnostic Trouble Code information. */
     uds_sid_ReadDataByIdentifier = 0x22u,               /**< The service allows the client to request data record values from the server identified by one or more dataIdentifiers. */
     uds_sid_ReadMemoryByAddress = 0x23u,                /**< The service allows the client to request memory data from the server via provided starting address and size of memory to be read. */

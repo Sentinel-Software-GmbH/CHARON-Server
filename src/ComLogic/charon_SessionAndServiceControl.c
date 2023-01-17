@@ -40,6 +40,7 @@
 #include "charon_interface_clock.h"
 #include "charon_interface_debug.h"
 #include "ISocket.h"
+#include "charon_DataTransmissionFunctionalUnit.h"
 
 /* Imports *******************************************************************/
 
@@ -201,6 +202,8 @@ void charon_sscCyclic (void)
         /* Reset Flag for P2 and P2* distinguish */
         s_p2PendingExceededHandled = false;
     }
+
+    charon_DataTransmissionFunctionalUnit_SendPeriodic(); /** @todo ends in an circle dependence, needs task fix in future*/
 }
 
 void charon_sscRcvMessage (void)

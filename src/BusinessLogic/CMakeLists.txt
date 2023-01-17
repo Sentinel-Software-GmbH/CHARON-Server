@@ -32,6 +32,7 @@ PRIVATE
   charon_DataLookupTable
   Interface
   Common
+  HSDI
   Socket
   ${CHARON_CONFIG}
 )

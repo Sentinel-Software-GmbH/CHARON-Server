@@ -37,7 +37,7 @@
 
 #include "charon_StoredDataTransmissionFunctionalUnit.h"            //del later
 #include "charon_interface_NvmDriver.h"                             //del later
-#include "Charon_DTC_LookupTable.h"
+#include "charon_DTC_LookupTable.h"
 
 
 #if CHARON_CONFIG_DEBUGGING
@@ -103,7 +103,7 @@ int main (void)
 }
 
 
-void DTC_demo (void)
+void DTC_demo (void)                /** @todo remove demo from windows port, add demo to ports*/
 {  
     charon_DTC_LookupTable_header_SET();
 
