@@ -40,6 +40,7 @@
 #include <stdint.h>
 #include <string.h>
 
+
 /* Imports *******************************************************************/
 
 /* Constants *****************************************************************/
@@ -64,11 +65,14 @@ IO_DID_List_Entry_t *findDID(uint16_t DID);
 #else
 #error "You must use either static or dynamic memory location for io control."
 #endif
+
+
 /* Types *********************************************************************/
 
 /* Variables *****************************************************************/
 
 static IO_DID_List_Entry_t *io_control_list;
+
 
 /* Private Function Definitions **********************************************/
 
@@ -82,6 +86,7 @@ static IO_DID_List_Entry_t *io_control_list;
  * @return uds_responseCode_t 
  */
 static uds_responseCode_t handleFlag(IO_DID_List_Entry_t* did_entry, uint16_t currentMaskPosition, uint8_t receivedCommand, const uint8_t *data, uint32_t data_length);
+
 /** @brief Function is used to handle negative response.
  * 
  * @param message Buffer containing message from client.
@@ -91,6 +96,7 @@ static uds_responseCode_t handleFlag(IO_DID_List_Entry_t* did_entry, uint16_t cu
  * @return uds_responseCode_t 
  */
 static uds_responseCode_t handleNegative(char *message, uint16_t DID, uint16_t currentMaskPosition, uds_responseCode_t responseCode);
+
 
 /* Interfaces  ***************************************************************/
 
@@ -274,6 +280,7 @@ bool charon_InputOutputControlFunctionalUnit_clearIOEntries()
 }
 #endif
 
+
 /* Private Function **********************************************************/
 
 static uds_responseCode_t handleFlag(IO_DID_List_Entry_t* did_entry, uint16_t currentMaskPosition, uint8_t receivedCommand, const uint8_t *data, uint32_t data_length)
@@ -336,5 +343,6 @@ static uds_responseCode_t handleNegative(char *message, uint16_t DID, uint16_t c
     charon_sendNegativeResponse(responseCode, uds_sid_InputOutputControlByIdentifier);
     return responseCode;
 }
+
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

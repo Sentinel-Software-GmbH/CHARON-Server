@@ -39,6 +39,7 @@
     - src/**
     - ../../src/**
   :include:
+    - include/**
     - config/**
     - ../../include/**
 

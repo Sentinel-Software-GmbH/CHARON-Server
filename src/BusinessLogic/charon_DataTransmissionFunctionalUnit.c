@@ -116,24 +116,15 @@ static uds_responseCode_t dynamicallyDefinedDataIdentifierClearDynamicalDefinedD
 /**
  * @brief Resets the Counter value for the Periodic Data identifier to be in schedular. 
  * 
- * @param Timing the periodic transmission mode (Slow, medium or Fast)
+ * @param timing the periodic transmission mode (Slow, medium or Fast)
  * @return uint32_t returns the counter value of the specific timing aka Transmission mode 
  */
 static uint32_t resetTransmitCounter (transmissionMode_t  timing);
 
 /**
- * @brief Checks if the schedular for the periodic DID has a free slot, and if the new added periodic DID can fit.
- * 
- * @param numberOfpDID the amount of Periodic Data Identifier that the client wants to add to the periodic scheduled massages
- * @return true 
- * @return false 
- */
-static bool isSchedularFree(uint32_t numberOfpDID);
-
-/**
  * @brief Checks if the tranmission mode (periodic frequency) requested from the client is supported by the server.
  * 
- * @param TransmissionMode the Transmission mode can be Slow, medium or Fast periodic rate.
+ * @param transmissionMode the Transmission mode can be Slow, medium or Fast periodic rate.
  * @return true 
  * @return false 
  */
@@ -204,14 +195,14 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (c
     uint32_t minLengthOfDid = 3u;
     /** Max Length of requested DIDs (SID 1 Byte + 2 Byte id per DID) */
     uint32_t maxLengthOfDid = (1u + (MAX_PARALLEL_REQUESTED_DID * 2u));
-    
+
     /* length check for min 3 and not over the maximum amount of parallel requested DID. */
     if(!lengthAndFormatCheck(minLengthOfDid, maxLengthOfDid, receiveBufferSize))
     {
         charon_sendNegativeResponse(uds_responseCode_IncorrectMessageLengthOrInvalidFormat,uds_sid_ReadDataByIdentifier);
         return uds_responseCode_IncorrectMessageLengthOrInvalidFormat;
     }
-    
+
     uint8_t counter =0u;
 
     for(uint16_t i=0; i < amountOfDIDs; i ++ )
@@ -260,7 +251,6 @@ uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadDataByIdentifier (c
         charon_sendNegativeResponse(uds_responseCode_RequestOutOfRange, uds_sid_ReadDataByIdentifier);
         return uds_responseCode_RequestOutOfRange;
     }
-    
 }
 
 uds_responseCode_t charon_DataTransmissionFunctionalUnit_ReadMemoryByAddress (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
@@ -764,7 +754,7 @@ periodicRateGetter_t charon_DataTransmissionFunctionalUnit_getDefinedPeriodic (v
 
 /* Private Function **********************************************************/
 
-uds_responseCode_t dynamicallyDefinedDataIdentifierDefineByIdentifier (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t dynamicallyDefinedDataIdentifierDefineByIdentifier (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     definitionMode_t DefMode = receiveBuffer[1];
     uint16_t dynamicDataIdentifier;
@@ -841,7 +831,7 @@ uds_responseCode_t dynamicallyDefinedDataIdentifierDefineByIdentifier (const uin
     return uds_responseCode_PositiveResponse;
 }
 
-uds_responseCode_t dynamicallyDefinedDataIdentifierDefineByMemoryAddress (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t dynamicallyDefinedDataIdentifierDefineByMemoryAddress (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     definitionMode_t DefMode = receiveBuffer[1];
     uint16_t dynamicDataIdentifier;
@@ -919,7 +909,7 @@ uds_responseCode_t dynamicallyDefinedDataIdentifierDefineByMemoryAddress (const 
     return uds_responseCode_PositiveResponse;
 }
 
-uds_responseCode_t dynamicallyDefinedDataIdentifierClearDynamicalDefinedDID (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t dynamicallyDefinedDataIdentifierClearDynamicalDefinedDID (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     definitionMode_t DefMode = receiveBuffer[1];
     uint16_t dynamicDataIdentifier;
@@ -962,7 +952,7 @@ uds_responseCode_t dynamicallyDefinedDataIdentifierClearDynamicalDefinedDID (con
     }
 }
 
-uint32_t resetTransmitCounter (transmissionMode_t  timing)
+static uint32_t resetTransmitCounter (transmissionMode_t  timing)
 {
     uint32_t retval = 0u;
 
@@ -982,20 +972,7 @@ uint32_t resetTransmitCounter (transmissionMode_t  timing)
     return retval;
 }
 
-bool isSchedularFree(uint32_t numberOfpDID)
-{
-    uint32_t SchedulerRequest = (s_periodicQueueCounter + numberOfpDID);
-    if(MAX_CONCURRENT_PDID <= SchedulerRequest)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-bool isTransmissionModeSupported (transmissionMode_t transmissionMode)
+static bool isTransmissionModeSupported (transmissionMode_t transmissionMode)
 {
     bool retval = false;
     
@@ -1019,7 +996,7 @@ bool isTransmissionModeSupported (transmissionMode_t transmissionMode)
     return retval;
 }
 
-bool requestInRange (uint8_t memorySize, uint8_t memoryAddress)
+static bool requestInRange (uint8_t memorySize, uint8_t memoryAddress)
 {
     bool SizeInRange = false;
 
@@ -1033,7 +1010,7 @@ bool requestInRange (uint8_t memorySize, uint8_t memoryAddress)
     return SizeInRange;
 }
 
-bool lengthAndFormatCheck(uint32_t minLength, uint32_t maxLength, uint32_t bufferSize)
+static bool lengthAndFormatCheck(uint32_t minLength, uint32_t maxLength, uint32_t bufferSize)
 {
     bool retval = false;
 
@@ -1055,7 +1032,7 @@ bool lengthAndFormatCheck(uint32_t minLength, uint32_t maxLength, uint32_t buffe
     return retval;
 }
 
-bool securityCheckOkay(charon_dataIdentifierObject_t* DID)
+static bool securityCheckOkay(charon_dataIdentifierObject_t* DID)
 {
     bool retval = false;
 
@@ -1063,7 +1040,7 @@ bool securityCheckOkay(charon_dataIdentifierObject_t* DID)
     return retval;
 }
 
-void deleteDynamicallyDefinedDataIdentifier (uint8_t highByte, uint8_t lowByte)
+static void deleteDynamicallyDefinedDataIdentifier (uint8_t highByte, uint8_t lowByte)
 {
     uint16_t dynamicDataIdentifier;
     charon_dataIdentifierObject_t* didLookupData;

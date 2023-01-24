@@ -38,6 +38,7 @@
 #include "charon_SessionAndServiceControl.h"
 #include "charon_negativeResponse.h"
 
+
 /* Imports *******************************************************************/
 
 /* Constants *****************************************************************/
@@ -66,6 +67,7 @@ typedef enum TransferDirection_t_private
     transfer_upload          /**< Transfer Server -> Client */
 } TransferDirection_t;
 
+
 /* Variables *****************************************************************/
 
 /** Current Transfer State */
@@ -76,6 +78,7 @@ static uint32_t s_currentMemoryAddress = 0uL;
 static uint32_t s_remainingMemoryLength = 0uL;
 /** Stores Counter to Check Transfer amount and count */
 static uint8_t s_nextSequenceCounter = 0uL;
+
 
 /* Private Function Definitions **********************************************/
 
@@ -94,6 +97,7 @@ static uint8_t s_nextSequenceCounter = 0uL;
  * @return @see @ref uds_responseCode_t
  */
 static uds_responseCode_t requestTransfer(TransferDirection_t direction, const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+
 
 /* Interfaces  ***************************************************************/
 
@@ -275,6 +279,7 @@ uint8_t charon_UploadDownloadFunctionalUnit_getNextSequenceCounter (void)
 
 #endif
 
+
 /* Private Function **********************************************************/
 
 static uds_responseCode_t requestTransfer(TransferDirection_t direction, const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
@@ -364,5 +369,6 @@ static uds_responseCode_t requestTransfer(TransferDirection_t direction, const u
     }
     return result;
 }
+
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

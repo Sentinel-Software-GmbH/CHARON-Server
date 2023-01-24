@@ -72,6 +72,7 @@ void CHARON_INFO (char *x, ...)
     /* Clean up the va_list */
     va_end(myargs);
 }
+
 /** @brief Function uses snprintf() to log Charon Info messages.
  * 
  * @param x String to log.
@@ -94,6 +95,7 @@ void CHARON_WARNING (char *x, ...)
     /* Clean up the va_list */
     va_end(myargs);
 }
+
 /** @brief Function uses snprintf() to log Charon Info messages.
  * 
  * @param x String to log.

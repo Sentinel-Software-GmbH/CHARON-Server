@@ -70,6 +70,7 @@
 /** @brief Memory size in NVM for extData depending on AMOUNT_OF_EXTENDEDDATA. Indicates the end. */
 #define END_OF_RESERVED_SPACE_FOR_EXTENDEDDATA      ((uint32_t)START_OF_RESERVED_SPACE_FOR_EXTENDEDDATA + (sizeof(DTC_StoredData_t)*AMOUNT_OF_EXTENDEDDATA))
 
+
 /* Types *********************************************************************/
 
 
@@ -77,6 +78,7 @@
 
 /** @brief Stack allocation for emulated nvm. */
 static uint8_t NvmEmulator_MemorySpace[2*1024*1024];
+
 
 /* Private Function Definitions **********************************************/
 
@@ -87,30 +89,30 @@ bool charon_NvmDriver_checkAddressRange (uint32_t address, uint32_t length)
     return (address + length) < sizeof(NvmEmulator_MemorySpace);
 }
 
-
 uds_responseCode_t charon_NvmDriver_write (uint32_t address, const uint8_t* data, uint32_t size)
 {
     memcpy(&NvmEmulator_MemorySpace[address], data, size);
     return uds_responseCode_PositiveResponse;
 }
 
-
 void charon_NvmDriver_read (uint32_t address, uint8_t* data, uint32_t size)
 {
     memcpy(data, &NvmEmulator_MemorySpace[address], size);
 }
-
 
 void charon_NvmDriver_erase (void)
 {
     memset(NvmEmulator_MemorySpace, 0xFF, sizeof(NvmEmulator_MemorySpace));
 }
 
-
 uint32_t charon_NvmDriver_getNvmAddress (void)
 {
     return (uint32_t) &NvmEmulator_MemorySpace[0];
 }
+
+//###########################################################################################################
+// DTC related 
+//###########################################################################################################
 
 uint32_t charon_NvmDriver_getMirrorNvmAddress (uint16_t input, bool header)
 {
@@ -151,6 +153,11 @@ uint32_t charon_NvmDriver_getNvmAddress_for_ExtendedData (uint16_t input)
     uint32_t pos = sizeof(DTC_ExtendedData_t);
     return (uint32_t) &NvmEmulator_MemorySpace[START_OF_RESERVED_SPACE_FOR_EXTENDEDDATA + (pos * input)];
 }
+
+//###########################################################################################################
+// DID related 
+//###########################################################################################################
+
 
 /* Private Function **********************************************************/
 

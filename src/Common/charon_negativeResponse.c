@@ -37,6 +37,7 @@
 #include "charon_ServiceLookupTable.h"
 #include "charon_interface_debug.h"
 
+
 /* Imports *******************************************************************/
 
 /* Constants *****************************************************************/
@@ -58,9 +59,8 @@ void charon_sendNegativeResponse (uds_responseCode_t ResponseCode, uds_sid_t Req
     charon_sscTxMessage(transmitBuffer, sizeof(transmitBuffer));
 }
 
+
 /* Private Function **********************************************************/
-
-
 
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

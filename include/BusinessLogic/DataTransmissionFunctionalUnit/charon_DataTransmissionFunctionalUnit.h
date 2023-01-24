@@ -88,9 +88,9 @@ typedef enum definitionMode_t_private
 */
 typedef struct periodicRateGetter_t_private
 {
-    uint32_t        slow_rate;
-    uint32_t        medium_rate;
-    uint32_t        fast_rate;
+    uint32_t        slow_rate;      /**< used to captured the transmissionMode sendSlowRate, is used unitTest*/
+    uint32_t        medium_rate;    /**< used to captured the transmissionMode sendMediumRate, is used unitTest*/
+    uint32_t        fast_rate;      /**< used to captured the transmissionMode sendFastRate, is used unitTest*/
 }periodicRateGetter_t;
 
 

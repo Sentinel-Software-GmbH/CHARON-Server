@@ -69,6 +69,7 @@
  */
 #define UDS_RESPONSE_REQUEST_INDICATION_BIT_MASK         ((uint8_t) 0x40u)
 
+
 /* Types *********************************************************************/
 
 /** Struct to store all timing required Data */
@@ -78,6 +79,7 @@ typedef struct
     uint32_t        p2Server;       /**< Timeout for the initial answer. */
     uint32_t        p2StarServer;   /**< Timeout for the extended answer. */
 } ComTimeoutLimits_t;
+
 
 /* Variables *****************************************************************/
 
@@ -165,6 +167,7 @@ static uds_responseCode_t handleService (const charon_serviceObject_t * pExecuta
  *      Length of Message in Bytes
  */
 static void sendMessage (uint8_t const * const pUdsMessage, uint32_t length);
+
 
 /* Interfaces  ***************************************************************/
 
@@ -349,6 +352,7 @@ void charon_sscTesterPresentHeartbeat (void)
 {
     s_diagnosticSessionTimestamp = charon_interface_clock_getTime();
 }
+
 
 /* Private Function **********************************************************/
 

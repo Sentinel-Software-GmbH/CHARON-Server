@@ -67,6 +67,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation
     uint8_t receiveTestBuffer[3];
     uint8_t receiveTestBufferLength = 3u;
 
+
     // Setup Environment
 
 
@@ -86,6 +87,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation
     // Setup Variables
     uint8_t receiveTestBuffer[42];
     uint8_t receiveTestBufferLength = 42u;
+
 
     // Setup Environment
 
@@ -107,6 +109,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation
     uint8_t receiveTestBuffer[4] = {0x00, 0x00, 0x00, 0x00}; // 0x000000 -> 0x0000FF are reserved
     uint8_t receiveTestBufferLength = 4u;
 
+
     // Setup Environment
 
 
@@ -126,6 +129,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation
     // Setup Variables
     uint8_t receiveTestBuffer[4] = {0x00, 0xFF, 0xFF, 0x03}; // 0xFFFF00 -> 0xFFFF32 are reserved
     uint8_t receiveTestBufferLength = 4u;
+
 
     // Setup Environment
 
@@ -147,6 +151,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation
     uint8_t receiveTestBuffer[4] = {0x00, 0xFF, 0xFF, 0x36}; // 0xFFFF34 -> 0xFFFFCF are reserved
     uint8_t receiveTestBufferLength = 4u;
 
+
     // Setup Environment
 
 
@@ -166,6 +171,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation
     // Setup Variables
     uint8_t receiveTestBuffer[4] = {0x00, 0xFF, 0xFF, 0xFD}; // 0xFFFFD1 -> 0xFFFFFD are reserved
     uint8_t receiveTestBufferLength = 4u;
+
 
     // Setup Environment
 
@@ -187,6 +193,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation
     uint8_t receiveTestBuffer[4] = {0x00, 0xFF, 0xFF, 0xFF}; // 0xFFFFFF = delete all
     uint8_t receiveTestBufferLength = 4u;
 
+
     // Setup Environment
 
 
@@ -207,6 +214,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ClearDiagnosticInformation
     // Setup Variables
     uint8_t receiveTestBuffer[4] = {0x00, 0x01, 0x02, 0x03};
     uint8_t receiveTestBufferLength = 4u;
+
 
     // Setup Environment
 
@@ -232,11 +240,13 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_invalid
     uint32_t pointerBufferForHeader[(sizeof(DTC_header_t) / 4)] = {0}; // Dummy.
     uint32_t iGiveUpNow = 0x00;
     
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
     DTC_header->iniDone = 0xDEADBEEF;
     iGiveUpNow = (uint32_t)&pointerBufferForHeader[0];
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -261,9 +271,11 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_invalid
     uint8_t receiveTestBufferLength = 2u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -288,9 +300,11 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_crc16In
     uint8_t receiveTestBufferLength = 2u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x01; // test should yield 0x00 and so its non valid
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -317,9 +331,11 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportN
     uint8_t receiveTestBufferLength = 3u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -349,6 +365,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -358,6 +375,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     DTC_testDummy->DTCMiddleByte = 0x01;
     DTC_testDummy->DTCLowByte = 0x01;
     DTC_testDummy->DTCStatusMask = 0xFF;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -390,10 +408,12 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -424,6 +444,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t receiveTestBufferLength = 6u;
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
+
 
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
@@ -464,12 +485,14 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
     DTC_header->CRC16Checksum = 0x00;
     DTC_header->totalDTCCounter = 0x01;
     DTC_testDummy->NumberOfSavedSnapshots = 0x01;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -501,6 +524,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForSnap[sizeof(DTC_SnapshotData_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -516,6 +540,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
         DTC_testDummy->DTCSnapshotLength[i] = 0xFFFF; // will result in to many saved DTC
         DTC_testDummy->DTCSnapshotAddress[i] = (DTC_SnapshotData_t*)&pointerBufferForSnap[0];
     }
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -546,6 +571,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForSnap[sizeof(DTC_SnapshotData_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -561,6 +587,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
         DTC_testDummy->DTCSnapshotLength[i] = 0xFFFF; // will result in to many saved DTC
         DTC_testDummy->DTCSnapshotAddress[i] = (DTC_SnapshotData_t*)&pointerBufferForSnap[0];
     }
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -591,6 +618,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForSnap[sizeof(DTC_SnapshotData_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -606,6 +634,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
         DTC_testDummy->DTCSnapshotLength[i] = 0xFFFF; // will result in to many saved DTC
         DTC_testDummy->DTCSnapshotAddress[i] = (DTC_SnapshotData_t*)&pointerBufferForSnap[0];
     }
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -634,6 +663,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t receiveTestBuffer[6] = {0x00, 0x04, 0x01, 0x02, 0x03, 0xFF};
     uint8_t receiveTestBufferLength = 6u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
+
 
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
@@ -673,6 +703,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForSnap[sizeof(DTC_SnapshotData_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -688,6 +719,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
         DTC_testDummy->DTCSnapshotLength[i] = 0x01;
         DTC_testDummy->DTCSnapshotAddress[i] = (DTC_SnapshotData_t*)&pointerBufferForSnap[0];
     }
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -717,6 +749,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t receiveTestBufferLength = 3u;
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
+
 
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
@@ -756,6 +789,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -794,6 +828,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -828,6 +863,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t receiveTestBufferLength = 3u;
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
+
 
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
@@ -867,6 +903,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t receiveTestBufferLength = 6u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
@@ -901,6 +938,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForExt[sizeof(DTC_ExtendedData_t)]; // Dummy.
+
 
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
@@ -950,6 +988,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForExt[sizeof(DTC_ExtendedData_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -995,6 +1034,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportN
     uint8_t receiveTestBufferLength = 4u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
@@ -1030,11 +1070,13 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
     DTC_header->CRC16Checksum = 0x00;
     DTC_header->totalDTCCounter = 0xFF; // will cause an overflow
+    DTC_header->currentDTCCounter = 0xFF; // will cause an overflow
 
 
     // Setup Expected Function Calls
@@ -1107,6 +1149,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -1142,6 +1185,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportS
     uint8_t receiveTestBuffer[5] = {0x00, 0x09, 0x01, 0x02, 0x03};
     uint8_t receiveTestBufferLength = 5u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
+
 
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
@@ -1179,6 +1223,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportS
     uint8_t receiveTestBufferLength = 5u;
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
+
 
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
@@ -1270,6 +1315,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportS
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -1281,6 +1327,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportS
     {
         DTC_header->nvmDTCLookupTable[i] = 0xFF;
     }
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1312,11 +1359,13 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportF
     uint8_t receiveTestBufferLength = 2u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
     
     DTC_header->FirstFailedDTC = 0;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1346,11 +1395,13 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportF
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
 
     DTC_header->FirstFailedDTC = (uint32_t)&pointerBufferForDTC[0];
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1380,11 +1431,13 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportF
     uint8_t receiveTestBufferLength = 2u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
     
     DTC_header->FirstConfirmedDTC = 0;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1414,11 +1467,13 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportF
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
 
     DTC_header->FirstConfirmedDTC = (uint32_t)&pointerBufferForDTC[0];
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1448,11 +1503,13 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportM
     uint8_t receiveTestBufferLength = 2u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
     
     DTC_header->MostRecentTestFailed = 0;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1482,11 +1539,13 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportM
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
 
     DTC_header->MostRecentTestFailed = (uint32_t)&pointerBufferForDTC[0];
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1516,11 +1575,13 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportM
     uint8_t receiveTestBufferLength = 2u;
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
     
     DTC_header->MostRecentConfirmedDTC = 0;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1550,11 +1611,13 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportM
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_header->CRC16Checksum = 0x00;
 
     DTC_header->MostRecentConfirmedDTC = (uint32_t)&pointerBufferForDTC[0];
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1584,10 +1647,12 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportM
     uint8_t receiveTestBufferLength = 3u;
     uint32_t pointerBuffer[1]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBuffer[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBuffer[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1620,6 +1685,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportM
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForExt[sizeof(DTC_ExtendedData_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -1636,6 +1702,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportM
         DTC_testDummy->DTCExtendedDataLength[i] = 0x01;
         DTC_testDummy->DTCExtendedDataAddress[i] = (DTC_ExtendedData_t*)&pointerBufferForExt[0];
     }
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1668,9 +1735,11 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportN
     uint8_t receiveTestBufferLength = 3u;
     uint32_t pointerBuffer[1]; // Dummy.
     
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBuffer[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1700,9 +1769,11 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportN
     uint8_t receiveTestBufferLength = 3u;
     uint32_t pointerBuffer[1]; // Dummy.
     
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBuffer[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1730,9 +1801,11 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportE
     uint8_t receiveTestBufferLength = 3u;
     uint32_t pointerBuffer[1]; // Dummy.
     
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBuffer[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1760,9 +1833,11 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t receiveTestBufferLength = 2u;
     uint32_t pointerBuffer[1]; // Dummy.
     
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBuffer[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1790,9 +1865,11 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t receiveTestBufferLength = 2u;
     uint32_t pointerBuffer[1]; // Dummy.
     
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBuffer[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1819,9 +1896,11 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t receiveTestBufferLength = 3u;
     uint32_t pointerBuffer[1]; // Dummy.
     
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBuffer[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1851,6 +1930,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)] = {0}; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForExt[sizeof(DTC_ExtendedData_t)]; // Dummy.
+
 
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
@@ -1898,12 +1978,14 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
     DTC_header->CRC16Checksum = 0x00;
 
     DTC_testDummy->NumberOfSavedExtendedData = 0x01;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -1934,6 +2016,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportD
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForExt[sizeof(DTC_ExtendedData_t)]; // Dummy.
+
 
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
@@ -1984,10 +2067,12 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportU
     uint8_t receiveTestBuffer[3] = {0x00, 0x17, 0xF1};
     uint8_t receiveTestBufferLength = 3u;
     uint32_t pointerBuffer[1]; // Dummy.
-    
+
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBuffer[0];
     DTC_header->CRC16Checksum = 0x00;
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -2019,6 +2104,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportU
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForSnap[sizeof(DTC_SnapshotData_t)]; // Dummy.
 
+
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];
     DTC_t* DTC_testDummy = (DTC_t*)&pointerBufferForDTC[0];
@@ -2034,6 +2120,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportU
         DTC_testDummy->DTCSnapshotLength[i] = 0x01;
         DTC_testDummy->DTCSnapshotAddress[i] = (DTC_SnapshotData_t*)&pointerBufferForSnap[0];
     }
+
 
     // Setup Expected Function Calls
     CHARON_INFO_Ignore();
@@ -2068,6 +2155,7 @@ void test_charon_StoredDataTransmissionFunctionalUnit_ReadDTCInformation_reportU
     uint8_t pointerBufferForDTC[sizeof(DTC_t)]; // Dummy.
     uint8_t pointerBufferForHeader[sizeof(DTC_header_t)]; // Dummy.
     uint8_t pointerBufferForExt[sizeof(DTC_ExtendedData_t)]; // Dummy.
+
 
     // Setup Environment
     DTC_header_t* DTC_header = (DTC_header_t*)&pointerBufferForHeader[0];

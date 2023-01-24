@@ -620,7 +620,7 @@ void charon_deleteDTC (uint8_t DTCHighByte, uint8_t DTCMiddleByte, uint8_t DTCLo
         }
         charon_StoredDataTransmissionFunctionalUnit_CRC16_update();
     }
-    
+
 
     /** @todo USER: New groups need to be put in too. */
     if ((vobd) || (safety) || (emission))
@@ -656,7 +656,7 @@ void charon_deleteDTC (uint8_t DTCHighByte, uint8_t DTCMiddleByte, uint8_t DTCLo
         }
         charon_StoredDataTransmissionFunctionalUnit_CRC16_update();
     }
-    
+
 
     if (delAll)
     {
@@ -711,7 +711,7 @@ void charon_DTC_LookupTable_header_SET (void)
 
 /* Private Function **********************************************************/
 
-void charon_deleteDTC_inNvm (uint16_t found, uint32_t aDTC, uint32_t aDTC_header, uint32_t aSnap_t, uint32_t aStored_t, uint32_t aExt_t)
+static void charon_deleteDTC_inNvm (uint16_t found, uint32_t aDTC, uint32_t aDTC_header, uint32_t aSnap_t, uint32_t aStored_t, uint32_t aExt_t)
 {
     uint32_t number = 0u;
     uint32_t index = 0u;
@@ -802,7 +802,7 @@ void charon_deleteDTC_inNvm (uint16_t found, uint32_t aDTC, uint32_t aDTC_header
 }
 
 
-bool charon_DTC_LookupTable_DTClookupTableValidCheck(uint32_t input, uint32_t address)
+static bool charon_DTC_LookupTable_DTClookupTableValidCheck(uint32_t input, uint32_t address)
 {
     /** @todo Maybe upgrade to inline function / macro in future. */
     uint8_t index = 0u;
