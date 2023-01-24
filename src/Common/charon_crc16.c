@@ -37,6 +37,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+
 /* Imports *******************************************************************/
 
 /* Constants *****************************************************************/
@@ -64,7 +65,6 @@ crc16_t charon_crc16_reflect(crc16_t data, size_t data_len)
     }
     return ret;
 }
-
 
 crc16_t charon_crc16_update(crc16_t crc, const void *data, size_t data_len)
 {
@@ -94,9 +94,8 @@ crc16_t charon_crc16_update(crc16_t crc, const void *data, size_t data_len)
     return crc & 0xffff;
 }
 
+
 /* Private Function **********************************************************/
-
-
 
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

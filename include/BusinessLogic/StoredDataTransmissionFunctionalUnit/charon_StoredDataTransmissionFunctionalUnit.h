@@ -43,10 +43,6 @@
 
 /* Macros ********************************************************************/
 
-/** 0 size array will result in, warning: ISO C forbids zero-size array!
- @brief Calc for pad size and prevents % = 0 to be padded with 4 bytes.
- #define PAD_SIZE(x) ((x % 4) ? 4 - (x % 4) : 0) */
-
 /** @brief Calc for pad size (windows will always pad an uneven uint8 counter to full uint16 without making sure its clean (crc16 errors)). */
 #define PAD_SIZE(x) (4 - (x % 4))
 

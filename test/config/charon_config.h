@@ -47,30 +47,63 @@
 
 /* Macros ********************************************************************/
 
-#define CHARON_CONFIG_DO_NOT_PRINT_WELCOME 1
+/** @brief Macro to switch comfortably on or off charon  welcome message. */ 
+#define CHARON_CONFIG_DO_NOT_PRINT_WELCOME 0
+/** @brief Macro to switch comfortably between endianess. */
 #define CHARON_CONFIG_IS_BIG_ENDIAN 0
-#define CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION 1
-#define CHARON_CONFIG_LOG_MSG_OUT_AS_MACRO 0
-#define CHARON_CONFIG_DEBUGGING 0
-#define CHARON_CONFIG_FILL_NVM_AUTOMATIC 0
+/** @brief Macro to switch support for OBD (CURRENTLY NOT FULLY SUPPORTED!)*/
 #define CHARON_CONFIG_OBD_SUPPORT 0
 
-/** For DTC Nvm size, NVm config may be changed depending on targets memory. */
-#define AMOUNT_OF_DTC                                   ((uint16_t) 500u)
-#define AMOUNT_OF_SNAPSHOT                              ((uint16_t) 100u)
-#define AMOUNT_OF_STOREDDATA                            ((uint16_t) 100u)
-#define AMOUNT_OF_EXTENDEDDATA                          ((uint16_t) 100u)
+/** @brief Macro to switch comfortably logging messages with function.*/
+#define CHARON_CONFIG_LOG_MSG_OUT_AS_FUNCTION 1
+/** @brief Macro to switch comfortably logging messages with Macro.*/
+#define CHARON_CONFIG_LOG_MSG_OUT_AS_MACRO 0
 
-// Used to define how many addresses the USER wants to save per DTC and datatype.
-// If one of these is changed "charon_StoredDataTransmissionFunctionalUnit_writeDTCto_Nvm" function needs to be changed to too input more data.
+
+//############################################################################################################
+// Debug option for Charon, only 1 can be set
+//############################################################################################################
+
+/** @brief Macro to prepare dummy data, loaded into NVM. */
+#define CHARON_CONFIG_DEBUGGING_LOAD_DEBUG_DUMMY_DATA 1
+
+// Default is Server - Client communication.
+/** @brief used to debug whit the server construct only, quicker access but client communication is skipped. */
+#define CHARON_CONFIG_DEBUGGING_SERVER_INTERN 0
+
+
+//############################################################################################################
+// DTC settings 
+//############################################################################################################
+
+/** @brief For DTC Nvm size, NVm config may be changed depending on targets memory.*/
+#define AMOUNT_OF_DTC                                   ((uint16_t)111u)
+/** @brief For snapshot Nvm size, NVm config may be changed depending on targets memory. AMOUNT_OF_SNAPSHOT and AMOUNT... are uint8_t so 255 can be saved max. */
+#define AMOUNT_OF_SNAPSHOT                              ((uint8_t) 100u)
+/** @brief For storedData Nvm size, NVm config may be changed depending on targets memory. AMOUNT_OF_SNAPSHOT and AMOUNT... are uint8_t so 255 can be saved max. */
+#define AMOUNT_OF_STOREDDATA                            ((uint8_t) 100u)
+/** @brief For extData Nvm size, NVm config may be changed depending on targets memory. AMOUNT_OF_SNAPSHOT and AMOUNT... are uint8_t so  255 can be saved max. */
+#define AMOUNT_OF_EXTENDEDDATA                          ((uint8_t) 100u)
+
+/** @brief Used to define how many addresses the USER wants to save per DTC and datatype. */
 #define NVM_AMOUNT_OF_SNAPSHOTS                         ((uint8_t)3u)
+/** @brief Used to define how many addresses the USER wants to save per DTC and datatype. */
 #define NVM_AMOUNT_OF_DATARECORDS                       ((uint8_t)3u)
+/** @brief Used to define how many addresses the USER wants to save per DTC and datatype. */
 #define NVM_AMOUNT_OF_EXTENDED                          ((uint8_t)3u)
 
-// Used to define how much memory space the USER wants to reserve.
+/** @brief Used to define how much memory space the USER wants to reserve, for the payload. (WILL ALWAYS BE FULLY RESERVED FOR EACH ADDED) */
 #define NVM_RESERVED_SIZE_SNAPSHOT                      ((uint16_t)100u)
+/** @brief Used to define how much memory space the USER wants to reserve, for the payload. (WILL ALWAYS BE FULLY RESERVED FOR EACH ADDED)*/
 #define NVM_RESERVED_SIZE_DATARECORD                    ((uint16_t)100u)
+/** @brief Used to define how much memory space the USER wants to reserve, for the payload. (WILL ALWAYS BE FULLY RESERVED FOR EACH ADDED)*/
 #define NVM_RESERVED_SIZE_EXTENDED                      ((uint16_t)100u)
+
+
+//############################################################################################################
+// DID settings 
+//############################################################################################################
+
 
 /* Types *********************************************************************/
 

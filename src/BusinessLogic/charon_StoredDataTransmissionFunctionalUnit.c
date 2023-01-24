@@ -122,7 +122,8 @@ static uds_responseCode_t NumberOfDTCByStatusMask (const uint8_t * receiveBuffer
  * @param receiveBuffer             Payload.
  * @param receiveBufferSize         Payload size.
  * @param mirror                    Only used if a mirror subfunction was requested by the user.
- * @return uds_responseCode_t 
+ * 
+ * @return uds_responseCode_t       
  */
 static uds_responseCode_t DTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize, bool mirror);
 
@@ -195,47 +196,37 @@ static uds_responseCode_t SeverityInformationOfDTC (const uint8_t * receiveBuffe
 /**
  * @brief Read DTC Information (SID 0x019) Subfunction 0x0A from ISO: 14229-1.
  * 
- * @param receiveBuffer             Payload.
- * @param receiveBufferSize         Payload size.
  * @return uds_responseCode_t 
  */
-static uds_responseCode_t SupportedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+static uds_responseCode_t SupportedDTC (void);
 
 /**
  * @brief Read DTC Information (SID 0x019) Subfunction 0x0B from ISO: 14229-1.
  * 
- * @param receiveBuffer             Payload.
- * @param receiveBufferSize         Payload size.
  * @return uds_responseCode_t 
  */
-static uds_responseCode_t FirstTestFailedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+static uds_responseCode_t FirstTestFailedDTC (void);
 
 /**
  * @brief Read DTC Information (SID 0x019) Subfunction 0x0C from ISO: 14229-1.
  * 
- * @param receiveBuffer             Payload.
- * @param receiveBufferSize         Payload size.
  * @return uds_responseCode_t 
  */
-static uds_responseCode_t FirstConfirmedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+static uds_responseCode_t FirstConfirmedDTC (void);
 
 /**
  * @brief Read DTC Information (SID 0x019) Subfunction 0x0D from ISO: 14229-1.
  * 
- * @param receiveBuffer             Payload.
- * @param receiveBufferSize         Payload size.
  * @return uds_responseCode_t 
  */
-static uds_responseCode_t MostRecentTestFailedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+static uds_responseCode_t MostRecentTestFailedDTC (void);
 
 /**
  * @brief Read DTC Information (SID 0x019) Subfunction 0x0E from ISO: 14229-1.
  * 
- * @param receiveBuffer             Payload.
- * @param receiveBufferSize         Payload size.
  * @return uds_responseCode_t 
  */
-static uds_responseCode_t MostRecentConfirmedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize);
+static uds_responseCode_t MostRecentConfirmedDTC (void);
 
 /**
  * @brief Read DTC Information (SID 0x019) Subfunction 0x12 from ISO: 14229-1.
@@ -578,31 +569,31 @@ uds_responseCode_t charon_StoredDataTransmissionFunctionalUnit_ReadDtcInformatio
     case reportSupportedDTC:                                //0x0A      
     {
         CHARON_INFO("Sub 0x0A: reportSupportedDTC start.");
-        return SupportedDTC(receiveBuffer, receiveBufferSize);
+        return SupportedDTC();
     }
 
     case reportFirstTestFailedDTC:                          //0x0B  
     {
         CHARON_INFO("Sub 0x0B: reportFirstTestFailedDTC start.");
-        return FirstTestFailedDTC(receiveBuffer, receiveBufferSize);
+        return FirstTestFailedDTC();
     }
 
     case reportFirstConfirmedDTC:                           //0x0C
     {
         CHARON_INFO("Sub 0x0C: reportFirstConfirmedDTC start.");
-        return FirstConfirmedDTC(receiveBuffer, receiveBufferSize);
+        return FirstConfirmedDTC();
     }
 
     case reportMostRecentTestFailedDTC:                     //0x0D
     {
         CHARON_INFO("Sub 0x0D: reportMostRecentTestFailedDTC start.");
-        return MostRecentTestFailedDTC(receiveBuffer, receiveBufferSize);
+        return MostRecentTestFailedDTC();
     }
 
     case reportMostRecentConfirmedDTC:                      //0x0E      
     {
         CHARON_INFO("Sub 0x0E: reportMostRecentConfirmedDTC start.");
-        return MostRecentConfirmedDTC(receiveBuffer, receiveBufferSize);
+        return MostRecentConfirmedDTC();
     }
 
     case reportMirrorMemoryDTCByStatusMask:                 //0x0F   
@@ -769,6 +760,12 @@ uds_responseCode_t charon_StoredDataTransmissionFunctionalUnit_writeDTCToNvm (DT
 }
 
 
+// Getter for Mirror location.
+DTC_header_t* charon_StoredDataTransmissionFunctionalUnit_getMirrorHeaderAddress(void)
+{
+    return ((DTC_header_t*)charon_NvmDriver_getMirrorNvmAddress(0, true)); /** @todo USER: check for changed path! */
+}
+
 uint16_t charon_StoredDataTransmissionFunctionalUnit_get_total_mirrorDTCCounter (void)
 {
     DTC_header_t* DTC_header = charon_StoredDataTransmissionFunctionalUnit_getMirrorHeaderAddress();
@@ -793,6 +790,12 @@ uint8_t charon_StoredDataTransmissionFunctionalUnit_get_total_mirrorExtDataRecor
     return ((uint8_t)DTC_header->totalExtDataRecordCounter);
 }
 
+
+// Getter for User defined location.
+DTC_header_t* charon_StoredDataTransmissionFunctionalUnit_getUserDefHeaderAddress(uint8_t memorySelection)
+{
+    return ((DTC_header_t*)charon_NvmDriver_getNvmAddress_for_DTC(0,true)); /** @todo future implementation  */
+}
 
 uint16_t charon_StoredDataTransmissionFunctionalUnit_get_total_userDefDTCCounter (uint8_t memorySelection)
 {
@@ -836,18 +839,7 @@ void charon_StoredDataTransmissionFunctionalUnit_CRC16_update (void)
 
 /* Private Function **********************************************************/
 
-DTC_header_t* charon_StoredDataTransmissionFunctionalUnit_getMirrorHeaderAddress(void)
-{
-    return ((DTC_header_t*)charon_NvmDriver_getMirrorNvmAddress(0, true)); /** @todo USER: check for changed path! */
-}
-
-DTC_header_t* charon_StoredDataTransmissionFunctionalUnit_getUserDefHeaderAddress(uint8_t memorySelection)
-{
-    return ((DTC_header_t*)charon_NvmDriver_getNvmAddress_for_DTC(0,true)); /** @todo future implementation  */
-}
-
-
-uds_responseCode_t NumberOfDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize, bool mirror, bool userDefMemory)
+static uds_responseCode_t NumberOfDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize, bool mirror, bool userDefMemory)
 {
     uint8_t StatusMask = receiveBuffer[2];
     uint8_t memorySelection = 0u;
@@ -891,7 +883,7 @@ uds_responseCode_t NumberOfDTCByStatusMask (const uint8_t * receiveBuffer, uint3
 }
 
 
-uds_responseCode_t DTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize, bool mirror)
+static uds_responseCode_t DTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize, bool mirror)
 {
     uint8_t StatusMask = receiveBuffer[2];
     DTC_t *matchedDTC = NULL;
@@ -944,7 +936,7 @@ uds_responseCode_t DTCByStatusMask (const uint8_t * receiveBuffer, uint32_t rece
 }
 
 
-uds_responseCode_t DTCSnapshotIdentification (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t DTCSnapshotIdentification (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     DTC_t *DTCwithSnapshot;
     DTC_header_t *DTC_header = (DTC_header_t*)charon_NvmDriver_getNvmAddress_for_DTC(0,true);
@@ -1005,7 +997,7 @@ uds_responseCode_t DTCSnapshotIdentification (const uint8_t * receiveBuffer, uin
 }
 
 
-uds_responseCode_t DTCSnapshotRecordByDTCNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize, bool userDefMemory)
+static uds_responseCode_t DTCSnapshotRecordByDTCNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize, bool userDefMemory)
 {
     DTC_t *matchedDTC = NULL;
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
@@ -1120,7 +1112,7 @@ uds_responseCode_t DTCSnapshotRecordByDTCNumber (const uint8_t * receiveBuffer, 
 }
 
 
-uds_responseCode_t DTCStoredDataByRecordNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t DTCStoredDataByRecordNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     bool header = false;
     DTC_t *matchedDTC = (DTC_t*)charon_NvmDriver_getNvmAddress_for_DTC(0,header);
@@ -1195,7 +1187,7 @@ uds_responseCode_t DTCStoredDataByRecordNumber (const uint8_t * receiveBuffer, u
 }
 
 
-uds_responseCode_t DTCExtDataRecordByDTCNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize, bool mirror, bool userDefMemory)
+static uds_responseCode_t DTCExtDataRecordByDTCNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize, bool mirror, bool userDefMemory)
 {
     DTC_t *matchedDTC = NULL;
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
@@ -1356,7 +1348,7 @@ uds_responseCode_t DTCExtDataRecordByDTCNumber (const uint8_t * receiveBuffer, u
 }
 
 
-uds_responseCode_t NumberOfDTCBySeverityMaskRecord (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t NumberOfDTCBySeverityMaskRecord (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     uint8_t DTCSeverityMask = receiveBuffer[2];
     uint8_t DTCStatusMask = receiveBuffer[3];
@@ -1383,7 +1375,7 @@ uds_responseCode_t NumberOfDTCBySeverityMaskRecord (const uint8_t * receiveBuffe
 }
 
 
-uds_responseCode_t DTCBySeverityMaskRecord (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t DTCBySeverityMaskRecord (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     DTC_t *DTCwithMatch;
     uint8_t DTCSeverityMask = receiveBuffer[2];
@@ -1444,7 +1436,7 @@ uds_responseCode_t DTCBySeverityMaskRecord (const uint8_t * receiveBuffer, uint3
 }
 
 
-uds_responseCode_t SeverityInformationOfDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t SeverityInformationOfDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     DTC_t *DTCwithMatch = (DTC_t*)charon_NvmDriver_getNvmAddress_for_DTC(0,false);
     uint8_t DTCMaskRecordhigh = receiveBuffer[2];
@@ -1488,7 +1480,7 @@ uds_responseCode_t SeverityInformationOfDTC (const uint8_t * receiveBuffer, uint
 }
 
 
-uds_responseCode_t SupportedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t SupportedDTC (void)
 {
     DTC_t *matchedDTC = (DTC_t*)charon_NvmDriver_getNvmAddress_for_DTC(0,false);
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
@@ -1545,7 +1537,7 @@ uds_responseCode_t SupportedDTC (const uint8_t * receiveBuffer, uint32_t receive
 }
 
 
-uds_responseCode_t FirstTestFailedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t FirstTestFailedDTC (void)
 {
     DTC_t *matchedDTC;
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
@@ -1578,7 +1570,7 @@ uds_responseCode_t FirstTestFailedDTC (const uint8_t * receiveBuffer, uint32_t r
 }
 
 
-uds_responseCode_t FirstConfirmedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t FirstConfirmedDTC (void)
 {
     DTC_t *matchedDTC;
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
@@ -1611,7 +1603,7 @@ uds_responseCode_t FirstConfirmedDTC (const uint8_t * receiveBuffer, uint32_t re
 }
 
 
-uds_responseCode_t MostRecentTestFailedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t MostRecentTestFailedDTC (void)
 {
     DTC_t *matchedDTC;
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
@@ -1643,7 +1635,7 @@ uds_responseCode_t MostRecentTestFailedDTC (const uint8_t * receiveBuffer, uint3
 }
 
 
-uds_responseCode_t MostRecentConfirmedDTC (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t MostRecentConfirmedDTC (void)
 {
     DTC_t *matchedDTC;
     static uint8_t s_buffer[MAX_TX_BUFFER_SIZE];
@@ -1675,35 +1667,35 @@ uds_responseCode_t MostRecentConfirmedDTC (const uint8_t * receiveBuffer, uint32
 }
 
 
-uds_responseCode_t NumberOfEmissionsOBDDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t NumberOfEmissionsOBDDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     CHARON_ERROR("Subfunction not Supported.");
     return uds_responseCode_SubfunctionNotSupported;
 }
 
 
-uds_responseCode_t EmissionsOBDDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t EmissionsOBDDTCByStatusMask (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     CHARON_ERROR("Subfunction not Supported.");
     return uds_responseCode_SubfunctionNotSupported;
 }
 
 
-uds_responseCode_t DTCFaultDetectionCounter (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t DTCFaultDetectionCounter (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     CHARON_ERROR("Subfunction not Supported.");
     return uds_responseCode_SubfunctionNotSupported;
 }
 
 
-uds_responseCode_t DTCWithPermanentStatus (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t DTCWithPermanentStatus (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     CHARON_ERROR("Subfunction not Supported.");
     return uds_responseCode_SubfunctionNotSupported;
 }
 
 
-uds_responseCode_t DTCExtDataRecordByRecordNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
+static uds_responseCode_t DTCExtDataRecordByRecordNumber (const uint8_t * receiveBuffer, uint32_t receiveBufferSize)
 {
     DTC_t *matchedDTC = NULL;
     uint32_t pointerBuffer[1] = {0}; // Dummy.
@@ -1730,7 +1722,7 @@ uds_responseCode_t DTCExtDataRecordByRecordNumber (const uint8_t * receiveBuffer
     s_buffer[0] = (uds_sid_ReadDtcInformation | (uint8_t)uds_sid_PositiveResponseMask);
     s_buffer[1] = reportDTCExtDataRecordByRecordNumber;
     s_buffer[2] = DTCExtDataRecordNumber;
-    
+
     // Get the total count of matching ExtData.
     counter = charon_getDTCExtDataCountByRecordNumber(DTCExtDataRecordNumber);
 
@@ -1776,7 +1768,7 @@ uds_responseCode_t DTCExtDataRecordByRecordNumber (const uint8_t * receiveBuffer
 }
 
 
-uint8_t charon_DTC_LookupTable_getBitNumber (uint8_t input)
+static uint8_t charon_DTC_LookupTable_getBitNumber (uint8_t input)
 {
     uint8_t number;
     uint8_t mask;
@@ -1795,7 +1787,7 @@ uint8_t charon_DTC_LookupTable_getBitNumber (uint8_t input)
             }
             else
             {
-                // 1011 1111
+                // x011 1111
                 number = 6u;
             }
         }
@@ -1804,12 +1796,12 @@ uint8_t charon_DTC_LookupTable_getBitNumber (uint8_t input)
            // Slot is in low half nibble.
             if ((mask & 0x10) == 0x10)
             {
-                // 1101 1111
+                // xx01 1111
                 number = 5u;
             }
             else
             {
-                // 1110 1111
+                // xxx0 1111
                 number = 4u;
             }
         }
@@ -1824,12 +1816,12 @@ uint8_t charon_DTC_LookupTable_getBitNumber (uint8_t input)
             // Slot is in high half nibble.
             if ((mask & 0x07) == 0x07)
             {
-                // 1111 0111
+                // xxxx 0111
                 number = 3u;
             }
             else
             {
-                // 1111 1011
+                // xxxx x011
                 number = 2u;
             }
         }
@@ -1838,12 +1830,12 @@ uint8_t charon_DTC_LookupTable_getBitNumber (uint8_t input)
             // Slot is in low half nibble.
             if ((mask & 0x01) == 0x01)
             {
-                // 1111 1101
+                // xxxx xx01
                 number = 1u;
             }
             else
             {
-                // 1111 1110
+                // xxxx xxx0
                 number = 0u;
             }
         }
@@ -1852,8 +1844,8 @@ uint8_t charon_DTC_LookupTable_getBitNumber (uint8_t input)
     return number;
 }
 
-
-DTC_t* charon_StoredDataTransmissionFunctionalUnit_writeNewDTCToNvm (DTC_t DTCup)
+// Write DTC data to NVM
+static DTC_t* charon_StoredDataTransmissionFunctionalUnit_writeNewDTCToNvm (DTC_t DTCup)
 {
     DTC_t DTCinput = DTCup;
     DTC_t* DTC = NULL;
@@ -1956,7 +1948,7 @@ DTC_t* charon_StoredDataTransmissionFunctionalUnit_writeNewDTCToNvm (DTC_t DTCup
     return DTC;
 }
 
-void charon_StoredDataTransmissionFunctionalUnit_writeUpdateDTCToNvm (DTC_t DTCup, DTC_t* address)
+static void charon_StoredDataTransmissionFunctionalUnit_writeUpdateDTCToNvm (DTC_t DTCup, DTC_t* address)
 {
     DTC_header_t* DTC_header = (DTC_header_t*)charon_NvmDriver_getNvmAddress_for_DTC(0,true);
     DTC_t* DTCcurrent = (DTC_t*)address;
@@ -1995,7 +1987,7 @@ void charon_StoredDataTransmissionFunctionalUnit_writeUpdateDTCToNvm (DTC_t DTCu
     }
 }
 
-void charon_StoredDataTransmissionFunctionalUnit_writeSnapshotToNvm (DTC_SnapshotData_t payload, DTC_t DTCup, DTC_t* address)
+static void charon_StoredDataTransmissionFunctionalUnit_writeSnapshotToNvm (DTC_SnapshotData_t payload, DTC_t DTCup, DTC_t* address)
 {
     // IF check before even entering this function. (payload not empty!)
     DTC_t DTCUpdate = DTCup;
@@ -2079,7 +2071,7 @@ void charon_StoredDataTransmissionFunctionalUnit_writeSnapshotToNvm (DTC_Snapsho
     }
 }
 
-void charon_StoredDataTransmissionFunctionalUnit_writeStoredDataToNvm (DTC_StoredData_t payload, DTC_t DTCup, DTC_t* address)
+static void charon_StoredDataTransmissionFunctionalUnit_writeStoredDataToNvm (DTC_StoredData_t payload, DTC_t DTCup, DTC_t* address)
 {
     // IF check before even entering this function. (payload not empty!)
     DTC_t DTCUpdate = DTCup;
@@ -2163,7 +2155,7 @@ void charon_StoredDataTransmissionFunctionalUnit_writeStoredDataToNvm (DTC_Store
     }
 }
 
-void charon_StoredDataTransmissionFunctionalUnit_writeExtendedDataToNvm (DTC_ExtendedData_t payload, DTC_t DTCup, DTC_t* address)
+static void charon_StoredDataTransmissionFunctionalUnit_writeExtendedDataToNvm (DTC_ExtendedData_t payload, DTC_t DTCup, DTC_t* address)
 {
     // IF check before even entering this function. (payload not empty!)
     DTC_t DTCUpdate = DTCup;

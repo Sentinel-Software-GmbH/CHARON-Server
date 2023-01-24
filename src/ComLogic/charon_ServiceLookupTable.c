@@ -41,6 +41,7 @@
 #include "charon_StoredDataTransmissionFunctionalUnit.h"
 #include "charon_DataTransmissionFunctionalUnit.h"
 
+
 /* Imports *******************************************************************/
 
 /* Macros ********************************************************************/
@@ -77,6 +78,7 @@ static charon_serviceObject_t serviceLookupTable[] =
         {uds_sid_ResponseOnEvent,                           (SESSION_DEFAULT | SESSION_PROGRAMMING | SESSION_EXTENDED | SESSION_SECURED),   charon_DiagnosticAndCommunicationManagementFunctionalUnit_ResponseOnEvent,                      0u},
         {uds_sid_LinkControl,                               (                                        SESSION_EXTENDED | SESSION_SECURED),   charon_DiagnosticAndCommunicationManagementFunctionalUnit_LinkControl,                          0u},
 };
+
 
 /* Types *********************************************************************/
 
@@ -357,9 +359,8 @@ const char * charon_ServiceLookupTable_getNameForReturnCode (uds_responseCode_t 
     return result;
 }
 
+
 /* Private Function **********************************************************/
-
-
 
 
 /*---************** (C) COPYRIGHT Sentinel Software GmbH *****END OF FILE*---*/

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 
+set(WINDOWS_PORT_SOURCE ${CMAKE_CURRENT_LIST_DIR})
+
 add_subdirectory(config)
 #set name for charonServer Windows port executable
 set(MODULE_NAME charonServerWindows)
@@ -19,7 +21,9 @@ target_link_libraries(${MODULE_NAME}
   HSDI
   Interface
   Socket
-  charon_StoredDataTransmissionFunctionalUnit
-  charon_DataTransmissionFunctionalUnit
+  BusinessLogic
+  windowsPort_showcaseData-Interface
+  windowsPort_showcaseData
   ${CHARON_CONFIG}
 )
+add_subdirectory(src)
