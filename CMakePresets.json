@@ -49,12 +49,18 @@
             "description": "Building standalone charon library",
             "inherits": "GCC_BASE",
             "cacheVariables": {
-                "CMAKE_SYSTEM_NAME": "Generic",
-                "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_ASM_COMPILER": "gcc",
-                "CMAKE_OBJDUMP": "objdump",
                 "PORT": "standalone",
                 "CHARON_CONFIG": "standalone"
+            }
+        },
+        {
+            "name": "demo",
+            "displayName": "Port - demo",
+            "description": "Building charon server sow case demo",
+            "inherits": "GCC_BASE",
+            "cacheVariables": {
+                "PORT": "demo",
+                "CHARON_CONFIG": "demo"
             }
         }
        

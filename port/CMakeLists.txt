@@ -7,6 +7,7 @@ elseif(PORT MATCHES "^stm32f4" OR PORT MATCHES "^STM32F4")
   add_subdirectory(stm32f4-discovery)
 elseif(PORT MATCHES "^standalone" OR PORT MATCHES "^Standalone" OR PORT MATCHES "^StandAlone")
   add_subdirectory(standalone)
+elseif(PORT MATCHES "^demo" OR PORT MATCHES "^Demo" OR PORT MATCHES "^DEMO")
+  add_subdirectory(demo)
 endif()
-
 
