@@ -8,6 +8,8 @@ set(CMAKE_SYSTEM_VERSION 10.0)
 
 if(PORT MATCHES "^windows" OR PORT MATCHES "^Windows" OR PORT MATCHES "^WINDOWS")
   set(ARCHITECTURES "-fno-set-stack-executable -mwin32 -mconsole -mnop-fun-dllimport") 
+elseif(PORT MATCHES "^demo" OR PORT MATCHES "^Demo" OR PORT MATCHES "^DEMO")
+  set(ARCHITECTURES "-fno-set-stack-executable -mwin32 -mconsole -mnop-fun-dllimport") 
 elseif(PORT MATCHES "^standalone" OR PORT MATCHES "^Standalone" OR PORT MATCHES "^StandAlone") 
   set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "-Wl,--export-all-symbols")
 endif()

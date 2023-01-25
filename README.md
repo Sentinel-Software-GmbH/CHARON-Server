@@ -113,6 +113,11 @@ If you like you can use:
 runCharonBuilder.cmd --port unittest
 ```
 The command above will create a build folder and run Ceedling to create unit tests. 
+```
+runCharonBuilder.cmd --port demo
+```
+The command above will create a debug build folder inside your project folder based on the Windows port. 
+After that it will configure CMake for the Demo port, it will also run Ninja.
 
 ### CppCheck
 To run CppCheck on charon files you can use the codeanalysis.bat.
@@ -136,15 +141,25 @@ All CMake presets are containing debug information, if you want to build a relea
 cmake ../uds_server --preset=windows -DCMAKE_BUILD_TYPE=Release
 ```
 
+## Demo
+For an easy overview what our Charon UDS Server is capable of, simply build the DEMO build on Server and Client.
+To start: execute the Charon Server executable and after that execute the Charon Client executable which are results of the demo build.
+Now you can navigate your way through the demo terminal and explore DTC and DID subfunctions with an interface.
+
+Server side will fill the dummy data into the NVM emulator, response to the Client request and handles intern data.
+Just like any port will work.
+
 # Available Presets
 ```
 windows
 stm32f4
 standalone
+demo
 ```
 
 ## Supported Ports:
 ```
 Windows
 STM32F4
+Demo
 ```

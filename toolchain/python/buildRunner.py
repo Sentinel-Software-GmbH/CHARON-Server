@@ -26,16 +26,18 @@ def argParser():
         @return namespace args used to make options available;
     """
     parser = argparse.ArgumentParser(description='Build your charon as you like; all target builds contain debug information by default;')
-    parser.add_argument("-p","--port",choices=["Windows","windows","WINDOWS","standalone","Standalone","StandAlone","STANDALONE","STM32F4","stm32f4","UnitTest","unittest","UNITTEST"],
+    parser.add_argument("-p","--port",choices=["Windows","windows","WINDOWS","standalone","Standalone","StandAlone","STANDALONE","STM32F4","stm32f4","UnitTest","unittest","UNITTEST","demo","Demo","DEMO"],
                         help=" use -p/--port + Windows to build charon server for Windows;" 
                         " use -p/--port + STM32F4 to build charon server for stm32f4-discovery board;"
                         " use -p/--port + standalone to build charon server standalone library;"
                         " use -p/--port + UnitTest to run ceedling for UnitTests;"
+                        " use -p/--port + demo to build a show case demo for customers;"
                         )
-    parser.add_argument("-r","--release",choices=["Windows","windows","WINDOWS","standalone","Standalone","StandAlone","STANDALONE","STM32F4","stm32f4"],
+    parser.add_argument("-r","--release",choices=["Windows","windows","WINDOWS","standalone","Standalone","StandAlone","STANDALONE","STM32F4","stm32f4","demo","Demo","DEMO"],
                         help=" use -r/--release + Windows to build charon server for Windows;" 
                         " use -r/--release + STM32F4 to build charon server for stm32f4-discovery board;"
                         " use -r/--release + standalone to build charon server standalone library;"
+                        " use -p/--port + demo to build a show case demo for customers;"
                         )
     args = parser.parse_args()
     return args
@@ -124,6 +126,21 @@ def buildRunnerStandalone(workspace,buildType):
     print(os.getcwd())
 
 
+def buildRunnerShowCaseDemo(workspace,buildType):
+    """ @brief standalone build runner will create debug build for windows port;
+        @param workspace current working directory;
+        @param buildType defines which type of build will be used debug or release;    
+    """
+    if(buildType == "release"):
+        cmdStream = "cmake ../../ --preset=demo -DCMAKE_BUILD_TYPE=Release"
+    else:
+        cmdStream = "cmake ../../ --preset=demo"
+    prepBuildFolder(buildType)
+    cmakeAndNinja(cmdStream,True)
+    os.chdir(workspace)
+    print(os.getcwd())
+
+
 def buildRunnerCeedling():
     """ @brief ceedling runner will run ceedling; """
     cmdStream = "ruby toolchain\\ceedling\\bin\\ceedling"
@@ -142,12 +159,16 @@ def mainRunner():
             buildRunnerStandalone(workspace, "debug")
         if(args.port in ("UnitTest", "unittest", "Unittest","UNITTEST")):
             buildRunnerCeedling()
+        if(args.port in ("demo", "DEMO", "Demo")):
+            buildRunnerShowCaseDemo(workspace, "debug")
         if(args.release in ("Windows", "windows","WINDOWS")):
             buildRunnerWindows(workspace, "release")
         if(args.release in ("STM32F4", "stm32f4")):
             buildRunnerSTM32(workspace, "release")
         if(args.release in ("standalone", "StandAlone", "Standalone","STANDALONE")):
             buildRunnerStandalone(workspace, "release")
+        if(args.release in ("demo", "DEMO", "Demo")):
+            buildRunnerShowCaseDemo(workspace, "release")
     except Exception as unwantedBehavior:
         print(unwantedBehavior)
 
