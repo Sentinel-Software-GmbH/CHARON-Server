@@ -7,13 +7,14 @@ set(CHARON_SOURCE_DIR ${PROJECT_SOURCE_DIR})
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/toolchain/cmake)
 
 #set up name for charon config file to  specify which portis used
-if(PORT STREQUAL windows OR PORT STREQUAL Windows OR PORT STREQUAL WINDOWS)
+string(TOLOWER ${PORT} PORT_lower)
+if(PORT_lower STREQUAL windows )
   set(CHARON_CONFIG "windowsConfig")
-elseif(PORT STREQUAL stm32f4 OR PORT STREQUAL STM32F4)
+elseif(PORT_lower STREQUAL stm32f4)
   set(CHARON_CONFIG "F4Config")
-elseif(PORT STREQUAL standalone OR PORT STREQUAL Standalone OR PORT STREQUAL StandAlone)
+elseif(PORT_lower STREQUAL standalone)
   set(CHARON_CONFIG "standaloneConfig")
-elseif(PORT STREQUAL demo OR PORT STREQUAL Demo OR PORT STREQUAL DEMO)
+elseif(PORT_lower STREQUAL demo)
   set(CHARON_CONFIG "demoConfig")
 endif()
 

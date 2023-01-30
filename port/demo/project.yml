@@ -18,7 +18,7 @@
     - release
 
 :release_build:
-  :output: charon.exe
+  :output: charonUdsDemo.exe
   :use_assembly: FALSE
 
 :environment:
@@ -39,7 +39,7 @@
     - src/**
     - ../../src/**
   :include:
-    - config/**
+    - inc/**
     - ../../include/**
 
 ...

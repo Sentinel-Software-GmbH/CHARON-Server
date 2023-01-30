@@ -31,13 +31,11 @@
   :source:
     - ../../src/**
     - Src/**
+    - Drivers/STM32F4xx_HAL_Driver/Src/**
   :include:
     - ../../include/**
-    - config/**
     - Inc/**
-    - Drivers/STM32F4xx_HAL_Driver/Inc
-    - Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
-    - Drivers/STM32F4xx_HAL_Driver/Src/**
+    - Drivers/STM32F4xx_HAL_Driver/Inc**
     - Drivers/CMSIS/Device/ST/STM32F4xx/Include
     - Drivers/CMSIS/Include
 

@@ -8,9 +8,9 @@ set(CMAKE_SYSTEM_PROCESSOR armv7-m)
 #select arm toolchain and name it for later perpuse
 set(TOOLCHAIN_PREFIX arm-none-eabi-)
 set(ARM_GCC_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
-set(ARM_GCC_CPP_COMPILER ${TOOCHAIN_PREFIX}g++)
-set(ARM_GCC_OBJECT_DUMP ${TOOCHAIN_PREFIX}objdump)
-set(ARM_GCC_OBJECT_COPY ${TOOCHAIN_PREFIX}objcopy)
+set(ARM_GCC_CPP_COMPILER ${TOOLCHAIN_PREFIX}g++)
+set(ARM_GCC_OBJECT_DUMP ${TOOLCHAIN_PREFIX}objdump)
+set(ARM_GCC_OBJECT_COPY ${TOOLCHAIN_PREFIX}objcopy)
 
 # set compiler using costum names
 set(CMAKE_ASM_COMPILER ${ARM_GCC_C_COMPILER})

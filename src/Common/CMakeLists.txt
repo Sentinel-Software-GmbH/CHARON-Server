@@ -3,21 +3,22 @@ cmake_minimum_required(VERSION 3.19)
 set(MODULE_NAME Common)
 #creat library and link all needed librariers
 add_library(${MODULE_NAME} 
-  ${CMAKE_CURRENT_LIST_DIR}/charon_negativeResponse.c
-  ${CMAKE_CURRENT_LIST_DIR}/charon_crc16.c
-)
-target_include_directories(${MODULE_NAME} 
-  INTERFACE PUBLIC
-  ${CHARON_SOURCE_DIR}/include/Common
+  $<TARGET_OBJECTS:charon_negativeResponse>
+  $<TARGET_OBJECTS:charon_Crc16>
 )
 target_link_libraries(${MODULE_NAME} 
   PRIVATE
-  charon_ServiceLookupTable
-  charon_SessionAndServiceControl
-  HSDI
-  Socket
-  Interface
+  charon_ServiceLookupTable-Interface
+  charon_SessionAndServiceControl-Interface
+  charon_Crc16-Interface
+  charon_negativeResponse-Interface
+  charon_types-Interface
+  charon_ISocket-Interface
+  charon_Uds-Interface
   ${CHARON_CONFIG}
 )
 
 
+add_subdirectory(Crc16)
+add_subdirectory(NegativeResponse)
+add_subdirectory(Types)
