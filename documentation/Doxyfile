@@ -819,12 +819,14 @@ INPUT                  = .\src \
                          .\include \
                          .\README.md \
                          .\port\windows\src \
-                         .\port\windows\config \
-                         .\include \
-                         .\port\stm32f4-discovery\Src \
-                         .\port\stm32f4-discovery\config \
-                         .\documentation \
-                         .\port\windows\include
+                         .\port\windows\include \
+                         .\port\stm32f4-discovery\Src\NvmEmulator \
+                         .\port\stm32f4-discovery\Src\Timer \
+						 .\port\stm32f4-discovery\Src\Uart \
+						 .\port\demo\inc \
+						 .\port\demo\src \
+                         .\documentation 
+                         
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

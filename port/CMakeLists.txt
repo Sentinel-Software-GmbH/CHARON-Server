@@ -1,13 +1,12 @@
-cmake_minimum_required(VERSION 3.19)
-
 #add port directorie depending on preset
-if(PORT MATCHES "^windows" OR PORT MATCHES "^Windows" OR PORT MATCHES "^WINDWOS")
+if(PORT_lower STREQUAL windows)
   add_subdirectory(windows)
-elseif(PORT MATCHES "^stm32f4" OR PORT MATCHES "^STM32F4")
+elseif(PORT_lower STREQUAL stm32f4)
   add_subdirectory(stm32f4-discovery)
-elseif(PORT MATCHES "^standalone" OR PORT MATCHES "^Standalone" OR PORT MATCHES "^StandAlone")
+elseif(PORT_lower STREQUAL standalone)
   add_subdirectory(standalone)
-elseif(PORT MATCHES "^demo" OR PORT MATCHES "^Demo" OR PORT MATCHES "^DEMO")
+elseif(PORT_lower STREQUAL demo)
   add_subdirectory(demo)
 endif()
 
+message(" PORT is ${PORT_lower} ")

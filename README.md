@@ -97,24 +97,34 @@ To build unit tests, open CMD in your project folder and use ```ceedling.cmd``` 
 You can use the runCharonBuilder.cmd to run and configure CMake and Ninja for you.
 To use the runCharonBuilder, open a CMD in your project folder and use:
 ```
-runCharonBuilder.cmd --port windows
+runCharonBuilder.cmd --help
+OR
+runCharonBuilder.cmd -h
+```
+The command above will show an overview for all possible commands.
+```
+runCharonBuilder.cmd --windows
+OR
+runCharonBuilder.cmd -w 
 ```
 The command above will create a debug build folder inside your project folder. After that it will configure CMake for the Windows port,
 it will also run Ninja.
 You can choose between a debug and a release build.
 To create a release build, use the command below.
 ```
-runCharonBuilder.cmd --release windows
+runCharonBuilder.cmd --windows --release
+OR
+runCharonBuilder.cmd -w -r
 ```
 The command above will also create a release build folder.
 The commands for the other ports are the same as the CMake presets.
 If you like you can use:
 ```
-runCharonBuilder.cmd --port unittest
+runCharonBuilder.cmd --tests
 ```
 The command above will create a build folder and run Ceedling to create unit tests. 
 ```
-runCharonBuilder.cmd --port demo
+runCharonBuilder.cmd --demo/-d
 ```
 The command above will create a debug build folder inside your project folder based on the Windows port. 
 After that it will configure CMake for the Demo port, it will also run Ninja.
