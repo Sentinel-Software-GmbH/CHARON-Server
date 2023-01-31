@@ -14,8 +14,6 @@ elseif(PORT_lower STREQUAL stm32f4)
   set(CHARON_CONFIG "F4Config")
 elseif(PORT_lower STREQUAL standalone)
   set(CHARON_CONFIG "standaloneConfig")
-elseif(PORT_lower STREQUAL demo)
-  set(CHARON_CONFIG "demoConfig")
 endif()
 
 add_subdirectory(src)

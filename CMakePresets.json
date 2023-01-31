@@ -52,17 +52,7 @@
                 "PORT": "standalone",
                 "CHARON_CONFIG": "standalone"
             }
-        },
-        {
-            "name": "demo",
-            "displayName": "Port - demo",
-            "description": "Building charon server sow case demo",
-            "inherits": "GCC_BASE",
-            "cacheVariables": {
-                "PORT": "demo",
-                "CHARON_CONFIG": "demo"
-            }
         }
-       
+        
     ]
 }
