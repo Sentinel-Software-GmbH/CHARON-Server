@@ -65,7 +65,7 @@
 //############################################################################################################
 
 /** @brief Macro to prepare dummy data, loaded into NVM. */
-#define CHARON_CONFIG_DEBUGGING_LOAD_DEBUG_DUMMY_DATA 1
+#define CHARON_CONFIG_LOAD_DUMMY_DATA 1
 
 // Default is Server - Client communication.
 /** @brief used to debug whit the server construct only, quicker access but client communication is skipped. */

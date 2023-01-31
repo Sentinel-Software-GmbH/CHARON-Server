@@ -35,7 +35,7 @@
 #include "ISocket.h"
 #include "charon_interface_debug.h"
 
-#if CHARON_CONFIG_DEBUGGING_LOAD_DEBUG_DUMMY_DATA
+#if CHARON_CONFIG_LOAD_DUMMY_DATA
 #include "showcaseData.h"
 #endif
 
@@ -94,24 +94,30 @@ int main (void)
 {
     pipe_init();
 
-
+#if !DEBUG
     // default
-#if !CHARON_CONFIG_DEBUGGING_SERVER_INTERN
     charon_init(pipe_socket);
-    #if CHARON_CONFIG_DEBUGGING_LOAD_DEBUG_DUMMY_DATA
-    DTC_dataPackage();
-    #endif
 #endif
+#if DEBUG
+        // default
+    #if !CHARON_CONFIG_DEBUGGING_SERVER_INTERN
+        charon_init(pipe_socket);
+        #if CHARON_CONFIG_LOAD_DUMMY_DATA
+        DTC_dataPackage();
 
-    // intern test
-#if CHARON_CONFIG_DEBUGGING_SERVER_INTERN
-    charon_init(terminal_socket);
-    #if CHARON_CONFIG_DEBUGGING_LOAD_DEBUG_DUMMY_DATA
-    DTC_dataPackage();
+
+        #endif
     #endif
-    debug();
-#endif
-   
+
+        // intern test
+    #if CHARON_CONFIG_DEBUGGING_SERVER_INTERN
+        charon_init(terminal_socket);
+        #if CHARON_CONFIG_LOAD_DUMMY_DATA
+        DTC_dataPackage();
+        #endif
+        debug();
+    #endif
+#endif 
 
     CHARON_INFO("CharonUDS Initialized...");
     while (1)

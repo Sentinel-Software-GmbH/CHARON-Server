@@ -25,9 +25,6 @@
  * @defgroup STM32F4Port stm32f4 discovery porting
  * @brief Charon Server port for stm32f4 discovery evaluation board.
  * 
- * @defgroup showcaseDemoPort showcase demo
- * @brief Charon Server port for special showcase purpose.
- * 
  * @defgroup Test Unit Test Modules
  * @brief Test to prevent programming errors and check for expected/unexpected behavior.
  * 

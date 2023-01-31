@@ -15,12 +15,12 @@ Note that the Charon UDS Server is marked as a Work In Progress and that there s
 
 To use the Charon UDS Server you need to set up a few things beforehand.
 The Server itself is meant to be used in cooperation with the Charon Client - also here on github [LINK](https://github.com/Sentinel-Software-GmbH/CHARON-Client).
-UDS is a Standard based in automotive to fullfill certain services that are widespreadly used and normalizes them.
+UDS is a Standard based in automotive to fulfill certain services that are widespreadly used and normalizes them.
 Like:
  - Bootlaoder / Update (over the air)
  - Parameter and Persistent Data Management
  - Error Logging
- - Basic Comunication Safety and Security
+ - Basic Communication Safety and Security
  - Runtime Execution
  - EOL Adaption
  - etc...
@@ -123,9 +123,8 @@ If you like you can use:
 runCharonBuilder.cmd --tests
 ```
 The command above will create a build folder and run Ceedling to create unit tests. 
-```
-runCharonBuilder.cmd --demo/-d
-```
+
+
 The command above will create a debug build folder inside your project folder based on the Windows port. 
 After that it will configure CMake for the Demo port, it will also run Ninja.
 
@@ -159,17 +158,23 @@ Now you can navigate your way through the demo terminal and explore DTC and DID 
 Server side will fill the dummy data into the NVM emulator, response to the Client request and handles intern data.
 Just like any port will work.
 
+BUILD:          (```..\port\windows\include\config\charon_config.h```)
+    1. Make sure: CHARON_CONFIG_LOAD_DUMMY_DATA = 1    --^    this will load data for the demo into the system, 
+    will work without it but only empty request or error may follow on request.
+
+    2. build Windows port on non release. (--release will strip the define out of the system.)
+(Check needs to be manually because we don't want any Python, cMake or Ceedling dependent code to change this define.)
+
+
 # Available Presets
 ```
 windows
 stm32f4
 standalone
-demo
 ```
 
 ## Supported Ports:
 ```
 Windows
 STM32F4
-Demo
 ```

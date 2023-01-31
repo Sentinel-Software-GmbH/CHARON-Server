@@ -823,8 +823,6 @@ INPUT                  = .\src \
                          .\port\stm32f4-discovery\Src\NvmEmulator \
                          .\port\stm32f4-discovery\Src\Timer \
 						 .\port\stm32f4-discovery\Src\Uart \
-						 .\port\demo\inc \
-						 .\port\demo\src \
                          .\documentation 
                          
 
