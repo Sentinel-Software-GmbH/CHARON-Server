@@ -30,7 +30,6 @@ def argParser():
     debugGroupParser.add_argument("--windows", "-w", action="store_true", help="build charon server port for Windows")
     debugGroupParser.add_argument("--stm32f4", "-f4", action="store_true",help="build charon server port for stm32f4 discovery board")
     debugGroupParser.add_argument("--library", "-lib", action="store_true",help="build charon standalone library")
-    debugGroupParser.add_argument("--demo", "-d", action="store_true",help="build charon server show case demo for customers")
     debugGroupParser.add_argument("--release","-r", action="store_true",help="add this flag for release build")
     specialGroup = parser.add_argument_group("extra","optional features")
     specialGroup.add_argument("--all", action="store_true", help="build all ports, runs UnitTests, runs cppCheck and doxygen!")
@@ -167,8 +166,6 @@ def mainRunner():
             buildRunner("stm32f4", workspace, args.release)
         if(args.library is True):
             buildRunner("library", workspace, args.release)
-        if(args.demo is True):
-            buildRunner("demo", workspace, args.release)
         if(args.tests is True):
             buildRunnerHelper("ceedling")
         if(args.doxygen is True):

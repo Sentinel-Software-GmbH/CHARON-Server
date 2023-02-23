@@ -1,8 +1,0 @@
-add_subdirectory(config)
-add_subdirectory(demo_features)
-add_subdirectory(interface_debug)
-add_subdirectory(NvmEmulator)
-add_subdirectory(Pipe)
-add_subdirectory(Terminal)
-add_subdirectory(Timer)
-add_subdirectory(Uart)

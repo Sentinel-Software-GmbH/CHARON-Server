@@ -33,5 +33,7 @@ target_link_libraries(${MODULE_NAME}
     ${CHARON_CONFIG}
   )
 
+add_definitions("-DShowCaseForDummys")
+
 
 add_subdirectory(src)

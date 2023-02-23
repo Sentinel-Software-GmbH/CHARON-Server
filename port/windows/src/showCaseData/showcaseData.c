@@ -51,8 +51,12 @@
 
 /* Interfaces  ***************************************************************/
 
+/**
+ * @brief Generate dummy DTCs on a bit "random" generated base to get some variation into it.
+ */
 void DTC_dataPackage (void)
 {  
+    // Header init.
     charon_DTC_LookupTable_header_SET();
 
     DTC_t DTC_demo;
@@ -63,7 +67,7 @@ void DTC_dataPackage (void)
     uint8_t demo_number_2 = 0x44;
     uint8_t demo_number_3;
 
-
+    // All DTC are loaded with 1 of each Snap, Stored and Ext data, just a simple 0xEE as payload for testing purpose.
     snap_demo.DTCSnapshotDataRecordNumberOfIdentifiers = 0x01;
     snap_demo.DTCSnapshotDataPayload[0] = 0xEE;
     DTC_demo.DTCSnapshotLength[0] = 0x01;
@@ -76,10 +80,11 @@ void DTC_dataPackage (void)
     ext_demo.DTCExtendedDataPayload[0] = 0xEE;
     DTC_demo.DTCExtendedDataLength[0] = 0x01;
 
+
+    // All Data is "random" and mostly Magic Numbers as filler.
     for (uint32_t i = 0; i < 98; i++)
     {
-        DTC_demo.DTCStatusMask = 0xFF;
-
+        // Prepare StatusMask for each DTC.
         demo_number_3 = (i % 3);
         switch (demo_number_3)
         {
@@ -96,7 +101,7 @@ void DTC_dataPackage (void)
             break;
         }
 
-
+        // Fills High byte only with valid non reserved values and the rest of the DTC identification.
         if (demo_number_1 >= 0xF0)
         {
             DTC_demo.DTCHighByte = demo_number_1;
@@ -109,6 +114,7 @@ void DTC_dataPackage (void)
         DTC_demo.DTCLowByte = i;
 
 
+        // Severity Filling and Record too which is based on it.
         demo_number_3 = (i % 2);
         switch (demo_number_3)
         {
@@ -120,12 +126,10 @@ void DTC_dataPackage (void)
             DTC_demo.DTCSeverityMask = 0x03;
             break;
         }
-
-
         DTC_demo.DTCSeverityMaskRecordHigh = DTC_demo.DTCSeverityMask;
         DTC_demo.DTCSeverityMaskRecordLow =  DTC_demo.DTCStatusMask;
 
-
+        // DTC are located into groups, for deletion request relevant.
         demo_number_3 = (i % 3);
         switch (demo_number_3)
         {
@@ -142,19 +146,19 @@ void DTC_dataPackage (void)
             break;
         }
 
-
-        DTC_demo.statusOfDTC = DTC_demo.DTCStatusMask;
+        DTC_demo.statusOfDTC = DTC_demo.DTCStatusMask; // For some reason doubled defined in ISO.
         DTC_demo.DTCSettingType = 0x01; // 0x01: updating = ON, 0x02: updating = OFF
-        DTC_demo.MemorySelection = 0x00;
+        DTC_demo.MemorySelection = 0x00; // Default location = NVM.
 
-
+        // Fills completely assembled DTC into its storage location.
         charon_StoredDataTransmissionFunctionalUnit_writeDTCToNvm(DTC_demo,snap_demo,stored_demo,ext_demo);
 
+        // Adds uneven Numbers onto "randomizer" values.
         demo_number_1 += 0x07;
         demo_number_2 += 0x09;
     }
 
-
+    // lastly add for a single DTC more Snapshot data, can be used as example to add data to already defined DTC.
     snap_demo.DTCSnapshotDataRecordNumberOfIdentifiers = 0x08;
     for (uint32_t i = 0; i < 8; i+=2)
     {
